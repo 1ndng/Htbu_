@@ -27,11 +27,11 @@ button,input,textarea{font:inherit;color:inherit}
 button{cursor:pointer;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:5px 12px;font-size:13px}
 button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 .pri{background:var(--acc);border-color:var(--acc);color:var(--onacc)}
-#ppl{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
-.chip{border-radius:99px}.chip.on{background:var(--acc);border-color:var(--acc);color:var(--onacc)}.chip.add{color:var(--mute);border-style:dashed}
-.dhead{display:flex;align-items:center;justify-content:space-between;gap:8px 10px;flex-wrap:wrap;margin:14px 0 2px}.dctl{display:flex;align-items:center;gap:6px;margin-left:auto}.dctl button{padding:5px 10px}
+#ppl{display:flex;gap:10px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:3px;margin:-3px -3px 17px}#ppl::-webkit-scrollbar{display:none}
+.chip{border-radius:99px;flex:none;white-space:nowrap}.chip.on{background:var(--acc);border-color:var(--acc);color:var(--onacc)}.chip.add{color:var(--mute);border-style:dashed}
+.dhead{display:flex;align-items:center;justify-content:space-between;gap:8px 10px;flex-wrap:wrap;margin:14px 0 2px}.dctl{display:flex;align-items:center;gap:6px;margin-left:auto}.dctl button{height:32px;padding:0 12px;font-size:13px}
 .who{font-size:13px;font-weight:500;color:var(--acc);margin-bottom:2px}.who::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--acc);margin-right:5px}
-.dctl input{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:5px 8px;min-width:0}
+.dctl input{height:32px;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:0 8px;min-width:0;font-size:13px;-webkit-appearance:none;appearance:none;text-align:center}.dctl input::-webkit-date-and-time-value{text-align:center}
 .day{font:600 32px/1.2 "Noto Serif TC",serif;margin:0}
 .sub{color:var(--mute);margin:0 0 22px}
 .tl{border-left:2px solid var(--line);margin-left:6px}
@@ -41,14 +41,14 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{
 .yr{font:600 20px "Noto Serif TC",serif;margin-right:8px}.ago{color:var(--mute);font-size:14px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-top:8px}
 .card.empty{background:transparent;border-style:dashed;color:var(--mute);display:flex;justify-content:space-between;align-items:center;gap:8px}
-.txt{white-space:pre-wrap;word-break:break-word;margin:0 0 6px}.clamp{max-height:6.6em;overflow:hidden;-webkit-mask-image:linear-gradient(#000 65%,transparent);mask-image:linear-gradient(#000 65%,transparent)}
+.txt{white-space:pre-wrap;word-break:break-word;margin:0 0 6px}.clamp{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
 mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 2px}
 .media{display:grid;grid-template-columns:repeat(auto-fill,72px);gap:8px;margin:8px 0}
 .th{position:relative;width:72px;height:72px;border-radius:8px;overflow:hidden;cursor:zoom-in;background:#0002}.th img,.th video{width:100%;height:100%;object-fit:cover;pointer-events:none;display:block}
 .pl{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;background:#0003;pointer-events:none}
 .media audio{grid-column:1/-1;width:100%;height:34px}
 .links a{display:block;color:var(--acc);word-break:break-all;font-size:13px}
-.edit{font-size:13px;margin-top:8px;color:var(--mute)}
+.edit{font-size:12px;margin-top:8px;color:var(--mute)}.top .edit,.card.empty .edit{margin:0}#mnb{font-size:16px;line-height:1.2}
 dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);width:min(560px,92vw);padding:16px}
 dialog::backdrop{background:#0008}
 dialog h2{font:600 17px "Noto Serif TC",serif;margin:0 0 12px}
@@ -71,7 +71,7 @@ label{display:block;font-size:14px;color:var(--mute)}
 #lb{background:transparent;border:0;padding:0;width:auto;max-width:96vw;color:#fff;overflow:visible}
 #lb img,#lb video{display:block;max-width:94vw;max-height:80vh;border-radius:8px;margin:auto}
 #lbx{position:absolute;top:-38px;right:0;background:#0009;color:#fff;border-color:#fff5}
-.tb{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:4px 0 8px}.tb button{padding:2px 9px}
+.tb{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;align-items:center;margin:4px 0 8px}.tb::-webkit-scrollbar{display:none}.tb button{padding:2px 9px;flex:none;white-space:nowrap}
 .sw{flex:none;width:30px;height:30px;border-radius:50%;padding:0;border:2px solid var(--line)}
 #tc{-webkit-appearance:none;appearance:none;width:30px;height:30px;padding:0;border:2px solid var(--line);border-radius:50%;overflow:hidden;background:none;flex:none;cursor:pointer}
 #tc::-webkit-color-swatch-wrapper{padding:0}#tc::-webkit-color-swatch{border:0;border-radius:50%}#tc::-moz-color-swatch{border:0;border-radius:50%}
@@ -101,7 +101,7 @@ blockquote{margin:4px 0;padding:2px 10px;border-left:3px solid var(--acc);color:
 .txt ul{margin:4px 0;padding-left:20px}.hd{font-weight:600;font-size:15px}
 code{background:var(--soft);border-radius:4px;padding:0 4px;font-size:.92em}
 .fl{display:block;grid-column:1/-1;padding:6px 32px 6px 10px;border:1px solid var(--line);border-radius:8px;color:var(--acc);word-break:break-all;font-size:13px;text-decoration:none}
-dialog select{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:5px 8px;color:inherit;max-width:100%}
+dialog select{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:5px 8px;color:inherit;max-width:100%;font-size:13px}
 .card{font-size:13px}
 .card .hd{font-size:14px}
 .card .links a,.card .fl,.card .edit,.card button,.card .who{font-size:12px}
@@ -115,7 +115,7 @@ dialog select{border:1px solid var(--line);background:var(--card);border-radius:
 #cf .acts button{min-width:80px;padding:7px 12px}
 #dt{width:min(640px,94vw);max-height:88vh;padding:0;overflow:hidden}
 #dt[open]{display:flex;flex-direction:column}
-#dtc{flex:1;min-height:0;overflow:auto;padding:16px 16px 4px;-webkit-overflow-scrolling:touch}
+#dtc{flex:1 1 auto;min-height:0;max-height:calc(88vh - 62px);overflow:auto;padding:16px 16px 4px;-webkit-overflow-scrolling:touch}
 #dtc>*{margin-bottom:14px}
 .dth{font:600 15px "Noto Serif TC",serif;color:var(--acc)}
 .dtt{font-size:17px;line-height:1.75}.dtt .hd{font-size:20px}
@@ -126,21 +126,26 @@ video.dtm{background:#000}
 .dtl a{display:block;color:var(--acc);word-break:break-all;font-size:15px;margin-bottom:6px}
 .dtf{flex:none;padding:10px 14px;text-align:right;border-top:1px solid var(--line)}
 .dtf button{padding:6px 18px}
+#mn{width:min(280px,84vw)}#mn .mb{display:flex;flex-direction:column;align-items:flex-start;gap:12px}#mn .edit{margin:0}
+#an{width:min(240px,80vw);text-align:center}#an p{margin:10px 0;font-size:17px;font-weight:500}
+#tx,#lk,#tv,#tn,#q{font-size:14px}
 </style>
 </head>
 <body>
 <main>
-<div class="top"><div><button onclick="openTh()">主題色</button></div><h1>N年日記</h1><div><button id="bkb" onclick="openBk()">備份</button></div></div>
+<div class="top"><div><button id="mnb" class="edit" onclick="openMn()" aria-label="功能選單">≡</button></div><h1>N年日記</h1><div><button id="bkb" class="edit" onclick="openBk()">備份</button></div></div>
 <div id="ppl"></div>
 <div id="tagbar"></div>
-<input type="search" id="q" placeholder="搜尋關鍵字、標籤或日期" aria-label="搜尋紀錄" hidden>
+<input type="search" id="q" placeholder="搜尋" aria-label="搜尋紀錄" hidden>
 <div id="app"></div>
 </main>
 
+<dialog id="mn"><div class="mb" id="mnc"></div></dialog>
+<dialog id="an"><p>尚未開放！</p></dialog>
 <dialog id="pd">
 <h2>新增對象</h2>
 <input type="text" id="pn" placeholder="填入你想記錄的對象" maxlength="30">
-<div class="acts end"><button onclick="pd.close()">取消</button><button class="pri" onclick="addP()">建立</button></div>
+<div class="acts end"><button class="pri" onclick="addP()">建立</button><button onclick="pd.close()">取消</button></div>
 </dialog>
 
 <dialog id="ed">
@@ -166,10 +171,10 @@ video.dtm{background:#000}
 <button onclick="clr('#tx')">清除</button>
 </div>
 <textarea id="tx" rows="3" placeholder="任何你想記錄的。"></textarea>
-<div class="lh"><label for="lk">連結（每行一個）</label><button class="edit" onclick="clr('#lk')">清除連結</button></div>
+<div class="lh"><label for="lk">連結（每行一個）</label><button class="edit" onclick="clr('#lk')">清除</button></div>
 <textarea id="lk" rows="1" placeholder="https://"></textarea>
 <div class="acts">
-<button onclick="fi.click()">＋ 照片／影片／音檔／檔案</button>
+<button onclick="fi.click()">＋ 照片／影片／音訊／檔案</button>
 <button id="rc" onclick="toggleRec()">● 錄音</button>
 <input type="file" id="fi" multiple hidden>
 </div>
@@ -177,7 +182,7 @@ video.dtm{background:#000}
 <div id="tgd" class="acts" style="margin-top:0"></div>
 <div id="tgi" hidden><div class="acts" style="margin:0 0 8px"><input type="text" id="tn" placeholder="輸入標籤" maxlength="20" style="flex:1;margin:0"><button onclick="addTag($('#tn').value)">加入</button></div><div id="tsg" class="acts" style="margin-top:0"></div></div>
 <div id="dm" class="media"></div>
-<div class="acts end"><button id="dl" onclick="delEntry()">刪除</button><button onclick="$('#ed').close()">取消</button><button class="pri" onclick="save()">儲存</button></div>
+<div class="acts end"><button id="dl" onclick="delEntry()">刪除</button><button class="pri" onclick="save()">儲存</button><button onclick="$('#ed').close()">取消</button></div>
 </dialog>
 <dialog id="bk">
 <h2>備份與還原</h2>
@@ -205,10 +210,10 @@ video.dtm{background:#000}
 <div class="acts"><button class="pri" onclick="cvUse()">用這個畫面</button><button onclick="$('#cvf').click()">從相簿選圖</button><input type="file" id="cvf" accept="image/*" hidden></div>
 <div class="acts end"><button onclick="$('#cv').close()">取消</button></div>
 </dialog>
-<dialog id="cf"><p>是否刪除？</p><p class="sm" id="cfs" hidden></p><div class="acts"><button id="cfn">否</button><button id="cfy" class="pri">是</button></div></dialog>
+<dialog id="cf"><p>是否刪除？</p><p class="sm" id="cfs" hidden></p><div class="acts"><button id="cfy" class="pri">是</button><button id="cfn">否</button></div></dialog>
 <dialog id="dt"><div id="dtc"></div><div class="dtf"><button class="pri" onclick="$('#dt').close()">退出</button></div></dialog>
 <dialog id="lb"><button id="lbx" onclick="$('#lb').close()">關閉 ✕</button><div id="lbc"></div></dialog>
-<button id="fab" hidden onclick="fabAdd()">＋ 今日新增</button>
+<button id="fab" hidden onclick="fabAdd()">＋ 新增一則</button>
 <div id="toast" role="status"></div>
 
 <script>
@@ -290,7 +295,7 @@ $('#dt').onclose=()=>{$('#dtc').replaceChildren();dturls.forEach(URL.revokeObjec
 $('#dt').onclick=e=>{if(e.target===$('#dt'))$('#dt').close()};
 $('#app').addEventListener('click',e=>{
  if(e.target.closest('button,a,audio,video,input,select,textarea,.th'))return;
- const el=e.target.closest('[data-k]');if(!el||el.querySelector('.clamp')||el.closest('.dbody.fold'))return;
+ const el=e.target.closest('[data-k]');if(!el)return;
  const en=(E[el.dataset.d]||[]).find(x=>x.k===el.dataset.k);if(en)openDt(en)});
 function md(t){const out=[],re=/\*\*(.+?)\*\*|==(.+?)==|~~(.+?)~~|\+\+(.+?)\+\+|`(.+?)`|\*(.+?)\*/g;let i=0,m;
  while((m=re.exec(t))){if(m.index>i)out.push(t.slice(i,m.index));
@@ -307,18 +312,28 @@ function blocks(t){const out=[],L=t.split('\n');let buf=[],i=0;
   const hm=l.match(/^#{1,3} (.+)/);if(hm){flush();out.push(h('div',{class:'hd'},...md(hm[1])));i++;continue}
   buf.push(l);i++}
  flush();return out}
-function txtBits(t){if(!t)return[];const long=t.length>140||t.split('\n').length>4,d=h('div',{class:'txt'+(long?' clamp':'')},...blocks(t));
- return long?[d,h('button',{class:'edit',style:'margin:0 0 6px',onclick:e=>{e.target.textContent=d.classList.toggle('clamp')?'展開全文':'收合'}},'展開全文')]:[d]}
+function txtBits(t){if(!t)return[];const d=h('div',{class:'txt clamp'},...blocks(t)),
+ b=h('button',{class:'edit xb',hidden:'',style:'margin:0 0 6px',onclick:()=>{b.textContent=d.classList.toggle('clamp')?'展開':'收合'}},'展開');return[d,b]}
+function fixClamp(){document.querySelectorAll('.txt.clamp').forEach(d=>{const b=d.nextElementSibling;if(b&&b.classList.contains('xb'))b.hidden=!(d.scrollHeight>d.clientHeight+1)})}
+document.fonts&&document.fonts.ready.then(fixClamp);addEventListener('orientationchange',()=>setTimeout(fixClamp,300));
 function wrap(m){const t=$('#tx'),a=t.selectionStart,b=t.selectionEnd,v=t.value;t.value=v.slice(0,a)+m+v.slice(a,b)+m+v.slice(b);t.focus();t.setSelectionRange(a+m.length,b+m.length)}
 function lineP(p){const t=$('#tx'),v=t.value,a=t.selectionStart,b=t.selectionEnd,s0=v.lastIndexOf('\n',a-1)+1;let e0=v.indexOf('\n',b);if(e0<0)e0=v.length;
  const seg=v.slice(s0,e0).split('\n').map(l=>p+l).join('\n');t.value=v.slice(0,s0)+seg+v.slice(e0);t.focus();t.setSelectionRange(s0,s0+seg.length)}
 function foldDays(){const lim=Math.round(innerHeight*.8);
  document.querySelectorAll('.dbody').forEach(b=>{if(b.scrollHeight<=lim+40)return;b.style.maxHeight=lim+'px';b.classList.add('fold');
-  const bt=h('button',{class:'edit fbt',onclick:()=>{const f=b.classList.toggle('fold');b.style.maxHeight=f?lim+'px':'none';bt.textContent=f?'展開這天全部':'收合這天'}},'展開這天全部');b.after(bt)})}
+  const bt=h('button',{class:'edit fbt',onclick:()=>{const f=b.classList.toggle('fold');b.style.maxHeight=f?lim+'px':'none';bt.textContent=f?'展開':'收合這天'}},'展開');b.after(bt)})}
 function updFab(){const b=$('#fab'),cy=now.getFullYear(),ok=!multi&&cur&&new Date(cy,mo-1,dy).getDate()===dy;b.hidden=!ok;if(!ok)return;
  const has=(E[`${cy}-${pad(mo)}-${pad(dy)}`]||[]).length,td=mo===now.getMonth()+1&&dy===now.getDate();
- b.textContent=has?'＋ 再記一則':td?'＋ 今日新增':`＋ 新增 ${mo}/${dy}`}
+ b.textContent=has||td?'＋ 新增一則':`＋ 新增 ${mo}/${dy}`}
 function fabAdd(){openEd(`${now.getFullYear()}-${pad(mo)}-${pad(dy)}`)}
+/* 功能選單 */
+function openMn(){const b=(t,f)=>h('button',{class:'edit',onclick:()=>{$('#mn').close();f()}},t);
+ rc($('#mnc'),b('更改當前對象主題色',openTh),
+  b(multi?'結束回顧':'回顧這一天',()=>{if(!multi&&people.length<2){toast('至少要有兩位對象才能回顧');return}toggleMulti()}),
+  b('分析',()=>$('#an').showModal()));
+ $('#mn').showModal()}
+$('#mn').onclick=e=>{if(e.target===$('#mn'))$('#mn').close()};
+$('#an').onclick=()=>$('#an').close();
 /* 主題色（每位對象各自設定） */
 const TK='nyear-theme',PRE=['#0e7566','#2f6fdb','#7c4dbd','#d6457a','#d9622b','#b8860b','#c0392b','#4a5568'];
 function colInfo(x){if(!/^#[0-9a-f]{6}$/i.test(x||''))return null;const n=parseInt(x.slice(1),16);let R=n>>16,G=n>>8&255,B=n&255;
@@ -348,15 +363,14 @@ const parts=(en,date,jump,showTime)=>[
  en.media.length>0&&h('div',{class:'media'},en.media.map(m=>mEl(m,en))),
  en.links.length>0&&h('div',{class:'links'},en.links.map(l=>h('a',{href:l,target:'_blank',rel:'noopener noreferrer'},l))),
  (en.tags||[]).length>0&&h('div',{class:'tgs'},en.tags.map(t=>h('button',{class:'tg',onclick:()=>setTag(en.pid,t)},'#'+t))),
- h('div',{class:'ea'},h('button',{class:'edit',onclick:()=>openEd(date,en.k)},'編輯'),jump&&h('button',{class:'edit',onclick:()=>goDay(date)},'跳到這天'))];
+ (!multi||jump)&&h('div',{class:'ea'},!multi&&h('button',{class:'edit',onclick:()=>openEd(date,en.k)},'編輯'),jump&&h('button',{class:'edit',onclick:()=>goDay(date)},'跳到這天'))];
 const card=(en,date,jump,st)=>h('div',{class:'card',style:pstyle(en),'data-k':en.k,'data-d':date},...parts(en,date,jump,st));
 const tlCard=(list,date)=>h('div',{class:'card tlc'},...list.map(en=>h('div',{class:'tli',style:pstyle(en),'data-k':en.k,'data-d':date},h('div',{class:'tlt'},en.time),h('div',{class:'tlb'},...parts(en,date,false,false)))));
 function drawChips(){const on=p=>multi?msel.has(p.id):p.id===cur;
  rc($('#ppl'),...people.map(p=>{const c=colInfo(p.color),o=on(p);
   return h('button',{class:'chip'+(o?' on':''),'aria-pressed':o,style:multi&&o&&c?`background:${c.acc};border-color:${c.acc};color:${c.on}`:'',onclick:()=>multi?tog(p.id):sel(p.id)},!o&&c&&h('span',{class:'dot',style:'background:'+c.acc}),(multi&&o?'✓ ':'')+p.name)}),
   h('button',{class:'chip add',onclick:()=>{pd.showModal();$('#pn').focus()}},'＋ 新增對象'),
-  !multi&&cur&&h('button',{class:'chip del',onclick:()=>delP()},'－ 刪除對象'),
-  people.length>1&&h('button',{class:'chip add',style:multi?'color:var(--acc);border-color:var(--acc)':'',onclick:toggleMulti},multi?'結束合併回顧':'合併回顧'))}
+  !multi&&cur&&h('button',{class:'chip del',onclick:()=>delP()},'－ 刪除對象'))}
 function drawTagbar(){const ids=multi?[...msel]:cur?[cur]:[],items=[];
  for(const id of ids){const cnt={},c=colInfo(people.find(p=>p.id===id)?.color);
   Object.values(E).flat().filter(e=>e.pid===id).forEach(e=>(e.tags||[]).forEach(t=>cnt[t]=(cnt[t]||0)+1));
@@ -387,15 +401,15 @@ function render(){
   if(new Date(y,mo-1,dy).getDate()!==dy)continue;
   const date=`${y}-${pad(mo)}-${pad(dy)}`,list=E[date]||[];if(list.length)filled++;
   const head=h('div',{},h('span',{class:'yr'},y+''),h('span',{class:'ago'},y===cy?'今年':(cy-y)+' 年前'));
-  const lbl=y===cy?(mo===now.getMonth()+1&&dy===now.getDate()?'寫下今天':'記錄這天'):'補記這一年';
+  const lbl=y===cy&&mo===now.getMonth()+1&&dy===now.getDate()?'新增一則':'新增';
   let body;
-  if(!list.length)body=h('div',{class:'card empty'},'還沒有紀錄',!multi&&h('button',{onclick:()=>openEd(date)},lbl));
+  if(!list.length)body=h('div',{class:'card empty'},'還沒有紀錄',!multi&&h('button',{class:'edit',onclick:()=>openEd(date)},lbl));
   else{
    const T=list.filter(x=>x.time).sort((a,b)=>a.time<b.time?-1:1),N=list.filter(x=>!x.time),
     tl=T.length?tlCard(T,date):null,nn=N.map(x=>card(x,date));
    body=h('div',{},
     h('div',{class:'dbody'},T.length&&N.length?h('div',{class:'split'},h('div',{},tl),h('div',{},nn)):h('div',{},tl,nn)),
-    !multi&&y!==cy&&h('button',{class:'edit',onclick:()=>openEd(date)},'＋ 再記一則'));
+    !multi&&y!==cy&&h('button',{class:'edit',onclick:()=>openEd(date)},'新增'));
   }
   rows.push(h('div',{class:'row'+(list.length?' has':'')+''},head,body));
  }
@@ -405,11 +419,11 @@ function render(){
   who=multi?[...msel].map(pname).join('、'):P.name;
  rc(A,
   h('div',{class:'dhead'},h('div',{class:'day'},`${mo}月${dy}日`),h('div',{class:'dctl'},h('button',{onclick:step(-1),'aria-label':'前一天'},'‹'),di,h('button',{onclick:step(1),'aria-label':'後一天'},'›'),h('button',{onclick:()=>{mo=now.getMonth()+1;dy=now.getDate();hy=null;render()}},'今日'))),
-  h('p',{class:'sub'},multi&&!msel.size?'請點上方的名字，選擇要一起回顧的對象':`這一天，${who} 共紀錄了${cnt}則，共紀錄了${filled}年。`),
+  h('p',{class:'sub'},multi&&!msel.size?'選擇你要回顧的對象':`這一天，${who} 共紀錄了${cnt}則，共紀錄了${filled}年。`),
   h('div',{class:'tl'},rows),
   h('div',{class:'acts',style:'justify-content:center'},h('button',{onclick:()=>{extra++;render()}},'展開更多'),extra>0&&h('button',{onclick:()=>{extra=0;render()}},'收合')),
   useMem&&h('p',{class:'note'},'此瀏覽器無法長期儲存，關閉頁面後資料會消失。'));
- foldDays();
+ fixClamp();foldDays();
 }
 
 function drawDraft(){durls.forEach(URL.revokeObjectURL);durls=[];
@@ -445,7 +459,7 @@ async function toggleRec(){const b=$('#rc');if(rec&&rec.state==='recording'){rec
  try{const s=await navigator.mediaDevices.getUserMedia({audio:true});chunks=[];rec=new MediaRecorder(s);
  rec.ondataavailable=e=>chunks.push(e.data);
  rec.onstop=()=>{s.getTracks().forEach(t=>t.stop());draft.push({t:'audio',b:new Blob(chunks,{type:rec.mimeType}),n:'錄音'});b.textContent='● 錄音';drawDraft()};
- rec.start();b.textContent='■ 停止錄音'}catch(e){toast('無法使用麥克風，可改用「＋ 照片／影片／音檔／檔案」上傳音檔')}}
+ rec.start();b.textContent='■ 停止錄音'}catch(e){toast('無法使用麥克風，可改用「＋ 照片／影片／音訊／檔案」上傳音訊')}}
 async function save(){
  if(rec&&rec.state==='recording')return toast('請先停止錄音');
  addTag($('#tn').value);
