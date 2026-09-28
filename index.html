@@ -22,7 +22,7 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 "Noto Sans TC",system-ui,sans-serif}
 main{max-width:720px;margin:0 auto;padding:20px 16px 60px}
-h1{font:600 22px "Noto Serif TC",serif;margin:0 0 12px}
+h1{font:600 22px "Noto Serif TC",serif;margin:0}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 button,input,textarea{font:inherit;color:inherit}
 button{cursor:pointer;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:6px 12px}
 button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
@@ -71,7 +71,7 @@ label{display:block;font-size:14px;color:var(--mute)}
 </head>
 <body>
 <main>
-<h1>N年日記</h1>
+<div class="top"><h1>N年日記</h1><button id="bkb" onclick="openBk()">備份</button></div>
 <div id="ppl"></div>
 <div id="app"></div>
 </main>
@@ -102,6 +102,17 @@ label{display:block;font-size:14px;color:var(--mute)}
 </div>
 <div id="dm" class="media"></div>
 <div class="acts end"><button id="dl" onclick="delEntry(this)">刪除這則</button><button onclick="$('#ed').close()">取消</button><button class="pri" onclick="save()">儲存</button></div>
+</dialog>
+<dialog id="bk">
+<h2>備份與還原</h2>
+<p class="sub" id="blast" style="margin:0 0 12px"></p>
+<label>匯出全部對象與紀錄</label>
+<div class="acts"><button onclick="prepBackup()">準備備份檔</button><button id="bsave" class="pri" style="display:none" onclick="saveBackup()">儲存備份檔</button></div>
+<p class="sub" id="bst" style="margin:0 0 16px"></p>
+<label>匯入備份檔（與現有資料合併，相同的紀錄以備份檔為準）</label>
+<div class="acts"><button onclick="$('#bf').click()">選擇備份檔</button><input type="file" id="bf" accept=".json,application/json" hidden></div>
+<p class="sub" id="bst2" style="margin:0"></p>
+<div class="acts end"><button onclick="$('#bk').close()">關閉</button></div>
 </dialog>
 <div id="toast" role="status"></div>
 
@@ -145,6 +156,7 @@ const card=(en,date)=>h('div',{class:'card'},
 const rc=(el,...c)=>el.replaceChildren(...c.flat().filter(Boolean));
 function render(){
  urls.forEach(URL.revokeObjectURL);urls=[];delArm=false;
+ $('#bkb').textContent=people.length&&Date.now()-lastB()>1209600000?'備份 ●':'備份';
 const on=p=>multi?msel.has(p.id):p.id===cur;
  rc($('#ppl'),...people.map(p=>h('button',{class:'chip'+(on(p)?' on':''),'aria-pressed':on(p),onclick:()=>multi?tog(p.id):sel(p.id)},(multi&&on(p)?'✓ ':'')+p.name)),h('button',{class:'chip add',onclick:()=>{pd.showModal();$('#pn').focus()}},'＋ 新增對象'),people.length>1&&h('button',{class:'chip add',style:multi?'color:var(--acc);border-color:var(--acc)':'',onclick:toggleMulti},multi?'結束合併回顧':'合併回顧'));
  const P=people.find(p=>p.id===cur),A=$('#app');
@@ -214,6 +226,65 @@ async function save(){
   await dbPut('entries',en);const L=E[edDate]||(E[edDate]=[]),i=L.findIndex(x=>x.k===en.k);i<0?L.push(en):L[i]=en}
  $('#ed').close();render()}catch(e){toast('儲存失敗，可能是檔案太大或空間不足')}}
 
+
+/* ===== 備份與還原 ===== */
+const LB='nyear-lastbackup';
+const lastB=()=>{try{return +localStorage.getItem(LB)||0}catch(e){return 0}};
+const markB=()=>{try{localStorage.setItem(LB,Date.now())}catch(e){}};
+const b64=b=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=()=>rej(r.error);r.readAsDataURL(b)});
+let bkFile=null;
+function openBk(){const t=lastB();$('#blast').textContent=t?'上次備份：'+new Date(t).toLocaleString('zh-TW'):'尚未備份過';
+ $('#bst').textContent='';$('#bst2').textContent='';$('#bsave').style.display='none';bkFile=null;$('#bk').showModal()}
+async function prepBackup(){
+ const st=$('#bst');bkFile=null;$('#bsave').style.display='none';
+ try{
+  st.textContent='準備中…';
+  const ps=await dbAll('people'),parts=['{"app":"nyear-diary","v":1,"at":'+JSON.stringify(new Date().toISOString())+',"people":'+JSON.stringify(ps)+',"entries":['];
+  let n=0;
+  for(const p of ps)for(const e of await dbByP(p.id)){
+   const media=[];for(const m of e.media||[])media.push({t:m.t,n:m.n,y:m.b.type,d:await b64(m.b)});
+   parts.push((n?',':'')+JSON.stringify({...e,media}));n++;st.textContent='準備中… '+n;
+  }
+  parts.push(']}');
+  bkFile=new File(parts,'n-year-diary-'+new Date().toISOString().slice(0,10)+'.json',{type:'application/json'});
+  st.textContent=`完成：${ps.length} 位對象、${n} 則紀錄，約 ${(bkFile.size/1048576).toFixed(1)} MB。請按「儲存備份檔」。`;
+  $('#bsave').style.display='';
+ }catch(e){st.textContent='備份失敗：'+(e.message||e)}
+}
+function dl(f){const u=URL.createObjectURL(f),a=h('a',{href:u,download:f.name});document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),60000)}
+async function saveBackup(){
+ if(!bkFile)return;
+ try{
+  if(navigator.canShare&&navigator.canShare({files:[bkFile]})){
+   try{await navigator.share({files:[bkFile],title:'N年日記備份'})}catch(e){if(e.name==='AbortError')return;dl(bkFile)}
+  }else dl(bkFile);
+  markB();$('#blast').textContent='上次備份：'+new Date().toLocaleString('zh-TW');render();
+  $('#bst').textContent='已送出。請確認檔案真的存到「檔案」App、雲端硬碟或其他安全的地方。';
+ }catch(e){toast('無法儲存：'+(e.message||e))}
+}
+async function importBackup(f){
+ const st=$('#bst2');
+ try{
+  st.textContent='讀取中…';
+  const j=JSON.parse(await f.text());
+  if(j.app!=='nyear-diary'||!Array.isArray(j.people)||!Array.isArray(j.entries))throw new Error('這不是 N年日記 的備份檔');
+  for(const p of j.people)if(p&&p.id&&p.name)await dbPut('people',{id:String(p.id),name:String(p.name).slice(0,30)});
+  let n=0;
+  for(const e of j.entries){
+   if(!e||!e.k||!e.pid||!/^\d{4}-\d{2}-\d{2}$/.test(e.date))continue;
+   const media=[];
+   for(const m of e.media||[]){if(!['image','video','audio'].includes(m.t)||!/^data:(image|video|audio)\//.test(m.d))continue;
+    const b=await(await fetch(m.d)).blob();media.push({t:m.t,n:String(m.n||''),b:m.y?new Blob([b],{type:m.y}):b})}
+   await dbPut('entries',{k:String(e.k),pid:String(e.pid),date:e.date,time:/^\d{2}:\d{2}$/.test(e.time)?e.time:null,text:String(e.text||''),
+    links:(e.links||[]).map(String).filter(l=>/^https?:\/\//i.test(l)),media});
+   n++;st.textContent=`匯入中… ${n}/${j.entries.length}`;
+  }
+  people=await dbAll('people');people.sort((a,b)=>a.id<b.id?-1:1);
+  await sel(people.find(p=>p.id===cur)?cur:people[0]?.id||null);
+  st.textContent=`匯入完成：${n} 則紀錄。`;
+ }catch(e){st.textContent='匯入失敗：'+(e.message||e)}
+}
+$('#bf').onchange=e=>{if(e.target.files[0])importBackup(e.target.files[0]);e.target.value=''};
 if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
 (async()=>{await openDB();people=await dbAll('people');people.sort((a,b)=>a.id<b.id?-1:1);await sel(people[0]?.id||null)})();
