@@ -60,8 +60,15 @@ label{display:block;font-size:14px;color:var(--mute)}
 #toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:8px;display:none;max-width:90vw;z-index:9}
 .note{background:var(--soft);border-radius:8px;padding:8px 12px;font-size:14px;margin-bottom:12px}
 .tm{font:600 12px "Noto Serif TC",serif;color:var(--acc);margin-bottom:2px}
-.split{display:grid;grid-template-columns:1.25fr 1fr;gap:12px}.split>div{min-width:0}
-.split .media{grid-template-columns:repeat(auto-fill,56px)}.split .th{width:56px;height:56px}
+.hs{display:flex;gap:12px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin;padding:2px 2px 8px;margin:0 -2px}.hs+.hs{margin-top:4px}
+.hs>.card{flex:0 0 min(260px,78%);min-width:0;margin-top:0}
+.hi{flex:0 0 min(260px,78%);min-width:0;position:relative;padding-top:34px}.hi>.card{margin-top:0}
+.hi::before{content:"";position:absolute;top:24px;left:-6px;right:-6px;height:2px;background:var(--line)}
+.hi:first-child::before{left:0}.hi:last-child::before{right:0}
+.hi::after{content:"";position:absolute;left:0;top:19px;width:12px;height:12px;border-radius:50%;background:var(--acc)}
+.htm{position:absolute;left:0;top:0;font:600 12px/18px "Noto Serif TC",serif;color:var(--acc)}
+.lab{flex:none;align-self:center;font-size:11px;font-weight:500;line-height:20px;padding:0 7px;border-radius:5px;background:var(--soft);color:var(--acc);white-space:nowrap}
+.xb[hidden]{display:none}
 .lh{display:flex;justify-content:space-between;align-items:center;margin:-4px 0 6px}.lh .edit{margin:0}
 .r{display:inline-flex;align-items:center;gap:4px;color:var(--ink)}
 #tv{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:4px 8px}#tv:disabled{opacity:.4}
@@ -79,8 +86,6 @@ label{display:block;font-size:14px;color:var(--mute)}
 @supports (-webkit-touch-callout:none){textarea,input,select{font-size:16px}}
 .rm{position:relative}.rm>button{position:absolute;top:4px;right:4px;padding:0 8px;border-radius:99px}
 .rm>.cvb{top:auto;right:auto;left:4px;bottom:4px;padding:0 6px;font-size:11px}
-.fold{overflow:hidden;-webkit-mask-image:linear-gradient(#000 85%,transparent);mask-image:linear-gradient(#000 85%,transparent)}
-.fbt{margin:0 0 12px}
 #cvv{width:100%;max-height:40vh;border-radius:8px;background:#000;display:block;margin-bottom:10px}
 #cvr{width:100%}
 html,body{touch-action:manipulation}
@@ -92,11 +97,6 @@ html,body{touch-action:manipulation}
 .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
 .ea{display:flex;gap:12px}
 .hit{margin-bottom:14px}.rd{font:600 15px "Noto Serif TC",serif}
-.tlc{padding:12px 13px}
-.tli{display:grid;grid-template-columns:44px 1fr;gap:0 12px}
-.tlt{font:600 11px/1.9 "Noto Serif TC",serif;color:var(--acc);text-align:right;padding-right:10px;border-right:2px solid var(--line);position:relative}
-.tlt::after{content:"";position:absolute;right:-6px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--acc)}
-.tlb{min-width:0;padding-bottom:14px}.tli:last-child .tlb{padding-bottom:0}
 blockquote{margin:4px 0;padding:2px 10px;border-left:3px solid var(--acc);color:var(--mute)}
 .txt ul{margin:4px 0;padding-left:20px}.hd{font-weight:600;font-size:15px}
 code{background:var(--soft);border-radius:4px;padding:0 4px;font-size:.92em}
@@ -106,7 +106,7 @@ dialog select{border:1px solid var(--line);background:var(--card);border-radius:
 .card .hd{font-size:14px}
 .card .links a,.card .fl,.card .edit,.card button,.card .who{font-size:12px}
 .card .tg{font-size:11px}
-.card[data-k],.tli[data-k]{cursor:pointer}
+.card[data-k]{cursor:pointer}
 .chip.del{color:#c0392b;border-style:dashed}
 #cf{width:min(300px,84vw);text-align:center}
 #cf p{margin:8px 0 2px;font-size:17px;font-weight:500}
@@ -126,7 +126,7 @@ video.dtm{background:#000}
 .dtl a{display:block;color:var(--acc);word-break:break-all;font-size:15px;margin-bottom:6px}
 .dtf{flex:none;padding:10px 14px;text-align:right;border-top:1px solid var(--line)}
 .dtf button{padding:6px 18px}
-#mn{width:min(280px,84vw)}#mn .mb{display:flex;flex-direction:column;align-items:flex-start;gap:12px}#mn .edit{margin:0}
+#mn{width:min(280px,84vw)}#mn .mb{display:flex;flex-direction:column;align-items:center;gap:12px}#mn .edit{margin:0;width:100%;max-width:220px;padding:8px 12px;font-size:14px;text-align:center}
 #an{width:min(240px,80vw);text-align:center}#an p{margin:10px 0;font-size:17px;font-weight:500}
 #tx,#lk,#tv,#tn,#q{font-size:14px}
 </style>
@@ -312,19 +312,10 @@ function blocks(t){const out=[],L=t.split('\n');let buf=[],i=0;
   const hm=l.match(/^#{1,3} (.+)/);if(hm){flush();out.push(h('div',{class:'hd'},...md(hm[1])));i++;continue}
   buf.push(l);i++}
  flush();return out}
-let expAll=false;
-function txtBits(t){return t?[h('div',{class:'txt clamp'},...blocks(t))]:[]}
-function layout(){const lim=Math.round(innerHeight*.8);
- document.querySelectorAll('.fbt').forEach(x=>x.remove());
- document.querySelectorAll('.dbody').forEach(b=>{
-  b.style.maxHeight='';b.classList.remove('fold');
-  const tx=[...b.querySelectorAll('.txt')];tx.forEach(d=>d.classList.add('clamp'));
-  const lg=tx.some(d=>d.scrollHeight>d.clientHeight+1),tall=b.scrollHeight>lim+40;
-  if(!lg&&!tall)return;
-  if(expAll)tx.forEach(d=>d.classList.remove('clamp'));
-  else if(tall){b.style.maxHeight=lim+'px';b.classList.add('fold')}
-  b.after(h('button',{class:'edit fbt',onclick:()=>{expAll=!expAll;layout()}},expAll?'收合':'展開'))})}
-document.fonts&&document.fonts.ready.then(layout);addEventListener('orientationchange',()=>setTimeout(layout,300));
+function txtBits(t,c){return t?[h('div',{class:'txt'+(c?' clamp':'')},...blocks(t))]:[]}
+function toggleX(b){const c=b.closest('.card'),t=c.querySelector('.txt');if(!t)return;const o=t.classList.toggle('clamp');c.classList.toggle('open',!o);b.textContent=o?'展開':'收合'}
+function fitX(){document.querySelectorAll('.card .xb').forEach(b=>{const c=b.closest('.card'),t=c.querySelector('.txt');b.hidden=!(c.classList.contains('open')||(t&&t.scrollHeight>t.clientHeight+1))})}
+document.fonts&&document.fonts.ready.then(fitX);addEventListener('orientationchange',()=>setTimeout(fitX,300));addEventListener('resize',fitX);
 function wrap(m){const t=$('#tx'),a=t.selectionStart,b=t.selectionEnd,v=t.value;t.value=v.slice(0,a)+m+v.slice(a,b)+m+v.slice(b);t.focus();t.setSelectionRange(a+m.length,b+m.length)}
 function lineP(p){const t=$('#tx'),v=t.value,a=t.selectionStart,b=t.selectionEnd,s0=v.lastIndexOf('\n',a-1)+1;let e0=v.indexOf('\n',b);if(e0<0)e0=v.length;
  const seg=v.slice(s0,e0).split('\n').map(l=>p+l).join('\n');t.value=v.slice(0,s0)+seg+v.slice(e0);t.focus();t.setSelectionRange(s0,s0+seg.length)}
@@ -365,15 +356,14 @@ const hay=e=>[e.date,e.text,...(e.links||[]),...(e.tags||[]),...(e.media||[]).ma
 const parts=(en,date,jump,showTime)=>[
  multi&&h('div',{class:'who'},pname(en.pid)),
  showTime&&en.time&&h('div',{class:'tm'},en.time),
- txtBits(en.text),
+ txtBits(en.text,jump),
  en.media.length>0&&h('div',{class:'media'},en.media.map(m=>mEl(m,en))),
  en.links.length>0&&h('div',{class:'links'},en.links.map(l=>h('a',{href:l,target:'_blank',rel:'noopener noreferrer'},l))),
  (en.tags||[]).length>0&&h('div',{class:'tgs'},en.tags.map(t=>h('button',{class:'tg',onclick:()=>setTag(en.pid,t)},'#'+t))),
- (!multi||jump)&&h('div',{class:'ea'},!multi&&h('button',{class:'edit',onclick:()=>openEd(date,en.k)},'編輯'),jump&&h('button',{class:'edit',onclick:()=>goDay(date)},'跳到這天'))];
+ (!multi||jump)&&h('div',{class:'ea'},jump&&h('button',{class:'edit xb',onclick:e=>toggleX(e.currentTarget)},'展開'),!multi&&h('button',{class:'edit',onclick:()=>openEd(date,en.k)},'編輯'),jump&&h('button',{class:'edit',onclick:()=>goDay(date)},'跳到這天'))];
 const card=(en,date,jump,st)=>h('div',{class:'card',style:pstyle(en),'data-k':en.k,'data-d':date},...parts(en,date,jump,st));
-const tlCard=(list,date)=>h('div',{class:'card tlc'},...list.map(en=>h('div',{class:'tli',style:pstyle(en),'data-k':en.k,'data-d':date},h('div',{class:'tlt'},en.time),h('div',{class:'tlb'},...parts(en,date,false,false)))));
 function drawChips(){const on=p=>multi?msel.has(p.id):p.id===cur;
- rc($('#ppl'),...people.map(p=>{const c=colInfo(p.color),o=on(p);
+ rc($('#ppl'),h('span',{class:'lab'},'對象'),...people.map(p=>{const c=colInfo(p.color),o=on(p);
   return h('button',{class:'chip'+(o?' on':''),'aria-pressed':o,style:multi&&o&&c?`background:${c.acc};border-color:${c.acc};color:${c.on}`:'',onclick:()=>multi?tog(p.id):sel(p.id)},!o&&c&&h('span',{class:'dot',style:'background:'+c.acc}),(multi&&o?'✓ ':'')+p.name)}),
   h('button',{class:'chip add',onclick:()=>{pd.showModal();$('#pn').focus()}},'＋ 新增對象'),
   !multi&&cur&&h('button',{class:'chip del',onclick:()=>delP()},'－ 刪除對象'))}
@@ -382,7 +372,7 @@ function drawTagbar(){const ids=multi?[...msel]:cur?[cur]:[],items=[];
   Object.values(E).flat().filter(e=>e.pid===id).forEach(e=>(e.tags||[]).forEach(t=>cnt[t]=(cnt[t]||0)+1));
   Object.keys(cnt).sort().forEach(t=>{const o=ftag&&ftag.pid===id&&ftag.tag===t;
    items.push(h('button',{class:'tg'+(o?' on':''),'aria-pressed':o,style:o&&c?`background:${c.acc};border-color:${c.acc};color:${c.on}`:'',onclick:()=>setTag(id,t)},multi&&!o&&h('span',{class:'dot',style:'background:'+(c?c.acc:'var(--acc)')}),(multi?pname(id)+'・':'')+'#'+t+' '+cnt[t]))})}
- rc($('#tagbar'),...items);$('#tagbar').style.display=items.length?'flex':'none'}
+ rc($('#tagbar'),items.length>0&&h('span',{class:'lab'},'標籤'),...items);$('#tagbar').style.display=items.length?'flex':'none'}
 function setTag(pid,t){ftag=ftag&&ftag.pid===pid&&ftag.tag===t?null:{pid,tag:t};rlim=50;render()}
 function clearF(){qs='';ftag=null;$('#q').value='';rlim=50;render()}
 function goDay(date){const [y,m,d]=date.split('-').map(Number);mo=m;dy=d;hy=y;qs='';ftag=null;$('#q').value='';render();scrollTo(0,0)}
@@ -400,21 +390,20 @@ function render(){
   rc(A,h('p',{class:'sub'},(ftag?`標籤「#${ftag.tag}」`:'')+(ftag&&qs?'　':'')+(qs?`搜尋「${qs}」`:'')+`：${hits.length} 則　`,h('button',{class:'edit',style:'margin:0',onclick:clearF},'清除')),
    ...hits.slice(0,rlim).map(e=>{const [y,m,d]=e.date.split('-').map(Number);return h('div',{class:'hit'},h('div',{class:'rd'},`${y}年${m}月${d}日`),card(e,e.date,true,true))}),
    hits.length>rlim&&h('button',{class:'more',onclick:()=>{rlim+=50;render()}},'顯示更多'));
-  return}
+  fitX();return}
  const cy=now.getFullYear(),ys=Object.keys(E).map(k=>+k.slice(0,4)),
   minY=Math.min(cy-4-extra*5,...ys,hy||cy),rows=[];let filled=0;
  for(let y=cy;y>=minY;y--){
   if(new Date(y,mo-1,dy).getDate()!==dy)continue;
   const date=`${y}-${pad(mo)}-${pad(dy)}`,list=E[date]||[];if(list.length)filled++;
   const head=h('div',{},h('span',{class:'yr'},y+''),h('span',{class:'ago'},y===cy?'今年':(cy-y)+' 年前'));
-  const lbl=y===cy&&mo===now.getMonth()+1&&dy===now.getDate()?'新增一則':'新增';
   let body;
-  if(!list.length)body=h('div',{class:'card empty'},'還沒有紀錄',!multi&&h('button',{class:'edit',onclick:()=>openEd(date)},lbl));
+  if(!list.length)body=h('div',{class:'card empty'},'還沒有紀錄',!multi&&h('button',{class:'edit',onclick:()=>openEd(date)},'新增'));
   else{
-   const T=list.filter(x=>x.time).sort((a,b)=>a.time<b.time?-1:1),N=list.filter(x=>!x.time),
-    tl=T.length?tlCard(T,date):null,nn=N.map(x=>card(x,date));
+   const T=list.filter(x=>x.time).sort((a,b)=>a.time<b.time?-1:1),N=list.filter(x=>!x.time);
    body=h('div',{},
-    h('div',{class:'dbody'},T.length&&N.length?h('div',{class:'split'},h('div',{},tl),h('div',{},nn)):h('div',{},tl,nn)),
+    T.length>0&&h('div',{class:'hs'},...T.map(x=>h('div',{class:'hi',style:pstyle(x)},h('div',{class:'htm'},x.time),card(x,date)))),
+    N.length>0&&h('div',{class:'hs'},...N.map(x=>card(x,date))),
     !multi&&y!==cy&&h('button',{class:'edit',onclick:()=>openEd(date)},'新增'));
   }
   rows.push(h('div',{class:'row'+(list.length?' has':'')+''},head,body));
@@ -429,7 +418,6 @@ function render(){
   h('div',{class:'tl'},rows),
   h('div',{class:'acts',style:'justify-content:center'},h('button',{onclick:()=>{extra++;render()}},'展開更多'),extra>0&&h('button',{onclick:()=>{extra=0;render()}},'收合')),
   useMem&&h('p',{class:'note'},'此瀏覽器無法長期儲存，關閉頁面後資料會消失。'));
- layout();
 }
 
 function drawDraft(){durls.forEach(URL.revokeObjectURL);durls=[];
