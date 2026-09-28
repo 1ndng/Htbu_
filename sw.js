@@ -1,14 +1,6 @@
 // 更新程式後，把下面的版本號加 1，手機才會抓到新版
-const C = 'nyear-v9';
-const FILES = [
-  './',
-  './index.html',
-  './manifest.webmanifest',
-  './icon-192.png',
-  './icon-512.png',
-  './apple-touch-icon.png',
-  './Cubic_11.ttf'
-];
+const C = 'nyear-v10';
+const FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(C).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
@@ -21,10 +13,10 @@ self.addEventListener('fetch', e => {
   const r = e.request;
   if (r.method !== 'GET') return;
   if (new URL(r.url).origin === location.origin) {
-    // 自己的檔案（包含字型）：有網路就抓新的，沒網路用備存的
+    // 自己的檔案：有網路就抓新的，沒網路用備存的
     e.respondWith(fetch(r).then(res => put(r, res)).catch(() => caches.match(r).then(m => m || caches.match('./index.html'))));
   } else {
-    // 外部檔案：先用備存的
+    // 字型等外部檔案：先用備存的
     e.respondWith(caches.match(r).then(m => m || fetch(r).then(res => put(r, res))));
   }
 });

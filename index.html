@@ -12,24 +12,17 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon-192.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&family=Noto+Serif+TC:wght@600&display=swap">
 <style>
-@font-face {
-  font-family: 'Cubic 11';
-  src: url('./Cubic_11.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
 :root{--bg:#eceff2;--card:#fff;--ink:#1c2630;--mute:#66737f;--line:#d3dae0;--acc:#0e7566;--soft:#e2f0ed;--mark:rgba(14,117,102,.28);--onacc:#fff;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12171c;--card:#1b232b;--ink:#e6ecf0;--mute:#94a1ac;--line:#2f3a44;--acc:#4fc1ae;--soft:#1a3531;--mark:rgba(79,193,174,.32);--onacc:#10201d}}
 :root[data-theme="dark"]{--bg:#12171c;--card:#1b232b;--ink:#e6ecf0;--mute:#94a1ac;--line:#2f3a44;--acc:#4fc1ae;--soft:#1a3531;--mark:rgba(79,193,174,.32);--onacc:#10201d}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.7 'Cubic 11',system-ui,sans-serif}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.7 "Noto Sans TC",system-ui,sans-serif}
 main{max-width:720px;margin:0 auto;padding:18px 16px 100px}
-h1{font:600 20px 'Cubic 11',serif;margin:0;text-align:center}.top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;margin-bottom:14px}.top>:first-child{justify-self:start}.top>:last-child{justify-self:end}
+h1{font:600 20px "Noto Serif TC",serif;margin:0;text-align:center}.top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;margin-bottom:14px}.top>:first-child{justify-self:start}.top>:last-child{justify-self:end}
 button,input,textarea{font:inherit;color:inherit}
 button{cursor:pointer;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:5px 12px;font-size:13px}
 button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
@@ -39,13 +32,13 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{
 .dhead{display:flex;align-items:center;justify-content:space-between;gap:8px 10px;flex-wrap:wrap;margin:14px 0 2px}.dctl{display:flex;align-items:center;gap:6px;margin-left:auto}.dctl button{height:32px;padding:0 12px;font-size:13px}
 .who{font-size:13px;font-weight:500;color:var(--acc);margin-bottom:2px}.who::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--acc);margin-right:5px}
 .dctl input{height:32px;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:0 8px;min-width:0;font-size:13px;-webkit-appearance:none;appearance:none;text-align:center}.dctl input::-webkit-date-and-time-value{text-align:center}
-.day{font:600 32px/1.3 'Cubic 11',serif;margin:0 0 6px}
+.day{font:600 32px/1.3 "Noto Serif TC",serif;margin:0 0 6px}
 .sub{color:var(--mute);margin:0 0 22px}
 .tl{border-left:2px solid var(--line);margin-left:6px}
 .row{position:relative;padding:0 0 26px 24px}
 .row::before{content:"";position:absolute;left:-7px;top:9px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--mute)}
 .row.has::before{background:var(--acc);border-color:var(--acc)}
-.yr{font:600 20px 'Cubic 11',serif;margin-right:8px}.ago{color:var(--mute);font-size:14px}
+.yr{font:600 20px "Noto Serif TC",serif;margin-right:8px}.ago{color:var(--mute);font-size:14px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-top:8px}
 .card.empty{background:transparent;border-style:dashed;color:var(--mute);display:flex;justify-content:space-between;align-items:center;gap:8px}
 .txt{white-space:pre-wrap;word-break:break-word;margin:0 0 6px}.clamp{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
@@ -58,7 +51,7 @@ mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 2px}
 .edit{font-size:12px;margin-top:8px;color:var(--mute)}.top .edit,.card.empty .edit{margin:0}#mnb{font-size:16px;line-height:1.2}
 dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);width:min(560px,92vw);padding:16px}
 dialog::backdrop{background:#0008}
-dialog h2{font:600 17px 'Cubic 11',serif;margin:0 0 12px}
+dialog h2{font:600 17px "Noto Serif TC",serif;margin:0 0 12px}
 textarea,dialog input[type=text]{width:100%;border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:6px 9px;margin-bottom:10px}
 label{display:block;font-size:14px;color:var(--mute)}
 .acts{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
@@ -66,14 +59,14 @@ label{display:block;font-size:14px;color:var(--mute)}
 .more{display:block;margin:0 auto}
 #toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:8px;display:none;max-width:90vw;z-index:9}
 .note{background:var(--soft);border-radius:8px;padding:8px 12px;font-size:14px;margin-bottom:12px}
-.tm{font:600 12px 'Cubic 11',serif;color:var(--acc);margin-bottom:2px}
-.hs{display:flex;gap:12px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin;padding:2px 2px 8px;margin:0 -2px}.hs+.hs{margin-top:4px}
+.tm{font:600 12px "Noto Serif TC",serif;color:var(--acc);margin-bottom:2px}
+.hs{display:flex;gap:12px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin;padding:2px 2px 8px;margin:0 -2px}.hs+.hs{margin-top:6px;padding-top:14px;border-top:1px solid var(--line);opacity:1}
 .hs>.card{flex:0 0 min(260px,78%);min-width:0;margin-top:0}
 .hi{flex:0 0 min(260px,78%);min-width:0;position:relative;padding-top:34px}.hi>.card{margin-top:0}
 .hi::before{content:"";position:absolute;top:24px;left:-6px;right:-6px;height:2px;background:var(--line)}
 .hi:first-child::before{left:0}.hi:last-child::before{right:0}
 .hi::after{content:"";position:absolute;left:0;top:19px;width:12px;height:12px;border-radius:50%;background:var(--acc)}
-.htm{position:absolute;left:0;top:0;font:600 12px/18px 'Cubic 11',serif;color:var(--acc)}
+.htm{position:absolute;left:0;top:0;font:600 12px/18px "Noto Serif TC",serif;color:var(--acc)}
 .lab{flex:none;align-self:center;font-size:11px;font-weight:500;line-height:20px;padding:0 7px;border-radius:5px;background:var(--soft);color:var(--acc);white-space:nowrap}
 .xb[hidden]{display:none}
 .lh{display:flex;justify-content:space-between;align-items:center;margin:-4px 0 6px}.lh .edit{margin:0}
@@ -98,12 +91,12 @@ label{display:block;font-size:14px;color:var(--mute)}
 html,body{touch-action:manipulation}
 #tagbar{display:none;gap:8px;flex-wrap:wrap;margin-bottom:14px}
 #q{display:block;width:100%;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:6px 10px;margin-bottom:14px;-webkit-appearance:none;appearance:none}#q[hidden]{display:none}
-.tg{border-radius:99px;font-size:12px;padding:1px 10px}.tg.on{background:var(--acc);border-color:var(--acc);color:var(--onacc)}
+.tg{border-radius:99px;font-size:12px;padding:1px 10px}.tg.add{color:var(--mute);border-style:dashed}.tg.del{color:#c0392b;border-style:dashed}.tg.on{background:var(--acc);border-color:var(--acc);color:var(--onacc)}
 .tg button{border:0;background:none;padding:0 0 0 6px;color:inherit}
 .tgs{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
 .ea{display:flex;gap:12px}
-.hit{margin-bottom:14px}.rd{font:600 15px 'Cubic 11',serif}
+.hit{margin-bottom:14px}.rd{font:600 15px "Noto Serif TC",serif}
 blockquote{margin:4px 0;padding:2px 10px;border-left:3px solid var(--acc);color:var(--mute)}
 .txt ul{margin:4px 0;padding-left:20px}.hd{font-weight:600;font-size:15px}
 code{background:var(--soft);border-radius:4px;padding:0 4px;font-size:.92em}
@@ -124,7 +117,7 @@ dialog select{border:1px solid var(--line);background:var(--card);border-radius:
 #dt[open]{display:flex;flex-direction:column}
 #dtc{flex:1 1 auto;min-height:0;max-height:calc(88vh - 62px);overflow:auto;padding:16px 16px 4px;-webkit-overflow-scrolling:touch}
 #dtc>*{margin-bottom:14px}
-.dth{font:600 15px 'Cubic 11',serif;color:var(--acc)}
+.dth{font:600 15px "Noto Serif TC",serif;color:var(--acc)}
 .dtt{font-size:17px;line-height:1.75}.dtt .hd{font-size:20px}
 .dtm{display:block;width:100%;height:auto;max-height:70vh;object-fit:contain;border-radius:8px;background:#0001}
 video.dtm{background:#000}
@@ -134,6 +127,10 @@ video.dtm{background:#000}
 .dtf{flex:none;padding:10px 14px;text-align:right;border-top:1px solid var(--line)}
 .dtf button{padding:6px 18px}
 #mn{width:min(280px,84vw)}#mn .mb{display:flex;flex-direction:column;align-items:center;gap:12px}#mn .edit{margin:0;width:100%;max-width:220px;padding:8px 12px;font-size:14px;text-align:center}
+#gd{width:min(320px,86vw)}#gd h2{text-align:center;margin:2px 0 14px}#gd .mb{display:flex;flex-direction:column;align-items:center;gap:12px}
+#gd .mb .edit{margin:0;width:100%;max-width:230px;padding:8px 12px;font-size:14px;text-align:center}
+#gd .gb{font-size:14px;line-height:1.8;white-space:pre-wrap;max-height:56vh;overflow:auto;margin:0 0 4px}
+#gd .acts{justify-content:center;margin:14px 0 2px}
 #an{width:min(240px,80vw);text-align:center}#an p{margin:10px 0;font-size:17px;font-weight:500}
 #tx,#lk,#tv,#tn,#q{font-size:14px}
 </style>
@@ -149,6 +146,18 @@ video.dtm{background:#000}
 
 <dialog id="mn"><div class="mb" id="mnc"></div></dialog>
 <dialog id="an"><p>尚未開放！</p></dialog>
+<dialog id="gd"></dialog>
+<dialog id="pe">
+<h2>編輯對象</h2>
+<input type="text" id="pen" placeholder="對象名稱" maxlength="30">
+<div class="acts end"><button class="pri" onclick="renameP()">儲存</button><button onclick="pe.close()">取消</button></div>
+</dialog>
+<dialog id="tm">
+<h2 id="tmt"></h2>
+<div id="tmsw"><label for="tms">選擇標籤</label><select id="tms" style="margin:6px 0 12px"></select></div>
+<div id="tmnw"><input type="text" id="tmn" placeholder="輸入標籤" maxlength="20"></div>
+<div class="acts end"><button class="pri" id="tmo" onclick="tmOk()">確定</button><button onclick="tm.close()">取消</button></div>
+</dialog>
 <dialog id="pd">
 <h2>新增對象</h2>
 <input type="text" id="pn" placeholder="填入你想記錄的對象" maxlength="30">
@@ -220,7 +229,7 @@ video.dtm{background:#000}
 <dialog id="cf"><p>是否刪除？</p><p class="sm" id="cfs" hidden></p><div class="acts"><button id="cfy" class="pri">是</button><button id="cfn">否</button></div></dialog>
 <dialog id="dt"><div id="dtc"></div><div class="dtf"><button class="pri" onclick="$('#dt').close()">退出</button></div></dialog>
 <dialog id="lb"><button id="lbx" onclick="$('#lb').close()">關閉 ✕</button><div id="lbc"></div></dialog>
-<button id="fab" hidden onclick="fabAdd()">＋ 新增一則</button>
+<button id="fab" hidden onclick="fabAdd()">＋ 新增 （今日）</button>
 <div id="toast" role="status"></div>
 
 <script>
@@ -248,6 +257,10 @@ async function sel(id){cur=id;multi=false;hy=null;extra=0;ftag=null;rlim=50;appl
 async function toggleMulti(){multi=!multi;if(multi)msel=new Set(people.map(p=>p.id));hy=null;ftag=null;applyTheme(multi?null:people.find(p=>p.id===cur)?.color);await loadView();render()}
 async function tog(id){msel.has(id)?msel.delete(id):msel.add(id);if(ftag&&!msel.has(ftag.pid))ftag=null;await loadView();render()}
 async function addP(){const n=$('#pn').value.trim();if(!n)return;const p={id:'p'+Date.now(),name:n};await dbPut('people',p);people.push(p);$('#pn').value='';pd.close();sel(p.id)}
+function openPe(){const P=people.find(p=>p.id===cur);if(!P)return;$('#pen').value=P.name;pe.showModal();$('#pen').focus();$('#pen').select()}
+async function renameP(){const P=people.find(p=>p.id===cur),n=$('#pen').value.trim();if(!P||!n)return;
+ if(n!==P.name){P.name=n;try{await dbPut('people',P)}catch(e){toast('儲存失敗');return}}pe.close();render()}
+$('#pen').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();renameP()}};
 async function delP(){const P=people.find(p=>p.id===cur);if(!P||!await ask(`「${P.name}」與全部紀錄都會被刪除`))return;
 for(const e of Object.values(E).flat())await dbDel('entries',e.k);await dbDel('people',cur);people=people.filter(p=>p.id!==cur);await sel(people[0]?.id||null)}
 
@@ -290,7 +303,7 @@ const fmtD=d=>{const [y,m,n]=d.split('-').map(Number);return `${y}年${m}月${n}
 function openDt(en){dturls.forEach(URL.revokeObjectURL);dturls=[];
  const M=en.media||[],by=t=>M.filter(m=>m.t===t),au=by('audio'),ad=m=>h('audio',{src:mu(m,dturls),controls:''});
  rc($('#dtc'),
-  h('div',{class:'dth'},(multi?pname(en.pid)+'・':'')+fmtD(en.date)+(en.time?' '+en.time:'')),
+  h('div',{class:'dth'},(multi?pname(en.pid)+'・':'')+fmtD(en.date)+(en.time?'　'+en.time:'')),
   en.text&&h('div',{class:'txt dtt'},...blocks(en.text)),
   by('image').map(m=>h('img',{class:'dtm',src:mu(m,dturls),alt:''})),
   by('video').map(m=>h('video',{class:'dtm',src:mu(m,dturls),controls:'',playsinline:'',preload:'metadata',...(m.p?{poster:mu({b:m.p},dturls)}:{})})),
@@ -327,13 +340,23 @@ function wrap(m){const t=$('#tx'),a=t.selectionStart,b=t.selectionEnd,v=t.value;
 function lineP(p){const t=$('#tx'),v=t.value,a=t.selectionStart,b=t.selectionEnd,s0=v.lastIndexOf('\n',a-1)+1;let e0=v.indexOf('\n',b);if(e0<0)e0=v.length;
  const seg=v.slice(s0,e0).split('\n').map(l=>p+l).join('\n');t.value=v.slice(0,s0)+seg+v.slice(e0);t.focus();t.setSelectionRange(s0,s0+seg.length)}
 function updFab(){const b=$('#fab'),cy=now.getFullYear(),ok=!multi&&cur&&new Date(cy,mo-1,dy).getDate()===dy;b.hidden=!ok;if(!ok)return;
- const has=(E[`${cy}-${pad(mo)}-${pad(dy)}`]||[]).length,td=mo===now.getMonth()+1&&dy===now.getDate();
- b.textContent=has||td?'＋ 新增一則':`＋ 新增 ${mo}/${dy}`}
+ const td=mo===now.getMonth()+1&&dy===now.getDate();
+ b.textContent=td?'＋ 新增 （今日）':`＋ 新增 （${mo}/${dy}）`}
 function fabAdd(){openEd(`${now.getFullYear()}-${pad(mo)}-${pad(dy)}`)}
 /* 功能選單 */
+const GUIDE=[
+ {t:'☆ 功能介紹 ☆',b:'待更。'},
+ {t:'☆ 用法推薦 ☆',b:'待更。'},
+ {t:'☆ 偶滴碎碎念 ☆',b:'待更。'},
+ {t:'☆ 施工日誌 ☆',b:'待更。'}];
+function openGd(i){const d=$('#gd');
+ if(i==null)rc(d,h('h2',{},'★《N年日記》使用說明書 ★'),h('div',{class:'mb'},...GUIDE.map((g,j)=>h('button',{class:'edit',onclick:()=>openGd(j)},g.t))),h('div',{class:'acts'},h('button',{onclick:()=>d.close()},'關閉')));
+ else rc(d,h('h2',{},GUIDE[i].t),h('div',{class:'gb'},GUIDE[i].b),h('div',{class:'acts'},h('button',{onclick:()=>openGd()},'返回'),h('button',{onclick:()=>d.close()},'關閉')));
+ if(!d.open)d.showModal();d.scrollTop=0}
+$('#gd').onclick=e=>{if(e.target===$('#gd'))$('#gd').close()};
 function openMn(){const b=(t,f)=>h('button',{class:'edit',onclick:()=>{$('#mn').close();f()}},t);
- rc($('#mnc'),b('更改當前對象主題色',openTh),
-  b(multi?'結束回顧':'回顧這一天',()=>{if(!multi&&people.length<2){toast('至少要有兩位對象才能回顧');return}toggleMulti()}),
+ rc($('#mnc'),b('使用說明書',()=>openGd()),b('更改當前對象主題色',openTh),
+  b(multi?'結束回顧':'回顧這一天',()=>{if(!multi&&people.length<1){toast('目前沒有可回顧的日記');return}if(!multi&&people.length<2){toast('至少要有兩位對象才能回顧');return}toggleMulti()}),
   b('分析',()=>$('#an').showModal()));
  $('#mn').showModal()}
 $('#mn').onclick=e=>{if(e.target===$('#mn'))$('#mn').close()};
@@ -350,8 +373,8 @@ function applyTheme(x){const r=document.documentElement.style,mt=document.queryS
  r.setProperty('--acc',c.acc);r.setProperty('--soft',c.soft);r.setProperty('--mark',c.mark);r.setProperty('--onacc',c.on);r.setProperty('--bg',c.bg);mt.content=x}
 async function setTheme(x){const p=people.find(q=>q.id===cur);if(!p)return;p.color=x||null;try{await dbPut('people',p)}catch(e){}
  applyTheme(x);$('#tc').value=x||'#0e7566';drawChips()}
-function openTh(){if(multi||!cur){toast('請先選擇單一對象，再設定他的主題色');return}
- const p=people.find(q=>q.id===cur);$('#tht').textContent=`「${p.name}」的主題色`;$('#tc').value=p.color\vert{}\vert{}'#0e7566';$('#th').showModal()}
+function openTh(){if(multi){toast('回顧時無法更改主題色');return}if(!cur){toast('請先新增對象，再選擇他的主題色');return}
+ const p=people.find(q=>q.id===cur);$('#tht').textContent=`「${p.name}」的主題色`;$('#tc').value=p.color||'#0e7566';$('#th').showModal()}
 $('#swt').replaceChildren(...PRE.map(c=>h('button',{class:'sw',style:'background:'+c,'aria-label':c,onclick:()=>setTheme(c)})));
 $('#tc').oninput=e=>setTheme(e.target.value);
 
@@ -373,13 +396,47 @@ function drawChips(){const on=p=>multi?msel.has(p.id):p.id===cur;
  rc($('#ppl'),h('span',{class:'lab'},'對象'),...people.map(p=>{const c=colInfo(p.color),o=on(p);
   return h('button',{class:'chip'+(o?' on':''),'aria-pressed':o,style:multi&&o&&c?`background:${c.acc};border-color:${c.acc};color:${c.on}`:'',onclick:()=>multi?tog(p.id):sel(p.id)},!o&&c&&h('span',{class:'dot',style:'background:'+c.acc}),(multi&&o?'✓ ':'')+p.name)}),
   h('button',{class:'chip add',onclick:()=>{pd.showModal();$('#pn').focus()}},'＋ 新增對象'),
+  !multi&&cur&&h('button',{class:'chip add',onclick:openPe},'✎ 編輯對象'),
   !multi&&cur&&h('button',{class:'chip del',onclick:()=>delP()},'－ 刪除對象'))}
 function drawTagbar(){const ids=multi?[...msel]:cur?[cur]:[],items=[];
  for(const id of ids){const cnt={},c=colInfo(people.find(p=>p.id===id)?.color);
   Object.values(E).flat().filter(e=>e.pid===id).forEach(e=>(e.tags||[]).forEach(t=>cnt[t]=(cnt[t]||0)+1));
+  if(!multi)(people.find(p=>p.id===id)?.tags||[]).forEach(t=>{if(!(t in cnt))cnt[t]=0});
   Object.keys(cnt).sort().forEach(t=>{const o=ftag&&ftag.pid===id&&ftag.tag===t;
    items.push(h('button',{class:'tg'+(o?' on':''),'aria-pressed':o,style:o&&c?`background:${c.acc};border-color:${c.acc};color:${c.on}`:'',onclick:()=>setTag(id,t)},multi&&!o&&h('span',{class:'dot',style:'background:'+(c?c.acc:'var(--acc)')}),(multi?pname(id)+'・':'')+'#'+t+' '+cnt[t]))})}
- rc($('#tagbar'),items.length>0&&h('span',{class:'lab'},'標籤'),...items);$('#tagbar').style.display=items.length?'flex':'none'}
+ rc($('#tagbar'),h('span',{class:'lab'},'標籤'),...items,
+  !multi&&cur&&h('button',{class:'tg add',onclick:()=>openTm('add')},'＋ 新增標籤'),
+  !multi&&cur&&h('button',{class:'tg add',onclick:()=>openTm('edit')},'✎ 編輯標籤'),
+  !multi&&cur&&h('button',{class:'tg del',onclick:()=>openTm('del')},'－ 刪除標籤'));$('#tagbar').style.display=(multi||cur)?'flex':'none'}
+const normTag=v=>String(v||'').trim().replace(/^#+/,'').slice(0,20);
+const tagsOf=id=>[...new Set([...(people.find(p=>p.id===id)?.tags||[]),...Object.values(E).flat().filter(e=>e.pid===id).flatMap(e=>e.tags||[])])].sort();
+function openTm(mode){const P=people.find(p=>p.id===cur);if(!P)return;const ts=tagsOf(cur);
+ if(mode!=='add'&&!ts.length){toast('目前沒有標籤');return}
+ tmMode=mode;$('#tmt').textContent={add:'新增標籤',edit:'編輯標籤',del:'刪除標籤'}[mode];
+ rc($('#tms'),...ts.map(t=>h('option',{value:t},'#'+t)));
+ $('#tmsw').hidden=mode==='add';$('#tmnw').hidden=mode==='del';$('#tmn').value=mode==='edit'?ts[0]:'';
+ $('#tmo').textContent={add:'新增',edit:'儲存',del:'刪除'}[mode];
+ $('#tm').showModal();if(mode!=='del')$('#tmn').focus()}
+let tmMode=null;
+$('#tms').onchange=()=>{if(tmMode==='edit')$('#tmn').value=$('#tms').value};
+$('#tmn').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();tmOk()}};
+async function retag(P,old,nv){
+ const sw=t=>[...new Set((t||[]).map(x=>x===old?nv:x).filter(Boolean))].slice(0,10);
+ for(const e of Object.values(E).flat().filter(e=>e.pid===P.id&&(e.tags||[]).includes(old))){e.tags=sw(e.tags);await dbPut('entries',e)}
+ P.tags=sw(P.tags);await dbPut('people',P);
+ if(ftag&&ftag.pid===P.id&&ftag.tag===old)ftag=nv?{pid:P.id,tag:nv}:null}
+async function tmOk(){const P=people.find(p=>p.id===cur);if(!P)return;const mode=tmMode,old=$('#tms').value,nv=normTag($('#tmn').value);
+ try{
+  if(mode==='add'){if(!nv){toast('請輸入標籤名稱');return}if(tagsOf(cur).includes(nv)){toast('這個標籤已經存在');return}
+   P.tags=[...(P.tags||[]),nv];await dbPut('people',P);$('#tm').close();render();return}
+  if(mode==='edit'){if(!nv){toast('請輸入標籤名稱');return}if(nv===old){$('#tm').close();return}
+   const mg=tagsOf(cur).includes(nv);$('#tm').close();
+   if(mg&&!await ask(`「#${nv}」已經存在，兩個標籤會合併`))return;
+   await retag(P,old,nv);render();return}
+  if(mode==='del'){const n=Object.values(E).flat().filter(e=>e.pid===cur&&(e.tags||[]).includes(old)).length;$('#tm').close();
+   if(!await ask(n?`「#${old}」會從 ${n} 則紀錄中移除，紀錄本身不會被刪除`:`「#${old}」`))return;
+   await retag(P,old,null);render()}
+ }catch(e){toast('儲存失敗')}}
 function setTag(pid,t){ftag=ftag&&ftag.pid===pid&&ftag.tag===t?null:{pid,tag:t};rlim=50;render()}
 function clearF(){qs='';ftag=null;$('#q').value='';rlim=50;render()}
 function goDay(date){const [y,m,d]=date.split('-').map(Number);mo=m;dy=d;hy=y;qs='';ftag=null;$('#q').value='';render();scrollTo(0,0)}
@@ -394,7 +451,7 @@ function render(){
  if(qs||ftag){
   const k=qs.toLowerCase(),hits=Object.values(E).flat().filter(e=>(!ftag||(e.pid===ftag.pid&&(e.tags||[]).includes(ftag.tag)))&&(!k||hay(e).includes(k)))
    .sort((a,b)=>a.date===b.date?(b.time||'').localeCompare(a.time||''):a.date<b.date?1:-1);
-  rc(A,h('p',{class:'sub'},(ftag?`標籤「#${ftag.tag}」`:'')+(ftag&&qs?' ':'')+(qs?`搜尋「${qs}」`:'')+`：${hits.length} 則 `,h('button',{class:'edit',style:'margin:0',onclick:clearF},'清除')),
+  rc(A,h('p',{class:'sub'},(ftag?`標籤「#${ftag.tag}」`:'')+(ftag&&qs?'　':'')+(qs?`搜尋「${qs}」`:'')+`：${hits.length} 則　`,h('button',{class:'edit',style:'margin:0',onclick:clearF},'清除')),
    ...hits.slice(0,rlim).map(e=>{const [y,m,d]=e.date.split('-').map(Number);return h('div',{class:'hit'},h('div',{class:'rd'},`${y}年${m}月${d}日`),card(e,e.date,true,true))}),
    hits.length>rlim&&h('button',{class:'more',onclick:()=>{rlim+=50;render()}},'顯示更多'));
   fitX();return}
@@ -405,7 +462,7 @@ function render(){
   const date=`${y}-${pad(mo)}-${pad(dy)}`,list=E[date]||[];if(list.length)filled++;
   const head=h('div',{},h('span',{class:'yr'},y+''),h('span',{class:'ago'},y===cy?'今年':(cy-y)+' 年前'));
   let body;
-  if(!list.length)body=h('div',{class:'card empty'},'還沒有紀錄',!multi&&h('button',{class:'edit',onclick:()=>openEd(date)},'新增'));
+  if(!list.length)body=multi?null:h('div',{class:'card empty'},h('button',{class:'edit',onclick:()=>openEd(date)},'新增'));
   else{
    const T=list.filter(x=>x.time).sort((a,b)=>a.time<b.time?-1:1),N=list.filter(x=>!x.time);
    body=h('div',{},
@@ -430,7 +487,7 @@ function render(){
 function drawDraft(){durls.forEach(URL.revokeObjectURL);durls=[];
  $('#dm').replaceChildren(...draft.map((m,i)=>h('div',{class:'rm',style:(m.t==='audio'||m.t==='file')?'grid-column:1/-1':''},mEl(m),h('button',{'aria-label':'移除',onclick:async()=>{if(await ask()){draft.splice(i,1);drawDraft()}}},'×'),m.t==='video'&&h('button',{class:'cvb',onclick:()=>openCv(m)},'封面'))))}
 function drawTags(){const pid=(edK&&E[edDate]?E[edDate].find(x=>x.k===edK)?.pid:null)||cur;
- const all=[...new Set(Object.values(E).flat().filter(e=>e.pid===pid).flatMap(e=>e.tags||[]))].filter(t=>!dtags.includes(t)).sort();
+ const all=[...new Set([...(people.find(p=>p.id===pid)?.tags||[]),...Object.values(E).flat().filter(e=>e.pid===pid).flatMap(e=>e.tags||[])])].filter(t=>!dtags.includes(t)).sort();
  rc($('#tgd'),...dtags.map((t,i)=>h('span',{class:'tg on'},'#'+t,h('button',{'aria-label':'移除標籤',onclick:async()=>{if(await ask()){dtags.splice(i,1);drawTags()}}},'×'))));
  rc($('#tsg'),...all.map(t=>h('button',{class:'tg',onclick:()=>addTag(t)},'#'+t)))}
 function addTag(v){v=String(v||'').trim().replace(/^#+/,'').slice(0,20);if(!v||dtags.includes(v)||dtags.length>=10)return;dtags.push(v);$('#tn').value='';drawTags()}
@@ -441,7 +498,7 @@ function setMode(v,val){document.querySelector(`input[name=tm][value=${v}]`).che
 document.querySelectorAll('input[name=tm]').forEach(r=>r.onchange=()=>setMode(r.value));
 function openEd(date,k){edDate=date;edK=k||null;
  const en=k?E[date].find(x=>x.k===k):null,[y,m,d]=date.split('-').map(Number);
- $('#et').textContent=(multi&&en?pname(en.pid)+'・':'')+`${y}年${m}月${d}日`;$('#tx').value=en?.text\vert{}\vert{}'';$('#lk').value=(en?.links||[]).join('\n');
+ $('#et').textContent=(multi&&en?pname(en.pid)+'・':'')+`${y}年${m}月${d}日`;$('#tx').value=en?.text||'';$('#lk').value=(en?.links||[]).join('\n');
  draft=(en?.media||[]).map(m=>({...m}));dtags=[...(en?.tags||[])];drawDraft();$('#tgi').hidden=true;$('#tn').value='';drawTags();
  setMode(en?.time?'manual':'none',en?.time);
  $('#dl').style.display=en?'':'none';
@@ -481,7 +538,7 @@ const lastB=id=>{const m=lbMap();return Math.max(m.all||0,id?m[id]||0:0)};
 const markB=v=>{try{const m=lbMap();m[v]=Date.now();localStorage.setItem(LBK,JSON.stringify(m))}catch(e){}};
 const b64=b=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=()=>rej(r.error);r.readAsDataURL(b)});
 let bkFile=null,bkSel='all';
-function updBlast(){const v=$('#bsel').value,t=v==='all'?(lbMap().all\vert{}\vert{}0):lastB(v);$('#blast').textContent=t?'上次備份：'+new Date(t).toLocaleString('zh-TW'):'尚未備份過'}
+function updBlast(){const v=$('#bsel').value,t=v==='all'?(lbMap().all||0):lastB(v);$('#blast').textContent=t?'上次備份：'+new Date(t).toLocaleString('zh-TW'):'尚未備份過'}
 function openBk(){const s=$('#bsel');rc(s,h('option',{value:'all'},'全部對象'),...people.map(p=>h('option',{value:p.id},p.name)));s.value='all';
  s.onchange=()=>{updBlast();$('#bst').textContent='';$('#bsave').style.display='none';bkFile=null};
  updBlast();$('#bst').textContent='';$('#bst2').textContent='';$('#bsave').style.display='none';bkFile=null;$('#bk').showModal()}
@@ -520,7 +577,7 @@ async function importBackup(f){
   st.textContent='讀取中…';
   const j=JSON.parse(await f.text());
   if(j.app!=='nyear-diary'||!Array.isArray(j.people)||!Array.isArray(j.entries))throw new Error('這不是 N年日記 的備份檔');
-  for(const p of j.people)if(p&&p.id&&p.name)await dbPut('people',{id:String(p.id),name:String(p.name).slice(0,30),color:/^#[0-9a-f]{6}$/i.test(p.color||'')?p.color:(people.find(q=>q.id===String(p.id))?.color||null)});
+  for(const p of j.people)if(p&&p.id&&p.name)await dbPut('people',{id:String(p.id),name:String(p.name).slice(0,30),color:/^#[0-9a-f]{6}$/i.test(p.color||'')?p.color:(people.find(q=>q.id===String(p.id))?.color||null),tags:[...new Set([...(people.find(q=>q.id===String(p.id))?.tags||[]),...(Array.isArray(p.tags)?p.tags:[]).map(normTag).filter(Boolean)])].slice(0,200)});
   let n=0;
   for(const e of j.entries){
    if(!e||!e.k||!e.pid||!/^\d{4}-\d{2}-\d{2}$/.test(e.date))continue;
