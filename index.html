@@ -60,7 +60,7 @@ label{display:block;font-size:14px;color:var(--mute)}
 #toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:8px;display:none;max-width:90vw;z-index:9}
 .note{background:var(--soft);border-radius:8px;padding:8px 12px;font-size:14px;margin-bottom:12px}
 .tm{font:600 12px "Noto Serif TC",serif;color:var(--acc);margin-bottom:2px}
-.hs{display:flex;gap:12px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin;padding:2px 2px 8px;margin:0 -2px}.hs+.hs{margin-top:4px}
+.hs{display:flex;gap:12px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin;padding:2px 2px 8px;margin:0 -2px}.hs+.hs{margin-top:6px;padding-top:14px;border-top:1px solid var(--line);opacity:1}
 .hs>.card{flex:0 0 min(260px,78%);min-width:0;margin-top:0}
 .hi{flex:0 0 min(260px,78%);min-width:0;position:relative;padding-top:34px}.hi>.card{margin-top:0}
 .hi::before{content:"";position:absolute;top:24px;left:-6px;right:-6px;height:2px;background:var(--line)}
@@ -372,7 +372,7 @@ function drawTagbar(){const ids=multi?[...msel]:cur?[cur]:[],items=[];
   Object.values(E).flat().filter(e=>e.pid===id).forEach(e=>(e.tags||[]).forEach(t=>cnt[t]=(cnt[t]||0)+1));
   Object.keys(cnt).sort().forEach(t=>{const o=ftag&&ftag.pid===id&&ftag.tag===t;
    items.push(h('button',{class:'tg'+(o?' on':''),'aria-pressed':o,style:o&&c?`background:${c.acc};border-color:${c.acc};color:${c.on}`:'',onclick:()=>setTag(id,t)},multi&&!o&&h('span',{class:'dot',style:'background:'+(c?c.acc:'var(--acc)')}),(multi?pname(id)+'・':'')+'#'+t+' '+cnt[t]))})}
- rc($('#tagbar'),items.length>0&&h('span',{class:'lab'},'標籤'),...items);$('#tagbar').style.display=items.length?'flex':'none'}
+ rc($('#tagbar'),h('span',{class:'lab'},'標籤'),...items);$('#tagbar').style.display=(multi||cur)?'flex':'none'}
 function setTag(pid,t){ftag=ftag&&ftag.pid===pid&&ftag.tag===t?null:{pid,tag:t};rlim=50;render()}
 function clearF(){qs='';ftag=null;$('#q').value='';rlim=50;render()}
 function goDay(date){const [y,m,d]=date.split('-').map(Number);mo=m;dy=d;hy=y;qs='';ftag=null;$('#q').value='';render();scrollTo(0,0)}
