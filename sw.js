@@ -1,9 +1,10 @@
 // 更新程式後，把下面的版本號加 1，手機才會抓到新版
-const C = 'nyear-v11';
+const C = 'nyear-v12';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
+const FONTS = ['./Cubic_11.ttf', './BaDingShiWeiTi-16.ttf'];
 
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(C).then(c => c.addAll(FILES).then(() => c.add('./Cubic_11.ttf').catch(() => {}))).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(C).then(c => c.addAll(FILES).then(() => Promise.all(FONTS.map(f => c.add(f).catch(() => {}))))).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== C).map(k => caches.delete(k)))).then(() => self.clients.claim()));
