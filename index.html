@@ -395,7 +395,7 @@ function drawChips(){const on=p=>multi?msel.has(p.id):p.id===cur;
   return h('button',{class:'chip'+(o?' on':''),'aria-pressed':o,style:multi&&o&&c?`background:${c.acc};border-color:${c.acc};color:${c.on}`:'',onclick:()=>multi?tog(p.id):sel(p.id)},!o&&c&&h('span',{class:'dot',style:'background:'+c.acc}),(multi&&o?'✓ ':'')+p.name)}),
   h('button',{class:'chip add',onclick:()=>{pd.showModal();$('#pn').focus()}},'＋ 新增對象'),
   !multi&&cur&&h('button',{class:'chip add',onclick:openPe},'✎ 編輯對象'),
-  !multi&&cur&&h('button',{class:'chip del',onclick:()=>delP()},'－ 刪除對象'))}
+  !multi&&cur&&h('button',{class:'chip del',onclick:()=>delP()},'－ 刪除對象'));$('#pgt').hidden=false}
 function drawTagbar(){const ids=multi?[...msel]:cur?[cur]:[],items=[];
  for(const id of ids){const cnt={},c=colInfo(people.find(p=>p.id===id)?.color);
   Object.values(E).flat().filter(e=>e.pid===id).forEach(e=>(e.tags||[]).forEach(t=>cnt[t]=(cnt[t]||0)+1));
@@ -406,6 +406,8 @@ function drawTagbar(){const ids=multi?[...msel]:cur?[cur]:[],items=[];
   !multi&&cur&&h('button',{class:'tg add',onclick:()=>openTm('add')},'＋ 新增標籤'),
   !multi&&cur&&h('button',{class:'tg add',onclick:()=>openTm('edit')},'✎ 編輯標籤'),
   !multi&&cur&&h('button',{class:'tg del',onclick:()=>openTm('del')},'－ 刪除標籤'));$('#tagbar').style.display=(multi||cur)?'flex':'none'}
+let pgCollapsed=false;
+function togglePg(){pgCollapsed=!pgCollapsed;$('#pgrp').classList.toggle('pgc',pgCollapsed);$('#pgt').textContent=pgCollapsed?'﹀ 展開':'︿ 收合'}
 const normTag=v=>String(v||'').trim().replace(/^#+/,'').slice(0,20);
 const tagsOf=id=>[...new Set([...(people.find(p=>p.id===id)?.tags||[]),...Object.values(E).flat().filter(e=>e.pid===id).flatMap(e=>e.tags||[])])].sort();
 function openTm(mode){const P=people.find(p=>p.id===cur);if(!P)return;const ts=tagsOf(cur);
