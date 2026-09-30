@@ -169,8 +169,8 @@ video.dtm{background:#000}
 #hm{width:min(560px,94vw);max-height:86vh;padding:16px}#hm[open]{display:flex;flex-direction:column}
 #hmc{overflow:auto;flex:1;min-height:0}
 .hmhead{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:14px;font:600 15px "BaDing",serif}
-.hgrid{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,1fr);grid-auto-columns:1fr;gap:1px;width:100%;aspect-ratio:7.6;margin-bottom:4px}
-.hcell{--pxc:1px;clip-path:var(--cut);background:var(--line)}
+.hgrid{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,auto);gap:1px;width:100%;margin-bottom:4px}
+.hcell{--pxc:1px;clip-path:var(--cut);background:var(--line);aspect-ratio:1}
 .hcell.blank{background:transparent}
 .hmleg{display:flex;align-items:center;gap:4px;justify-content:flex-end;font-size:10px;color:var(--mute);margin-bottom:6px}
 .hmleg .hcell{width:8px;height:8px;flex:none}
@@ -179,7 +179,7 @@ video.dtm{background:#000}
 .hcell.c2{background:color-mix(in srgb,var(--acx) 55%,var(--bg))}
 .hcell.c3{background:color-mix(in srgb,var(--acx) 80%,var(--bg))}
 .hcell.c4{background:var(--acx)}
-.cnt{font-size:11px;color:var(--mute);margin-left:auto;align-self:center}
+.cnt{font-size:11px;color:var(--mute);margin-left:auto;align-self:flex-end}
 .ohead{display:flex;align-items:flex-end;justify-content:space-between;gap:6px;margin:14px 0 12px}
 .ohead .edit{margin:0;height:32px;line-height:30px;padding:0 12px;box-sizing:border-box}
 .otl{font:600 28px/1.15 "BaDing",serif;margin:0;white-space:nowrap}
@@ -197,7 +197,7 @@ video.dtm{background:#000}
 
 <dialog id="mn"><div class="mb" id="mnc"></div><div class="acts"><button onclick="$('#mn').close()">退出</button></div></dialog>
 <dialog id="an"><p>尚未開放！</p></dialog>
-<dialog id="hm"><h2>年度熱力圖</h2><div id="hmc"></div><div class="acts end"><button onclick="$('#hm').close()">退出</button></div></dialog>
+<dialog id="hm"><h2 style="text-align:center">年度熱力圖</h2><div id="hmc"></div><div class="acts end"><button onclick="$('#hm').close()">退出</button></div></dialog>
 <dialog id="gd"></dialog>
 <dialog id="pe">
 <h2>編輯對象</h2>
@@ -295,7 +295,7 @@ function ask(sub){return new Promise(res=>{const d=$('#cf'),s=$('#cfs');s.textCo
  const fin=v=>{if(done)return;done=true;if(d.open)d.close();res(v)};
  $('#cfy').onclick=()=>fin(true);$('#cfn').onclick=()=>fin(false);d.onclose=()=>fin(false);d.showModal()})}
 async function clr(id){const e=$(id);if(e.value&&await ask())e.value=''}
-function toast(t){const e=$('#toast');e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',3500)}
+function toast(t){const e=$('#toast'),d=document.querySelector('dialog[open]');(d||document.body).appendChild(e);e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',3500)}
 function openDB(){return new Promise(r=>{try{const q=indexedDB.open('nyear-diary',1);
 q.onupgradeneeded=()=>{q.result.createObjectStore('people',{keyPath:'id'});q.result.createObjectStore('entries',{keyPath:'k'}).createIndex('pid','pid')};
 q.onsuccess=()=>{db=q.result;r()};q.onerror=()=>{useMem=true;r()}}catch(e){useMem=true;r()}})}
@@ -518,7 +518,7 @@ function openHeat(){if(multi){toast('回顧時無法查看熱力圖');return}if(
 function drawHeat(){
  const yd=hmData.filter(e=>+e.date.slice(0,4)===hmY),cnt={};
  yd.forEach(e=>cnt[e.date]=(cnt[e.date]||0)+1);
- const first=new Date(hmY,0,1),startPad=first.getDay(),isLeap=(hmY%4===0&&hmY%100!==0)||hmY%400===0,days=isLeap?366:365,cells=[];
+ const first=new Date(hmY,0,1),startPad=first.getDay(),isLeap=(hmY%4===0&&hmY%100!==0)||hmY%400===0,days=isLeap?366:365,weeks=Math.ceil((startPad+days)/7),cells=[];
  for(let i=0;i<startPad;i++)cells.push(h('div',{class:'hcell blank'}));
  for(let d=1;d<=days;d++){
   const dt=new Date(hmY,0,d),ds=`${hmY}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}`,c=cnt[ds]||0,b=c===0?0:c===1?1:c===2?2:c<=4?3:4;
@@ -526,7 +526,7 @@ function drawHeat(){
  }
  rc($('#hmc'),
   h('div',{class:'hmhead'},h('button',{onclick:()=>{hmY--;drawHeat()}},'‹'),h('div',{},`${hmY}年　共紀錄了 ${yd.length} 則`),h('button',{onclick:()=>{hmY++;drawHeat()}},'›')),
-  h('div',{class:'hgrid'},cells),
+  h('div',{class:'hgrid',style:`grid-template-columns:repeat(${weeks},1fr)`},cells),
   h('div',{class:'hmleg'},'少',h('div',{class:'hcell'}),h('div',{class:'hcell c1'}),h('div',{class:'hcell c2'}),h('div',{class:'hcell c3'}),h('div',{class:'hcell c4'}),'多'))}
 function renderOther(A,P){
  const k=qs.toLowerCase(),all=Object.values(E).flat(),filt=!!(qs||ftag),
