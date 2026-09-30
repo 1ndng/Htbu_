@@ -1,11 +1,12 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>N年日記</title>
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#c7dad8">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#cccccc">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="N年日記">
@@ -16,10 +17,10 @@
 @font-face{font-family:"Cubic 11";src:url("./Cubic_11.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
 @font-face{font-family:"BaDing";src:url("./BaDingShiWeiTi-16.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
 html{font-synthesis:none}
-:root{--bg:#eceff2;--card:#fff;--ink:#1c2630;--mute:#66737f;--line:#d3dae0;--acc:#c7dad8;--acx:#537d79;--soft:rgba(199,218,216,.3);--mark:rgba(199,218,216,.7);--onacc:#111;
+:root{color-scheme:only light;--bg:#efefef;--card:#fff;--ink:#161616;--mute:#6e6e6e;--line:#d9d9d9;--sep:#a3a3a3;--acc:#cccccc;--acx:#4a4a4a;--soft:rgba(0,0,0,.07);--mark:rgba(0,0,0,.16);--onacc:#111;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12171c;--card:#1b232b;--ink:#e6ecf0;--mute:#94a1ac;--line:#2f3a44;--acc:#c7dad8;--acx:#c7dad8;--soft:rgba(199,218,216,.16);--mark:rgba(199,218,216,.32);--onacc:#111}}
-:root[data-theme="dark"]{--bg:#12171c;--card:#1b232b;--ink:#e6ecf0;--mute:#94a1ac;--line:#2f3a44;--acc:#c7dad8;--acx:#c7dad8;--soft:rgba(199,218,216,.16);--mark:rgba(199,218,216,.32);--onacc:#111}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141414;--card:#1e1e1e;--ink:#ececec;--mute:#9a9a9a;--line:#333;--sep:#5a5a5a;--acc:#cfcfcf;--acx:#cfcfcf;--soft:rgba(255,255,255,.1);--mark:rgba(255,255,255,.22);--onacc:#111}}
+:root[data-theme="dark"]{--bg:#141414;--card:#1e1e1e;--ink:#ececec;--mute:#9a9a9a;--line:#333;--sep:#5a5a5a;--acc:#cfcfcf;--acx:#cfcfcf;--soft:rgba(255,255,255,.1);--mark:rgba(255,255,255,.22);--onacc:#111}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box;--pxc:3px;--bd:var(--line);--fill:var(--card);
 --pxbg:linear-gradient(135deg,var(--bd) 50%,#0000 50%) 0 0/var(--pxc) var(--pxc) no-repeat padding-box,linear-gradient(225deg,var(--bd) 50%,#0000 50%) 100% 0/var(--pxc) var(--pxc) no-repeat padding-box,linear-gradient(45deg,var(--bd) 50%,#0000 50%) 0 100%/var(--pxc) var(--pxc) no-repeat padding-box,linear-gradient(315deg,var(--bd) 50%,#0000 50%) 100% 100%/var(--pxc) var(--pxc) no-repeat padding-box,linear-gradient(var(--fill),var(--fill)) padding-box,var(--bd);
@@ -29,7 +30,7 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
 }
 body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.7 "Cubic 11",system-ui,sans-serif;letter-spacing:.04em}
 main{max-width:720px;margin:0 auto;padding:18px 16px 100px}
-h1{font:600 20px "BaDing",serif;margin:0;text-align:center}.top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;margin-bottom:14px}.top>:first-child{justify-self:start}.top>:last-child{justify-self:end}
+h1{font:600 20px "BaDing",serif;margin:0;text-align:center}.top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;margin-bottom:12px;padding-bottom:12px;border-bottom:2px solid var(--line)}.top>:first-child{justify-self:start}.top>:last-child{justify-self:end}
 button,input,textarea{font:inherit;color:inherit}
 button{--pxc:3px;cursor:pointer;border:1px solid transparent;background:var(--pxbg);border-radius:0;clip-path:var(--cut);padding:5px 12px;font-size:13px}
 button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{outline:2px solid var(--acx);outline-offset:-5px}
@@ -37,18 +38,20 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{
 .prow{display:flex;align-items:center;gap:8px}
 #pplrow{margin:-3px -3px 17px}
 #ppl{display:flex;gap:10px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scrollbar-width:none;padding:3px;min-width:0;flex:1}#ppl::-webkit-scrollbar{display:none}
-.chip{--pxc:3px;border-radius:0;clip-path:var(--cut);flex:none;white-space:nowrap;font-size:15px;padding:1px 12px}.chip.on{--fill:var(--acc);--bd:var(--acc);color:var(--onacc)}.chip.add{color:var(--mute);background:var(--pxdash)}
+.chip{--pxc:3px;border-radius:0;clip-path:var(--cut);flex:none;white-space:nowrap;font-size:14px;line-height:25.5px;padding:1px 12px}.chip.on{--fill:var(--acc);--bd:var(--acc);color:var(--onacc)}.chip.add{color:var(--mute);background:var(--pxdash)}
 .dhead{display:flex;align-items:flex-end;justify-content:space-between;gap:6px;flex-wrap:nowrap;margin:14px 0 12px}
 .dgL,.dgR{display:flex;align-items:flex-end;gap:6px;flex:none}
 .dhead .edit{margin:0;height:32px;line-height:30px;padding:0 12px;box-sizing:border-box}
-.dhead .arrow{padding:0 9px}
+.dhead .arrow{padding:0 9px;position:relative;color:transparent}
+.dhead .arrow::after{content:"‹";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px;line-height:1;color:var(--mute)}
+.dhead .arrow[aria-label="後一天"]::after{content:"›"}
 .dsel{--pxc:3px;display:inline-flex;align-items:center;height:32px;box-sizing:border-box;border:1px solid transparent;background:var(--pxbg);border-radius:0;clip-path:var(--cut);overflow:hidden}
 .dsel select{border:0;background:transparent;margin:0;height:30px;line-height:30px;padding:0 8px;font-size:12px;color:var(--mute);text-align:center;text-align-last:center;-webkit-appearance:none;appearance:none;flex:none}
 .dsel select:first-child{border-right:1px solid var(--line)}
 .who{font-size:13px;font-weight:500;color:var(--acx);margin-bottom:2px}.who::before{content:"";display:inline-block;width:8px;height:8px;border-radius:0;clip-path:var(--dot8);background:var(--acx);margin-right:5px}
-.day{font:600 32px/1.15 "BaDing",serif;margin:0;flex:none;white-space:nowrap}
+.day{font:600 36px/1.15 "BaDing",serif;margin:0;flex:none;white-space:nowrap}
 .sub{color:var(--mute);margin:0 0 22px}
-@media (max-width:370px){.day{font-size:28px}}
+@media (max-width:370px){.day{font-size:30px}}
 .tl{border-left:2px solid var(--line);margin-left:6px}
 .row{position:relative;padding:0 0 26px 24px}
 .row::before{content:"";position:absolute;left:-1px;top:9px;width:16px;height:16px;background:var(--mute);clip-path:var(--dot16);transform:translateX(-50%)}
@@ -110,7 +113,7 @@ label{display:block;font-size:14px;color:var(--mute)}
 #cvv{--pxc:4px;clip-path:var(--cut);width:100%;max-height:40vh;border-radius:0;background:#000;display:block;margin-bottom:10px}
 #cvr{width:100%}
 html,body{touch-action:manipulation}
-#tagrow{display:none;margin:-3px -3px 14px}
+#tagrow{display:none;margin:-3px -3px 14px;position:relative}#tagrow::before{content:"";position:absolute;left:3px;right:3px;top:-7px;height:1px;background:var(--line)}
 #tagbar{display:flex;gap:8px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scrollbar-width:none;padding:3px;min-width:0;flex:1}#tagbar::-webkit-scrollbar{display:none}
 #q{--pxc:3px;clip-path:var(--cut);display:block;width:100%;border:1px solid transparent;background:var(--pxbg);border-radius:0;padding:6px 10px;margin-bottom:14px;-webkit-appearance:none;appearance:none}#q[hidden]{display:none}
 .tg{--pxc:3px;border-radius:0;clip-path:var(--cut);font-size:12px;padding:1px 10px;flex:none;white-space:nowrap}.tg.add{color:var(--mute);background:var(--pxdash)}.tg.del{color:#c0392b;background:var(--pxdash)}.tg.on{--fill:var(--acc);--bd:var(--acc);color:var(--onacc)}
@@ -159,6 +162,10 @@ video.dtm{background:#000}
 #pt{overflow:hidden}
 #pt.collapsed{height:0}
 #ptc{display:block;width:100%;text-align:center;background:transparent;border:0;color:var(--mute);font-size:11px;line-height:1;padding:0 0 10px;cursor:pointer}
+.ohead{display:flex;align-items:flex-end;justify-content:space-between;gap:6px;margin:14px 0 12px}
+.ohead .edit{margin:0;height:32px;line-height:30px;padding:0 12px;box-sizing:border-box}
+.otl{font:600 28px/1.15 "BaDing",serif;margin:0;white-space:nowrap}
+.ol{margin-top:4px}
 </style>
 </head>
 <body>
@@ -258,7 +265,8 @@ video.dtm{background:#000}
 const $=s=>document.querySelector(s),pad=n=>String(n).padStart(2,'0');
 {const sm=HTMLDialogElement.prototype.showModal;HTMLDialogElement.prototype.showModal=function(){sm.call(this);const a=document.activeElement;if(a&&a.tagName==='BUTTON'&&this.contains(a)){this.tabIndex=-1;this.focus({preventScroll:true})}}}
 const h=(t,a={},...c)=>{const e=document.createElement(t);for(const k in a)k.startsWith('on')?e[k]=a[k]:e.setAttribute(k,a[k]);e.append(...c.flat().filter(x=>x!=null&&x!==false));return e};
-let db,useMem=false,M={people:{},entries:{}},people=[],cur=null,E={},urls=[],extra=0,hy=null,multi=false,msel=new Set(),edDate=null,edK=null,draft=[],durls=[],dturls=[],dtags=[],qs='',ftag=null,rlim=50,qt;
+let db,useMem=false,M={people:{},entries:{}},people=[],cur=null,E={},urls=[],extra=0,hy=null,multi=false,msel=new Set(),edDate=null,edK=null,draft=[],durls=[],dturls=[],dtags=[],qs='',ftag=null,rlim=50,qt,other=false;
+const NODATE='0000-00-00',tsOf=e=>+String(e.k).split('|').pop()||0;
 const now=new Date();let mo=now.getMonth()+1,dy=now.getDate();
 
 function ask(sub){return new Promise(res=>{const d=$('#cf'),s=$('#cfs');s.textContent=sub||'';s.hidden=!sub;let done=false;
@@ -275,9 +283,13 @@ const dbPut=(st,v)=>useMem?(M[st][v.id||v.k]=v,Promise.resolve()):req(st,'readwr
 const dbDel=(st,k)=>useMem?(delete M[st][k],Promise.resolve()):req(st,'readwrite',s=>s.delete(k));
 const dbByP=id=>useMem?Promise.resolve(Object.values(M.entries).filter(e=>e.pid===id)):req('entries','readonly',s=>s.index('pid').getAll(id));
 
-async function loadView(){E={};const ids=multi?[...msel]:cur?[cur]:[];for(const id of ids)(await dbByP(id)).forEach(e=>(E[e.date]||(E[e.date]=[])).push(e))}
+async function loadView(){E={};const ids=multi?[...msel]:cur?[cur]:[];for(const id of ids)(await dbByP(id)).forEach(e=>{if((e.date===NODATE)!==other)return;(E[e.date]||(E[e.date]=[])).push(e)})}
 async function sel(id){cur=id;multi=false;hy=null;extra=0;ftag=null;rlim=50;applyTheme(people.find(p=>p.id===id)?.color);await loadView();render()}
-async function toggleMulti(){multi=!multi;if(multi)msel=new Set(people.map(p=>p.id));hy=null;ftag=null;applyTheme(multi?null:people.find(p=>p.id===cur)?.color);await loadView();render()}
+async function toggleMulti(){multi=!multi;if(multi){other=false;msel=new Set(people.map(p=>p.id))}hy=null;ftag=null;applyTheme(multi?null:people.find(p=>p.id===cur)?.color);await loadView();render()}
+async function toggleOther(){
+ if(!other&&!cur){toast('請先新增對象');return}
+ other=!other;if(other)multi=false;hy=null;ftag=null;qs='';$('#q').value='';rlim=50;
+ applyTheme(people.find(p=>p.id===cur)?.color);await loadView();render()}
 async function tog(id){msel.has(id)?msel.delete(id):msel.add(id);if(ftag&&!msel.has(ftag.pid))ftag=null;await loadView();render()}
 async function addP(){const n=$('#pn').value.trim();if(!n)return;const p={id:'p'+Date.now(),name:n};await dbPut('people',p);people.push(p);$('#pn').value='';pd.close();sel(p.id)}
 function openPe(){const P=people.find(p=>p.id===cur);if(!P)return;$('#pen').value=P.name;pe.showModal();$('#pen').focus();$('#pen').select()}
@@ -285,7 +297,7 @@ async function renameP(){const P=people.find(p=>p.id===cur),n=$('#pen').value.tr
  if(n!==P.name){P.name=n;try{await dbPut('people',P)}catch(e){toast('儲存失敗');return}}pe.close();render()}
 $('#pen').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();renameP()}};
 async function delP(){const P=people.find(p=>p.id===cur);if(!P||!await ask(`「${P.name}」與全部紀錄都會被刪除`))return;
-for(const e of Object.values(E).flat())await dbDel('entries',e.k);await dbDel('people',cur);people=people.filter(p=>p.id!==cur);await sel(people[0]?.id||null)}
+for(const e of await dbByP(cur))await dbDel('entries',e.k);await dbDel('people',cur);people=people.filter(p=>p.id!==cur);await sel(people[0]?.id||null)}
 
 const mu=(m,l=urls)=>{const u=URL.createObjectURL(m.b);l.push(u);return u};
 function shot(v){const W=480,vw=v.videoWidth||W,vh=v.videoHeight||W,r=Math.min(1,W/vw),c=document.createElement('canvas');c.width=Math.max(1,Math.round(vw*r));c.height=Math.max(1,Math.round(vh*r));
@@ -326,7 +338,7 @@ const fmtD=d=>{const [y,m,n]=d.split('-').map(Number);return `${y}年${m}月${n}
 function openDt(en){dturls.forEach(URL.revokeObjectURL);dturls=[];
  const M=en.media||[],by=t=>M.filter(m=>m.t===t),au=by('audio'),ad=m=>h('audio',{src:mu(m,dturls),controls:''});
  rc($('#dtc'),
-  h('div',{class:'dth'},(multi?pname(en.pid)+'・':'')+fmtD(en.date)+(en.time?'　'+en.time:'')),
+  h('div',{class:'dth'},(multi?pname(en.pid)+'・':'')+(en.date===NODATE?'OTHER日記':fmtD(en.date))+(en.time?'　'+en.time:'')),
   en.text&&h('div',{class:'txt dtt'},...blocks(en.text)),
   by('image').map(m=>h('img',{class:'dtm',src:mu(m,dturls),alt:''})),
   by('video').map(m=>h('video',{class:'dtm',src:mu(m,dturls),controls:'',playsinline:'',preload:'metadata',...(m.p?{poster:mu({b:m.p},dturls)}:{})})),
@@ -364,8 +376,8 @@ document.fonts&&document.fonts.ready.then(()=>{fitX();chkClip()});addEventListen
 function wrap(m){const t=$('#tx'),a=t.selectionStart,b=t.selectionEnd,v=t.value;t.value=v.slice(0,a)+m+v.slice(a,b)+m+v.slice(b);t.focus();t.setSelectionRange(a+m.length,b+m.length)}
 function lineP(p){const t=$('#tx'),v=t.value,a=t.selectionStart,b=t.selectionEnd,s0=v.lastIndexOf('\n',a-1)+1;let e0=v.indexOf('\n',b);if(e0<0)e0=v.length;
  const seg=v.slice(s0,e0).split('\n').map(l=>p+l).join('\n');t.value=v.slice(0,s0)+seg+v.slice(e0);t.focus();t.setSelectionRange(s0,s0+seg.length)}
-function updFab(){const b=$('#fab'),cy=now.getFullYear(),ok=!multi&&cur&&new Date(cy,mo-1,dy).getDate()===dy;b.hidden=!ok}
-function fabAdd(){openEd(`${now.getFullYear()}-${pad(mo)}-${pad(dy)}`)}
+function updFab(){const b=$('#fab'),cy=now.getFullYear(),ok=other?!!cur:(!multi&&cur&&new Date(cy,mo-1,dy).getDate()===dy);b.hidden=!ok}
+function fabAdd(){openEd(other?NODATE:`${now.getFullYear()}-${pad(mo)}-${pad(dy)}`)}
 /* 功能選單 */
 const GUIDE=[
  {t:'☆ 功能介紹 ☆',b:'待更。'},
@@ -379,11 +391,12 @@ function openGd(i){const d=$('#gd');
 function openMn(){const b=(t,f)=>h('button',{class:'edit',onclick:()=>{$('#mn').close();f()}},t);
  rc($('#mnc'),b('使用說明書',()=>openGd()),b('更改當前對象主題色',openTh),
   b(multi?'結束回顧':'回顧這一天',()=>{if(!multi&&people.length<1){toast('目前沒有可回顧的日記');return}toggleMulti()}),
+  b(other?'返回 N年日記':'OTHER日記',toggleOther),
   b('分析',()=>$('#an').showModal()));
  $('#mn').showModal()}
 $('#an').onclick=()=>$('#an').close();
 /* 主題色（每位對象各自設定） */
-const TK='nyear-theme',PRE=['#c7dad8','#dcd3aa','#cd5782','#f0eef3'];
+const TK='nyear-theme',PRE=['#cccccc','#c7dad8','#dcd3aa','#cd5782','#f0eef3'];
 const rlum=(r,g,b)=>{const f=v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)};return .2126*f(r)+.7152*f(g)+.0722*f(b)};
 function txc(R,G,B){/* 淺色主題色當文字/小圖示用時，壓暗到看得清楚 */let r=R/255,g=G/255,b=B/255;const M=Math.max(r,g,b),m=Math.min(r,g,b);let l=(M+m)/2,h=0,s=0;
  if(M!==m){const d=M-m;s=l>.5?d/(2-M-m):d/(M+m);h=M===r?(g-b)/d+(g<b?6:0):M===g?(b-r)/d+2:(r-g)/d+4;h*=60}
@@ -395,12 +408,12 @@ function colInfo(x){if(!/^#[0-9a-f]{6}$/i.test(x||''))return null;const n=parseI
  const bs=dark?[18,23,28]:[244,246,248],f=dark?.1:.11,mx=(v,i)=>Math.round(bs[i]+(v-bs[i])*f);
  return{bg:`rgb(${mx(R,0)},${mx(G,1)},${mx(B,2)})`,acc:`rgb(${R},${G},${B})`,acx:dark?`rgb(${R},${G},${B})`:txc(R,G,B),soft:`rgba(${R},${G},${B},.16)`,mark:`rgba(${R},${G},${B},.32)`,on:lum()>.62?'#111':'#fff'}}
 function applyTheme(x){const r=document.documentElement.style,mt=document.querySelector('meta[name=theme-color]'),c=colInfo(x);
- if(!c){['--acc','--acx','--soft','--mark','--onacc','--bg'].forEach(k=>r.removeProperty(k));mt.content='#c7dad8';return}
+ if(!c){['--acc','--acx','--soft','--mark','--onacc','--bg'].forEach(k=>r.removeProperty(k));mt.content='#cccccc';return}
  r.setProperty('--acc',c.acc);r.setProperty('--acx',c.acx);r.setProperty('--soft',c.soft);r.setProperty('--mark',c.mark);r.setProperty('--onacc',c.on);r.setProperty('--bg',c.bg);mt.content=x}
 async function setTheme(x){const p=people.find(q=>q.id===cur);if(!p)return;p.color=x||null;try{await dbPut('people',p)}catch(e){}
- applyTheme(x);$('#tc').value=x||'#c7dad8';drawChips()}
+ applyTheme(x);$('#tc').value=x||PRE[0];drawChips()}
 function openTh(){if(multi){toast('回顧時無法更改主題色');return}if(!cur){toast('請先新增對象，再選擇他的主題色');return}
- const p=people.find(q=>q.id===cur);$('#tht').textContent=`「${p.name}」的主題色`;$('#tc').value=p.color||'#c7dad8';$('#th').showModal()}
+ const p=people.find(q=>q.id===cur);$('#tht').textContent=`「${p.name}」的主題色`;$('#tc').value=p.color||PRE[0];$('#th').showModal()}
 $('#swt').replaceChildren(...PRE.map(c=>h('button',{class:'sw',style:'background:'+c,'aria-label':c,onclick:()=>setTheme(c===PRE[0]?null:c)})));
 $('#tc').oninput=e=>setTheme(e.target.value);
 let ptCol=false;function togglePt(){ptCol=!ptCol;$('#pt').classList.toggle('collapsed',ptCol);$('#ptc').textContent=ptCol?'﹀':'︿'}
@@ -409,7 +422,7 @@ const nowStr=()=>{const d=new Date();return pad(d.getHours())+':'+pad(d.getMinut
 const pname=id=>people.find(p=>p.id===id)?.name||'';
 const colVars=id=>{const c=colInfo(people.find(p=>p.id===id)?.color);return c?`--acc:${c.acc};--acx:${c.acx};--soft:${c.soft};--mark:${c.mark};--onacc:${c.on}`:''};
 const pstyle=en=>multi?colVars(en.pid):'';
-const hay=e=>[e.date,e.text,...(e.links||[]),...(e.tags||[]),...(e.media||[]).map(m=>m.n)].join('\n').toLowerCase();
+const hay=e=>[e.date===NODATE?'':e.date,e.text,...(e.links||[]),...(e.tags||[]),...(e.media||[]).map(m=>m.n)].join('\n').toLowerCase();
 const parts=(en,date,jump,showTime)=>{
  const body=[
   multi&&h('div',{class:'who'},pname(en.pid)),
@@ -451,7 +464,8 @@ $('#tms').onchange=()=>{if(tmMode==='edit')$('#tmn').value=$('#tms').value};
 $('#tmn').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();tmOk()}};
 async function retag(P,old,nv){
  const sw=t=>[...new Set((t||[]).map(x=>x===old?nv:x).filter(Boolean))].slice(0,10);
- for(const e of Object.values(E).flat().filter(e=>e.pid===P.id&&(e.tags||[]).includes(old))){e.tags=sw(e.tags);await dbPut('entries',e)}
+ for(const e of await dbByP(P.id))if((e.tags||[]).includes(old)){e.tags=sw(e.tags);await dbPut('entries',e)}
+ for(const e of Object.values(E).flat())if(e.pid===P.id&&(e.tags||[]).includes(old))e.tags=sw(e.tags);
  P.tags=sw(P.tags);await dbPut('people',P);
  if(ftag&&ftag.pid===P.id&&ftag.tag===old)ftag=nv?{pid:P.id,tag:nv}:null}
 async function tmOk(){const P=people.find(p=>p.id===cur);if(!P)return;const mode=tmMode,old=$('#tms').value,nv=normTag($('#tmn').value);
@@ -462,7 +476,7 @@ async function tmOk(){const P=people.find(p=>p.id===cur);if(!P)return;const mode
    const mg=tagsOf(cur).includes(nv);$('#tm').close();
    if(mg&&!await ask(`「#${nv}」已經存在，兩個標籤會合併`))return;
    await retag(P,old,nv);render();return}
-  if(mode==='del'){const n=Object.values(E).flat().filter(e=>e.pid===cur&&(e.tags||[]).includes(old)).length;$('#tm').close();
+  if(mode==='del'){const n=(await dbByP(cur)).filter(e=>(e.tags||[]).includes(old)).length;$('#tm').close();
    if(!await ask(n?`「#${old}」會從 ${n} 則紀錄中移除，紀錄本身不會被刪除`:`「#${old}」`))return;
    await retag(P,old,null);render()}
  }catch(e){toast('儲存失敗')}}
@@ -470,6 +484,16 @@ function setTag(pid,t){ftag=ftag&&ftag.pid===pid&&ftag.tag===t?null:{pid,tag:t};
 function clearF(){qs='';ftag=null;$('#q').value='';rlim=50;render()}
 function goDay(date){const [y,m,d]=date.split('-').map(Number);mo=m;dy=d;hy=y;qs='';ftag=null;$('#q').value='';render();scrollTo(0,0)}
 const rc=(el,...c)=>el.replaceChildren(...c.flat().filter(Boolean));
+function renderOther(A,P){
+ const k=qs.toLowerCase(),all=Object.values(E).flat(),filt=!!(qs||ftag),
+  list=all.filter(e=>(!ftag||(e.pid===ftag.pid&&(e.tags||[]).includes(ftag.tag)))&&(!k||hay(e).includes(k))).sort((a,b)=>tsOf(b)-tsOf(a));
+ rc(A,
+  h('div',{class:'ohead'},h('div',{class:'otl'},'OTHER日記'),h('div',{class:'dgR'},h('button',{class:'edit',onclick:()=>openEd(NODATE)},'新增'),h('button',{class:'edit',onclick:toggleOther},'返回'))),
+  h('p',{class:'sub'},filt?[(ftag?`標籤「#${ftag.tag}」`:'')+(ftag&&qs?'　':'')+(qs?`搜尋「${qs}」`:'')+`：${list.length} 則　`,h('button',{class:'edit',style:'margin:0',onclick:clearF},'清除')]:`${P.name} 共紀錄了${all.length}則`),
+  list.length?h('div',{class:'ol'},...list.slice(0,rlim).map(e=>card(e,NODATE,false,true))):(!filt&&h('p',{class:'note'},'還沒有無日期的日記。按上面的「新增」開始記錄。')),
+  list.length>rlim&&h('button',{class:'more',onclick:()=>{rlim+=50;render()}},'顯示更多'),
+  useMem&&h('p',{class:'note'},'此瀏覽器無法長期儲存，關閉頁面後資料會消失。'));
+ chkClip()}
 function render(){
  urls.forEach(URL.revokeObjectURL);urls=[];updFab();
  $('#bkb').innerHTML=people.some(p=>Date.now()-lastB(p.id)>1209600000)?'備份 <span class="gd" style="margin:0 0 1px 3px"></span>':'備份';
@@ -477,6 +501,7 @@ function render(){
  const P=people.find(p=>p.id===cur),A=$('#app');
  $('#q').hidden=!(multi||P);
  if(!multi&&!P){rc(A,h('p',{class:'note'},'先新增一個對象，可以是你自己，也可以是你想追蹤的人。每個對象有各自獨立的日記。'));return}
+ if(other){renderOther(A,P);return}
  if(qs||ftag){
   const k=qs.toLowerCase(),hits=Object.values(E).flat().filter(e=>(!ftag||(e.pid===ftag.pid&&(e.tags||[]).includes(ftag.tag)))&&(!k||hay(e).includes(k)))
    .sort((a,b)=>a.date===b.date?(b.time||'').localeCompare(a.time||''):a.date<b.date?1:-1);
@@ -535,7 +560,7 @@ function setMode(v,val){document.querySelector(`input[name=tm][value=${v}]`).che
 document.querySelectorAll('input[name=tm]').forEach(r=>r.onchange=()=>setMode(r.value));
 function openEd(date,k){edDate=date;edK=k||null;
  const en=k?E[date].find(x=>x.k===k):null,[y,m,d]=date.split('-').map(Number);
- $('#et').textContent=(multi&&en?pname(en.pid)+'・':'')+`${y}年${m}月${d}日`;$('#tx').value=en?.text||'';$('#lk').value=(en?.links||[]).join('\n');
+ $('#et').textContent=(multi&&en?pname(en.pid)+'・':'')+(date===NODATE?'OTHER日記':`${y}年${m}月${d}日`);$('#tx').value=en?.text||'';$('#lk').value=(en?.links||[]).join('\n');
  draft=(en?.media||[]).map(m=>({...m}));dtags=[...(en?.tags||[])];drawDraft();$('#tgi').hidden=true;$('#tn').value='';drawTags();
  setMode(en?.time?'manual':'none',en?.time);
  $('#dl').style.display=en?'':'none';
