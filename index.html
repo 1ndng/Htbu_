@@ -539,7 +539,7 @@ function render(){
   h('div',{class:'dhead'},
    h('div',{class:'dgL'},h('button',{class:'edit arrow',onclick:step(-1),'aria-label':'前一天'},'‹'),h('div',{class:'day'},`${mo}月${dy}日`),h('button',{class:'edit arrow',onclick:step(1),'aria-label':'後一天'},'›')),
    h('div',{class:'dgR'},dsel,h('button',{class:'edit',onclick:()=>{mo=now.getMonth()+1;dy=now.getDate();hy=null;render()}},'今日'))),
-  h('p',{class:'sub'},multi&&!msel.size?'選擇你要回顧的對象':`這一天，${who} 共紀錄了${cnt}則，共紀錄了${filled}年。`),
+  h('p',{class:'sub'},multi&&!msel.size?'選擇你要回顧的對象':`這一天，${who}共紀錄了${cnt}則，共紀錄了${filled}年。`),
   h('div',{class:'tl'},rows),
   h('div',{class:'acts',style:'justify-content:center'},h('button',{onclick:()=>{extra++;render()}},'展開更多'),extra>0&&h('button',{onclick:()=>{extra=0;render()}},'收合')),
   useMem&&h('p',{class:'note'},'此瀏覽器無法長期儲存，關閉頁面後資料會消失。'));
