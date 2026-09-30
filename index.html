@@ -22,22 +22,21 @@ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:en
 :root[data-theme="dark"]{--bg:#12171c;--card:#1b232b;--ink:#e6ecf0;--mute:#94a1ac;--line:#2f3a44;--acc:#4fc1ae;--soft:#1a3531;--mark:rgba(79,193,174,.32);--onacc:#10201d}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.7 "Cubic 11",system-ui,sans-serif;letter-spacing:.07em}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.7 "Cubic 11",system-ui,sans-serif;letter-spacing:.04em}
 main{max-width:720px;margin:0 auto;padding:18px 16px 100px}
 h1{font:600 20px "BaDing",serif;margin:0;text-align:center}.top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;margin-bottom:14px}.top>:first-child{justify-self:start}.top>:last-child{justify-self:end}
 button,input,textarea{font:inherit;color:inherit}
 button{cursor:pointer;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:5px 12px;font-size:13px}
 button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 .pri{background:var(--acc);border-color:var(--acc);color:var(--onacc)}
-#ppl{display:flex;gap:10px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:3px;margin:-3px -3px 17px}#ppl::-webkit-scrollbar{display:none}
+#ppl{display:flex;gap:10px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scrollbar-width:none;padding:3px;margin:-3px -3px 17px}#ppl::-webkit-scrollbar{display:none}
 .chip{border-radius:99px;flex:none;white-space:nowrap}.chip.on{background:var(--acc);border-color:var(--acc);color:var(--onacc)}.chip.add{color:var(--mute);border-style:dashed}
 .dhead{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:nowrap;margin:14px 0 2px}
 .dgL,.dgR{display:flex;align-items:center;gap:6px;flex:none}
-.dhead .edit{margin:0}
-.arrow{padding:5px 9px}
-.dsel{display:inline-flex;align-items:center;border:1px solid var(--line);background:var(--card);border-radius:8px;overflow:hidden}
-.dsel select{border:0;background:transparent;margin:0;padding:5px 2px;font-size:12px;color:var(--mute);text-align:center;-webkit-appearance:none;appearance:none}
-.dsel select:first-child{padding-left:10px}.dsel select:last-child{padding-right:10px}
+.dhead .edit{margin:0;height:32px;line-height:30px;padding:0 12px;box-sizing:border-box}
+.dhead .arrow{padding:0 9px}
+.dsel{display:inline-flex;align-items:center;height:32px;box-sizing:border-box;border:1px solid var(--line);background:var(--card);border-radius:8px;overflow:hidden}
+.dsel select{border:0;background:transparent;margin:0;height:30px;line-height:30px;padding:0 6px;font-size:12px;color:var(--mute);text-align:center;-webkit-appearance:none;appearance:none}
 .who{font-size:13px;font-weight:500;color:var(--acc);margin-bottom:2px}.who::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--acc);margin-right:5px}
 .day{font:600 26px/1.3 "BaDing",serif;margin:0;flex:none;white-space:nowrap}
 .sub{color:var(--mute);margin:0 0 22px}
@@ -47,6 +46,8 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{
 .row.has::before{background:var(--acc);border-color:var(--acc)}
 .yr{font:600 20px "BaDing",serif;margin-right:8px}.ago{color:var(--mute);font-size:14px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-top:8px}
+.cbody{max-height:4.9em;overflow:hidden;position:relative}
+.cbody.clip::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1.6em;background:linear-gradient(to bottom,transparent,var(--card))}
 .card.empty{background:transparent;border-style:dashed;color:var(--mute);display:flex;justify-content:space-between;align-items:center;gap:8px}
 .txt{white-space:pre-wrap;word-break:break-word;margin:0 0 6px}.clamp{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
 mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 2px}
@@ -74,7 +75,7 @@ label{display:block;font-size:14px;color:var(--mute)}
 .hi:first-child::before{left:0}.hi:last-child::before{right:0}
 .hi::after{content:"";position:absolute;left:0;top:19px;width:12px;height:12px;border-radius:50%;background:var(--acc)}
 .htm{position:absolute;left:0;top:0;font:600 12px/18px "BaDing",serif;color:var(--acc)}
-.lab{flex:none;align-self:center;font-size:11px;font-weight:500;line-height:20px;padding:0 7px;border-radius:5px;background:var(--soft);color:var(--acc);white-space:nowrap;position:sticky;left:0;z-index:1}
+.lab{flex:none;align-self:center;font-size:11px;font-weight:500;line-height:20px;padding:0 7px;border-radius:5px;background:var(--soft);color:var(--acc);white-space:nowrap;position:-webkit-sticky;position:sticky;left:0;z-index:2}
 .xb[hidden]{display:none}
 .lh{display:flex;justify-content:space-between;align-items:center;margin:-4px 0 6px}.lh .edit{margin:0}
 .r{display:inline-flex;align-items:center;gap:4px;color:var(--ink)}
@@ -96,9 +97,9 @@ label{display:block;font-size:14px;color:var(--mute)}
 #cvv{width:100%;max-height:40vh;border-radius:8px;background:#000;display:block;margin-bottom:10px}
 #cvr{width:100%}
 html,body{touch-action:manipulation}
-#tagbar{display:none;gap:8px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:3px;margin:-3px -3px 14px}#tagbar::-webkit-scrollbar{display:none}
+#tagbar{display:none;gap:8px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scrollbar-width:none;padding:3px;margin:-3px -3px 14px}#tagbar::-webkit-scrollbar{display:none}
 #q{display:block;width:100%;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:6px 10px;margin-bottom:14px;-webkit-appearance:none;appearance:none}#q[hidden]{display:none}
-.tg{border-radius:99px;font-size:12px;padding:1px 10px}.tg.add{color:var(--mute);border-style:dashed}.tg.del{color:#c0392b;border-style:dashed}.tg.on{background:var(--acc);border-color:var(--acc);color:var(--onacc)}
+.tg{border-radius:99px;font-size:12px;padding:1px 10px;flex:none;white-space:nowrap}.tg.add{color:var(--mute);border-style:dashed}.tg.del{color:#c0392b;border-style:dashed}.tg.on{background:var(--acc);border-color:var(--acc);color:var(--onacc)}
 .tg button{border:0;background:none;padding:0 0 0 6px;color:inherit}
 .tgs{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
@@ -341,6 +342,7 @@ function blocks(t){const out=[],L=t.split('\n');let buf=[],i=0;
 function txtBits(t,c){return t?[h('div',{class:'txt'+(c?' clamp':'')},...blocks(t))]:[]}
 function toggleX(b){const c=b.closest('.card'),t=c.querySelector('.txt');if(!t)return;const o=t.classList.toggle('clamp');c.classList.toggle('open',!o);b.textContent=o?'展開':'收合'}
 function fitX(){document.querySelectorAll('.card .xb').forEach(b=>{const c=b.closest('.card'),t=c.querySelector('.txt');b.hidden=!(c.classList.contains('open')||(t&&t.scrollHeight>t.clientHeight+1))})}
+function chkClip(){document.querySelectorAll('.card .cbody').forEach(d=>{d.classList.toggle('clip',d.scrollHeight>d.clientHeight+1)})}
 document.fonts&&document.fonts.ready.then(fitX);addEventListener('orientationchange',()=>setTimeout(fitX,300));addEventListener('resize',fitX);
 function wrap(m){const t=$('#tx'),a=t.selectionStart,b=t.selectionEnd,v=t.value;t.value=v.slice(0,a)+m+v.slice(a,b)+m+v.slice(b);t.focus();t.setSelectionRange(a+m.length,b+m.length)}
 function lineP(p){const t=$('#tx'),v=t.value,a=t.selectionStart,b=t.selectionEnd,s0=v.lastIndexOf('\n',a-1)+1;let e0=v.indexOf('\n',b);if(e0<0)e0=v.length;
@@ -386,14 +388,16 @@ const pname=id=>people.find(p=>p.id===id)?.name||'';
 const colVars=id=>{const c=colInfo(people.find(p=>p.id===id)?.color);return c?`--acc:${c.acc};--soft:${c.soft};--mark:${c.mark};--onacc:${c.on}`:''};
 const pstyle=en=>multi?colVars(en.pid):'';
 const hay=e=>[e.date,e.text,...(e.links||[]),...(e.tags||[]),...(e.media||[]).map(m=>m.n)].join('\n').toLowerCase();
-const parts=(en,date,jump,showTime)=>[
- multi&&h('div',{class:'who'},pname(en.pid)),
- showTime&&en.time&&h('div',{class:'tm'},en.time),
- txtBits(en.text,jump),
- en.media.length>0&&h('div',{class:'media'},en.media.map(m=>mEl(m,en))),
- en.links.length>0&&h('div',{class:'links'},en.links.map(l=>h('a',{href:l,target:'_blank',rel:'noopener noreferrer'},l))),
- (en.tags||[]).length>0&&h('div',{class:'tgs'},en.tags.map(t=>h('button',{class:'tg',onclick:()=>setTag(en.pid,t)},'#'+t))),
- (!multi||jump)&&h('div',{class:'ea'},jump&&h('button',{class:'edit xb',onclick:e=>toggleX(e.currentTarget)},'展開'),!multi&&h('button',{class:'edit',onclick:()=>openEd(date,en.k)},'編輯'),jump&&h('button',{class:'edit',onclick:()=>goDay(date)},'跳到這天'))];
+const parts=(en,date,jump,showTime)=>{
+ const body=[
+  multi&&h('div',{class:'who'},pname(en.pid)),
+  showTime&&en.time&&h('div',{class:'tm'},en.time),
+  txtBits(en.text,jump),
+  en.media.length>0&&h('div',{class:'media'},en.media.map(m=>mEl(m,en))),
+  en.links.length>0&&h('div',{class:'links'},en.links.map(l=>h('a',{href:l,target:'_blank',rel:'noopener noreferrer'},l))),
+  (en.tags||[]).length>0&&h('div',{class:'tgs'},en.tags.map(t=>h('button',{class:'tg',onclick:()=>setTag(en.pid,t)},'#'+t)))];
+ const ea=(!multi||jump)&&h('div',{class:'ea'},jump&&h('button',{class:'edit xb',onclick:e=>toggleX(e.currentTarget)},'展開'),!multi&&h('button',{class:'edit',onclick:()=>openEd(date,en.k)},'編輯'),jump&&h('button',{class:'edit',onclick:()=>goDay(date)},'跳到這天'));
+ return jump?[...body,ea]:[h('div',{class:'cbody'},...body),ea]};
 const card=(en,date,jump,st)=>h('div',{class:'card',style:pstyle(en),'data-k':en.k,'data-d':date},...parts(en,date,jump,st));
 function drawChips(){const on=p=>multi?msel.has(p.id):p.id===cur;
  rc($('#ppl'),h('span',{class:'lab'},'對象'),...people.map(p=>{const c=colInfo(p.color),o=on(p);
@@ -492,6 +496,7 @@ function render(){
   h('div',{class:'tl'},rows),
   h('div',{class:'acts',style:'justify-content:center'},h('button',{onclick:()=>{extra++;render()}},'展開更多'),extra>0&&h('button',{onclick:()=>{extra=0;render()}},'收合')),
   useMem&&h('p',{class:'note'},'此瀏覽器無法長期儲存，關閉頁面後資料會消失。'));
+ chkClip();
 }
 
 function drawDraft(){durls.forEach(URL.revokeObjectURL);durls=[];
