@@ -500,7 +500,7 @@ function render(){
  drawChips();drawTagbar();
  const P=people.find(p=>p.id===cur),A=$('#app');
  $('#q').hidden=!(multi||P);
- if(!multi&&!P){rc(A,h('p',{class:'note'},'先新增一個對象，可以是你自己，也可以是你想追蹤的人。每個對象有各自獨立的日記。'));return}
+ if(!multi&&!P){rc(A,h('p',{class:'note'},'請先新增一個對象。'));return}
  if(other){renderOther(A,P);return}
  if(qs||ftag){
   const k=qs.toLowerCase(),hits=Object.values(E).flat().filter(e=>(!ftag||(e.pid===ftag.pid&&(e.tags||[]).includes(ftag.tag)))&&(!k||hay(e).includes(k)))
