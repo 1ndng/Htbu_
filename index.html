@@ -41,15 +41,15 @@ textarea:focus-visible{outline:2px solid var(--acx);outline-offset:2px}
 #pplrow{margin:-3px -3px 17px}
 #ppl{display:flex;gap:10px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scrollbar-width:none;padding:3px;min-width:0;flex:1}#ppl::-webkit-scrollbar{display:none}
 .chip{--pxc:3px;border-radius:0;clip-path:var(--cut);flex:none;white-space:nowrap;font-size:14px;line-height:25.5px;padding:1px 12px}.chip.on{--fill:var(--acc);--bd:var(--acc);color:var(--onacc)}.chip.add{color:var(--mute);background:var(--pxdash)}
-.dhead{display:flex;align-items:flex-end;justify-content:space-between;gap:6px;flex-wrap:nowrap;margin:14px 0 12px}
-.dgL,.dgR{display:flex;align-items:flex-end;gap:6px;flex:none}
+.dhead{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:nowrap;margin:14px 0 12px}
+.dgL,.dgR{display:flex;align-items:center;gap:6px;flex:none}
 .dhead .edit{margin:0;height:32px;line-height:30px;padding:0 12px;box-sizing:border-box}
 .dpick{position:relative}.dpick .dpin{position:absolute;inset:0;opacity:0;border:0;padding:0;margin:0;width:100%;height:100%;cursor:pointer}
 .dhead .arrow{padding:0 9px;position:relative;color:transparent;border:none;background:none;clip-path:none}
 .dhead .arrow::after{content:"‹";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px;line-height:1;color:var(--mute)}
 .dhead .arrow[aria-label="後一天"]::after{content:"›"}
 .who{font-size:13px;font-weight:500;color:var(--acx);margin-bottom:2px}.who::before{content:"";display:inline-block;width:8px;height:8px;border-radius:0;clip-path:var(--dot8);background:var(--acx);margin-right:5px}
-.day{font:600 36px/1.15 "BaDing",serif;margin:0;flex:none;white-space:nowrap;text-decoration:underline;text-decoration-color:var(--mute);text-decoration-thickness:1px;text-underline-offset:4px}
+.day{font:600 36px/1.15 "BaDing",serif;margin:0;flex:none;white-space:nowrap;text-decoration:underline;text-decoration-color:var(--mute);text-decoration-thickness:1.5px;text-underline-offset:4px}
 .sub{color:var(--mute);margin:0 0 22px}
 @media (max-width:370px){.day{font-size:30px}}
 .tl{border-left:2px solid var(--acc);margin-left:6px}
@@ -57,11 +57,11 @@ textarea:focus-visible{outline:2px solid var(--acx);outline-offset:2px}
 .row::before{content:"";position:absolute;left:-1px;top:9px;width:16px;height:16px;background:var(--acx);clip-path:var(--dot16);transform:translateX(-50%)}
 .row::after{content:"";position:absolute;left:-1px;top:11px;width:12px;height:12px;background:var(--bg);clip-path:var(--dot12);transform:translateX(-50%)}
 .row.has::after{background:var(--acx)}
-.yr{font:600 20px "BaDing",serif;margin-right:8px}.ago{color:var(--mute);font-size:14px}
+.rh{display:flex;align-items:center;height:34px}.yr{font:600 20px/1 "BaDing",serif;margin-right:8px}.ago{color:var(--mute);font-size:14px;line-height:1}
 .card{--pxc:4px;background:var(--pxbg);border:1px solid transparent;border-radius:0;padding:11px 13px;margin-top:8px;clip-path:var(--cut);display:flex;flex-direction:column}
 .cbody{max-height:4.9em;overflow:hidden;position:relative;flex:1 1 auto}
 .cbody.clip::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1.6em;background:linear-gradient(to bottom,transparent,var(--card))}
-.card.empty{background:transparent;border:0;clip-path:none;color:var(--mute);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.card.empty{background:transparent;border:0;clip-path:none;color:var(--mute);display:flex;justify-content:flex-start;align-items:center;gap:8px;padding:0}
 .txt{white-space:pre-wrap;word-break:break-word;margin:0 0 6px}.clamp{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
 mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 2px}
 .media{display:grid;grid-template-columns:repeat(auto-fill,72px);gap:8px;margin:8px 0}
@@ -197,19 +197,21 @@ video.dtm{background:#000}
 .ohead .edit{margin:0;height:32px;line-height:30px;padding:0 12px;box-sizing:border-box}
 .otl{font:600 28px/1.15 "BaDing",serif;margin:0;white-space:nowrap}
 .ol{margin-top:4px}
+#my{width:min(320px,86vw);overflow-x:hidden}#my h2{text-align:center;margin:2px 0 12px}#my .sub{margin:0 0 12px;font-size:13px;word-break:break-word}#my select{width:100%;margin:0 0 6px}
+#mn h2{text-align:center;margin:2px 0 14px}
 </style>
 </head>
 <body>
 <main>
-<div class="top"><div><button id="mnb" class="edit" onclick="openMn()" aria-label="功能選單">≡</button></div><h1>HTBU_?</h1><div><button id="bkb" class="edit" onclick="bkbClick()">隨手記</button></div></div>
+<div class="top"><div><button id="mnb" class="edit" onclick="openMn()" aria-label="功能選單">≡</button></div><h1>HTBU_?</h1><div><button id="bkb" class="edit" onclick="bkbClick()">★隨手記★</button></div></div>
 <div id="pt"><div id="pplrow" class="prow"><span class="lab">對象</span><div id="ppl"></div></div>
 <div id="tagrow" class="prow"><span class="lab">標籤</span><div id="tagbar"></div></div></div><button id="ptc" onclick="togglePt()" aria-label="收合對象與標籤">︿</button>
 <input type="search" id="q" placeholder="搜尋" aria-label="搜尋紀錄" hidden>
 <div id="app"></div>
 </main>
 
-<dialog id="mn"><div class="mb" id="mnc"></div><div class="acts" id="mnf"></div></dialog>
-<dialog id="hm"><h2 style="text-align:center">年度熱力圖</h2><div id="hmc"></div><div class="acts end"><button onclick="$('#hm').close()">退出</button></div></dialog>
+<dialog id="mn"><h2 id="mnt" hidden></h2><div class="mb" id="mnc"></div><div class="acts" id="mnf"></div></dialog>
+<dialog id="hm"><h2 style="text-align:center">☆年視圖☆</h2><div id="hmc"></div><div class="acts end"><button onclick="$('#hm').close();openMn('review')">返回</button><button onclick="$('#hm').close()">退出</button></div></dialog>
 <dialog id="gd"></dialog>
 <dialog id="pe">
 <h2>編輯對象</h2>
@@ -264,7 +266,7 @@ video.dtm{background:#000}
 <div class="acts end"><button id="dl" onclick="delEntry()">刪除</button><button class="pri" onclick="save()">儲存</button><button onclick="$('#ed').close()">取消</button></div>
 </dialog>
 <dialog id="bk">
-<h2>備份與還原</h2>
+<h2>★備份★</h2>
 <p class="sub" id="blast" style="margin:0 0 12px"></p>
 <label for="bsel">備份對象</label>
 <select id="bsel" style="margin:6px 0 12px"></select>
@@ -274,7 +276,7 @@ video.dtm{background:#000}
 <label>匯入備份檔（與現有資料合併，相同的紀錄以備份檔為準）</label>
 <div class="acts"><button onclick="$('#bf').click()">選擇備份檔</button><input type="file" id="bf" accept=".json,application/json" hidden></div>
 <p class="sub" id="bst2" style="margin:0"></p>
-<div class="acts end"><button onclick="$('#bk').close()">關閉</button></div>
+<div class="acts end"><button onclick="$('#bk').close();openMn()">返回</button><button onclick="$('#bk').close()">退出</button></div>
 </dialog>
 <dialog id="th">
 <h2 id="tht">主題色</h2>
@@ -283,15 +285,15 @@ video.dtm{background:#000}
 <div class="acts" style="justify-content:center"><button onclick="$('#th').close();openColorList()">返回</button><button onclick="$('#th').close();$('#cl').close()">退出</button></div>
 </dialog>
 <dialog id="cl">
-<h2>主題色設定</h2>
+<h2>☆主題色☆</h2>
 <div class="mb" id="clc"></div>
 <div class="acts" style="justify-content:center"><button onclick="$('#cl').close();openMn('layout')">返回</button><button onclick="$('#cl').close()">退出</button></div>
 </dialog>
 <dialog id="my">
-<h2>最早年份</h2>
+<h2>☆最早年份☆</h2>
 <p class="sub">回顧列表「展開更多」最多只會捲到這一年，避免無限往回展開。</p>
-<input type="number" id="myv" placeholder="例如 2015" inputmode="numeric">
-<div class="acts end"><button class="pri" onclick="saveMinY()">儲存</button><button onclick="clearMinY()">不限制</button><button onclick="my.close()">取消</button></div>
+<select id="myv" aria-label="最早年份"></select>
+<div class="acts end"><button class="pri" onclick="saveMinY()">儲存</button><button onclick="clearMinY()">不限制</button><button onclick="$('#my').close()">取消</button></div>
 </dialog>
 <dialog id="cv">
 <h2>選擇影片封面</h2>
@@ -436,7 +438,7 @@ const GUIDE=[
  {t:'☆ 用法推薦 ☆',b:'尚未更新！'},
  {t:'☆ 施工日誌 ☆',b:'尚未更新！'}];
 function openGd(i){const d=$('#gd');
- if(i==null)rc(d,h('h2',{},'★《HTBU_?》使用說明書 ★'),h('div',{class:'mb'},...GUIDE.map((g,j)=>h('button',{class:'edit',onclick:()=>openGd(j)},g.t))),h('div',{class:'acts'},h('button',{onclick:()=>{d.close();openMn()}},'返回'),h('button',{onclick:()=>d.close()},'退出')));
+ if(i==null)rc(d,h('h2',{},'★說明書★'),h('div',{class:'mb'},...GUIDE.map((g,j)=>h('button',{class:'edit',onclick:()=>openGd(j)},g.t))),h('div',{class:'acts'},h('button',{onclick:()=>{d.close();openMn()}},'返回'),h('button',{onclick:()=>d.close()},'退出')));
  else rc(d,h('h2',{},GUIDE[i].t),h('div',{class:'gb'},GUIDE[i].b),h('div',{class:'acts'},h('button',{onclick:()=>openGd()},'返回')));
  if(!d.open)d.showModal();d.scrollTop=0}
 let mnView=null;
@@ -444,21 +446,22 @@ function bkDue(){return people.some(p=>Date.now()-lastB(p.id)>1209600000)}
 function openMn(v){mnView=v||null;
  const nav=(t,nv)=>h('button',{class:'edit',onclick:()=>openMn(nv)},t);
  const act=(t,f)=>h('button',{class:'edit',onclick:()=>{$('#mn').close();f()}},t);
- const msg=(t,m)=>act(t,()=>toast(m));
+ const msg=(t,m)=>h('button',{class:'edit',onclick:()=>toast(m)},t);
  if(mnView==='guide'){$('#mn').close();openGd();return}
+ const mt=$('#mnt');mt.hidden=!mnView;mt.textContent=mnView==='layout'?'★版面設置★':mnView==='review'?'★回顧★':'';
  let foot;
  if(!mnView){
-  rc($('#mnc'),nav('版面設置','layout'),nav('回顧','review'),nav('說明書','guide'),
-   act(['備份',bkDue()&&h('span',{class:'gd',style:'margin:0 0 1px 3px'})],openBk));
+  rc($('#mnc'),nav('★版面設置★','layout'),nav('★回顧★','review'),nav('★說明書★','guide'),
+   act(['★',bkDue()&&h('span',{class:'gd',style:'margin:0 3px 1px 2px'}),'備份★'],openBk));
   foot=[h('button',{onclick:()=>$('#mn').close()},'退出')];
  }else if(mnView==='layout'){
-  rc($('#mnc'),act('最早年份',openMinYear),act('主題色',openColorList));
+  rc($('#mnc'),act('☆最早年份☆',openMinYear),act('☆主題色☆',openColorList));
   foot=[h('button',{onclick:()=>openMn()},'返回'),h('button',{onclick:()=>$('#mn').close()},'退出')];
  }else if(mnView==='review'){
   rc($('#mnc'),
-   act(multi?'結束回顧':'日回顧',()=>{if(!multi&&people.length<1){toast('目前沒有可回顧的日記');return}toggleMulti()}),
-   msg('周復盤','尚未更新！'),msg('月總結','尚未開放！'),
-   act('年視圖',openHeat));
+   act(multi?'☆結束回顧☆':'☆日回顧☆',()=>{if(!multi&&people.length<1){toast('目前沒有可回顧的日記');openMn('review');return}toggleMulti()}),
+   msg('☆周復盤☆','尚未更新！'),msg('☆月總結☆','尚未開放！'),
+   act('☆年視圖☆',openHeat));
   foot=[h('button',{onclick:()=>openMn()},'返回'),h('button',{onclick:()=>$('#mn').close()},'退出')];
  }
  rc($('#mnf'),...foot);
@@ -488,16 +491,16 @@ function openTh(pid){pid=pid||cur;
  if(pid==='review'){thEditing='review';$('#tht').textContent='日回顧的主題色';$('#tc').value=REVCOL||PRE[0];$('#th').showModal();return}
  const p=people.find(q=>q.id===pid);if(!p){toast('請先新增對象，再選擇他的主題色');return}
  thEditing=pid;$('#tht').textContent=`「${p.name}」的主題色`;$('#tc').value=p.color||PRE[0];$('#th').showModal()}
-function openColorList(){if(!people.length){toast('請先新增對象，再選擇他的主題色');return}
+function openColorList(){if(!people.length){toast('請先新增對象，再選擇他的主題色');openMn('layout');return}
  const c=colInfo(REVCOL);
  rc($('#clc'),...people.map(p=>{const c=colInfo(p.color);return h('button',{class:'edit',style:c?`box-shadow:inset 0 -3px 0 ${c.acc}`:'',onclick:()=>openTh(p.id)},p.name)}),
   h('button',{class:'edit',style:c?`box-shadow:inset 0 -3px 0 ${c.acc}`:'',onclick:()=>openTh('review')},'日回顧'));
- $('#cl').showModal()}
-function openMinYear(){$('#myv').value=MINY||'';$('#my').showModal();$('#myv').focus()}
-function saveMinY(){const v=+$('#myv').value,cy=now.getFullYear();if(!v||v<1900||v>cy){toast('請輸入有效的年份');return}
+ if(!$('#cl').open)$('#cl').showModal()}
+function openMinYear(){const cy=now.getFullYear(),s=$('#myv');rc(s,h('option',{value:''},'請選擇年份'),...Array.from({length:cy-1900+1},(_,i)=>h('option',{value:cy-i},(cy-i)+'年')));s.value=MINY?String(MINY):'';$('#my').showModal()}
+function saveMinY(){const v=+$('#myv').value,cy=now.getFullYear();if(!v||v<1900||v>cy){toast('請選擇年份');return}
  MINY=v;localStorage.setItem('nyear-miny',v);$('#my').close();render()}
 function clearMinY(){MINY=null;localStorage.removeItem('nyear-miny');$('#my').close();render()}
-$('#myv').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();saveMinY()}};
+$('#my').onclose=()=>openMn('layout');
 $('#swt').replaceChildren(...PRE.map(c=>h('button',{class:'sw',style:'background:'+c,'aria-label':c,onclick:()=>setTheme(c===PRE[0]?null:c)})));
 $('#tc').oninput=e=>setTheme(e.target.value);
 let ptCol=false;function togglePt(){ptCol=!ptCol;$('#pt').classList.toggle('collapsed',ptCol);$('#ptc').textContent=ptCol?'﹀':'︿'}
@@ -579,7 +582,7 @@ function setTag(pid,t){const i=ftags.findIndex(x=>x.pid===pid&&x.tag===t);i>=0?f
 function clearF(){qs='';ftags=[];$('#q').value='';rlim=50;render()}
 function goDay(date){const [y,m,d]=date.split('-').map(Number);mo=m;dy=d;hy=y;qs='';ftags=[];$('#q').value='';render();scrollTo(0,0)}
 const rc=(el,...c)=>el.replaceChildren(...c.flat().filter(Boolean));
-function openHeat(){if(multi){toast('回顧時無法查看熱力圖');return}if(!cur){toast('請先新增對象');return}
+function openHeat(){if(multi){toast('回顧時無法查看熱力圖');openMn('review');return}if(!cur){toast('請先新增對象');openMn('review');return}
  dbByP(cur).then(all=>{hmData=all.filter(e=>e.date!==NODATE);
   const yrs=hmData.map(e=>+e.date.slice(0,4));hmY=yrs.length?Math.max(...yrs):now.getFullYear();
   drawHeat();$('#hm').showModal()})}
@@ -602,7 +605,7 @@ function renderOther(A,P){
  const k=qs.toLowerCase(),all=Object.values(E).flat(),filt=!!(qs||ftags.length),
   list=all.filter(e=>matchF(e)&&(!k||hay(e).includes(k))).sort((a,b)=>tsOf(b)-tsOf(a));
  rc(A,
-  h('div',{class:'ohead'},h('div',{class:'otl'},'隨手記'),h('div',{class:'dgR'},h('button',{class:'edit',onclick:toggleOther},'返回'))),
+  h('div',{class:'ohead'},h('div',{class:'otl'},'★隨手記★'),h('div',{class:'dgR'},h('button',{class:'edit',onclick:toggleOther},'返回'))),
   h('p',{class:'sub'},filt?[ftagLabel()+(ftags.length&&qs?'　':'')+(qs?`搜尋「${qs}」`:'')+`：${list.length} 則　`,h('button',{class:'edit',style:'margin:0',onclick:clearF},'清除')]:`${P.name}共紀錄了${all.length}則。`),
   list.length?h('div',{class:'ol'},...list.slice(0,rlim).map(e=>card(e,NODATE,false,true))):null,
   list.length>rlim&&h('button',{class:'more',onclick:()=>{rlim+=50;render()}},'顯示更多'),
@@ -613,7 +616,7 @@ const matchF=e=>!ftags.length||ftags.every(x=>x.pid===e.pid&&(e.tags||[]).includ
 const ftagLabel=()=>ftags.length?`標籤「${[...new Set(ftags.map(x=>x.tag))].map(t=>'#'+t).join('、')}」`:'';
 function render(){
  urls.forEach(URL.revokeObjectURL);urls=[];updFab();
- $('#bkb').textContent=multi?'結束回顧':other?'返回':'隨手記';
+ $('#bkb').textContent=multi?'結束回顧':other?'返回':'★隨手記★';
  drawChips();drawTagbar();
  const P=people.find(p=>p.id===cur),A=$('#app');
  $('#q').hidden=!(multi||P);
@@ -631,7 +634,7 @@ function render(){
  for(let y=cy;y>=minY;y--){
   if(new Date(y,mo-1,dy).getDate()!==dy)continue;
   const date=`${y}-${pad(mo)}-${pad(dy)}`,list=E[date]||[];if(list.length)filled++;
-  const head=h('div',{},h('span',{class:'yr'},y+''),h('span',{class:'ago'},y===cy?'今年':(cy-y)+' 年前'));
+  const head=h('div',{class:'rh'},h('span',{class:'yr'},y+''),h('span',{class:'ago'},y===cy?'今年':(cy-y)+' 年前'));
   let body;
   if(!list.length)body=multi?null:h('div',{class:'card empty'},h('button',{class:'edit',onclick:()=>openEd(date)},'新增'));
   else{
@@ -650,7 +653,7 @@ function render(){
  rc(A,
   h('div',{class:'dhead'},
    h('div',{class:'dgL'},h('button',{class:'edit arrow',onclick:step(-1),'aria-label':'前一天'},'‹'),h('div',{class:'dpick'},h('div',{class:'day'},`${mo}月${dy}日`),dpk),h('button',{class:'edit arrow',onclick:step(1),'aria-label':'後一天'},'›')),
-   h('div',{class:'dgR'},h('button',{class:'edit',onclick:()=>{mo=now.getMonth()+1;dy=now.getDate();hy=null;render()}},'今日'))),
+   h('div',{class:'dgR'},!(mo===now.getMonth()+1&&dy===now.getDate())&&h('button',{class:'edit',onclick:()=>{mo=now.getMonth()+1;dy=now.getDate();hy=null;render()}},'跳回今日'))),
   h('p',{class:'sub'},multi&&!msel.size?'選擇你要回顧的對象':`這一天，${who}共紀錄了${cnt}則，共紀錄了${filled}年。`),
   h('div',{class:'tl'},rows),
   h('div',{class:'acts',style:'justify-content:center'},!atFloor&&h('button',{onclick:()=>{extra++;render()}},'展開更多'),extra>0&&h('button',{onclick:()=>{extra=0;render()}},'收合')),
