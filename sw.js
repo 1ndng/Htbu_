@@ -1,5 +1,5 @@
 // 更新程式後，把下面的版本號加 1，手機才會抓到新版
-const C = 'nyear-v45';
+const C = 'nyear-v46';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 const FONTS = ['./Cubic_11.ttf', './BaDingShiWeiTi-16.ttf'];
 

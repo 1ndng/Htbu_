@@ -200,6 +200,10 @@ video.dtm{background:#000}
 .ol{margin-top:4px}
 #my{width:min(320px,86vw);overflow-x:hidden}#my h2{text-align:center;margin:2px 0 12px}#my .sub{margin:0 0 12px;font-size:13px;word-break:break-word}#my select{width:100%;margin:0 0 6px}
 #mn h2{text-align:center;margin:2px 0 14px}
+#qsrow,.qsrow{display:flex;gap:8px;align-items:center;flex:none}
+#qs2{--pxc:3px;clip-path:var(--cut);-webkit-appearance:none;appearance:none;flex:1;min-width:0;width:auto;border:1px solid transparent;background:var(--pxbg);border-radius:0;padding:6px 10px;margin:0}
+#qs2::-webkit-search-decoration{-webkit-appearance:none;display:none}
+#qsb{flex:none;padding:6px 14px}
 #dp{width:min(300px,86vw)}#dp h2{text-align:center;margin:2px 0 12px}
 </style>
 </head>
@@ -311,7 +315,7 @@ video.dtm{background:#000}
 </dialog>
 <dialog id="cf"><p>是否刪除？</p><p class="sm" id="cfs" hidden></p><div class="acts"><button id="cfy" class="pri">是</button><button id="cfn">否</button></div></dialog>
 <dialog id="dt"><div id="dtc"></div><div class="dtf"><button id="dtb" hidden onclick="dtBack()">返回</button><button class="pri" onclick="$('#dt').close()">退出</button></div></dialog>
-<dialog id="qd"><h2>選擇要引用的紀錄</h2><input type="search" id="qs2" placeholder="搜尋文字或標籤" style="margin:0"><div id="qdc"></div><div class="acts end"><button onclick="$('#qd').close()">取消</button></div></dialog>
+<dialog id="qd"><h2>選擇要引用的紀錄</h2><div class="qsrow"><input type="search" id="qs2" placeholder="搜尋文字或標籤" enterkeyhint="search" autocomplete="off"><button id="qsb" class="pri" onclick="qdGo()">搜尋</button></div><div id="qdc"></div><div class="acts end"><button onclick="$('#qd').close()">取消</button></div></dialog>
 <dialog id="lb"><button id="lbx" onclick="$('#lb').close()">關閉 ✕</button><div id="lbc"></div></dialog>
 <button id="fab" hidden onclick="fabAdd()">＋新增（今日）</button>
 <div id="toast" role="status" popover="manual"></div>
@@ -701,7 +705,11 @@ function openQd(){if(!cur){toast('請先選擇對象');return}$('#qs2').value=''
 async function drawQd(k){const all=(await dbByP(cur)).filter(e=>e.k!==edK),kk=k.trim().toLowerCase(),
  list=all.filter(e=>!kk||hay(e).includes(kk)).sort((a,b)=>a.date===b.date?(b.time||'').localeCompare(a.time||''):(a.date<b.date?1:-1)).slice(0,80);
  rc($('#qdc'),list.length?list.map(e=>h('button',{class:'qhit',onclick:()=>{dquote=mkQuoteSnap(e);drawQuote();$('#qd').close()}},h('div',{class:'rd'},(e.date===NODATE?'隨手記':fmtD(e.date))+(e.time?'　'+e.time:'')),h('div',{class:'qtx'},qTxt(e)))):h('p',{class:'sub'},'沒有符合的紀錄'))}
+function qdGo(){clearTimeout(drawQd.t);drawQd($('#qs2').value)}
 $('#qs2').oninput=()=>{clearTimeout(drawQd.t);drawQd.t=setTimeout(()=>drawQd($('#qs2').value),200)};
+$('#qs2').addEventListener('compositionend',qdGo);
+$('#qs2').addEventListener('search',qdGo);
+$('#qs2').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();qdGo();e.target.blur()}});
 function quoteFrom(en){const snap=mkQuoteSnap(en);
  openEd(`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`);
  dquote=snap;drawQuote()}
