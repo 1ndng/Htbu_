@@ -789,7 +789,7 @@ async function importBackup(f){
      it={t:m.t,n:String(m.n||''),b:new Blob([b],{type:ty})};
     if(m.t==='video'&&/^data:image\//.test(m.p||''))it.p=await(await fetch(m.p)).blob();media.push(it)}
    await dbPut('entries',{k:String(e.k),pid:String(e.pid),date:e.date,time:/^\d{2}:\d{2}$/.test(e.time)?e.time:null,text:String(e.text||''),
-    links:(e.links||[]).map(String).filter(l=>/^https?:\/\//i.test(l)),tags:(e.tags||[]).map(x=>String(x).slice(0,20)).slice(0,10),media});
+    links:(e.links||[]).map(String).filter(l=>/^https?:\/\//i.test(l)),tags:(e.tags||[]).map(x=>String(x).slice(0,20)).slice(0,10),media,quote:(e.quote&&typeof e.quote==='object'&&e.quote.k)?e.quote:null});
    n++;st.textContent=`匯入中… ${n}/${j.entries.length}`;
   }
   people=await dbAll('people');people.sort((a,b)=>a.id<b.id?-1:1);
