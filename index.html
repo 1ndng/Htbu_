@@ -49,7 +49,7 @@ textarea:focus-visible{outline:2px solid var(--acx);outline-offset:2px}
 .dhead .arrow::after{content:"‹";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px;line-height:1;color:var(--mute)}
 .dhead .arrow[aria-label="後一天"]::after{content:"›"}
 .who{font-size:13px;font-weight:500;color:var(--acx);margin-bottom:2px}.who::before{content:"";display:inline-block;width:8px;height:8px;border-radius:0;clip-path:var(--dot8);background:var(--acx);margin-right:5px}
-.day{font:600 36px/1.15 "BaDing",serif;margin:0;flex:none;white-space:nowrap;text-decoration:underline;text-decoration-color:var(--line);text-decoration-thickness:2px;text-underline-offset:4px}
+.day{font:600 36px/1.15 "BaDing",serif;margin:0;flex:none;white-space:nowrap;text-decoration:underline;text-decoration-color:var(--mute);text-decoration-thickness:1px;text-underline-offset:4px}
 .sub{color:var(--mute);margin:0 0 22px}
 @media (max-width:370px){.day{font-size:30px}}
 .tl{border-left:2px solid var(--acc);margin-left:6px}
@@ -58,8 +58,8 @@ textarea:focus-visible{outline:2px solid var(--acx);outline-offset:2px}
 .row::after{content:"";position:absolute;left:-1px;top:11px;width:12px;height:12px;background:var(--bg);clip-path:var(--dot12);transform:translateX(-50%)}
 .row.has::after{background:var(--acx)}
 .yr{font:600 20px "BaDing",serif;margin-right:8px}.ago{color:var(--mute);font-size:14px}
-.card{--pxc:4px;background:var(--pxbg);border:1px solid transparent;border-radius:0;padding:11px 13px;margin-top:8px;clip-path:var(--cut)}
-.cbody{max-height:4.9em;overflow:hidden;position:relative}
+.card{--pxc:4px;background:var(--pxbg);border:1px solid transparent;border-radius:0;padding:11px 13px;margin-top:8px;clip-path:var(--cut);display:flex;flex-direction:column}
+.cbody{max-height:4.9em;overflow:hidden;position:relative;flex:1 1 auto}
 .cbody.clip::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1.6em;background:linear-gradient(to bottom,transparent,var(--card))}
 .card.empty{background:transparent;border:0;clip-path:none;color:var(--mute);display:flex;justify-content:space-between;align-items:center;gap:8px}
 .txt{white-space:pre-wrap;word-break:break-word;margin:0 0 6px}.clamp{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
@@ -81,7 +81,7 @@ label{display:block;font-size:14px;color:var(--mute)}
 .acts{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
 .acts.end{justify-content:flex-end;margin-top:16px}
 .more{display:block;margin:0 auto}
-#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:0;--pxc:3px;clip-path:var(--cut);display:none;max-width:90vw;z-index:9}
+#toast{position:fixed;inset:auto;margin:0;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border:0;border-radius:0;--pxc:3px;clip-path:var(--cut);max-width:90vw;z-index:9}
 .note{--pxc:3px;clip-path:var(--cut);background:var(--soft);border-radius:0;padding:8px 12px;font-size:14px;margin-bottom:12px}
 .tm{font:600 12px "BaDing",serif;color:var(--acx);margin-bottom:2px}
 .hs{display:flex;gap:12px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin;padding:2px 2px 8px;margin:0 -2px}.hs+.hs{margin-top:6px;padding-top:14px;border-top:1px solid var(--line);opacity:1}
@@ -141,6 +141,19 @@ dialog select{--pxc:3px;clip-path:var(--cut);border:1px solid transparent;backgr
 #cf .sm{font-size:13px;color:var(--mute);font-weight:400;margin:0 0 4px}
 #cf .acts{justify-content:center;margin:14px 0 4px}
 #cf .acts button{min-width:80px;padding:7px 12px}
+#qd{width:min(560px,94vw);max-height:84vh;padding:16px}#qd[open]{display:flex;flex-direction:column}
+#qdc{overflow:auto;flex:1;min-height:0;margin:10px 0}
+.qhit{--pxc:3px;clip-path:var(--cut);display:block;width:100%;text-align:left;background:var(--pxbg);border:1px solid transparent;padding:8px 10px;margin-bottom:8px;cursor:pointer}
+.qhit .rd{font-size:13px;margin-bottom:2px}.qhit .qtx{font-size:13px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qv{--pxc:3px;clip-path:var(--cut);display:flex;align-items:flex-start;gap:8px;width:100%;text-align:left;background:var(--pxbg);border:1px solid transparent;padding:8px 10px 8px 9px;margin:8px 0;cursor:pointer;font-size:13px}
+.qv .qb{border-left:3px solid var(--acc);padding-left:7px;min-width:0;flex:1}
+.qv .rd{font-size:12px;color:var(--acx);margin-bottom:2px}
+.qv .qtx{color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qchip{--pxc:3px;clip-path:var(--cut);display:flex;align-items:center;gap:8px;background:var(--pxbg);border:1px solid transparent;padding:6px 10px;margin:0 0 10px;font-size:13px}
+.qchip .qb{flex:1;min-width:0;border-left:3px solid var(--acc);padding-left:7px}
+.qchip .rd{font-size:12px;color:var(--acx);margin-bottom:1px}
+.qchip .qtx{color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qchip button{flex:none}
 #dt{width:min(640px,94vw);max-height:88vh;padding:0;overflow:hidden}
 #dt[open]{display:flex;flex-direction:column}
 #dtc{flex:1 1 auto;min-height:0;max-height:calc(88vh - 62px);overflow:auto;padding:16px 16px 4px;-webkit-overflow-scrolling:touch}
@@ -152,7 +165,7 @@ video.dtm{background:#000}
 #dtc audio{display:block;width:100%}
 #dtc .fl{padding:10px 12px;font-size:15px}
 .dtl a{display:block;color:var(--acx);word-break:break-all;font-size:15px;margin-bottom:6px}
-.dtf{flex:none;padding:10px 14px;text-align:right;border-top:1px solid var(--line)}
+.dtf{flex:none;padding:10px 14px;display:flex;justify-content:flex-end;gap:10px;border-top:1px solid var(--line)}
 .dtf button{padding:6px 18px}
 #mn .acts{justify-content:center;margin:14px 0 2px}#mn{width:min(280px,84vw)}#mn .mb{display:flex;flex-direction:column;align-items:center;gap:12px}#mn .edit{margin:0;width:100%;max-width:220px;padding:8px 12px;font-size:14px;text-align:center}
 #gd{width:min(320px,86vw)}#gd h2{text-align:center;margin:2px 0 14px}#gd .mb{display:flex;flex-direction:column;align-items:center;gap:12px}
@@ -243,7 +256,8 @@ video.dtm{background:#000}
 <button id="rc" onclick="toggleRec()"><span class="gd"></span>錄音</button>
 <input type="file" id="fi" multiple hidden>
 </div>
-<div class="acts"><button onclick="tagToggle()">＋ 新增標籤</button></div>
+<div class="acts"><button onclick="tagToggle()">＋ 新增標籤</button><button onclick="openQd()">＋ 新增引用</button></div>
+<div id="qpv"></div>
 <div id="tgd" class="acts" style="margin-top:0"></div>
 <div id="tgi" hidden><div class="acts" style="margin:0 0 8px"><input type="text" id="tn" placeholder="輸入標籤" maxlength="20" style="flex:1;margin:0"><button onclick="addTag($('#tn').value)">加入</button></div><div id="tsg" class="acts" style="margin-top:0"></div></div>
 <div id="dm" class="media"></div>
@@ -287,10 +301,11 @@ video.dtm{background:#000}
 <div class="acts end"><button onclick="$('#cv').close()">取消</button></div>
 </dialog>
 <dialog id="cf"><p>是否刪除？</p><p class="sm" id="cfs" hidden></p><div class="acts"><button id="cfy" class="pri">是</button><button id="cfn">否</button></div></dialog>
-<dialog id="dt"><div id="dtc"></div><div class="dtf"><button class="pri" onclick="$('#dt').close()">退出</button></div></dialog>
+<dialog id="dt"><div id="dtc"></div><div class="dtf"><button id="dtb" hidden onclick="dtBack()">返回</button><button class="pri" onclick="$('#dt').close()">退出</button></div></dialog>
+<dialog id="qd"><h2>選擇要引用的紀錄</h2><input type="search" id="qs2" placeholder="搜尋文字或標籤" style="margin:0"><div id="qdc"></div><div class="acts end"><button onclick="$('#qd').close()">取消</button></div></dialog>
 <dialog id="lb"><button id="lbx" onclick="$('#lb').close()">關閉 ✕</button><div id="lbc"></div></dialog>
 <button id="fab" hidden onclick="fabAdd()">＋新增（今日）</button>
-<div id="toast" role="status"></div>
+<div id="toast" role="status" popover="manual"></div>
 
 <script>
 const $=s=>document.querySelector(s),pad=n=>String(n).padStart(2,'0');
@@ -298,7 +313,7 @@ const $=s=>document.querySelector(s),pad=n=>String(n).padStart(2,'0');
 const h=(t,a={},...c)=>{const e=document.createElement(t);for(const k in a)k.startsWith('on')?e[k]=a[k]:e.setAttribute(k,a[k]);e.append(...c.flat().filter(x=>x!=null&&x!==false));return e};
 let hmY=null,hmData=[];
 let MINY=+localStorage.getItem('nyear-miny')||null;
-let db,useMem=false,M={people:{},entries:{}},people=[],cur=null,E={},urls=[],extra=0,hy=null,multi=false,msel=new Set(),edDate=null,edK=null,draft=[],durls=[],dturls=[],dtags=[],qs='',ftags=[],rlim=50,qt,other=false;
+let db,useMem=false,M={people:{},entries:{}},people=[],cur=null,E={},urls=[],extra=0,hy=null,multi=false,msel=new Set(),edDate=null,edK=null,draft=[],durls=[],dturls=[],dtags=[],dquote=null,qs='',ftags=[],rlim=50,qt,other=false;
 const NODATE='0000-00-00',tsOf=e=>+String(e.k).split('|').pop()||0;
 const now=new Date();let mo=now.getMonth()+1,dy=now.getDate();
 
@@ -306,7 +321,7 @@ function ask(sub){return new Promise(res=>{const d=$('#cf'),s=$('#cfs');s.textCo
  const fin=v=>{if(done)return;done=true;if(d.open)d.close();res(v)};
  $('#cfy').onclick=()=>fin(true);$('#cfn').onclick=()=>fin(false);d.onclose=()=>fin(false);d.showModal()})}
 async function clr(id){const e=$(id);if(e.value&&await ask())e.value=''}
-function toast(t){const e=$('#toast'),d=document.querySelector('dialog[open]');(d||document.body).appendChild(e);e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',3500)}
+function toast(t){const e=$('#toast');e.textContent=t;if(!e.matches(':popover-open'))e.showPopover();clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidePopover(),3500)}
 function openDB(){return new Promise(r=>{try{const q=indexedDB.open('nyear-diary',1);
 q.onupgradeneeded=()=>{q.result.createObjectStore('people',{keyPath:'id'});q.result.createObjectStore('entries',{keyPath:'k'}).createIndex('pid','pid')};
 q.onsuccess=()=>{db=q.result;r()};q.onerror=()=>{useMem=true;r()}}catch(e){useMem=true;r()}})}
@@ -368,7 +383,10 @@ $('#lb').onclose=()=>$('#lbc').replaceChildren();
 $('#lb').onclick=e=>{if(e.target===$('#lb'))$('#lb').close()};
 /* 詳情頁 */
 const fmtD=d=>{const [y,m,n]=d.split('-').map(Number);return `${y}年${m}月${n}日`};
-function openDt(en){dturls.forEach(URL.revokeObjectURL);dturls=[];
+let dtStack=[],dtCur=null;
+function openDt(en){dtStack=[];dtRender(en)}
+function dtBack(){const p=dtStack.pop();if(p)dtRender(p)}
+function dtRender(en){dtCur=en;dturls.forEach(URL.revokeObjectURL);dturls=[];
  const M=en.media||[],by=t=>M.filter(m=>m.t===t),au=by('audio'),ad=m=>h('audio',{src:mu(m,dturls),controls:''});
  rc($('#dtc'),
   h('div',{class:'dth'},(multi?pname(en.pid)+'・':'')+(en.date===NODATE?'隨手記':fmtD(en.date))+(en.time?'　'+en.time:'')),
@@ -377,12 +395,13 @@ function openDt(en){dturls.forEach(URL.revokeObjectURL);dturls=[];
   by('video').map(m=>h('video',{class:'dtm',src:mu(m,dturls),controls:'',playsinline:'',preload:'metadata',...(m.p?{poster:mu({b:m.p},dturls)}:{})})),
   by('file').map(m=>fileA(m,dturls)),
   au.filter(m=>m.n!=='錄音').map(ad),au.filter(m=>m.n==='錄音').map(ad),
-  (en.links||[]).length>0&&h('div',{class:'dtl'},...en.links.map(l=>h('a',{href:l,target:'_blank',rel:'noopener noreferrer'},l))));
- $('#dtc').scrollTop=0;$('#dt').showModal()}
-$('#dt').onclose=()=>{$('#dtc').replaceChildren();dturls.forEach(URL.revokeObjectURL);dturls=[]};
+  (en.links||[]).length>0&&h('div',{class:'dtl'},...en.links.map(l=>h('a',{href:l,target:'_blank',rel:'noopener noreferrer'},l))),
+  en.quote&&h('div',{class:'qv',role:'button',tabindex:'0',onclick:()=>qOpen(en.quote)},h('div',{class:'qb'},h('div',{class:'rd'},qLbl(en.quote)),h('div',{class:'qtx'},qTxt(en.quote)))));
+ $('#dtc').scrollTop=0;$('#dtb').hidden=!dtStack.length;if(!$('#dt').open)$('#dt').showModal()}
+$('#dt').onclose=()=>{$('#dtc').replaceChildren();dturls.forEach(URL.revokeObjectURL);dturls=[];dtStack=[];dtCur=null};
 $('#dt').onclick=e=>{if(e.target===$('#dt'))$('#dt').close()};
 $('#app').addEventListener('click',e=>{
- if(e.target.closest('button,a,audio,video,input,select,textarea,.th'))return;
+ if(e.target.closest('button,a,audio,video,input,select,textarea,.th,.qv'))return;
  const el=e.target.closest('[data-k]');if(!el)return;
  const en=(E[el.dataset.d]||[]).find(x=>x.k===el.dataset.k);if(en)openDt(en)});
 function md(t){const out=[],re=/\*\*(.+?)\*\*|==(.+?)==|~~(.+?)~~|\+\+(.+?)\+\+|`(.+?)`|\*(.+?)\*/g;let i=0,m;
@@ -487,20 +506,27 @@ const nowStr=()=>{const d=new Date();return pad(d.getHours())+':'+pad(d.getMinut
 const pname=id=>people.find(p=>p.id===id)?.name||'';
 const colVars=id=>{const c=colInfo(people.find(p=>p.id===id)?.color);return c?`--acc:${c.acc};--acx:${c.acx};--soft:${c.soft};--mark:${c.mark};--onacc:${c.on}`:''};
 const pstyle=en=>multi?colVars(en.pid):'';
-function cntStr(en){const M=en.media||[],g=t=>M.filter(x=>x.t===t).length,L=(en.links||[]).length,
- parts=[g('image')&&g('image')+'張圖',g('video')&&g('video')+'部影片',g('audio')&&g('audio')+'個音訊',g('file')&&g('file')+'個檔案',L&&L+'個連結'].filter(Boolean);
+function cntStr(en){const M=en.media||[],g=t=>M.filter(x=>x.t===t).length,L=(en.links||[]).length,Q=en.quote?1:0,
+ parts=[g('image')&&g('image')+'張圖',g('video')&&g('video')+'部影片',g('audio')&&g('audio')+'個音訊',g('file')&&g('file')+'個檔案',L&&L+'個連結',Q&&'含引用'].filter(Boolean);
  return parts.join('、')}
 const hay=e=>[e.date===NODATE?'':e.date,e.text,...(e.links||[]),...(e.tags||[]),...(e.media||[]).map(m=>m.n)].join('\n').toLowerCase();
+const qTxt=q=>(q.text||'').slice(0,28)||(cntStr(q)||(q.time?q.time+' 的紀錄':'一則紀錄'));
+const qFind=q=>(E[q.date]||[]).find(x=>x.k===q.k);
+const qGone=q=>!qFind(q);
+const qOpen=q=>{const t=qFind(q);if(!t){toast('此紀錄已被刪除');return}if(dtCur)dtStack.push(dtCur);dtRender(t)};
+const qLbl=q=>(q.date===NODATE?'隨手記':fmtD(q.date))+(q.time?'　'+q.time:'')+(qGone(q)?'（原紀錄已被刪除）':'');
 const parts=(en,date,jump,showTime)=>{
+ const qv=en.quote&&h('div',{class:'qv',role:'button',tabindex:'0',onclick:()=>qOpen(en.quote)},h('div',{class:'qb'},h('div',{class:'rd'},qLbl(en.quote)),h('div',{class:'qtx'},qTxt(en.quote))));
  const body=[
   multi&&h('div',{class:'who'},pname(en.pid)),
   showTime&&en.time&&h('div',{class:'tm'},en.time),
   txtBits(en.text,jump),
   en.media.length>0&&h('div',{class:'media'},en.media.map(m=>mEl(m,en))),
   en.links.length>0&&h('div',{class:'links'},en.links.map(l=>h('a',{href:l,target:'_blank',rel:'noopener noreferrer'},l))),
-  (en.tags||[]).length>0&&h('div',{class:'tgs'},en.tags.map(t=>h('button',{class:'tg',onclick:()=>setTag(en.pid,t)},'#'+t)))];
+  (en.tags||[]).length>0&&h('div',{class:'tgs'},en.tags.map(t=>h('button',{class:'tg',onclick:()=>setTag(en.pid,t)},'#'+t))),
+  qv];
  const cs=cntStr(en);
- const ea=h('div',{class:'ea'},jump?h('button',{class:'edit xb',onclick:e=>toggleX(e.currentTarget)},'展開'):h('button',{class:'edit cx',hidden:true,onclick:e=>toggleC(e.currentTarget)},'展開'),!multi&&h('button',{class:'edit',onclick:()=>openEd(date,en.k)},'編輯'),jump&&h('button',{class:'edit',onclick:()=>goDay(date)},'跳到這天'),cs&&h('span',{class:'cnt',hidden:true},cs));
+ const ea=h('div',{class:'ea'},jump?h('button',{class:'edit xb',onclick:e=>toggleX(e.currentTarget)},'展開'):h('button',{class:'edit cx',hidden:true,onclick:e=>toggleC(e.currentTarget)},'展開'),!multi&&h('button',{class:'edit',onclick:()=>openEd(date,en.k)},'編輯'),!multi&&h('button',{class:'edit',onclick:()=>quoteFrom(en)},'引用'),jump&&h('button',{class:'edit',onclick:()=>goDay(date)},'跳到這天'),cs&&h('span',{class:'cnt',hidden:true},cs));
  return jump?[...body,ea]:[h('div',{class:'cbody'},...body),ea]};
 const card=(en,date,jump,st)=>h('div',{class:'card',style:pstyle(en),'data-k':en.k,'data-d':date},...parts(en,date,jump,st));
 function drawChips(){const on=p=>multi?msel.has(p.id):p.id===cur;
@@ -648,10 +674,24 @@ function openEd(date,k){edDate=date;edK=k||null;
  const en=k?E[date].find(x=>x.k===k):null,[y,m,d]=date.split('-').map(Number);
  $('#et').textContent=date===NODATE?'':(multi&&en?pname(en.pid)+'・':'')+`${y}年${m}月${d}日`;$('#et').hidden=date===NODATE;$('#tmwrap').hidden=date===NODATE;$('#tx').value=en?.text||'';$('#lk').value=(en?.links||[]).join('\n');
  draft=(en?.media||[]).map(m=>({...m}));dtags=[...(en?.tags||[])];drawDraft();$('#tgi').hidden=true;$('#tn').value='';drawTags();
+ dquote=en?.quote?{...en.quote}:null;drawQuote();
  setMode(en?.time?'manual':'none',en?.time);
  $('#dl').style.display=en?'':'none';
  $('#ed').showModal()}
 async function removeEntry(){if(!edK)return;await dbDel('entries',edK);E[edDate]=E[edDate].filter(x=>x.k!==edK);if(!E[edDate].length)delete E[edDate]}
+function mkQuoteSnap(en){return{k:en.k,pid:en.pid,date:en.date,time:en.time||null,text:(en.text||'').slice(0,60),
+ mc:{image:(en.media||[]).filter(m=>m.t==='image').length,video:(en.media||[]).filter(m=>m.t==='video').length,audio:(en.media||[]).filter(m=>m.t==='audio').length,file:(en.media||[]).filter(m=>m.t==='file').length},
+ lc:(en.links||[]).length}}
+function drawQuote(){const v=$('#qpv');if(!dquote){rc(v);return}
+ rc(v,h('div',{class:'qchip'},h('div',{class:'qb'},h('div',{class:'rd'},qLbl(dquote)),h('div',{class:'qtx'},qTxt(dquote))),h('button',{'aria-label':'移除引用',onclick:async()=>{if(await ask('移除這則引用？')){dquote=null;drawQuote()}}},'×')))}
+function openQd(){if(!cur){toast('請先選擇對象');return}$('#qs2').value='';drawQd('');$('#qd').showModal();setTimeout(()=>$('#qs2').focus(),50)}
+async function drawQd(k){const all=(await dbByP(cur)).filter(e=>e.k!==edK),kk=k.trim().toLowerCase(),
+ list=all.filter(e=>!kk||hay(e).includes(kk)).sort((a,b)=>a.date===b.date?(b.time||'').localeCompare(a.time||''):(a.date<b.date?1:-1)).slice(0,80);
+ rc($('#qdc'),list.length?list.map(e=>h('button',{class:'qhit',onclick:()=>{dquote=mkQuoteSnap(e);drawQuote();$('#qd').close()}},h('div',{class:'rd'},(e.date===NODATE?'隨手記':fmtD(e.date))+(e.time?'　'+e.time:'')),h('div',{class:'qtx'},qTxt(e)))):h('p',{class:'sub'},'沒有符合的紀錄'))}
+$('#qs2').oninput=()=>{clearTimeout(drawQd.t);drawQd.t=setTimeout(()=>drawQd($('#qs2').value),200)};
+function quoteFrom(en){const snap=mkQuoteSnap(en);
+ openEd(`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`);
+ dquote=snap;drawQuote()}
 async function delEntry(){if(!await ask())return;
  try{await removeEntry();$('#ed').close();render()}catch(e){toast('刪除失敗')}}
 $('#fi').onchange=e=>{for(const f of e.target.files){const t=['image','video','audio'].find(x=>f.type.startsWith(x))||'file';draft.push({t,b:f,n:f.name})}e.target.value='';drawDraft()};
@@ -671,11 +711,11 @@ async function save(){
  addTag($('#tn').value);
  const text=$('#tx').value.trim(),links=$('#lk').value.split(/\s+/).filter(Boolean).map(l=>/^https?:\/\//i.test(l)?l:'https://'+l);
  const old=edK?E[edDate].find(x=>x.k===edK):null,mode=document.querySelector('input[name=tm]:checked').value,time=mode==='none'?null:($('#tv').value||null);
- const empty=!text&&!links.length&&!draft.length;
+ const empty=!text&&!links.length&&!draft.length&&!dquote;
  if(empty&&dtags.length){toast('請輸入紀錄內容');return}
  if(empty&&edK&&!await ask('內容已清空，這則紀錄會被刪除'))return;
  try{if(empty)await removeEntry();
- else{const en={k:edK||`${cur}|${edDate}|${Date.now()}`,pid:old?old.pid:cur,date:edDate,time,text,links,tags:[...dtags],media:draft};
+ else{const en={k:edK||`${cur}|${edDate}|${Date.now()}`,pid:old?old.pid:cur,date:edDate,time,text,links,tags:[...dtags],media:draft,quote:dquote?{...dquote}:null};
   await dbPut('entries',en);const L=E[edDate]||(E[edDate]=[]),i=L.findIndex(x=>x.k===en.k);i<0?L.push(en):L[i]=en}
  $('#ed').close();render()}catch(e){toast('儲存失敗，可能是檔案太大或空間不足')}}
 
