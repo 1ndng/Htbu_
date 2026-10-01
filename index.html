@@ -84,8 +84,8 @@ label{display:block;font-size:14px;color:var(--mute)}
 .note{--pxc:3px;clip-path:var(--cut);background:var(--soft);border-radius:0;padding:8px 12px;font-size:14px;margin-bottom:12px}
 .tm{font:600 12px "BaDing",serif;color:var(--acx);margin-bottom:2px}
 .hs{display:flex;align-items:flex-start;gap:12px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin;padding:2px 2px 8px;margin:0 -2px}.hs+.hs{margin-top:6px;padding-top:14px;border-top:1px solid var(--line);opacity:1}
-.hs>.card{flex:0 0 auto;width:fit-content;min-width:min-content;max-width:min(320px,88%);margin-top:0}.hs>.card.hasm{min-width:min(260px,88%)}
-.hi{flex:0 0 auto;width:fit-content;min-width:min-content;max-width:min(320px,88%);position:relative;padding-top:34px}.hi:has(.card.hasm){min-width:min(260px,88%)}.hi>.card{margin-top:0}
+.hs>.card{flex:0 0 auto;width:fit-content;min-width:min-content;max-width:min(260px,78%);margin-top:0}.hs>.card.wide{max-width:min(320px,88%)}.hs>.card.hasm{min-width:min(260px,78%)}
+.hi{flex:0 0 auto;width:fit-content;min-width:min-content;max-width:min(260px,78%);position:relative;padding-top:34px}.hi.wide{max-width:min(320px,88%)}.hi:has(.card.hasm){min-width:min(260px,78%)}.hi>.card{margin-top:0}
 .hi::before{content:"";position:absolute;top:24px;left:-6px;right:-6px;height:2px;background:var(--acc)}
 .hi:first-child::before{left:0}.hi:last-child::before{right:0}
 .hi::after{content:"";position:absolute;left:0;top:19px;width:12px;height:12px;clip-path:var(--dot12);background:var(--acx)}
@@ -437,7 +437,7 @@ function blocks(t){const out=[],L=t.split('\n');let buf=[],i=0;
 function txtBits(t,c){return t?[h('div',{class:'txt'+(c?' clamp':'')},...blocks(t))]:[]}
 function toggleX(b){const c=b.closest('.card'),t=c.querySelector('.txt');if(!t)return;const o=t.classList.toggle('clamp');c.classList.toggle('open',!o);b.textContent=o?'展開':'收合'}
 function toggleC(b){const c=b.closest('.card'),o=c.classList.toggle('open');b.textContent=o?'收合':'展開';chkClip()}
-function fitCnt(){document.querySelectorAll('.card .cnt').forEach(c=>{c.style.width='';if(c.hidden)return;const L=c.getBoundingClientRect().left;let r=0;c.querySelectorAll('.cs').forEach(x=>{r=Math.max(r,x.getBoundingClientRect().right)});const w=r-L;if(w>0&&w<c.clientWidth)c.style.width=Math.ceil(w)+1+'px'})}
+function fitCnt(){document.querySelectorAll('.card .cnt').forEach(c=>{const w0=c.closest('.hi')||c.closest('.card');c.style.width='';w0.classList.remove('wide');if(c.hidden)return;const sp=[...c.querySelectorAll('.cs')];if(sp.length>1&&sp[sp.length-1].getBoundingClientRect().top-sp[0].getBoundingClientRect().top>4)w0.classList.add('wide');const L=c.getBoundingClientRect().left;let r=0;c.querySelectorAll('.cs').forEach(x=>{r=Math.max(r,x.getBoundingClientRect().right)});const w=r-L;if(w>0&&w<c.clientWidth)c.style.width=Math.ceil(w)+1+'px'})}
 function fitX(){document.querySelectorAll('.card .xb').forEach(b=>{const c=b.closest('.card'),t=c.querySelector('.txt'),show=c.classList.contains('open')||(t&&t.scrollHeight>t.clientHeight+1);b.hidden=!show;const cn=b.closest('.ea')?.querySelector('.cnt');if(cn)cn.hidden=!show});fitCnt()}
 function chkClip(){document.querySelectorAll('.card .cbody').forEach(d=>{const c=d.closest('.card'),o=c.classList.contains('open');
  if(d.classList.contains('hm')){if(o)d.style.maxHeight='';else{const ths=[...d.querySelectorAll('.th')].slice(0,2),b=ths.length?Math.max(...ths.map(x=>x.offsetTop+x.offsetHeight)):0;if(b>20)d.style.maxHeight=(b+2)+'px'}}
