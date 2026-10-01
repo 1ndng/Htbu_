@@ -182,6 +182,7 @@ video.dtm{background:#000}
 .hmhead button{padding:0 9px;position:relative;color:transparent;border:none;background:none;clip-path:none}
 .hmhead button::after{content:"‹";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px;line-height:1;color:var(--mute)}
 .hmhead button[aria-label="下一年"]::after{content:"›"}
+.hmhead button:disabled{opacity:.25;cursor:default}
 .hmwrap{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px}
 .hmonth{margin-bottom:18px}
 .hmtitle{font:600 13px "BaDing",serif;margin-bottom:6px;color:var(--mute)}
@@ -199,6 +200,7 @@ video.dtm{background:#000}
 .ol{margin-top:4px}
 #my{width:min(320px,86vw);overflow-x:hidden}#my h2{text-align:center;margin:2px 0 12px}#my .sub{margin:0 0 12px;font-size:13px;word-break:break-word}#my select{width:100%;margin:0 0 6px}
 #mn h2{text-align:center;margin:2px 0 14px}
+#dp{width:min(300px,86vw)}#dp h2{text-align:center;margin:2px 0 12px}
 </style>
 </head>
 <body>
@@ -294,6 +296,11 @@ video.dtm{background:#000}
 <p class="sub">回顧列表「展開更多」最多只會捲到這一年，避免無限往回展開。</p>
 <select id="myv" aria-label="最早年份"></select>
 <div class="acts end"><button class="pri" onclick="saveMinY()">儲存</button><button onclick="clearMinY()">不限制</button><button onclick="$('#my').close()">取消</button></div>
+</dialog>
+<dialog id="dp">
+<h2>選擇日期</h2>
+<div class="acts" style="justify-content:center"><select id="dpm" aria-label="月份" onchange="fillDpd(+$('#dpd').value)"></select><select id="dpd" aria-label="日期"></select></div>
+<div class="acts end"><button class="pri" onclick="dpOk()">確定</button><button onclick="$('#dp').close()">取消</button></div>
 </dialog>
 <dialog id="cv">
 <h2>選擇影片封面</h2>
@@ -584,7 +591,7 @@ function goDay(date){const [y,m,d]=date.split('-').map(Number);mo=m;dy=d;hy=y;qs
 const rc=(el,...c)=>el.replaceChildren(...c.flat().filter(Boolean));
 function openHeat(){if(multi){toast('回顧時無法查看熱力圖');openMn('review');return}if(!cur){toast('請先新增對象');openMn('review');return}
  dbByP(cur).then(all=>{hmData=all.filter(e=>e.date!==NODATE);
-  const yrs=hmData.map(e=>+e.date.slice(0,4));hmY=yrs.length?Math.max(...yrs):now.getFullYear();
+  const yrs=hmData.map(e=>+e.date.slice(0,4));hmY=yrs.length?Math.max(...yrs):now.getFullYear();if(MINY&&hmY<MINY)hmY=MINY;if(hmY>now.getFullYear())hmY=now.getFullYear();
   drawHeat();$('#hm').showModal()})}
 function drawHeat(){
  const yd=hmData.filter(e=>+e.date.slice(0,4)===hmY),has=new Set(yd.map(e=>e.date)),months=[];
@@ -598,7 +605,7 @@ function drawHeat(){
   months.push(h('div',{class:'hmonth'},h('div',{class:'hmtitle'},`${m+1}月`),h('div',{class:'hgrid'},cells)))
  }
  rc($('#hmc'),
-  h('div',{class:'hmhead'},h('button',{onclick:()=>{hmY--;drawHeat()},'aria-label':'上一年'},'‹'),h('div',{},`${hmY}年`),h('button',{onclick:()=>{hmY++;drawHeat()},'aria-label':'下一年'},'›')),
+  h('div',{class:'hmhead'},h('button',{onclick:()=>{if(MINY&&hmY<=MINY)return;hmY--;drawHeat()},'aria-label':'上一年',...(MINY&&hmY<=MINY?{disabled:''}:{})},'‹'),h('div',{},`${hmY}年`),h('button',{onclick:()=>{if(hmY>=now.getFullYear())return;hmY++;drawHeat()},'aria-label':'下一年',...(hmY>=now.getFullYear()?{disabled:''}:{})},'›')),
   h('div',{class:'hmleg'},h('div',{class:'hcell'}),'無紀錄',h('div',{class:'hcell c4'}),'有紀錄'),
   h('div',{class:'hmwrap'},...months))}
 function renderOther(A,P){
@@ -647,7 +654,7 @@ function render(){
   rows.push(h('div',{class:'row'+(list.length?' has':'')+''},head,body));
  }
  const step=n=>()=>{const d=new Date(2024,mo-1,dy+n);mo=d.getMonth()+1;dy=d.getDate();hy=null;render()};
- const dpk=h('input',{type:'date',class:'dpin','aria-label':'選擇日期',value:`${now.getFullYear()}-${pad(mo)}-${pad(dy)}`,onchange:e=>{const v=e.target.value;if(!v)return;const p=v.split('-').map(Number);mo=p[1];dy=p[2];hy=null;render()}});
+ const dpk=h('button',{class:'dpin','aria-label':'選擇日期',onclick:openDp});
  const md_=`${pad(mo)}-${pad(dy)}`,cnt=Object.keys(E).filter(k=>k.slice(5)===md_).reduce((n,k)=>n+E[k].length,0),
   who=multi?[...msel].map(pname).join('、'):P.name;
  rc(A,
@@ -661,6 +668,9 @@ function render(){
  chkClip();
 }
 
+function fillDpd(d){const n=new Date(2024,+$('#dpm').value,0).getDate();rc($('#dpd'),...Array.from({length:n},(_,i)=>h('option',{value:i+1},(i+1)+'日')));$('#dpd').value=Math.min(d,n)}
+function openDp(){rc($('#dpm'),...Array.from({length:12},(_,i)=>h('option',{value:i+1},(i+1)+'月')));$('#dpm').value=mo;fillDpd(dy);$('#dp').showModal()}
+function dpOk(){mo=+$('#dpm').value;dy=+$('#dpd').value;hy=null;$('#dp').close();render()}
 function drawDraft(){durls.forEach(URL.revokeObjectURL);durls=[];
  $('#dm').replaceChildren(...draft.map((m,i)=>h('div',{class:'rm',style:(m.t==='audio'||m.t==='file')?'grid-column:1/-1':''},mEl(m),h('button',{'aria-label':'移除',onclick:async()=>{if(await ask()){draft.splice(i,1);drawDraft()}}},'×'),m.t==='video'&&h('button',{class:'cvb',onclick:()=>openCv(m)},'封面'))))}
 function drawTags(){const pid=(edK&&E[edDate]?E[edDate].find(x=>x.k===edK)?.pid:null)||cur;
