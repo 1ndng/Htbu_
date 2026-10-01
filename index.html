@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<title>N年日記</title>
+<title>HTBU_?</title>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="color-scheme" content="light">
 <meta name="theme-color" content="#cccccc">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="N年日記">
+<meta name="apple-mobile-web-app-title" content="HTBU_?">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon-192.png">
@@ -158,10 +158,10 @@ video.dtm{background:#000}
 .dtf button{padding:6px 18px}
 #mn .acts{justify-content:center;margin:14px 0 2px}#mn{width:min(280px,84vw)}#mn .mb{display:flex;flex-direction:column;align-items:center;gap:12px}#mn .edit{margin:0;width:100%;max-width:220px;padding:8px 12px;font-size:14px;text-align:center}
 #gd{width:min(320px,86vw)}#gd h2{text-align:center;margin:2px 0 14px}#gd .mb{display:flex;flex-direction:column;align-items:center;gap:12px}
+#cl{width:min(320px,86vw)}#cl h2{text-align:center;margin:2px 0 14px}#cl .mb{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:14px}#cl .edit{margin:0;width:100%;max-width:230px;padding:8px 12px;font-size:14px;text-align:center}
 #gd .mb .edit{margin:0;width:100%;max-width:230px;padding:8px 12px;font-size:14px;text-align:center}
 #gd .gb{font-size:14px;line-height:1.8;white-space:pre-wrap;max-height:56vh;overflow:auto;margin:0 0 4px}
 #gd .acts{justify-content:center;margin:14px 0 2px}
-#an{width:min(240px,80vw);text-align:center}#an p{margin:10px 0;font-size:17px;font-weight:500}
 #tx,#lk,#tv,#tn,#q{font-size:14px}
 #pt{overflow:hidden}
 #pt.collapsed{height:0}
@@ -190,15 +190,14 @@ video.dtm{background:#000}
 </head>
 <body>
 <main>
-<div class="top"><div><button id="mnb" class="edit" onclick="openMn()" aria-label="功能選單">≡</button></div><h1>N年日記</h1><div><button id="bkb" class="edit" onclick="openBk()">備份</button></div></div>
+<div class="top"><div><button id="mnb" class="edit" onclick="openMn()" aria-label="功能選單">≡</button></div><h1>HTBU_?</h1><div><button id="bkb" class="edit" onclick="openBk()">備份</button></div></div>
 <div id="pt"><div id="pplrow" class="prow"><span class="lab">對象</span><div id="ppl"></div></div>
 <div id="tagrow" class="prow"><span class="lab">標籤</span><div id="tagbar"></div></div></div><button id="ptc" onclick="togglePt()" aria-label="收合對象與標籤">︿</button>
 <input type="search" id="q" placeholder="搜尋" aria-label="搜尋紀錄" hidden>
 <div id="app"></div>
 </main>
 
-<dialog id="mn"><div class="mb" id="mnc"></div><div class="acts"><button onclick="$('#mn').close()">退出</button></div></dialog>
-<dialog id="an"><p>尚未開放！</p></dialog>
+<dialog id="mn"><div class="mb" id="mnc"></div><div class="acts" id="mnf"></div></dialog>
 <dialog id="hm"><h2 style="text-align:center">年度熱力圖</h2><div id="hmc"></div><div class="acts end"><button onclick="$('#hm').close()">退出</button></div></dialog>
 <dialog id="gd"></dialog>
 <dialog id="pe">
@@ -269,7 +268,18 @@ video.dtm{background:#000}
 <h2 id="tht">主題色</h2>
 <div class="acts" id="swt"></div>
 <div class="acts"><label class="r">自訂 <input type="color" id="tc"></label><button onclick="setTheme(null)">恢復預設</button></div>
-<div class="acts" style="justify-content:center"><button onclick="$('#th').close();openMn()">返回</button><button onclick="$('#th').close()">退出</button></div>
+<div class="acts" style="justify-content:center"><button onclick="$('#th').close();openColorList()">返回</button><button onclick="$('#th').close();$('#cl').close()">退出</button></div>
+</dialog>
+<dialog id="cl">
+<h2>主題色設定</h2>
+<div class="mb" id="clc"></div>
+<div class="acts" style="justify-content:center"><button onclick="$('#cl').close();openMn('layout')">返回</button><button onclick="$('#cl').close()">退出</button></div>
+</dialog>
+<dialog id="my">
+<h2>最早年份</h2>
+<p class="sub">回顧列表「展開更多」最多只會捲到這一年，避免無限往回展開。</p>
+<input type="number" id="myv" placeholder="例如 2015" inputmode="numeric">
+<div class="acts end"><button class="pri" onclick="saveMinY()">儲存</button><button onclick="clearMinY()">不限制</button><button onclick="my.close()">取消</button></div>
 </dialog>
 <dialog id="cv">
 <h2>選擇影片封面</h2>
@@ -289,6 +299,7 @@ const $=s=>document.querySelector(s),pad=n=>String(n).padStart(2,'0');
 {const sm=HTMLDialogElement.prototype.showModal;HTMLDialogElement.prototype.showModal=function(){sm.call(this);const a=document.activeElement;if(a&&this.contains(a)&&(a.tagName==='BUTTON'||(a.tagName==='INPUT'&&a.type==='radio'))){a.blur();this.tabIndex=-1;this.focus({preventScroll:true})}}}
 const h=(t,a={},...c)=>{const e=document.createElement(t);for(const k in a)k.startsWith('on')?e[k]=a[k]:e.setAttribute(k,a[k]);e.append(...c.flat().filter(x=>x!=null&&x!==false));return e};
 let hmY=null,hmData=[];
+let MINY=+localStorage.getItem('nyear-miny')||null;
 let db,useMem=false,M={people:{},entries:{}},people=[],cur=null,E={},urls=[],extra=0,hy=null,multi=false,msel=new Set(),edDate=null,edK=null,draft=[],durls=[],dturls=[],dtags=[],qs='',ftag=null,rlim=50,qt,other=false;
 const NODATE='0000-00-00',tsOf=e=>+String(e.k).split('|').pop()||0;
 const now=new Date();let mo=now.getMonth()+1,dy=now.getDate();
@@ -309,7 +320,7 @@ const dbByP=id=>useMem?Promise.resolve(Object.values(M.entries).filter(e=>e.pid=
 
 async function loadView(){E={};const ids=multi?[...msel]:cur?[cur]:[];for(const id of ids)(await dbByP(id)).forEach(e=>{if((e.date===NODATE)!==other)return;(E[e.date]||(E[e.date]=[])).push(e)})}
 async function sel(id){cur=id;multi=false;hy=null;extra=0;ftag=null;rlim=50;applyTheme(people.find(p=>p.id===id)?.color);await loadView();render()}
-async function toggleMulti(){multi=!multi;if(multi){other=false;msel=new Set(people.map(p=>p.id))}hy=null;ftag=null;applyTheme(multi?null:people.find(p=>p.id===cur)?.color);await loadView();render()}
+async function toggleMulti(){multi=!multi;if(multi){other=false;msel=new Set(people.map(p=>p.id))}hy=null;ftag=null;applyTheme(multi?REVCOL:people.find(p=>p.id===cur)?.color);await loadView();render()}
 async function toggleOther(){
  if(!other&&!cur){toast('請先新增對象');return}
  other=!other;if(other)multi=false;hy=null;ftag=null;qs='';$('#q').value='';rlim=50;
@@ -404,24 +415,39 @@ function updFab(){const b=$('#fab'),cy=now.getFullYear(),ok=other?!!cur:(!multi&
 function fabAdd(){openEd(other?NODATE:`${now.getFullYear()}-${pad(mo)}-${pad(dy)}`)}
 /* 功能選單 */
 const GUIDE=[
- {t:'☆ 功能介紹 ☆',b:'待更。'},
- {t:'☆ 用法推薦 ☆',b:'待更。'},
- {t:'☆ 偶滴碎碎念 ☆',b:'待更。'},
- {t:'☆ 施工日誌 ☆',b:'待更。'}];
+ {t:'☆ 功能介紹 ☆',b:'尚未更新！'},
+ {t:'☆ 用法推薦 ☆',b:'尚未更新！'},
+ {t:'☆ 施工日誌 ☆',b:'尚未更新！'}];
 function openGd(i){const d=$('#gd');
- if(i==null)rc(d,h('h2',{},'★《N年日記》使用說明書 ★'),h('div',{class:'mb'},...GUIDE.map((g,j)=>h('button',{class:'edit',onclick:()=>openGd(j)},g.t))),h('div',{class:'acts'},h('button',{onclick:()=>{d.close();openMn()}},'返回'),h('button',{onclick:()=>d.close()},'退出')));
+ if(i==null)rc(d,h('h2',{},'★《HTBU_?》使用說明書 ★'),h('div',{class:'mb'},...GUIDE.map((g,j)=>h('button',{class:'edit',onclick:()=>openGd(j)},g.t))),h('div',{class:'acts'},h('button',{onclick:()=>{d.close();openMn()}},'返回'),h('button',{onclick:()=>d.close()},'退出')));
  else rc(d,h('h2',{},GUIDE[i].t),h('div',{class:'gb'},GUIDE[i].b),h('div',{class:'acts'},h('button',{onclick:()=>openGd()},'返回')));
  if(!d.open)d.showModal();d.scrollTop=0}
-function openMn(){const b=(t,f)=>h('button',{class:'edit',onclick:()=>{$('#mn').close();f()}},t);
- rc($('#mnc'),b('使用說明書',()=>openGd()),b('更改當前對象主題色',openTh),
-  b(multi?'結束回顧':'回顧這一天',()=>{if(!multi&&people.length<1){toast('目前沒有可回顧的日記');return}toggleMulti()}),
-  b('年度熱力圖',openHeat),
- b(other?'返回 N年日記':'OTHER日記',toggleOther),
-  b('分析',()=>$('#an').showModal()));
- $('#mn').showModal()}
-$('#an').onclick=()=>$('#an').close();
+let mnView=null;
+function openMn(v){mnView=v||null;
+ const nav=(t,nv)=>h('button',{class:'edit',onclick:()=>openMn(nv)},t);
+ const act=(t,f)=>h('button',{class:'edit',onclick:()=>{$('#mn').close();f()}},t);
+ const msg=(t,m)=>act(t,()=>toast(m));
+ if(mnView==='guide'){$('#mn').close();openGd();return}
+ let foot;
+ if(!mnView){
+  rc($('#mnc'),nav('版面設置','layout'),nav('回顧','review'),nav('說明書','guide'),
+   act(other?'返回 HTBU_?':'OTHER日記',toggleOther));
+  foot=[h('button',{onclick:()=>$('#mn').close()},'退出')];
+ }else if(mnView==='layout'){
+  rc($('#mnc'),act('最早年份',openMinYear),act('主題色',openColorList));
+  foot=[h('button',{onclick:()=>openMn()},'返回'),h('button',{onclick:()=>$('#mn').close()},'退出')];
+ }else if(mnView==='review'){
+  rc($('#mnc'),
+   act(multi?'結束回顧':'日回顧',()=>{if(!multi&&people.length<1){toast('目前沒有可回顧的日記');return}toggleMulti()}),
+   msg('周復盤','尚未更新！'),msg('月總結','尚未開放！'),
+   act('年視圖',openHeat));
+  foot=[h('button',{onclick:()=>openMn()},'返回'),h('button',{onclick:()=>$('#mn').close()},'退出')];
+ }
+ rc($('#mnf'),...foot);
+ if(!$('#mn').open)$('#mn').showModal()}
 /* 主題色（每位對象各自設定） */
-const TK='nyear-theme',PRE=['#cccccc','#c7dad8','#dcd3aa','#cd5782','#f0eef3'];
+const TK='nyear-theme',PRE=['#cccccc','#c7dad8','#dcd3aa','#cd5782','#f0eef3'],REVK='nyear-review-color';
+let REVCOL=localStorage.getItem(REVK)||null;
 const rlum=(r,g,b)=>{const f=v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)};return .2126*f(r)+.7152*f(g)+.0722*f(b)};
 function txc(R,G,B){/* 淺色主題色當文字/小圖示用時，壓暗到看得清楚 */let r=R/255,g=G/255,b=B/255;const M=Math.max(r,g,b),m=Math.min(r,g,b);let l=(M+m)/2,h=0,s=0;
  if(M!==m){const d=M-m;s=l>.5?d/(2-M-m):d/(M+m);h=M===r?(g-b)/d+(g<b?6:0):M===g?(b-r)/d+2:(r-g)/d+4;h*=60}
@@ -435,10 +461,25 @@ function colInfo(x){if(!/^#[0-9a-f]{6}$/i.test(x||''))return null;const n=parseI
 function applyTheme(x){const r=document.documentElement.style,mt=document.querySelector('meta[name=theme-color]'),c=colInfo(x);
  if(!c){['--acc','--acx','--soft','--mark','--onacc','--bg'].forEach(k=>r.removeProperty(k));mt.content='#cccccc';return}
  r.setProperty('--acc',c.acc);r.setProperty('--acx',c.acx);r.setProperty('--soft',c.soft);r.setProperty('--mark',c.mark);r.setProperty('--onacc',c.on);r.setProperty('--bg',c.bg);mt.content=x}
-async function setTheme(x){const p=people.find(q=>q.id===cur);if(!p)return;p.color=x||null;try{await dbPut('people',p)}catch(e){}
- applyTheme(x);$('#tc').value=x||PRE[0];drawChips()}
-function openTh(){if(multi){toast('回顧時無法更改主題色');return}if(!cur){toast('請先新增對象，再選擇他的主題色');return}
- const p=people.find(q=>q.id===cur);$('#tht').textContent=`「${p.name}」的主題色`;$('#tc').value=p.color||PRE[0];$('#th').showModal()}
+async function setTheme(x){
+ if(thEditing==='review'){REVCOL=x||null;x?localStorage.setItem(REVK,x):localStorage.removeItem(REVK);if(multi)applyTheme(x);$('#tc').value=x||PRE[0];return}
+ const pid=thEditing||cur,p=people.find(q=>q.id===pid);if(!p)return;p.color=x||null;try{await dbPut('people',p)}catch(e){}
+ if(pid===cur&&!multi)applyTheme(x);$('#tc').value=x||PRE[0];drawChips()}
+let thEditing=null;
+function openTh(pid){pid=pid||cur;
+ if(pid==='review'){thEditing='review';$('#tht').textContent='日回顧的主題色';$('#tc').value=REVCOL||PRE[0];$('#th').showModal();return}
+ const p=people.find(q=>q.id===pid);if(!p){toast('請先新增對象，再選擇他的主題色');return}
+ thEditing=pid;$('#tht').textContent=`「${p.name}」的主題色`;$('#tc').value=p.color||PRE[0];$('#th').showModal()}
+function openColorList(){if(!people.length){toast('請先新增對象，再選擇他的主題色');return}
+ const c=colInfo(REVCOL);
+ rc($('#clc'),...people.map(p=>{const c=colInfo(p.color);return h('button',{class:'edit',style:c?`box-shadow:inset 0 -3px 0 ${c.acc}`:'',onclick:()=>openTh(p.id)},p.name)}),
+  h('button',{class:'edit',style:c?`box-shadow:inset 0 -3px 0 ${c.acc}`:'',onclick:()=>openTh('review')},'日回顧'));
+ $('#cl').showModal()}
+function openMinYear(){$('#myv').value=MINY||'';$('#my').showModal();$('#myv').focus()}
+function saveMinY(){const v=+$('#myv').value,cy=now.getFullYear();if(!v||v<1900||v>cy){toast('請輸入有效的年份');return}
+ MINY=v;localStorage.setItem('nyear-miny',v);$('#my').close();render()}
+function clearMinY(){MINY=null;localStorage.removeItem('nyear-miny');$('#my').close();render()}
+$('#myv').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();saveMinY()}};
 $('#swt').replaceChildren(...PRE.map(c=>h('button',{class:'sw',style:'background:'+c,'aria-label':c,onclick:()=>setTheme(c===PRE[0]?null:c)})));
 $('#tc').oninput=e=>setTheme(e.target.value);
 let ptCol=false;function togglePt(){ptCol=!ptCol;$('#pt').classList.toggle('collapsed',ptCol);$('#ptc').textContent=ptCol?'﹀':'︿'}
@@ -558,7 +599,7 @@ function render(){
    hits.length>rlim&&h('button',{class:'more',onclick:()=>{rlim+=50;render()}},'顯示更多'));
   fitX();return}
  const cy=now.getFullYear(),ys=Object.keys(E).map(k=>+k.slice(0,4)),
-  minY=Math.min(cy-4-extra*5,...ys,hy||cy),rows=[];let filled=0;
+  minY=Math.max(MINY||-Infinity,Math.min(cy-4-extra*5,...ys,hy||cy)),atFloor=MINY&&(cy-4-extra*5)<=MINY,rows=[];let filled=0;
  for(let y=cy;y>=minY;y--){
   if(new Date(y,mo-1,dy).getDate()!==dy)continue;
   const date=`${y}-${pad(mo)}-${pad(dy)}`,list=E[date]||[];if(list.length)filled++;
@@ -589,7 +630,7 @@ function render(){
    h('div',{class:'dgR'},dsel,h('button',{class:'edit',onclick:()=>{mo=now.getMonth()+1;dy=now.getDate();hy=null;render()}},'今日'))),
   h('p',{class:'sub'},multi&&!msel.size?'選擇你要回顧的對象':`這一天，${who}共紀錄了${cnt}則，共紀錄了${filled}年。`),
   h('div',{class:'tl'},rows),
-  h('div',{class:'acts',style:'justify-content:center'},h('button',{onclick:()=>{extra++;render()}},'展開更多'),extra>0&&h('button',{onclick:()=>{extra=0;render()}},'收合')),
+  h('div',{class:'acts',style:'justify-content:center'},!atFloor&&h('button',{onclick:()=>{extra++;render()}},'展開更多'),extra>0&&h('button',{onclick:()=>{extra=0;render()}},'收合')),
   useMem&&h('p',{class:'note'},'此瀏覽器無法長期儲存，關閉頁面後資料會消失。'));
  chkClip();
 }
@@ -676,7 +717,7 @@ async function saveBackup(){
  if(!bkFile)return;
  try{
   if(navigator.canShare&&navigator.canShare({files:[bkFile]})){
-   try{await navigator.share({files:[bkFile],title:'N年日記備份'})}catch(e){if(e.name==='AbortError')return;dl(bkFile)}
+   try{await navigator.share({files:[bkFile],title:'HTBU_?備份'})}catch(e){if(e.name==='AbortError')return;dl(bkFile)}
   }else dl(bkFile);
   markB(bkSel);updBlast();render();
   $('#bst').textContent='已送出。請確認檔案真的存到「檔案」App、雲端硬碟或其他安全的地方。';
@@ -687,7 +728,7 @@ async function importBackup(f){
  try{
   st.textContent='讀取中…';
   const j=JSON.parse(await f.text());
-  if(j.app!=='nyear-diary'||!Array.isArray(j.people)||!Array.isArray(j.entries))throw new Error('這不是 N年日記 的備份檔');
+  if(j.app!=='nyear-diary'||!Array.isArray(j.people)||!Array.isArray(j.entries))throw new Error('這不是 HTBU_? 的備份檔');
   for(const p of j.people)if(p&&p.id&&p.name)await dbPut('people',{id:String(p.id),name:String(p.name).slice(0,30),color:/^#[0-9a-f]{6}$/i.test(p.color||'')?p.color:(people.find(q=>q.id===String(p.id))?.color||null),tags:[...new Set([...(people.find(q=>q.id===String(p.id))?.tags||[]),...(Array.isArray(p.tags)?p.tags:[]).map(normTag).filter(Boolean)])].slice(0,200)});
   let n=0;
   for(const e of j.entries){
