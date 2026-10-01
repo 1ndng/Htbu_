@@ -49,7 +49,7 @@ a:focus-visible{outline:2px solid var(--acx);outline-offset:2px}
 .dhead .arrow::after{content:"‹";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px;line-height:1;color:var(--mute)}
 .dhead .arrow[aria-label="後一天"]::after{content:"›"}
 .who{font-size:13px;font-weight:500;color:var(--acx);margin-bottom:2px}.who::before{content:"";display:inline-block;width:8px;height:8px;border-radius:0;clip-path:var(--dot8);background:var(--acx);margin-right:5px}
-.day{font:600 36px/1.15 "BaDing",serif;margin:0;flex:none;white-space:nowrap;text-decoration:underline;text-decoration-color:var(--mute);text-decoration-thickness:1.5px;text-underline-offset:4px}
+.day{font:600 36px/1.15 "BaDing",serif;margin:0;flex:none;white-space:nowrap}.day .dn{text-decoration:underline;text-decoration-color:var(--mute);text-decoration-thickness:1.5px;text-underline-offset:4px}
 .sub{color:var(--mute);margin:0 0 22px}
 @media (max-width:370px){.day{font-size:30px}}
 .tl{border-left:2px solid var(--acc);margin-left:6px}
@@ -84,8 +84,8 @@ label{display:block;font-size:14px;color:var(--mute)}
 .note{--pxc:3px;clip-path:var(--cut);background:var(--soft);border-radius:0;padding:8px 12px;font-size:14px;margin-bottom:12px}
 .tm{font:600 12px "BaDing",serif;color:var(--acx);margin-bottom:2px}
 .hs{display:flex;align-items:flex-start;gap:12px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin;padding:2px 2px 8px;margin:0 -2px}.hs+.hs{margin-top:6px;padding-top:14px;border-top:1px solid var(--line);opacity:1}
-.hs>.card{flex:0 0 min(260px,78%);min-width:0;margin-top:0}
-.hi{flex:0 0 min(260px,78%);min-width:0;position:relative;padding-top:34px}.hi>.card{margin-top:0}
+.hs>.card{flex:0 0 auto;width:fit-content;min-width:min-content;max-width:min(320px,88%);margin-top:0}.hs>.card.hasm{min-width:min(260px,88%)}
+.hi{flex:0 0 auto;width:fit-content;min-width:min-content;max-width:min(320px,88%);position:relative;padding-top:34px}.hi:has(.card.hasm){min-width:min(260px,88%)}.hi>.card{margin-top:0}
 .hi::before{content:"";position:absolute;top:24px;left:-6px;right:-6px;height:2px;background:var(--acc)}
 .hi:first-child::before{left:0}.hi:last-child::before{right:0}
 .hi::after{content:"";position:absolute;left:0;top:19px;width:12px;height:12px;clip-path:var(--dot12);background:var(--acx)}
@@ -123,7 +123,7 @@ html,body{touch-action:manipulation}
 .tgs{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .gd{display:inline-block;width:8px;height:8px;background:currentColor;clip-path:var(--dot8);margin:0 5px 1px 0;vertical-align:middle}
 .dot{display:inline-block;width:8px;height:8px;border-radius:0;clip-path:var(--dot8);margin-right:6px}
-.ea{display:flex;flex-wrap:wrap;align-items:center;gap:0 12px}.ea>*{flex:none;white-space:nowrap}
+.ea{display:flex;flex-wrap:nowrap;align-items:flex-end;gap:0 8px}.ea>.edit{flex:none;white-space:nowrap;padding-left:9px;padding-right:9px}
 .hit{margin-bottom:14px}.rd{font:600 15px "BaDing",serif}
 blockquote{margin:4px 0;padding:2px 10px;border-left:3px solid var(--acx);color:var(--mute)}
 .txt ul{margin:4px 0;padding-left:20px}.hd{font-weight:600;font-size:15px}
@@ -168,6 +168,7 @@ video.dtm{background:#000}
 .dtf{flex:none;padding:10px 14px;display:flex;justify-content:flex-end;gap:10px;border-top:1px solid var(--line)}
 .dtf button{padding:6px 18px}
 #mn .acts{justify-content:center;margin:14px 0 2px}#mn{width:min(280px,84vw)}#mn .mb{display:flex;flex-direction:column;align-items:center;gap:12px}#mn .edit{margin:0;width:100%;max-width:220px;padding:8px 12px;font-size:14px;text-align:center}
+.bkw{display:flex;flex-direction:column;align-items:center;gap:6px;width:100%}.bkn{font-size:11px;color:var(--mute);text-align:center;line-height:1.5}
 #gd{width:min(320px,86vw)}#gd h2{text-align:center;margin:2px 0 14px}#gd .mb{display:flex;flex-direction:column;align-items:center;gap:12px}
 #cl{width:min(320px,86vw)}#cl h2{text-align:center;margin:2px 0 14px}#cl .mb{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:14px}#cl .edit{margin:0;width:100%;max-width:230px;padding:8px 12px;font-size:14px;text-align:center}
 #gd .mb .edit{margin:0;width:100%;max-width:230px;padding:8px 12px;font-size:14px;text-align:center}
@@ -193,7 +194,7 @@ video.dtm{background:#000}
 .hmleg .hcell{width:11px;height:11px;flex:none}
 .hcell.ck{cursor:pointer}
 .hcell.c4{background:var(--acx)}
-.cnt{font-size:11px;color:var(--mute);margin-left:auto;align-self:flex-end;white-space:nowrap}
+.cnt{font-size:11px;line-height:1.4;color:var(--mute);margin:0 0 -2px auto;align-self:flex-end;flex:0 1 auto;min-width:0;text-align:left;padding:0}.cnt .cs{display:inline-block;white-space:nowrap}
 .ohead{display:flex;align-items:flex-end;justify-content:space-between;gap:6px;margin:14px 0 12px}
 .ohead .edit{margin:0;height:32px;line-height:30px;padding:0 12px;box-sizing:border-box}
 .otl{font:600 28px/1.15 "BaDing",serif;margin:0;white-space:nowrap}
@@ -436,10 +437,11 @@ function blocks(t){const out=[],L=t.split('\n');let buf=[],i=0;
 function txtBits(t,c){return t?[h('div',{class:'txt'+(c?' clamp':'')},...blocks(t))]:[]}
 function toggleX(b){const c=b.closest('.card'),t=c.querySelector('.txt');if(!t)return;const o=t.classList.toggle('clamp');c.classList.toggle('open',!o);b.textContent=o?'展開':'收合'}
 function toggleC(b){const c=b.closest('.card'),o=c.classList.toggle('open');b.textContent=o?'收合':'展開';chkClip()}
-function fitX(){document.querySelectorAll('.card .xb').forEach(b=>{const c=b.closest('.card'),t=c.querySelector('.txt'),show=c.classList.contains('open')||(t&&t.scrollHeight>t.clientHeight+1);b.hidden=!show;const cn=b.closest('.ea')?.querySelector('.cnt');if(cn)cn.hidden=!show})}
+function fitCnt(){document.querySelectorAll('.card .cnt').forEach(c=>{c.style.width='';if(c.hidden)return;const L=c.getBoundingClientRect().left;let r=0;c.querySelectorAll('.cs').forEach(x=>{r=Math.max(r,x.getBoundingClientRect().right)});const w=r-L;if(w>0&&w<c.clientWidth)c.style.width=Math.ceil(w)+1+'px'})}
+function fitX(){document.querySelectorAll('.card .xb').forEach(b=>{const c=b.closest('.card'),t=c.querySelector('.txt'),show=c.classList.contains('open')||(t&&t.scrollHeight>t.clientHeight+1);b.hidden=!show;const cn=b.closest('.ea')?.querySelector('.cnt');if(cn)cn.hidden=!show});fitCnt()}
 function chkClip(){document.querySelectorAll('.card .cbody').forEach(d=>{const c=d.closest('.card'),o=c.classList.contains('open');
  if(d.classList.contains('hm')){if(o)d.style.maxHeight='';else{const ths=[...d.querySelectorAll('.th')].slice(0,2),b=ths.length?Math.max(...ths.map(x=>x.offsetTop+x.offsetHeight)):0;if(b>20)d.style.maxHeight=(b+2)+'px'}}
- const ov=!o&&d.scrollHeight>d.clientHeight+1,t=d.querySelector('.txt'),tc=!o&&d.classList.contains('hm')&&t&&t.scrollHeight>t.clientHeight+1;d.classList.toggle('clip',ov);const show=o||ov||tc;const b=c.querySelector('.cx');if(b)b.hidden=!show;const cn=c.querySelector('.cnt');if(cn)cn.hidden=!show})}
+ const ov=!o&&d.scrollHeight>d.clientHeight+1,t=d.querySelector('.txt'),tc=!o&&d.classList.contains('hm')&&t&&t.scrollHeight>t.clientHeight+1;d.classList.toggle('clip',ov);const show=o||ov||tc;const b=c.querySelector('.cx');if(b)b.hidden=!show;const cn=c.querySelector('.cnt');if(cn)cn.hidden=!show});fitCnt()}
 document.fonts&&document.fonts.ready.then(()=>{fitX();chkClip()});addEventListener('orientationchange',()=>setTimeout(()=>{fitX();chkClip()},300));addEventListener('resize',()=>{fitX();chkClip()});
 function wrap(m){const t=$('#tx'),a=t.selectionStart,b=t.selectionEnd,v=t.value;t.value=v.slice(0,a)+m+v.slice(a,b)+m+v.slice(b);t.focus();t.setSelectionRange(a+m.length,b+m.length)}
 function lineP(p){const t=$('#tx'),v=t.value,a=t.selectionStart,b=t.selectionEnd,s0=v.lastIndexOf('\n',a-1)+1;let e0=v.indexOf('\n',b);if(e0<0)e0=v.length;
@@ -466,7 +468,7 @@ function openMn(v){mnView=v||null;
  let foot;
  if(!mnView){
   rc($('#mnc'),nav('★版面設置★','layout'),nav('★回顧★','review'),nav('★說明書★','guide'),
-   act(['★',bkDue()&&h('span',{class:'gd',style:'margin:0 3px 1px 2px'}),'備份★'],openBk));
+   h('div',{class:'bkw'},act('★備份★',openBk),h('div',{class:'bkn'},lbMap().all?'上次備份：'+new Date(lbMap().all).toLocaleString('zh-TW'):'尚未備份過')));
   foot=[h('button',{onclick:()=>$('#mn').close()},'退出')];
  }else if(mnView==='layout'){
   rc($('#mnc'),act('☆最早年份☆',openMinYear),act('☆主題色☆',openColorList));
@@ -523,9 +525,9 @@ const nowStr=()=>{const d=new Date();return pad(d.getHours())+':'+pad(d.getMinut
 const pname=id=>people.find(p=>p.id===id)?.name||'';
 const colVars=id=>{const c=colInfo(people.find(p=>p.id===id)?.color);return c?`--acc:${c.acc};--acx:${c.acx};--soft:${c.soft};--mark:${c.mark};--onacc:${c.on}`:''};
 const pstyle=en=>multi?colVars(en.pid):'';
-function cntStr(en){const M=en.media||[],g=t=>M.filter(x=>x.t===t).length,L=(en.links||[]).length,Q=en.quote?1:0,
- parts=[g('image')&&g('image')+'張圖',g('video')&&g('video')+'部影片',g('audio')&&g('audio')+'個音訊',g('file')&&g('file')+'個檔案',L&&L+'個連結',Q&&'含引用'].filter(Boolean);
- return parts.join('、')}
+function cntParts(en){const M=en.media||[],g=t=>M.filter(x=>x.t===t).length,L=(en.links||[]).length,Q=en.quote?1:0;
+ return [g('image')&&g('image')+'張圖',g('video')&&g('video')+'部影片',g('audio')&&g('audio')+'個音訊',g('file')&&g('file')+'個檔案',L&&L+'個連結',Q&&'含引用'].filter(Boolean)}
+function cntStr(en){return cntParts(en).join('、')}
 const hay=e=>[e.date===NODATE?'':e.date,e.text,...(e.links||[]),...(e.tags||[]),...(e.media||[]).map(m=>m.n)].join('\n').toLowerCase();
 const qTxt=q=>(q.text||'').slice(0,28)||(cntStr(q)||(q.time?q.time+' 的紀錄':'一則紀錄'));
 const qFind=q=>(E[q.date]||[]).find(x=>x.k===q.k);
@@ -543,9 +545,9 @@ const parts=(en,date,jump,showTime)=>{
   (en.tags||[]).length>0&&h('div',{class:'tgs'},en.tags.map(t=>h('button',{class:'tg',onclick:()=>setTag(en.pid,t)},'#'+t))),
   qv];
  const cs=cntStr(en);
- const ea=h('div',{class:'ea'},jump?h('button',{class:'edit xb',onclick:e=>toggleX(e.currentTarget)},'展開'):h('button',{class:'edit cx',hidden:true,onclick:e=>toggleC(e.currentTarget)},'展開'),!multi&&h('button',{class:'edit',onclick:()=>openEd(date,en.k)},'編輯'),!multi&&h('button',{class:'edit',onclick:()=>quoteFrom(en)},'引用'),jump&&h('button',{class:'edit',onclick:()=>goDay(date)},'跳到這天'),cs&&h('span',{class:'cnt',hidden:true},cs));
+ const ea=h('div',{class:'ea'},jump?h('button',{class:'edit xb',onclick:e=>toggleX(e.currentTarget)},'展開'):h('button',{class:'edit cx',hidden:true,onclick:e=>toggleC(e.currentTarget)},'展開'),!multi&&h('button',{class:'edit',onclick:()=>openEd(date,en.k)},'編輯'),!multi&&h('button',{class:'edit',onclick:()=>quoteFrom(en)},'引用'),jump&&h('button',{class:'edit',onclick:()=>goDay(date)},'跳到這天'),cs&&h('span',{class:'cnt',hidden:true},...cntParts(en).map((p,i,a)=>h('span',{class:'cs'},i<a.length-1?p+'、':p))));
  return jump?[...body,ea]:[h('div',{class:'cbody'+(en.media.some(m=>m.t==='image'||m.t==='video')?' hm':'')},...body),ea]};
-const card=(en,date,jump,st)=>h('div',{class:'card',style:pstyle(en),'data-k':en.k,'data-d':date},...parts(en,date,jump,st));
+const card=(en,date,jump,st)=>h('div',{class:'card'+(en.media&&en.media.length?' hasm':''),style:pstyle(en),'data-k':en.k,'data-d':date},...parts(en,date,jump,st));
 function drawChips(){const on=p=>multi?msel.has(p.id):p.id===cur;
  rc($('#ppl'),...people.map(p=>{const c=colInfo(p.color),o=on(p);
   return h('button',{class:'chip'+(o?' on':''),'aria-pressed':o,style:multi&&o&&c?`--fill:${c.acc};--bd:${c.acc};color:${c.on}`:'',onclick:()=>multi?tog(p.id):sel(p.id)},(multi&&o?'✓ ':'')+p.name)}),
@@ -666,7 +668,7 @@ function render(){
   who=multi?[...msel].map(pname).join('、'):P.name;
  rc(A,
   h('div',{class:'dhead'},
-   h('div',{class:'dgL'},h('button',{class:'edit arrow',onclick:step(-1),'aria-label':'前一天'},'‹'),h('div',{class:'dpick'},h('div',{class:'day'},`${mo}月${dy}日`),dpk),h('button',{class:'edit arrow',onclick:step(1),'aria-label':'後一天'},'›')),
+   h('div',{class:'dgL'},h('button',{class:'edit arrow',onclick:step(-1),'aria-label':'前一天'},'‹'),h('div',{class:'dpick'},h('div',{class:'day'},h('span',{class:'dn'},String(mo)),'月',h('span',{class:'dn'},String(dy)),'日'),dpk),h('button',{class:'edit arrow',onclick:step(1),'aria-label':'後一天'},'›')),
    h('div',{class:'dgR'},!(mo===now.getMonth()+1&&dy===now.getDate())&&h('button',{class:'edit',onclick:()=>{mo=now.getMonth()+1;dy=now.getDate();hy=null;render()}},'跳回今日'))),
   h('p',{class:'sub'},multi&&!msel.size?'選擇你要回顧的對象':`這一天，${who}共紀錄了${cnt}則，共紀錄了${filled}年。`),
   h('div',{class:'tl'},rows),
@@ -676,7 +678,7 @@ function render(){
 }
 
 function fillDpd(d){const n=new Date(2024,+$('#dpm').value,0).getDate();rc($('#dpd'),...Array.from({length:n},(_,i)=>h('option',{value:i+1},(i+1)+'日')));$('#dpd').value=Math.min(d,n)}
-function openDp(){rc($('#dpm'),...Array.from({length:12},(_,i)=>h('option',{value:i+1},(i+1)+'月')));$('#dpm').value=mo;fillDpd(dy);$('#dp').showModal()}
+function openDp(){rc($('#dpm'),...Array.from({length:12},(_,i)=>h('option',{value:i+1},(i+1)+'月')));$('#dpm').value=mo;fillDpd(dy);$('#dp').showModal();if(document.activeElement&&document.activeElement.blur)document.activeElement.blur()}
 function dpOk(){mo=+$('#dpm').value;dy=+$('#dpd').value;hy=null;$('#dp').close();render()}
 function drawDraft(){durls.forEach(URL.revokeObjectURL);durls=[];
  $('#dm').replaceChildren(...draft.map((m,i)=>h('div',{class:'rm',style:(m.t==='audio'||m.t==='file')?'grid-column:1/-1':''},mEl(m),h('button',{'aria-label':'移除',onclick:async()=>{if(await ask()){draft.splice(i,1);drawDraft()}}},'×'),m.t==='video'&&h('button',{class:'cvb',onclick:()=>openCv(m)},'封面'))))}
