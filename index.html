@@ -204,6 +204,7 @@ video.dtm{background:#000}
 #qs2{--pxc:3px;clip-path:var(--cut);-webkit-appearance:none;appearance:none;flex:1;min-width:0;width:auto;border:1px solid transparent;background:var(--pxbg);border-radius:0;padding:6px 10px;margin:0}
 #qs2::-webkit-search-decoration{-webkit-appearance:none;display:none}
 #qsb{flex:none;padding:6px 14px}
+@media (pointer:coarse){#qd{margin:calc(10px + env(safe-area-inset-top,0px)) auto auto;max-height:46vh}}
 #dp{width:min(300px,86vw)}#dp h2{text-align:center;margin:2px 0 12px}
 </style>
 </head>
@@ -441,7 +442,7 @@ document.fonts&&document.fonts.ready.then(()=>{fitX();chkClip()});addEventListen
 function wrap(m){const t=$('#tx'),a=t.selectionStart,b=t.selectionEnd,v=t.value;t.value=v.slice(0,a)+m+v.slice(a,b)+m+v.slice(b);t.focus();t.setSelectionRange(a+m.length,b+m.length)}
 function lineP(p){const t=$('#tx'),v=t.value,a=t.selectionStart,b=t.selectionEnd,s0=v.lastIndexOf('\n',a-1)+1;let e0=v.indexOf('\n',b);if(e0<0)e0=v.length;
  const seg=v.slice(s0,e0).split('\n').map(l=>p+l).join('\n');t.value=v.slice(0,s0)+seg+v.slice(e0);t.focus();t.setSelectionRange(s0,s0+seg.length)}
-function updFab(){const b=$('#fab'),ok=other?!!cur:(!multi&&!!cur);b.hidden=!ok}
+function updFab(){const b=$('#fab'),ok=other?!!cur:(!multi&&!!cur);b.hidden=!ok;b.textContent=other?'＋新增':'＋新增（今日）'}
 function fabAdd(){openEd(other?NODATE:`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`)}
 /* 功能選單 */
 const GUIDE=[
@@ -702,8 +703,9 @@ function mkQuoteSnap(en){return{k:en.k,pid:en.pid,date:en.date,time:en.time||nul
 function drawQuote(){const v=$('#qpv');if(!dquote){rc(v);return}
  rc(v,h('div',{class:'qchip'},h('div',{class:'qb'},h('div',{class:'rd'},qLbl(dquote)),h('div',{class:'qtx'},qTxt(dquote))),h('button',{'aria-label':'移除引用',onclick:async()=>{if(await ask('移除這則引用？')){dquote=null;drawQuote()}}},'×')))}
 function openQd(){if(!cur){toast('請先選擇對象');return}$('#qs2').value='';drawQd('');$('#qd').showModal();setTimeout(()=>$('#qs2').focus(),50)}
-async function drawQd(k){const all=(await dbByP(cur)).filter(e=>e.k!==edK),kk=k.trim().toLowerCase(),
+async function drawQd(k){const my=drawQd.n=(drawQd.n||0)+1,all=(await dbByP(cur)).filter(e=>e.k!==edK),kk=k.trim().toLowerCase(),
  list=all.filter(e=>!kk||hay(e).includes(kk)).sort((a,b)=>a.date===b.date?(b.time||'').localeCompare(a.time||''):(a.date<b.date?1:-1)).slice(0,80);
+ if(my!==drawQd.n)return;
  rc($('#qdc'),list.length?list.map(e=>h('button',{class:'qhit',onclick:()=>{dquote=mkQuoteSnap(e);drawQuote();$('#qd').close()}},h('div',{class:'rd'},(e.date===NODATE?'隨手記':fmtD(e.date))+(e.time?'　'+e.time:'')),h('div',{class:'qtx'},qTxt(e)))):h('p',{class:'sub'},'沒有符合的紀錄'))}
 function qdGo(){clearTimeout(drawQd.t);drawQd($('#qs2').value)}
 $('#qs2').oninput=()=>{clearTimeout(drawQd.t);drawQd.t=setTimeout(()=>drawQd($('#qs2').value),200)};
