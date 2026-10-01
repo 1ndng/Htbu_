@@ -61,7 +61,7 @@ a:focus-visible{outline:2px solid var(--acx);outline-offset:2px}
 .card{--pxc:4px;background:var(--pxbg);border:1px solid transparent;border-radius:0;padding:11px 13px;margin-top:8px;clip-path:var(--cut);display:flex;flex-direction:column}
 .cbody{max-height:4.9em;overflow:hidden;position:relative;flex:1 1 auto}
 .cbody.clip::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1.6em;background:linear-gradient(to bottom,transparent,var(--card))}
-.card.empty{background:transparent;border:0;clip-path:none;color:var(--mute);display:flex;justify-content:flex-start;align-items:center;gap:8px;padding:0}
+.card.empty{background:transparent;border:0;clip-path:none;color:var(--mute);display:flex;flex-direction:row;justify-content:flex-start;align-items:flex-start;gap:8px;padding:0}
 .txt{white-space:pre-wrap;word-break:break-word;margin:0 0 6px}.clamp{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
 mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 2px}
 .media{display:grid;grid-template-columns:repeat(auto-fill,72px);gap:8px;margin:8px 0}
