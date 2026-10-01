@@ -49,7 +49,7 @@ textarea:focus-visible{outline:2px solid var(--acx);outline-offset:2px}
 .dhead .arrow::after{content:"‹";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px;line-height:1;color:var(--mute)}
 .dhead .arrow[aria-label="後一天"]::after{content:"›"}
 .who{font-size:13px;font-weight:500;color:var(--acx);margin-bottom:2px}.who::before{content:"";display:inline-block;width:8px;height:8px;border-radius:0;clip-path:var(--dot8);background:var(--acx);margin-right:5px}
-.day{font:600 36px/1.15 "BaDing",serif;margin:0;flex:none;white-space:nowrap}
+.day{font:600 36px/1.15 "BaDing",serif;margin:0;flex:none;white-space:nowrap;text-decoration:underline;text-decoration-color:var(--line);text-decoration-thickness:2px;text-underline-offset:4px}
 .sub{color:var(--mute);margin:0 0 22px}
 @media (max-width:370px){.day{font-size:30px}}
 .tl{border-left:2px solid var(--acc);margin-left:6px}
@@ -289,7 +289,7 @@ video.dtm{background:#000}
 <dialog id="cf"><p>是否刪除？</p><p class="sm" id="cfs" hidden></p><div class="acts"><button id="cfy" class="pri">是</button><button id="cfn">否</button></div></dialog>
 <dialog id="dt"><div id="dtc"></div><div class="dtf"><button class="pri" onclick="$('#dt').close()">退出</button></div></dialog>
 <dialog id="lb"><button id="lbx" onclick="$('#lb').close()">關閉 ✕</button><div id="lbc"></div></dialog>
-<button id="fab" hidden onclick="fabAdd()">＋新增</button>
+<button id="fab" hidden onclick="fabAdd()">＋新增（今日）</button>
 <div id="toast" role="status"></div>
 
 <script>
@@ -409,8 +409,8 @@ document.fonts&&document.fonts.ready.then(()=>{fitX();chkClip()});addEventListen
 function wrap(m){const t=$('#tx'),a=t.selectionStart,b=t.selectionEnd,v=t.value;t.value=v.slice(0,a)+m+v.slice(a,b)+m+v.slice(b);t.focus();t.setSelectionRange(a+m.length,b+m.length)}
 function lineP(p){const t=$('#tx'),v=t.value,a=t.selectionStart,b=t.selectionEnd,s0=v.lastIndexOf('\n',a-1)+1;let e0=v.indexOf('\n',b);if(e0<0)e0=v.length;
  const seg=v.slice(s0,e0).split('\n').map(l=>p+l).join('\n');t.value=v.slice(0,s0)+seg+v.slice(e0);t.focus();t.setSelectionRange(s0,s0+seg.length)}
-function updFab(){const b=$('#fab'),cy=now.getFullYear(),ok=other?!!cur:(!multi&&cur&&new Date(cy,mo-1,dy).getDate()===dy);b.hidden=!ok}
-function fabAdd(){openEd(other?NODATE:`${now.getFullYear()}-${pad(mo)}-${pad(dy)}`)}
+function updFab(){const b=$('#fab'),ok=other?!!cur:(!multi&&!!cur);b.hidden=!ok}
+function fabAdd(){openEd(other?NODATE:`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`)}
 /* 功能選單 */
 const GUIDE=[
  {t:'☆ 功能介紹 ☆',b:'尚未更新！'},
@@ -613,7 +613,7 @@ function render(){
    body=h('div',{},
     T.length>0&&h('div',{class:'hs'},...T.map(x=>h('div',{class:'hi',style:pstyle(x)},h('div',{class:'htm'},x.time),card(x,date)))),
     N.length>0&&h('div',{class:'hs'},...N.map(x=>card(x,date))),
-    !multi&&y!==cy&&h('button',{class:'edit',onclick:()=>openEd(date)},'新增'));
+    !multi&&h('button',{class:'edit',onclick:()=>openEd(date)},'新增'));
   }
   rows.push(h('div',{class:'row'+(list.length?' has':'')+''},head,body));
  }
