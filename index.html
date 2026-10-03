@@ -100,10 +100,10 @@ label{display:block;font-size:14px;color:var(--mute)}
 .card.open .cbody{max-height:none}.card.open .cbody.clip::after{display:none}
 .lh{display:flex;justify-content:space-between;align-items:center;margin:-4px 0 6px}.lh .edit{margin:0}
 .r{display:inline-flex;align-items:center;gap:4px;color:var(--ink)}
-#tv{--pxc:3px;--fill:var(--bg);clip-path:var(--cut);border:1px solid transparent;background:var(--pxbg);border-radius:0;padding:4px 8px}#tv:disabled{opacity:.4}
+#tv,#mvtv{--pxc:3px;--fill:var(--bg);clip-path:var(--cut);border:1px solid transparent;background:var(--pxbg);border-radius:0;padding:4px 8px}#tv:disabled,#mvtv:disabled{opacity:.4}
 #dl{margin-right:auto;color:#c0392b}
-#fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:5;background:var(--acc);color:var(--onacc);border:0;border-radius:0;clip-path:polygon(evenodd,3px 0,calc(100% - 3px) 0,100% 3px,100% calc(100% - 3px),calc(100% - 3px) 100%,3px 100%,0 calc(100% - 3px),0 3px,3px 0,4px 1px,calc(100% - 4px) 1px,calc(100% - 1px) 4px,calc(100% - 1px) calc(100% - 4px),calc(100% - 4px) calc(100% - 1px),4px calc(100% - 1px),1px calc(100% - 4px),1px 4px,4px 1px,5px 3px,calc(100% - 5px) 3px,calc(100% - 3px) 5px,calc(100% - 3px) calc(100% - 5px),calc(100% - 5px) calc(100% - 3px),5px calc(100% - 3px),3px calc(100% - 5px),3px 5px,5px 3px,4px 1px,3px 0);padding:14px 21px;font-size:14px;font-weight:500}
-#fab:focus-visible{outline:2px solid var(--onacc);outline-offset:-8px}
+#fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:5;background:var(--acc);color:var(--onacc);border:0;border-radius:0;clip-path:var(--cut);padding:14px 21px;font-size:14px;font-weight:500}
+#fab:focus,#fab:active{--bd:var(--acc);clip-path:var(--cut3)}
 #fab[hidden]{display:none}
 #lb{background:transparent;clip-path:none;border:0;padding:0;width:auto;max-width:96vw;color:#fff;overflow:visible}
 #lb img,#lb video{--pxc:4px;clip-path:var(--cut);display:block;max-width:94vw;max-height:80vh;border-radius:0;margin:auto}
@@ -174,11 +174,11 @@ video.dtm{background:#000}
 #mn .acts{justify-content:center;margin:14px 0 2px}#mn{width:min(280px,84vw)}#mn .mb{display:flex;flex-direction:column;align-items:center;gap:12px}#mn .edit{margin:0;width:100%;max-width:220px;padding:8px 12px;font-size:14px;text-align:center}
 .bkw{display:flex;flex-direction:column;align-items:center;gap:6px;width:100%}.bkn{font-size:11px;color:var(--mute);text-align:center;line-height:1.5}
 #gd{width:min(320px,86vw)}#gd h2{text-align:center;margin:2px 0 14px}#gd .mb{display:flex;flex-direction:column;align-items:center;gap:12px}
-#cl{width:min(320px,86vw)}#cl h2{text-align:center;margin:2px 0 14px}#cl .mb{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:14px}#cl .edit{margin:0;width:100%;max-width:230px;padding:8px 12px;font-size:14px;text-align:center}
+#cl,#hp,#ft{width:min(320px,86vw)}#cl h2,#hp h2,#ft h2{text-align:center;margin:2px 0 14px}#cl .mb,#hp .mb,#ft .mb{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:14px}#cl .edit,#hp .edit,#ft .edit{margin:0;width:100%;max-width:230px;padding:8px 12px;font-size:14px;text-align:center}
 #gd .mb .edit{margin:0;width:100%;max-width:230px;padding:8px 12px;font-size:14px;text-align:center}
 #gd .gb{font-size:14px;line-height:1.8;white-space:pre-wrap;max-height:56vh;overflow:auto;margin:0 0 4px}
 #gd .acts{justify-content:center;margin:14px 0 2px}
-#tx,#lk,#tv,#tn,#q{font-size:14px}
+#tx,#lk,#tv,#mvtv,#tn,#q{font-size:14px}
 #pt{overflow:hidden}
 #pt.collapsed{height:0}
 #ptc{display:block;width:100%;text-align:center;background:transparent;border:0;color:var(--mute);font-size:11px;line-height:1;padding:0 0 10px;cursor:pointer}
@@ -188,6 +188,9 @@ video.dtm{background:#000}
 .hmhead button::after{content:"‹";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px;line-height:1;color:var(--mute)}
 .hmhead button[aria-label="下一年"]::after{content:"›"}
 .hmhead button:disabled{opacity:.25;cursor:default}
+#pt.np #tagrow{margin-top:0}#pt.np #tagrow::before{display:none}
+#ptc:focus,#ptc:active,.tg button:focus,.tg button:active{clip-path:none}
+.hmstat{color:var(--mute);font-size:12px;text-align:center;line-height:1.6;margin:0 0 10px}
 .hmwrap{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px}
 .hmonth{margin-bottom:18px}
 .hmtitle{font:600 13px "BaDing",serif;margin-bottom:6px;color:var(--mute)}
@@ -225,7 +228,7 @@ video.dtm{background:#000}
 </main>
 
 <dialog id="mn"><h2 id="mnt" hidden></h2><div class="mb" id="mnc"></div><div class="acts" id="mnf"></div></dialog>
-<dialog id="hm"><h2 style="text-align:center">☆年視圖☆</h2><div id="hmc"></div><div class="acts end"><button onclick="$('#hm').close();openMn('review')">返回</button><button onclick="$('#hm').close()">退出</button></div></dialog>
+<dialog id="hm"><h2 style="text-align:center">☆年視圖☆</h2><div id="hmc"></div><div class="acts end"><button onclick="$('#hm').close();heatBack()">返回</button><button onclick="$('#hm').close()">退出</button></div></dialog>
 <dialog id="gd"></dialog>
 <dialog id="pe">
 <h2>編輯對象</h2>
@@ -255,13 +258,14 @@ video.dtm{background:#000}
 <input type="time" id="tv" disabled aria-label="時間">
 </div>
 </div>
-<label for="tx">文字</label>
-<div class="tb">
-<button onclick="lineP('# ')" aria-label="標題">標題</button>
-<button onclick="wrap('==')" aria-label="標記"><mark>標記</mark></button>
-<button onclick="wrap('~~')" aria-label="加線"><s>加線</s></button>
-<button onclick="lineP('- ')" aria-label="清單"><span class="gd"></span>清單</button>
-<button onclick="lineP('> ')" aria-label="引用">❝ 引用</button>
+<label for="tx" id="txl">文字</label>
+<div class="lh" id="txh" style="display:none;margin-top:0"><label for="tx">文字</label><button class="edit" onclick="clr('#tx')">清除</button></div>
+<div class="tb" id="txb">
+<button class="mdb" onclick="lineP('# ')" aria-label="標題">標題</button>
+<button class="mdb" onclick="wrap('==')" aria-label="標記"><mark>標記</mark></button>
+<button class="mdb" onclick="wrap('~~')" aria-label="加線"><s>加線</s></button>
+<button class="mdb" onclick="lineP('- ')" aria-label="清單"><span class="gd"></span>清單</button>
+<button class="mdb" onclick="lineP('> ')" aria-label="引用">❝ 引用</button>
 <button onclick="clr('#tx')">清除</button>
 </div>
 <textarea id="tx" rows="3" placeholder="任何你想記錄的。"></textarea>
@@ -272,7 +276,7 @@ video.dtm{background:#000}
 <button id="rc" onclick="toggleRec()"><span class="gd"></span>錄音</button>
 <input type="file" id="fi" multiple hidden>
 </div>
-<div class="acts"><button onclick="tagToggle()">＋ 新增標籤</button><button onclick="openQd()">＋ 新增引用</button></div>
+<div class="acts" id="tqrow"><button id="tgbtn" onclick="tagToggle()">＋ 新增標籤</button><button id="qbtn" onclick="openQd()">＋ 新增引用</button></div>
 <div id="qpv"></div>
 <div id="tgd" class="acts" style="margin-top:0"></div>
 <div id="tgi" hidden><div class="acts" style="margin:0 0 8px"><input type="text" id="tn" placeholder="輸入標籤" maxlength="20" style="flex:1;margin:0"><button onclick="addTag($('#tn').value)">加入</button></div><div id="tsg" class="acts" style="margin-top:0"></div></div>
@@ -296,7 +300,19 @@ video.dtm{background:#000}
 <h2 id="tht">主題色</h2>
 <div class="acts" id="swt"></div>
 <div class="acts"><label class="r">自訂 <input type="color" id="tc"></label><button onclick="setTheme(null)">恢復預設</button></div>
-<div class="acts" style="justify-content:center"><button onclick="$('#th').close();openColorList()">返回</button><button onclick="$('#th').close();$('#cl').close()">退出</button></div>
+<div class="acts" style="justify-content:center"><button onclick="$('#th').close();thBack()">返回</button><button onclick="$('#th').close();$('#cl').close()">退出</button></div>
+</dialog>
+<dialog id="ft">
+<h2>☆功能極簡☆</h2>
+<p class="sub" style="text-align:center;margin:-6px 0 12px">點按可開啟或關閉</p>
+<div class="mb" id="ftc"></div>
+<div class="acts" style="justify-content:center"><button onclick="$('#ft').close();openMn('layout')">返回</button><button onclick="$('#ft').close()">退出</button></div>
+</dialog>
+<dialog id="hp">
+<h2>☆年視圖☆</h2>
+<p class="sub" style="text-align:center;margin:-6px 0 12px">選擇想查看的對象</p>
+<div class="mb" id="hpc"></div>
+<div class="acts" style="justify-content:center"><button onclick="$('#hp').close();openMn('review')">返回</button><button onclick="$('#hp').close()">退出</button></div>
 </dialog>
 <dialog id="cl">
 <h2>☆主題色☆</h2>
@@ -313,13 +329,13 @@ video.dtm{background:#000}
 <h2>移至時間軸</h2>
 <label>日期</label>
 <div class="acts"><select id="mvy" aria-label="年"></select><select id="mvm" aria-label="月"></select><select id="mvd" aria-label="日"></select></div>
-<label>時間</label>
+<div id="mvtw"><label>時間</label>
 <div class="acts">
 <label class="r"><input type="radio" name="mvt" value="none" checked> 不記時間</label>
 <label class="r"><input type="radio" name="mvt" value="now"> 現在時間</label>
 <label class="r"><input type="radio" name="mvt" value="manual"> 手動輸入</label>
 <input type="time" id="mvtv" disabled aria-label="時間">
-</div>
+</div></div>
 <div class="acts end"><button class="pri" onclick="mvOk()">確定</button><button onclick="$('#mv').close()">取消</button></div>
 </dialog>
 <dialog id="dp">
@@ -345,8 +361,11 @@ video.dtm{background:#000}
 const $=s=>document.querySelector(s),pad=n=>String(n).padStart(2,'0');
 {const sm=HTMLDialogElement.prototype.showModal;HTMLDialogElement.prototype.showModal=function(){sm.call(this);const a=document.activeElement;if(a&&this.contains(a)&&(a.tagName==='BUTTON'||(a.tagName==='INPUT'&&a.type==='radio'))){a.blur();this.tabIndex=-1;this.focus({preventScroll:true})}}}
 const h=(t,a={},...c)=>{const e=document.createElement(t);for(const k in a)k.startsWith('on')?e[k]=a[k]:e.setAttribute(k,a[k]);e.append(...c.flat().filter(x=>x!=null&&x!==false));return e};
-let hmY=null,hmData=[];
+let hmY=null,hmData=[],hmPid=null;
 let MINY=+localStorage.getItem('nyear-miny')||null;
+const FK='nyear-feat',FEAT={people:true,tags:true,time:true,quote:true,md:true};
+try{Object.assign(FEAT,JSON.parse(localStorage.getItem(FK)||'{}'))}catch(e){}
+const saveFeat=()=>{try{localStorage.setItem(FK,JSON.stringify(FEAT))}catch(e){}};
 let db,useMem=false,M={people:{},entries:{}},people=[],cur=null,E={},urls=[],extra=0,hy=null,multi=false,msel=new Set(),edDate=null,edK=null,draft=[],durls=[],dturls=[],dtags=[],dquote=null,qs='',ftags=[],rlim=50,qt,other=false;
 const NODATE='0000-00-00',tsOf=e=>+String(e.k).split('|').pop()||0;
 const now=new Date();let mo=now.getMonth()+1,dy=now.getDate();
@@ -423,7 +442,7 @@ function dtBack(){const p=dtStack.pop();if(p)dtRender(p)}
 function dtRender(en){dtCur=en;dturls.forEach(URL.revokeObjectURL);dturls=[];
  const M=en.media||[],by=t=>M.filter(m=>m.t===t),au=by('audio'),ad=m=>h('audio',{src:mu(m,dturls),controls:''});
  rc($('#dtc'),
-  h('div',{class:'dth'},(multi?pname(en.pid)+'・':'')+(en.date===NODATE?'隨手記':fmtD(en.date))+(en.time?'　'+en.time:'')),
+  h('div',{class:'dth'},(multi&&FEAT.people?pname(en.pid)+'・':'')+(en.date===NODATE?'隨手記':fmtD(en.date))+(en.time?'　'+en.time:'')),
   en.text&&h('div',{class:'txt dtt'},...blocks(en.text)),
   by('image').map(m=>h('img',{class:'dtm',src:mu(m,dturls),alt:''})),
   by('video').map(m=>h('video',{class:'dtm',src:mu(m,dturls),controls:'',playsinline:'',preload:'metadata',...(m.p?{poster:mu({b:m.p},dturls)}:{})})),
@@ -431,7 +450,7 @@ function dtRender(en){dtCur=en;dturls.forEach(URL.revokeObjectURL);dturls=[];
   au.filter(m=>m.n!=='錄音').map(ad),au.filter(m=>m.n==='錄音').map(ad),
   (en.links||[]).length>0&&h('div',{class:'dtl'},...en.links.map(l=>h('a',{href:l,target:'_blank',rel:'noopener noreferrer'},l))),
   (en.tags||[]).length>0&&h('div',{class:'tgs dtgs'},...en.tags.map(t=>h('span',{class:'tg dtg'},'#'+t))),
-  en.quote&&h('div',{class:'qv',role:'button',tabindex:'0',onclick:()=>qOpen(en.quote)},h('div',{class:'qb'},h('div',{class:'rd'},qLbl(en.quote)),h('div',{class:'qtx'},qTxt(en.quote)))));
+  FEAT.quote&&en.quote&&h('div',{class:'qv',role:'button',tabindex:'0',onclick:()=>qOpen(en.quote)},h('div',{class:'qb'},h('div',{class:'rd'},qLbl(en.quote)),h('div',{class:'qtx'},qTxt(en.quote)))));
  $('#dtc').scrollTop=0;$('#dtb').hidden=!dtStack.length;if(!$('#dt').open)$('#dt').showModal()}
 $('#dt').onclose=()=>{$('#dtc').replaceChildren();dturls.forEach(URL.revokeObjectURL);dturls=[];dtStack=[];dtCur=null};
 $('#dt').onclick=e=>{if(e.target===$('#dt'))$('#dt').close()};
@@ -447,6 +466,7 @@ function md(t){const out=[],re=/\*\*(.+?)\*\*|==(.+?)==|~~(.+?)~~|\+\+(.+?)\+\+|
   i=re.lastIndex}
  if(i<t.length)out.push(t.slice(i));return out}
 function blocks(t){const out=[],L=t.split('\n');let buf=[],i=0;
+ if(!FEAT.md)return [h('div',{},...L.flatMap((l,j)=>j?[h('br'),l]:[l]))];
  const flush=()=>{if(buf.length){out.push(h('div',{},...md(buf.join('\n'))));buf=[]}};
  while(i<L.length){const l=L[i];
   if(/^> ?/.test(l)){flush();const q=[];while(i<L.length&&/^> ?/.test(L[i]))q.push(L[i++].replace(/^> ?/,''));out.push(h('blockquote',{},...md(q.join('\n'))));continue}
@@ -491,13 +511,13 @@ function openMn(v){mnView=v||null;
    h('div',{class:'bkw'},act('★備份★',openBk),h('div',{class:'bkn'},lbMap().all?'上次備份：'+new Date(lbMap().all).toLocaleString('zh-TW'):'尚未備份過')));
   foot=[h('button',{onclick:()=>$('#mn').close()},'退出')];
  }else if(mnView==='layout'){
-  rc($('#mnc'),act('☆最早年份☆',openMinYear),act('☆主題色☆',openColorList));
+  rc($('#mnc'),act('☆最早年份☆',openMinYear),act('☆主題色☆',openColorList),act('☆功能極簡☆',openFeat));
   foot=[h('button',{onclick:()=>openMn()},'返回'),h('button',{onclick:()=>$('#mn').close()},'退出')];
  }else if(mnView==='review'){
   rc($('#mnc'),
    act(multi?'☆結束回顧☆':'☆日回顧☆',()=>{if(!multi&&people.length<1){toast('目前沒有可回顧的日記');openMn('review');return}toggleMulti()}),
    msg('☆周復盤☆','尚未更新！'),msg('☆月總結☆','尚未開放！'),
-   act('☆年視圖☆',openHeat));
+   act('☆年視圖☆',openHp));
   foot=[h('button',{onclick:()=>openMn()},'返回'),h('button',{onclick:()=>$('#mn').close()},'退出')];
  }
  rc($('#mnf'),...foot);
@@ -528,6 +548,7 @@ function openTh(pid){pid=pid||cur;
  const p=people.find(q=>q.id===pid);if(!p){toast('請先新增對象，再選擇他的主題色');return}
  thEditing=pid;$('#tht').textContent=`「${p.name}」的主題色`;$('#tc').value=p.color||PRE[0];$('#th').showModal()}
 function openColorList(){if(!people.length){toast('請先新增對象，再選擇他的主題色');openMn('layout');return}
+ if(!FEAT.people){openTh(people[0].id);return}
  const c=colInfo(REVCOL);
  rc($('#clc'),...people.map(p=>{const c=colInfo(p.color);return h('button',{class:'edit',style:c?`box-shadow:inset 0 -3px 0 ${c.acc}`:'',onclick:()=>openTh(p.id)},p.name)}),
   h('button',{class:'edit',style:c?`box-shadow:inset 0 -3px 0 ${c.acc}`:'',onclick:()=>openTh('review')},'日回顧'));
@@ -555,9 +576,9 @@ const qGone=q=>!qFind(q);
 const qOpen=q=>{const t=qFind(q);if(!t){toast('此紀錄已被刪除');return}if(dtCur)dtStack.push(dtCur);dtRender(t)};
 const qLbl=q=>(q.date===NODATE?'隨手記':fmtD(q.date))+(q.time?'　'+q.time:'')+(qGone(q)?'（原紀錄已被刪除）':'');
 const parts=(en,date,jump,showTime)=>{
- const qv=en.quote&&h('div',{class:'qv',role:'button',tabindex:'0',onclick:()=>qOpen(en.quote)},h('div',{class:'qb'},h('div',{class:'rd'},qLbl(en.quote)),h('div',{class:'qtx'},qTxt(en.quote))));
+ const qv=FEAT.quote&&en.quote&&h('div',{class:'qv',role:'button',tabindex:'0',onclick:()=>qOpen(en.quote)},h('div',{class:'qb'},h('div',{class:'rd'},qLbl(en.quote)),h('div',{class:'qtx'},qTxt(en.quote))));
  const body=[
-  multi&&h('div',{class:'who'},pname(en.pid)),
+  multi&&FEAT.people&&h('div',{class:'who'},pname(en.pid)),
   showTime&&en.time&&h('div',{class:'tm'},en.time),
   txtBits(en.text,jump),
   en.media.length>0&&h('div',{class:'media'},en.media.map(m=>mEl(m,en))),
@@ -565,21 +586,22 @@ const parts=(en,date,jump,showTime)=>{
   (en.tags||[]).length>0&&h('div',{class:'tgs'},en.tags.map(t=>h('button',{class:'tg',onclick:()=>setTag(en.pid,t)},'#'+t))),
   qv];
  const cs=cntStr(en);
- const ea=h('div',{class:'ea'},jump?h('button',{class:'edit xb',onclick:e=>toggleX(e.currentTarget)},'展開'):h('button',{class:'edit cx',hidden:true,onclick:e=>toggleC(e.currentTarget)},'展開'),!multi&&h('button',{class:'edit',onclick:()=>openEd(date,en.k)},'編輯'),!multi&&h('button',{class:'edit',onclick:()=>quoteFrom(en)},'引用'),jump&&h('button',{class:'edit',onclick:()=>goDay(date)},'跳到這天'),cs&&h('span',{class:'cnt',hidden:true},...cntParts(en).map((p,i,a)=>h('span',{class:'cs'},i<a.length-1?p+'、':p))));
+ const ea=h('div',{class:'ea'},jump?h('button',{class:'edit xb',onclick:e=>toggleX(e.currentTarget)},'展開'):h('button',{class:'edit cx',hidden:true,onclick:e=>toggleC(e.currentTarget)},'展開'),!multi&&h('button',{class:'edit',onclick:()=>openEd(date,en.k)},'編輯'),!multi&&FEAT.quote&&h('button',{class:'edit',onclick:()=>quoteFrom(en)},'引用'),jump&&h('button',{class:'edit',onclick:()=>goDay(date)},'跳到這天'),cs&&h('span',{class:'cnt',hidden:true},...cntParts(en).map((p,i,a)=>h('span',{class:'cs'},i<a.length-1?p+'、':p))));
  return jump?[...body,ea]:[h('div',{class:'cbody'+(en.media.some(m=>m.t==='image'||m.t==='video')?' hm':'')},...body),ea]};
 const card=(en,date,jump,st)=>h('div',{class:'card'+(en.media&&en.media.length?' hasm':''),style:pstyle(en),'data-k':en.k,'data-d':date},...parts(en,date,jump,st));
 function drawChips(){const on=p=>multi?msel.has(p.id):p.id===cur;
  rc($('#ppl'),...people.map(p=>{const c=colInfo(p.color),o=on(p);
   return h('button',{class:'chip'+(o?' on':''),'aria-pressed':o,style:multi&&o&&c?`--fill:${c.acc};--bd:${c.acc};color:${c.on}`:'',onclick:()=>multi?tog(p.id):sel(p.id)},(multi&&o?'✓ ':'')+p.name)}),
-  h('button',{class:'chip add',onclick:()=>{pd.showModal();$('#pn').focus()}},'＋ 新增對象'),
+  !multi&&h('button',{class:'chip add',onclick:()=>{pd.showModal();$('#pn').focus()}},'＋ 新增對象'),
   !multi&&cur&&h('button',{class:'chip add',onclick:openPe},'✎ 編輯對象'),
   !multi&&cur&&h('button',{class:'chip del',onclick:()=>delP()},'－ 刪除對象'))}
-function drawTagbar(){const ids=multi?[...msel]:cur?[cur]:[],items=[];
+function drawTagbar(){if(!FEAT.tags){rc($('#tagbar'));$('#tagrow').style.display='none';return}
+ const ids=multi?[...msel]:cur?[cur]:[],items=[];
  for(const id of ids){const cnt={},c=colInfo(people.find(p=>p.id===id)?.color);
   Object.values(E).flat().filter(e=>e.pid===id).forEach(e=>(e.tags||[]).forEach(t=>cnt[t]=(cnt[t]||0)+1));
   if(!multi)(people.find(p=>p.id===id)?.tags||[]).forEach(t=>{if(!(t in cnt))cnt[t]=0});
   Object.keys(cnt).sort().forEach(t=>{const o=ftags.some(x=>x.pid===id&&x.tag===t);
-   items.push(h('button',{class:'tg'+(o?' on':''),'aria-pressed':o,style:o&&c?`--fill:${c.acc};--bd:${c.acc};color:${c.on}`:'',onclick:()=>setTag(id,t)},(multi?pname(id)+'・':'')+'#'+t+' '+cnt[t]))})}
+   items.push(h('button',{class:'tg'+(o?' on':''),'aria-pressed':o,style:o&&c?`--fill:${c.acc};--bd:${c.acc};color:${c.on}`:'',onclick:()=>setTag(id,t)},(multi&&FEAT.people?pname(id)+'・':'')+'#'+t+' '+cnt[t]))})}
  rc($('#tagbar'),...items,
   !multi&&cur&&h('button',{class:'tg add',onclick:()=>openTm('add')},'＋ 新增標籤'),
   !multi&&cur&&h('button',{class:'tg add',onclick:()=>openTm('edit')},'✎ 編輯標籤'),
@@ -618,23 +640,35 @@ function setTag(pid,t){const i=ftags.findIndex(x=>x.pid===pid&&x.tag===t);i>=0?f
 function clearF(){qs='';ftags=[];$('#q').value='';rlim=50;render()}
 function goDay(date){const [y,m,d]=date.split('-').map(Number);mo=m;dy=d;hy=y;qs='';ftags=[];$('#q').value='';render();scrollTo(0,0)}
 const rc=(el,...c)=>el.replaceChildren(...c.flat().filter(Boolean));
-function openHeat(){const ids=multi?[...msel]:cur?[cur]:[];if(!ids.length){toast(multi?'請先選擇要回顧的對象':'請先新增對象');openMn('review');return}
- Promise.all(ids.map(dbByP)).then(arr=>{hmData=arr.flat().filter(e=>e.date!==NODATE);
+function openHp(){if(!people.length){toast('請先新增對象');openMn('review');return}
+ if(!FEAT.people){openHeat(people[0].id);return}
+ rc($('#hpc'),...people.map(p=>{const c=colInfo(p.color);return h('button',{class:'edit',style:c?`box-shadow:inset 0 -3px 0 ${c.acc}`:'',onclick:()=>openHeat(p.id)},p.name)}));
+ $('#hp').showModal()}
+async function heatGo(ds){$('#hm').close();$('#mn').close();const p=hmPid;
+ if(other)other=false;
+ if(!multi&&p!==cur)await sel(p);
+ else{if(multi)msel.add(p);await loadView()}
+ goDay(ds)}
+function openHeat(pid){hmPid=pid;
+ dbByP(pid).then(arr=>{hmData=arr.filter(e=>e.date!==NODATE);
   const yrs=hmData.map(e=>+e.date.slice(0,4));hmY=yrs.length?Math.max(...yrs):now.getFullYear();if(MINY&&hmY<MINY)hmY=MINY;if(hmY>now.getFullYear())hmY=now.getFullYear();
-  drawHeat();$('#hm').showModal()})}
+  drawHeat();$('#hp').close();$('#hm').showModal()})}
 function drawHeat(){
- const yd=hmData.filter(e=>+e.date.slice(0,4)===hmY),has=new Set(yd.map(e=>e.date)),months=[];
+ const yd=hmData.filter(e=>+e.date.slice(0,4)===hmY),has=new Set(yd.map(e=>e.date)),months=[],
+  total=new Date(hmY,1,29).getMonth()===1?366:365,mcnt=Array(12).fill(0);yd.forEach(e=>mcnt[+e.date.slice(5,7)-1]++);
+ const mx=Math.max(...mcnt),mis=mcnt.map((c,i)=>c===mx?i+1:0).filter(Boolean);
  for(let m=0;m<12;m++){
   const dim=new Date(hmY,m+1,0).getDate(),first=new Date(hmY,m,1).getDay(),cells=[];
   for(let i=0;i<first;i++)cells.push(h('div',{class:'hcell blank'}));
   for(let d=1;d<=dim;d++){
    const ds=`${hmY}-${pad(m+1)}-${pad(d)}`,on=has.has(ds);
-   cells.push(h('div',{class:'hcell'+(on?' c4 ck':''),title:`${m+1}月${d}日：${on?'有紀錄':'無紀錄'}`,onclick:on?()=>{$('#hm').close();$('#mn').close();goDay(ds)}:null}))
+   cells.push(h('div',{class:'hcell'+(on?' c4 ck':''),title:`${m+1}月${d}日：${on?'有紀錄':'無紀錄'}`,onclick:on?()=>heatGo(ds):null}))
   }
   months.push(h('div',{class:'hmonth'},h('div',{class:'hmtitle'},`${m+1}月`),h('div',{class:'hgrid'},cells)))
  }
  rc($('#hmc'),
   h('div',{class:'hmhead'},h('button',{onclick:()=>{if(MINY&&hmY<=MINY)return;hmY--;drawHeat()},'aria-label':'上一年',...(MINY&&hmY<=MINY?{disabled:''}:{})},'‹'),h('div',{},`${hmY}年`),h('button',{onclick:()=>{if(hmY>=now.getFullYear())return;hmY++;drawHeat()},'aria-label':'下一年',...(hmY>=now.getFullYear()?{disabled:''}:{})},'›')),
+  h('div',{class:'hmstat'},`在${total}天中，${pname(hmPid)}共記錄了${has.size}天。`,...(has.size?[h('br'),`其中${mis.join('、')}月記錄了最多，共記錄了${mx}則。`]:[])),
   h('div',{class:'hmleg'},h('div',{class:'hcell'}),'無紀錄',h('div',{class:'hcell c4'}),'有紀錄'),
   h('div',{class:'hmwrap'},...months))}
 function renderOther(A,P){
@@ -642,7 +676,7 @@ function renderOther(A,P){
   list=all.filter(e=>matchF(e)&&(!k||hay(e).includes(k))).sort((a,b)=>tsOf(b)-tsOf(a));
  rc(A,
   h('div',{class:'ohead'},h('div',{class:'otl'},'★隨手記★'),h('div',{class:'dgR'},h('button',{class:'edit',onclick:toggleOther},'返回'))),
-  h('p',{class:'sub'},filt?[ftagLabel()+(ftags.length&&qs?'　':'')+(qs?`搜尋「${qs}」`:'')+`：${list.length} 則　`,h('button',{class:'edit',style:'margin:0',onclick:clearF},'清除')]:`${P.name}共紀錄了${all.length}則。`),
+  h('p',{class:'sub'},filt?[ftagLabel()+(ftags.length&&qs?'　':'')+(qs?`搜尋「${qs}」`:'')+`：${list.length} 則　`,h('button',{class:'edit',style:'margin:0',onclick:clearF},'清除')]:`${P.name}共記錄了${all.length}則。`),
   list.length?h('div',{class:'ol'},...list.slice(0,rlim).map(e=>card(e,NODATE,false,true))):null,
   list.length>rlim&&h('button',{class:'more',onclick:()=>{rlim+=50;render()}},'顯示更多'),
   useMem&&h('p',{class:'note'},'此瀏覽器無法長期儲存，關閉頁面後資料會消失。'));
@@ -690,7 +724,7 @@ function render(){
   h('div',{class:'dhead'},
    h('div',{class:'dgL'},h('button',{class:'edit arrow',onclick:step(-1),'aria-label':'前一天'},'‹'),h('div',{class:'dpick'},h('div',{class:'day'},h('span',{class:'dn'},String(mo)),'月',h('span',{class:'dn'},String(dy)),'日'),dpk),h('button',{class:'edit arrow',onclick:step(1),'aria-label':'後一天'},'›')),
    h('div',{class:'dgR'},!(mo===now.getMonth()+1&&dy===now.getDate())&&h('button',{class:'edit',onclick:()=>{mo=now.getMonth()+1;dy=now.getDate();hy=null;render()}},'跳回今日'))),
-  h('p',{class:'sub'},multi&&!msel.size?'選擇你要回顧的對象':`這一天，${who}共紀錄了${cnt}則，共紀錄了${filled}年。`),
+  h('p',{class:'sub'},multi&&!msel.size?'選擇你要回顧的對象':`這一天，${who}共記錄了${cnt}則，共記錄了${filled}年。`),
   h('div',{class:'tl'},rows),
   h('div',{class:'acts',style:'justify-content:center'},!atFloor&&h('button',{onclick:()=>{extra++;render()}},'展開更多'),extra>0&&h('button',{onclick:()=>{extra=0;render()}},'收合')),
   useMem&&h('p',{class:'note'},'此瀏覽器無法長期儲存，關閉頁面後資料會消失。'));
@@ -714,7 +748,7 @@ function setMode(v,val){document.querySelector(`input[name=tm][value=${v}]`).che
 document.querySelectorAll('input[name=tm]').forEach(r=>r.onchange=()=>setMode(r.value));
 function openEd(date,k){edDate=date;edK=k||null;
  const en=k?E[date].find(x=>x.k===k):null,[y,m,d]=date.split('-').map(Number);
- $('#et').textContent=date===NODATE?'隨手記':(multi&&en?pname(en.pid)+'・':'')+`${y}年${m}月${d}日`;$('#emv').hidden=!en;$('#emv').textContent=date===NODATE?'移至時間軸':'移至隨手記';$('#tmwrap').hidden=date===NODATE;$('#tx').value=en?.text||'';$('#lk').value=(en?.links||[]).join('\n');
+ $('#et').textContent=date===NODATE?'隨手記':(multi&&FEAT.people&&en?pname(en.pid)+'・':'')+`${y}年${m}月${d}日`;$('#emv').hidden=!en;$('#emv').textContent=date===NODATE?'移至時間軸':'移至隨手記';$('#tmwrap').hidden=date===NODATE||!FEAT.time;$('#tx').value=en?.text||'';$('#lk').value=(en?.links||[]).join('\n');
  draft=(en?.media||[]).map(m=>({...m}));dtags=[...(en?.tags||[])];drawDraft();$('#tgi').hidden=true;$('#tn').value='';drawTags();
  dquote=en?.quote?{...en.quote}:null;drawQuote();
  setMode(en?.time?'manual':'none',en?.time);
@@ -733,6 +767,31 @@ async function commitMove(date,time){
  await loadView();return true}
 function moveEntry(){edDate===NODATE?openMv():moveToNote()}
 async function moveToNote(){if(await commitMove(NODATE,null)){$('#ed').close();toast('已移至隨手記');render()}}
+const FEATS=[['people','對象'],['tags','標籤'],['time','時間'],['quote','引用'],['md','MARKDOWN語法']];
+function applyFeat(){const d=(el,on)=>{if(el)el.style.display=on?'':'none'};
+ d($('#pplrow'),FEAT.people);d($('#pt'),FEAT.people||FEAT.tags);d($('#ptc'),FEAT.people||FEAT.tags);
+ document.querySelectorAll('.mdb').forEach(b=>d(b,FEAT.md));d($('#txl'),FEAT.md);d($('#txb'),FEAT.md);d($('#txh'),!FEAT.md);
+ $('#pt').classList.toggle('np',!FEAT.people);
+ d($('#tgbtn'),FEAT.tags);d($('#tgd'),FEAT.tags);d($('#qbtn'),FEAT.quote);d($('#qpv'),FEAT.quote);d($('#tqrow'),FEAT.tags||FEAT.quote);d($('#mvtw'),FEAT.time);
+ if(!FEAT.tags)$('#tgi').hidden=true}
+function heatBack(){FEAT.people?openHp():openMn('review')}
+function thBack(){FEAT.people?openColorList():openMn('layout')}
+function openFeat(){rc($('#ftc'),...FEATS.map(([k,t])=>h('button',{class:'edit','aria-pressed':String(FEAT[k]),onclick:()=>setFeat(k,!FEAT[k])},`${t}：${FEAT[k]?'開啟':'關閉'}`)));if(!$('#ft').open)$('#ft').showModal()}
+async function setFeat(k,v){let made=false;
+ if(!v){
+  if(k==='people'){if(people.length>1){toast('目前已存在多個對象，無法關閉');return}
+   if(!people.length){const p={id:'p'+Date.now(),name:'我'};await dbPut('people',p);people.push(p);made=true}}
+  if(k==='tags'){const all=await dbAll('entries');if(people.some(p=>(p.tags||[]).length)||all.some(e=>(e.tags||[]).length)){toast('目前已存在標籤，無法關閉');return}}
+  if(k==='time'){const all=await dbAll('entries'),ch=all.filter(e=>e.time||(e.quote&&e.quote.time));
+   if(ch.length){if(!await ask(`關閉後，既有紀錄的時間會被刪除，這些紀錄會變成當日不記時間的紀錄，其餘內容不受影響`))return;
+    for(const e of ch)await dbPut('entries',{...e,time:null,...(e.quote?{quote:{...e.quote,time:null}}:{})})}}
+  if(k==='quote'){const all=(await dbAll('entries')).filter(e=>e.quote);
+   if(all.length){if(!await ask(`關閉後，${all.length} 則紀錄的引用會被刪除，紀錄的其餘內容不受影響`))return;
+    for(const e of all)await dbPut('entries',{...e,quote:null})}}
+ }
+ FEAT[k]=v;saveFeat();applyFeat();
+ if(made)await sel(people[0].id);else{await loadView();render()}
+ openFeat()}
 function fillMvd(d){const n=new Date(+$('#mvy').value,+$('#mvm').value,0).getDate();rc($('#mvd'),...Array.from({length:n},(_,i)=>h('option',{value:i+1},(i+1)+'日')));$('#mvd').value=Math.min(d,n)}
 function mvMode(v){document.querySelector(`input[name=mvt][value=${v}]`).checked=true;const t=$('#mvtv');t.value=v==='now'?nowStr():v==='manual'?(t.value||nowStr()):'';t.disabled=v!=='manual'}
 document.querySelectorAll('input[name=mvt]').forEach(r=>r.onchange=()=>mvMode(r.value));
@@ -786,7 +845,7 @@ async function save(){
  if(rec&&rec.state==='recording')return toast('請先停止錄音');
  addTag($('#tn').value);
  const text=$('#tx').value.trim(),links=$('#lk').value.split(/\s+/).filter(Boolean).map(l=>/^https?:\/\//i.test(l)?l:'https://'+l);
- const old=edK?E[edDate].find(x=>x.k===edK):null,mode=document.querySelector('input[name=tm]:checked').value,time=mode==='none'?null:($('#tv').value||null);
+ const old=edK?E[edDate].find(x=>x.k===edK):null,mode=document.querySelector('input[name=tm]:checked').value,time=!FEAT.time?(old?old.time||null:null):(mode==='none'?null:($('#tv').value||null));
  const empty=!text&&!links.length&&!draft.length&&!dquote;
  if(empty&&dtags.length){toast('請輸入紀錄內容');return}
  if(empty&&edK&&!await ask('內容已清空，這則紀錄會被刪除'))return;
@@ -865,7 +924,8 @@ if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWor
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
 (async()=>{await openDB();people=await dbAll('people');people.sort((a,b)=>a.id<b.id?-1:1);
  try{const g=localStorage.getItem(TK);if(g&&people.length){for(const p of people)if(!p.color){p.color=g;await dbPut('people',p)}localStorage.removeItem(TK)}}catch(e){}
- await sel(people[0]?.id||null)})();
+ if(!FEAT.people&&!people.length){const p={id:'p'+Date.now(),name:'我'};await dbPut('people',p);people.push(p)}
+ applyFeat();await sel(people[0]?.id||null)})();
 </script>
 </body>
 </html>
