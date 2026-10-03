@@ -195,20 +195,31 @@ video.dtm{background:#000}
 .card:not(.open) .txt.hlc{overflow:hidden;max-height:5.1em}
 mark.hl{background:rgba(128,128,128,.3);background:color-mix(in srgb,var(--acc) 38%,transparent);color:inherit;padding:0;border-radius:0}
 .wbd{--pxc:3px;clip-path:var(--cut);position:absolute;top:14px;z-index:3;padding:4px 14px;font:600 15px "BaDing",serif;opacity:0;pointer-events:none}
-#wrk{left:26px;background:var(--acc);color:var(--onacc)}#wra{right:26px;background:#c0392b;color:#fff}
+#wrk,#wra,#wrp{background:none;clip-path:none;padding:4px 0;color:var(--ink);text-shadow:0 0 5px var(--bg),0 0 5px var(--bg)}#wrk{left:52px}#wra{right:52px}
 #wr{width:100vw;max-width:640px;height:100vh;height:100dvh;max-height:100vh;max-height:100dvh;margin:0 auto;padding:0;border:0;clip-path:none;overflow:hidden;background:var(--bg)}
 #wr[open]{display:flex;flex-direction:column}
 #wrh{flex:none;text-align:center;color:var(--mute);font-size:12px;line-height:1.5;padding:calc(10px + env(safe-area-inset-top,0px)) 12px 8px}
 #wrs{flex:1 1 auto;min-height:0;position:relative;overflow:hidden}
-.wc{--pxc:4px;clip-path:var(--cut);background:var(--pxbg);border:1px solid transparent;position:absolute;left:14px;right:14px;top:0;bottom:92px;overflow-y:auto;overflow-x:hidden;touch-action:pan-y;-webkit-overflow-scrolling:touch;will-change:transform;transform-origin:50% 90%;padding:16px 16px 6px}
+.wc{--pxc:4px;clip-path:var(--cut);background:var(--pxbg);border:1px solid transparent;position:absolute;left:42px;right:42px;top:4px;bottom:6px;overscroll-behavior:contain;overflow-y:auto;overflow-x:hidden;touch-action:pan-y;-webkit-overflow-scrolling:touch;will-change:transform;transform-origin:50% 90%;padding:16px 16px 6px}
 .wc>*{margin-bottom:14px}.wc audio{display:block;width:100%}.wc .fl{padding:10px 12px;font-size:15px}
 .wc.anim{transition:transform .28s cubic-bezier(.22,.8,.3,1),opacity .28s ease-out}
 .wc.in{animation:wcin .26s ease-out}
 @keyframes wcin{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
 .wdone{display:flex;align-items:center;justify-content:center;color:var(--mute);text-align:center}
 @media (prefers-reduced-motion:reduce){.wc.anim{transition-duration:.01s}.wc.in{animation:none}}
-#wrx{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:5;background:var(--acc);color:var(--onacc);border:0;border-radius:0;clip-path:var(--cut);padding:11px 24px;margin:3px 0;font-size:14px;font-weight:500}
-#wrx:focus,#wrx:active{--bd:var(--acc);clip-path:var(--cut3);padding:14px 27px;margin:0}
+#wrp{left:50%;transform:translateX(-50%)}
+#wrh{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px;touch-action:none}#wrh>:first-child{justify-self:start}
+#wred{padding:2px 10px;font-size:12px}
+.wrbare{background:none;border:0;clip-path:none;color:var(--acx);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15;touch-action:none}
+.wrbare i{font-style:normal;font-size:22px;line-height:1}
+#wr .wrbare:focus,#wr .wrbare:active{clip-path:none;outline:none}
+.wrside{position:absolute;top:50%;transform:translateY(-50%);z-index:4;width:38px;padding:14px 0;font-size:13px}
+#wrla{left:2px}#wrrk{right:2px}
+#wrb{flex:none;display:flex;justify-content:center;gap:12px;padding:8px 14px calc(12px + env(safe-area-inset-bottom,0px));touch-action:none}
+#wrb{align-items:center}#wrb button{padding:4px 16px;font-size:13px}#wrb .wrbare{padding:2px 14px}
+#wr button:disabled{opacity:.35;cursor:default}
+#wr{overscroll-behavior:none}
+.wdone{white-space:pre-line}
 .arl{max-height:56vh;overflow-y:auto;padding:2px;margin-bottom:12px}
 .arc{--pxc:3px;clip-path:var(--cut);background:var(--pxbg);border:1px solid transparent;padding:10px 12px;margin-bottom:10px;display:flex;flex-direction:column;gap:4px}
 .artx{font-size:14px;line-height:1.6;word-break:break-word}.ardn{font-size:11px;color:var(--mute)}
@@ -330,7 +341,7 @@ mark.hl{background:rgba(128,128,128,.3);background:color-mix(in srgb,var(--acc) 
 <div class="mb" id="ftc"></div>
 <div class="acts" style="justify-content:center"><button onclick="$('#ft').close();openMn('layout')">返回</button><button onclick="$('#ft').close()">退出</button></div>
 </dialog>
-<dialog id="wr"><div id="wrh"></div><div id="wrs"><div class="wbd" id="wrk">保留</div><div class="wbd" id="wra">封存</div></div><button id="wrx" onclick="closeWr()">退出</button></dialog>
+<dialog id="wr"><div id="wrh"></div><div id="wrs"><div class="wbd" id="wrk">保留 ›</div><div class="wbd" id="wra">‹ 封存</div><div class="wbd" id="wrp">︿ 跳過</div><button class="wrbare wrside" id="wrla" onclick="wrBtn(-1)"><i>‹</i>封存</button><button class="wrbare wrside" id="wrrk" onclick="wrBtn(1)"><i>›</i>保留</button></div><div id="wrb"><button id="wrun" onclick="wrUndo()">上一步</button><button class="wrbare" id="wrup" onclick="wrBtn(0)"><i>︿</i>跳過</button><button id="wrx" onclick="closeWr()">退出</button></div></dialog>
 <dialog id="ar"></dialog>
 <dialog id="hp">
 <h2>☆年視圖☆</h2>
@@ -871,40 +882,79 @@ function dtNodes(en,L){const M=en.media||[],by=t=>M.filter(m=>m.t===t),au=by('au
   (en.links||[]).length>0&&h('div',{class:'dtl'},...en.links.map(l=>h('a',{href:l,target:'_blank',rel:'noopener noreferrer'},l))),
   (en.tags||[]).length>0&&h('div',{class:'tgs dtgs'},...en.tags.map(t=>h('span',{class:'tg dtg'},'#'+t))),
   FEAT.quote&&en.quote&&h('div',{class:'qv'},h('div',{class:'qb'},h('div',{class:'rd'},qLbl(en.quote)),h('div',{class:'qtx'},qTxt(en.quote))))]}
-let wrQ=[],wrI=0,wrN=0,wrDirty=false,wrUrls=[],wrMoved=false,wrBusy=false,wrPend=[];
+let wrQ=[],wrI=0,wrN=0,wrDirty=false,wrUrls=[],wrMoved=false,wrBusy=false,wrChain=Promise.resolve(),wrHist=[],wrSkip=0,wrEd=false;
+const wrSave=en=>{wrChain=wrChain.then(()=>dbPut('entries',en)).catch(()=>toast('儲存失敗，可能是空間不足'));return wrChain};
 async function openWr(){await purgeArchive();
  const all=(await dbAll('entries')).filter(e=>!e.reviewed&&!e.archived);
  if(!all.length){toast('目前沒有未整理的紀錄');openMn('review');return}
  const dated=all.filter(e=>e.date!==NODATE).sort((a,b)=>a.date<b.date?1:a.date>b.date?-1:((a.time||'')<(b.time||'')?1:(a.time||'')>(b.time||'')?-1:tsOf(b)-tsOf(a))),
   note=all.filter(e=>e.date===NODATE).sort((a,b)=>tsOf(b)-tsOf(a));
- wrQ=[...dated,...note];wrI=0;wrN=wrQ.length;wrDirty=false;wrPend=[];wrShow();$('#wr').showModal()}
-function wrShow(){wrUrls.forEach(URL.revokeObjectURL);wrUrls=[];wrBusy=false;
- const s=$('#wrs'),old=s.querySelector('.wc');if(old)old.remove();$('#wrk').style.opacity=$('#wra').style.opacity=0;
+ wrQ=[...dated,...note];wrI=0;wrN=wrQ.length;wrDirty=false;wrChain=Promise.resolve();wrHist=[];wrSkip=0;wrEd=false;wrShow();$('#wr').showModal();wrLock(true)}
+function wrBtns(){const lock=!wrQ[wrI]||wrEd;
+ ['#wrla','#wrup','#wrrk','#wred'].forEach(q=>$(q).disabled=lock);$('#wrun').disabled=wrEd||!wrHist.length}
+const wrHead=(...c)=>rc($('#wrh'),h('button',{id:'wred',onclick:wrEdit},'編輯'),h('div',{},...c),h('div',{}));
+let wrY=0,wrLk=false;
+function wrLock(on){const b=document.body;if(on===wrLk)return;wrLk=on;
+ if(on){wrY=scrollY;b.style.cssText+=`;position:fixed;top:${-wrY}px;left:0;right:0`}
+ else{b.style.position=b.style.top=b.style.left=b.style.right='';scrollTo(0,wrY)}}
+function wrShow(){wrUrls.forEach(URL.revokeObjectURL);wrUrls=[];wrBusy=false;wrEd=false;
+ const s=$('#wrs'),old=s.querySelector('.wc');if(old){old._ro&&old._ro.disconnect();old.remove()}
+ ['#wrk','#wra','#wrp'].forEach(q=>$(q).style.opacity=0);
  const en=wrQ[wrI];
- if(!en){rc($('#wrh'));s.append(h('div',{class:'wc wdone in'},'未整理的紀錄已全部整理完畢'));return}
- rc($('#wrh'),h('div',{},`${wrI+1} / ${wrN}`),h('div',{},'右滑保留・左滑封存'));
- const c=h('div',{class:'wc in'},...dtNodes(en,wrUrls));s.append(c);wrBind(c)}
-function wrBind(c){let x0=0,y0=0,t0=0,id=null,mode=0,dx=0;const kb=$('#wrk'),ab=$('#wra');
- c.addEventListener('pointerdown',e=>{if(wrBusy||(e.pointerType==='mouse'&&e.button>0)||e.target.closest('video,audio,input,select,textarea'))return;
-  id=e.pointerId;x0=e.clientX;y0=e.clientY;t0=e.timeStamp;mode=0;dx=0;wrMoved=false;c.classList.remove('anim','in')});
+ if(!en){wrHead(h('div',{},`${wrN} / ${wrN}`));s.append(h('div',{class:'wc wdone in'},'未整理的紀錄已全部整理完畢'+(wrSkip?`\n跳過的 ${wrSkip} 則仍留在未整理`:'')));wrBtns();return}
+ wrHead(h('div',{},`${wrI+1} / ${wrN}`),h('div',{},'右滑保留・左滑封存・上滑跳過'));
+ const c=h('div',{class:'wc in'},...dtNodes(en,wrUrls));s.append(c);wrBind(c);wrBtns()}
+function wrBind(c){const kb=$('#wrk'),ab=$('#wra'),sb=$('#wrp');
+ let x0=0,y0=0,id=null,mode=0,dx=0,ty=0,s0=0,fr=false,sm=[];
+ const T=()=>Math.max(70,Math.min(110,Math.min(innerWidth,640)*.22));
+ /* 內容沒超出、或已捲到底時，整張卡片可往任意方向拖；內容太長時保留原生捲動，左右滑仍可用 */
+ const free=()=>c.scrollHeight<=c.clientHeight+2||c.scrollTop+c.clientHeight>=c.scrollHeight-2;
+ const upd=()=>{if(!wrEd)c.style.touchAction=free()?'none':'pan-y'};
+ upd();c.addEventListener('scroll',upd,{passive:true});
+ if(window.ResizeObserver){const ro=new ResizeObserver(upd);ro.observe(c);[...c.children].forEach(k=>ro.observe(k));c._ro=ro}
+ c.addEventListener('pointerdown',e=>{if(wrBusy||wrEd||(e.pointerType==='mouse'&&e.button>0)||e.target.closest('video,audio,input,select,textarea,button'))return;
+  id=e.pointerId;x0=e.clientX;y0=e.clientY;mode=0;dx=0;ty=0;s0=c.scrollTop;fr=c.style.touchAction==='none';sm=[{x:0,y:0,t:e.timeStamp}];wrMoved=false;c.classList.remove('anim','in')});
  c.addEventListener('pointermove',e=>{if(e.pointerId!==id)return;const mx=e.clientX-x0,my=e.clientY-y0;
-  if(!mode){if(Math.abs(mx)>10&&Math.abs(mx)>Math.abs(my)*1.2){mode=1;try{c.setPointerCapture(id)}catch(_){}}else if(Math.abs(my)>10){mode=2;id=null;return}else return}
-  if(mode!==1)return;wrMoved=true;dx=mx;c.style.transform=`translateX(${dx}px) rotate(${dx/18}deg)`;
-  const p=Math.min(Math.abs(dx)/110,1);kb.style.opacity=dx>0?p:0;ab.style.opacity=dx<0?p:0});
- const end=e=>{if(e.pointerId!==id)return;id=null;if(mode!==1)return;const v=dx/Math.max(e.timeStamp-t0,1);
-  if(Math.abs(dx)>110||(Math.abs(v)>.6&&Math.abs(dx)>40))wrFly(c,dx>0?1:-1);
-  else{c.classList.add('anim');c.style.transform='';kb.style.opacity=ab.style.opacity=0}};
+  if(!mode){if(Math.hypot(mx,my)<8)return;
+   if(!fr&&Math.abs(my)>Math.abs(mx)){mode=2;id=null;return}
+   mode=1;try{c.setPointerCapture(id)}catch(_){}}
+  if(mode!==1)return;wrMoved=true;dx=mx;ty=0;
+  if(fr){if(my<0)ty=my;else if(c.scrollHeight>c.clientHeight+2)c.scrollTop=Math.max(0,s0-my)}
+  c.style.transform=`translate(${dx}px,${ty}px) rotate(${dx/22}deg)`;
+  sm.push({x:dx,y:ty,t:e.timeStamp});while(sm.length>2&&e.timeStamp-sm[0].t>100)sm.shift();
+  const t=T(),horiz=Math.abs(dx)>=-ty;
+  kb.style.opacity=horiz&&dx>0?Math.min(dx/t,1):0;ab.style.opacity=horiz&&dx<0?Math.min(-dx/t,1):0;sb.style.opacity=!horiz?Math.min(-ty/t,1):0});
+ const end=e=>{if(e.pointerId!==id)return;id=null;if(mode!==1)return;
+  const a=sm[0],b=sm[sm.length-1],dt=Math.max(b.t-a.t,1),vx=(b.x-a.x)/dt,vy=(b.y-a.y)/dt,t=T(),ax=Math.abs(dx),ay=-ty;let d=null;
+  if(ax>=ay){if(ax>t||(Math.abs(vx)>.5&&ax>30))d=dx>0?1:-1}
+  else if(ay>t||(vy<-.5&&ay>30))d=0;
+  if(d!==null)wrFly(c,d);
+  else{c.classList.add('anim');c.style.transform='';kb.style.opacity=ab.style.opacity=sb.style.opacity=0}};
  c.addEventListener('pointerup',end);c.addEventListener('pointercancel',end);
  c.addEventListener('click',e=>{if(wrMoved){e.preventDefault();e.stopPropagation();wrMoved=false}},true)}
-function wrFly(c,dir){if(wrBusy)return;wrBusy=true;const en=wrQ[wrI],kb=$('#wrk'),ab=$('#wra');wrDirty=true;sfx(dir>0?'tap':'low');
- (dir>0?kb:ab).style.opacity=1;c.classList.add('anim');c.style.transform=`translateX(${dir*(innerWidth+240)}px) rotate(${dir*18}deg)`;c.style.opacity='0';
- let fin=false;const go=()=>{if(fin)return;fin=true;wrAct(en,dir);wrI++;wrShow()};
+/* dir：1 保留、-1 封存、0 跳過 */
+function wrFly(c,dir){if(wrBusy||wrEd)return;wrBusy=true;const en=wrQ[wrI];if(dir)wrDirty=true;sfx(dir<0?'low':'tap');
+ (dir>0?$('#wrk'):dir<0?$('#wra'):$('#wrp')).style.opacity=1;
+ c.classList.add('anim');c.style.transform=dir?`translateX(${dir*(innerWidth+240)}px) rotate(${dir*18}deg)`:`translateY(${-(innerHeight+120)}px)`;c.style.opacity='0';
+ let fin=false;const go=()=>{if(fin)return;fin=true;wrHist.push({en,act:dir>0?'keep':dir<0?'arc':'skip'});
+  if(dir)wrAct(en,dir);else wrSkip++;wrI++;wrShow()};
  c.addEventListener('transitionend',go,{once:true});setTimeout(go,420)}
-function wrAct(en,dir){const t=Date.now(),n={...en,reviewed:t};if(dir<0)n.archived=t;
- wrPend.push(dbPut('entries',n).catch(()=>toast('儲存失敗，可能是空間不足')))}
-$('#wr').addEventListener('keydown',e=>{const c=$('#wrs .wc:not(.wdone)');if(!c)return;if(e.key==='ArrowRight')wrFly(c,1);else if(e.key==='ArrowLeft')wrFly(c,-1)});
+function wrAct(en,dir){const t=Date.now(),n={...en,reviewed:t};if(dir<0)n.archived=t;wrSave(n)}
+function wrBtn(d){const c=$('#wrs .wc:not(.wdone)');if(c)wrFly(c,d)}
+function wrUndo(){if(wrBusy||wrEd||!wrHist.length)return;const r=wrHist.pop();wrI--;
+ if(r.act==='skip')wrSkip--;else{wrSave(r.en);wrDirty=true}
+ wrShow()}
+/* 編輯：直接開啟主頁同一個編輯視窗，關閉後再從資料庫重新讀取這則紀錄 */
+function wrEdit(){if(wrBusy||wrEd)return;const en=wrQ[wrI];if(!en)return;
+ wrEd=true;wrDirty=true;const L=E[en.date]||(E[en.date]=[]);if(!L.some(x=>x.k===en.k))L.push(en);openEd(en.date,en.k)}
+$('#ed').addEventListener('close',async()=>{if(!wrEd)return;wrEd=false;const en=wrQ[wrI];if(!en)return;
+ let n=null;try{n=(await dbAll('entries')).find(x=>x.k===en.k)}catch(_){}
+ if(n)wrQ[wrI]=n;else{wrQ.splice(wrI,1);wrN--}
+ wrShow()});
+$('#wr').addEventListener('keydown',e=>{if(wrEd||e.target.closest('input,textarea'))return;const c=$('#wrs .wc:not(.wdone)');if(!c)return;
+ if(e.key==='ArrowRight')wrFly(c,1);else if(e.key==='ArrowLeft')wrFly(c,-1);else if(e.key==='ArrowUp'){e.preventDefault();wrFly(c,0)}});
 function closeWr(){$('#wr').close()}
-$('#wr').onclose=async()=>{wrUrls.forEach(URL.revokeObjectURL);wrUrls=[];$('#wrs .wc')?.remove();await Promise.all(wrPend);wrPend=[];if(wrDirty){wrDirty=false;await loadView();render()}};
+$('#wr').onclose=async()=>{wrLock(false);wrUrls.forEach(URL.revokeObjectURL);wrUrls=[];const o=$('#wrs .wc');if(o){o._ro&&o._ro.disconnect();o.remove()}await wrChain;wrChain=Promise.resolve();if(wrDirty){wrDirty=false;await loadView();render()}};
 async function openAr(){await purgeArchive();
  const d=$('#ar'),all=(await dbAll('entries')).filter(e=>e.archived).sort((a,b)=>b.archived-a.archived);
  const items=all.map(e=>{const left=Math.max(1,Math.ceil((e.archived+ARD-Date.now())/864e5));
