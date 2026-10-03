@@ -666,7 +666,7 @@ function drawHeat(){
   for(let i=0;i<first;i++)cells.push(h('div',{class:'hcell blank'}));
   for(let d=1;d<=dim;d++){
    const ds=`${hmY}-${pad(m+1)}-${pad(d)}`,on=has.has(ds);
-   cells.push(h('div',{class:'hcell'+(on?' c4 ck':''),title:`${m+1}月${d}日：${on?'有紀錄':'無紀錄'}`,onclick:on?()=>heatGo(ds):null}))
+   cells.push(h('div',{class:'hcell'+(on?' c4 ck':''),title:`${m+1}月${d}日：${on?'有紀錄':'無紀錄'}`,onclick:on?()=>{sfx('tap');heatGo(ds)}:null}))
   }
   months.push(h('div',{class:'hmonth'},h('div',{class:'hmtitle'},`${m+1}月`),h('div',{class:'hgrid'},cells)))
  }
@@ -791,12 +791,13 @@ function moveEntry(){edDate===NODATE?openMv():moveToNote()}
 async function moveToNote(){if(await commitMove(NODATE,null)){$('#ed').close();toast('已移至隨手記');render()}}
 let AC=null;
 function sfx(kind){if(!FEAT.sound)return;try{
+ if(!AC&&navigator.audioSession){try{navigator.audioSession.type='playback'}catch(e){}}
  AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();
  const seq={tap:[[560,0]],low:[[330,0]]}[kind]||[[560,0]],t0=AC.currentTime;
  seq.forEach(([f,d])=>{const o=AC.createOscillator(),g=AC.createGain();o.type='square';o.frequency.value=f;
   g.gain.setValueAtTime(.05,t0+d);g.gain.exponentialRampToValueAtTime(.001,t0+d+.07);o.connect(g);g.connect(AC.destination);o.start(t0+d);o.stop(t0+d+.08)})}catch(e){}}
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('button');if(!b||b.disabled)return;
- if(b.matches('#ptc,.arrow,.hmhead button,.tg button'))return;
+ if(b.matches('.tg button'))return;
  const t=(b.textContent||'').trim();
  sfx((b.id==='dl'||b.classList.contains('del')||t.includes('刪除')||t.includes('清除')||/^(返回|取消|退出|關閉)/.test(t))?'low':'tap')},true);
 document.addEventListener('change',e=>{if(e.target.matches&&e.target.matches('select,input[type=radio],input[type=checkbox],input[type=time],input[type=date]'))sfx('tap')},true);
