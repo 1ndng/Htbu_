@@ -307,7 +307,7 @@ mark.hl{background:rgba(128,128,128,.3);background:color-mix(in srgb,var(--acc) 
 <div class="acts" style="justify-content:center"><button onclick="$('#th').close();thBack()">返回</button><button onclick="$('#th').close();$('#cl').close()">退出</button></div>
 </dialog>
 <dialog id="ft">
-<h2>☆功能極簡☆</h2>
+<h2>☆功能☆</h2>
 <p class="sub" style="text-align:center;margin:-6px 0 12px">點按可開啟或關閉</p>
 <div class="mb" id="ftc"></div>
 <div class="acts" style="justify-content:center"><button onclick="$('#ft').close();openMn('layout')">返回</button><button onclick="$('#ft').close()">退出</button></div>
@@ -367,7 +367,7 @@ const $=s=>document.querySelector(s),pad=n=>String(n).padStart(2,'0');
 const h=(t,a={},...c)=>{const e=document.createElement(t);for(const k in a)k.startsWith('on')?e[k]=a[k]:e.setAttribute(k,a[k]);e.append(...c.flat().filter(x=>x!=null&&x!==false));return e};
 let hmY=null,hmData=[],hmPid=null;
 let MINY=+localStorage.getItem('nyear-miny')||null;
-const FK='nyear-feat',FEAT={people:true,tags:true,time:true,quote:true,md:true};
+const FK='nyear-feat',FEAT={people:true,tags:true,time:true,quote:true,md:true,sound:true};
 try{Object.assign(FEAT,JSON.parse(localStorage.getItem(FK)||'{}'))}catch(e){}
 const saveFeat=()=>{try{localStorage.setItem(FK,JSON.stringify(FEAT))}catch(e){}};
 let db,useMem=false,M={people:{},entries:{}},people=[],cur=null,E={},urls=[],extra=0,hy=null,multi=false,msel=new Set(),edDate=null,edK=null,draft=[],durls=[],dturls=[],dtags=[],dquote=null,qs='',ftags=[],rlim=50,qt,other=false;
@@ -508,14 +508,14 @@ function openMn(v){mnView=v||null;
  const act=(t,f)=>h('button',{class:'edit',onclick:()=>{$('#mn').close();f()}},t);
  const msg=(t,m)=>h('button',{class:'edit',onclick:()=>toast(m)},t);
  if(mnView==='guide'){$('#mn').close();openGd();return}
- const mt=$('#mnt');mt.hidden=!mnView;mt.textContent=mnView==='layout'?'★版面設置★':mnView==='review'?'★回顧★':'';
+ const mt=$('#mnt');mt.hidden=!mnView;mt.textContent=mnView==='layout'?'★設置★':mnView==='review'?'★回顧★':'';
  let foot;
  if(!mnView){
-  rc($('#mnc'),nav('★版面設置★','layout'),nav('★回顧★','review'),nav('★說明書★','guide'),
+  rc($('#mnc'),nav('★設置★','layout'),nav('★回顧★','review'),nav('★說明書★','guide'),
    h('div',{class:'bkw'},act('★備份★',openBk),h('div',{class:'bkn'},lbMap().all?'上次備份：'+new Date(lbMap().all).toLocaleString('zh-TW'):'尚未備份過')));
   foot=[h('button',{onclick:()=>$('#mn').close()},'退出')];
  }else if(mnView==='layout'){
-  rc($('#mnc'),act('☆最早年份☆',openMinYear),act('☆主題色☆',openColorList),act('☆功能極簡☆',openFeat));
+  rc($('#mnc'),act('☆最早年份☆',openMinYear),act('☆主題色☆',openColorList),act('☆功能☆',openFeat));
   foot=[h('button',{onclick:()=>openMn()},'返回'),h('button',{onclick:()=>$('#mn').close()},'退出')];
  }else if(mnView==='review'){
   rc($('#mnc'),
@@ -789,7 +789,20 @@ async function commitMove(date,time){
  dropDraft();await loadView();return true}
 function moveEntry(){edDate===NODATE?openMv():moveToNote()}
 async function moveToNote(){if(await commitMove(NODATE,null)){$('#ed').close();toast('已移至隨手記');render()}}
-const FEATS=[['people','對象'],['tags','標籤'],['time','時間'],['quote','引用'],['md','MARKDOWN語法']];
+let AC=null;
+function sfx(kind){if(!FEAT.sound)return;try{
+ AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();
+ const seq={tap:[[560,0]],low:[[330,0]]}[kind]||[[560,0]],t0=AC.currentTime;
+ seq.forEach(([f,d])=>{const o=AC.createOscillator(),g=AC.createGain();o.type='square';o.frequency.value=f;
+  g.gain.setValueAtTime(.05,t0+d);g.gain.exponentialRampToValueAtTime(.001,t0+d+.07);o.connect(g);g.connect(AC.destination);o.start(t0+d);o.stop(t0+d+.08)})}catch(e){}}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('button');if(!b||b.disabled)return;
+ if(b.matches('#ptc,.arrow,.hmhead button,.tg button'))return;
+ const t=(b.textContent||'').trim();
+ sfx((b.id==='dl'||b.classList.contains('del')||t.includes('刪除')||t.includes('清除')||/^(返回|取消|退出|關閉)/.test(t))?'low':'tap')},true);
+document.addEventListener('change',e=>{if(e.target.matches&&e.target.matches('select,input[type=radio],input[type=checkbox],input[type=time],input[type=date]'))sfx('tap')},true);
+document.addEventListener('click',e=>{if(e.target.matches&&e.target.matches('textarea,input[type=search],input[type=text],input:not([type])'))sfx('tap')},true);
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches&&e.target.matches('input[type=search]'))sfx('tap')},true);
+const FEATS=[['people','對象'],['tags','標籤'],['time','時間'],['quote','引用'],['md','MARKDOWN語法'],['sound','音效']];
 function applyFeat(){const d=(el,on)=>{if(el)el.style.display=on?'':'none'};
  d($('#pplrow'),FEAT.people);d($('#pt'),FEAT.people||FEAT.tags);d($('#ptc'),FEAT.people||FEAT.tags);
  document.querySelectorAll('.mdb').forEach(b=>d(b,FEAT.md));d($('#txl'),FEAT.md);d($('#txb'),FEAT.md);d($('#txh'),!FEAT.md);
@@ -800,6 +813,7 @@ function heatBack(){FEAT.people?openHp():openMn('review')}
 function thBack(){FEAT.people?openColorList():openMn('layout')}
 function openFeat(){rc($('#ftc'),...FEATS.map(([k,t])=>h('button',{class:'edit','aria-pressed':String(FEAT[k]),onclick:()=>setFeat(k,!FEAT[k])},`${t}：${FEAT[k]?'開啟':'關閉'}`)));if(!$('#ft').open)$('#ft').showModal()}
 async function setFeat(k,v){let made=false;
+ if(k==='sound'){FEAT.sound=v;saveFeat();openFeat();if(v)sfx('tap');return}
  if(!v){
   if(k==='people'){if(people.length>1){toast('目前已存在多個對象，無法關閉');return}
    if(!people.length){const p={id:'p'+Date.now(),name:'我'};await dbPut('people',p);people.push(p);made=true}}
