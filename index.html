@@ -194,6 +194,24 @@ video.dtm{background:#000}
 /* 搜尋時，未展開的方塊把視窗捲到標亮處 */
 .card:not(.open) .txt.hlc{overflow:hidden;max-height:5.1em}
 mark.hl{background:rgba(128,128,128,.3);background:color-mix(in srgb,var(--acc) 38%,transparent);color:inherit;padding:0;border-radius:0}
+.wbd{--pxc:3px;clip-path:var(--cut);position:absolute;top:14px;z-index:3;padding:4px 14px;font:600 15px "BaDing",serif;opacity:0;pointer-events:none}
+#wrk{left:26px;background:var(--acc);color:var(--onacc)}#wra{right:26px;background:#c0392b;color:#fff}
+#wr{width:100vw;max-width:640px;height:100vh;height:100dvh;max-height:100vh;max-height:100dvh;margin:0 auto;padding:0;border:0;clip-path:none;overflow:hidden;background:var(--bg)}
+#wr[open]{display:flex;flex-direction:column}
+#wrh{flex:none;text-align:center;color:var(--mute);font-size:12px;line-height:1.5;padding:calc(10px + env(safe-area-inset-top,0px)) 12px 8px}
+#wrs{flex:1 1 auto;min-height:0;position:relative;overflow:hidden}
+.wc{--pxc:4px;clip-path:var(--cut);background:var(--pxbg);border:1px solid transparent;position:absolute;left:14px;right:14px;top:0;bottom:92px;overflow-y:auto;overflow-x:hidden;touch-action:pan-y;-webkit-overflow-scrolling:touch;will-change:transform;transform-origin:50% 90%;padding:16px 16px 6px}
+.wc>*{margin-bottom:14px}.wc audio{display:block;width:100%}.wc .fl{padding:10px 12px;font-size:15px}
+.wc.anim{transition:transform .28s cubic-bezier(.22,.8,.3,1),opacity .28s ease-out}
+.wc.in{animation:wcin .26s ease-out}
+@keyframes wcin{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+.wdone{display:flex;align-items:center;justify-content:center;color:var(--mute);text-align:center}
+@media (prefers-reduced-motion:reduce){.wc.anim{transition-duration:.01s}.wc.in{animation:none}}
+#wrx{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:5;background:var(--acc);color:var(--onacc);border:0;border-radius:0;clip-path:var(--cut);padding:11px 24px;margin:3px 0;font-size:14px;font-weight:500}
+#wrx:focus,#wrx:active{--bd:var(--acc);clip-path:var(--cut3);padding:14px 27px;margin:0}
+.arl{max-height:56vh;overflow-y:auto;padding:2px;margin-bottom:12px}
+.arc{--pxc:3px;clip-path:var(--cut);background:var(--pxbg);border:1px solid transparent;padding:10px 12px;margin-bottom:10px;display:flex;flex-direction:column;gap:4px}
+.artx{font-size:14px;line-height:1.6;word-break:break-word}.ardn{font-size:11px;color:var(--mute)}
 .hmstat{color:var(--mute);font-size:12px;text-align:center;line-height:1.6;margin:0 0 10px}
 .hmwrap{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px}
 .hmonth{margin-bottom:18px}
@@ -312,6 +330,8 @@ mark.hl{background:rgba(128,128,128,.3);background:color-mix(in srgb,var(--acc) 
 <div class="mb" id="ftc"></div>
 <div class="acts" style="justify-content:center"><button onclick="$('#ft').close();openMn('layout')">返回</button><button onclick="$('#ft').close()">退出</button></div>
 </dialog>
+<dialog id="wr"><div id="wrh"></div><div id="wrs"><div class="wbd" id="wrk">保留</div><div class="wbd" id="wra">封存</div></div><button id="wrx" onclick="closeWr()">退出</button></dialog>
+<dialog id="ar"></dialog>
 <dialog id="hp">
 <h2>☆年視圖☆</h2>
 <p class="sub" style="text-align:center;margin:-6px 0 12px">選擇想查看的對象</p>
@@ -386,7 +406,8 @@ const req=(st,mode,f)=>new Promise((res,rej)=>{const t=db.transaction(st,mode);c
 const dbAll=st=>useMem?Promise.resolve(Object.values(M[st])):req(st,'readonly',s=>s.getAll());
 const dbPut=(st,v)=>useMem?(M[st][v.id||v.k]=v,Promise.resolve()):req(st,'readwrite',s=>s.put(v));
 const dbDel=(st,k)=>useMem?(delete M[st][k],Promise.resolve()):req(st,'readwrite',s=>s.delete(k));
-const dbByP=id=>useMem?Promise.resolve(Object.values(M.entries).filter(e=>e.pid===id)):req('entries','readonly',s=>s.index('pid').getAll(id));
+const dbByPAll=id=>useMem?Promise.resolve(Object.values(M.entries).filter(e=>e.pid===id)):req('entries','readonly',s=>s.index('pid').getAll(id));
+const dbByP=id=>dbByPAll(id).then(a=>a.filter(e=>!e.archived));
 
 async function loadView(){E={};const ids=multi?[...msel]:cur?[cur]:[];for(const id of ids)(await dbByP(id)).forEach(e=>{if((e.date===NODATE)!==other)return;(E[e.date]||(E[e.date]=[])).push(e)})}
 async function sel(id){cur=id;multi=false;hy=null;extra=0;ftags=[];rlim=50;applyTheme(people.find(p=>p.id===id)?.color);await loadView();render()}
@@ -402,7 +423,7 @@ async function renameP(){const P=people.find(p=>p.id===cur),n=$('#pen').value.tr
  if(n!==P.name){P.name=n;try{await dbPut('people',P)}catch(e){toast('儲存失敗');return}}pe.close();render()}
 $('#pen').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();renameP()}};
 async function delP(){const P=people.find(p=>p.id===cur);if(!P||!await ask(`「${P.name}」與全部紀錄都會被刪除`))return;
-for(const e of await dbByP(cur))await dbDel('entries',e.k);await dbDel('people',cur);people=people.filter(p=>p.id!==cur);await sel(people[0]?.id||null)}
+for(const e of await dbByPAll(cur))await dbDel('entries',e.k);await dbDel('people',cur);people=people.filter(p=>p.id!==cur);await sel(people[0]?.id||null)}
 
 const mu=(m,l=urls)=>{const u=URL.createObjectURL(m.b);l.push(u);return u};
 function shot(v){const W=480,vw=v.videoWidth||W,vh=v.videoHeight||W,r=Math.min(1,W/vw),c=document.createElement('canvas');c.width=Math.max(1,Math.round(vw*r));c.height=Math.max(1,Math.round(vh*r));
@@ -511,7 +532,7 @@ function openMn(v){mnView=v||null;
  const mt=$('#mnt');mt.hidden=!mnView;mt.textContent=mnView==='layout'?'★設置★':mnView==='review'?'★回顧★':'';
  let foot;
  if(!mnView){
-  rc($('#mnc'),nav('★設置★','layout'),nav('★回顧★','review'),nav('★說明書★','guide'),
+  rc($('#mnc'),nav('★設置★','layout'),nav('★回顧★','review'),act('★封存★',openAr),nav('★說明書★','guide'),
    h('div',{class:'bkw'},act('★備份★',openBk),h('div',{class:'bkn'},lbMap().all?'上次備份：'+new Date(lbMap().all).toLocaleString('zh-TW'):'尚未備份過')));
   foot=[h('button',{onclick:()=>$('#mn').close()},'退出')];
  }else if(mnView==='layout'){
@@ -520,7 +541,7 @@ function openMn(v){mnView=v||null;
  }else if(mnView==='review'){
   rc($('#mnc'),
    act(multi?'☆結束回顧☆':'☆日回顧☆',()=>{if(!multi&&people.length<1){toast('目前沒有可回顧的日記');openMn('review');return}toggleMulti()}),
-   msg('☆周復盤☆','尚未更新！'),msg('☆月總結☆','尚未開放！'),
+   act('☆周復盤☆',openWr),msg('☆月總結☆','尚未開放！'),
    act('☆年視圖☆',openHp));
   foot=[h('button',{onclick:()=>openMn()},'返回'),h('button',{onclick:()=>$('#mn').close()},'退出')];
  }
@@ -624,7 +645,7 @@ $('#tms').onchange=()=>{if(tmMode==='edit')$('#tmn').value=$('#tms').value};
 $('#tmn').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();tmOk()}};
 async function retag(P,old,nv){
  const sw=t=>[...new Set((t||[]).map(x=>x===old?nv:x).filter(Boolean))].slice(0,10);
- for(const e of await dbByP(P.id))if((e.tags||[]).includes(old)){e.tags=sw(e.tags);await dbPut('entries',e)}
+ for(const e of await dbByPAll(P.id))if((e.tags||[]).includes(old)){e.tags=sw(e.tags);await dbPut('entries',e)}
  for(const e of Object.values(E).flat())if(e.pid===P.id&&(e.tags||[]).includes(old))e.tags=sw(e.tags);
  P.tags=sw(P.tags);await dbPut('people',P);
  ftags=ftags.map(x=>x.pid===P.id&&x.tag===old?(nv?{pid:P.id,tag:nv}:null):x).filter(Boolean)}
@@ -784,14 +805,13 @@ async function commitMove(date,time){
  if(!text&&!links.length&&!draft.length&&!dquote){toast('內容是空的，無法移動');return false}
  const en={...old,date,time,text,links,tags:[...dtags],media:draft,quote:dquote?{...dquote}:null};
  try{await dbPut('entries',en);
-  for(const x of await dbByP(old.pid))if(x.k!==en.k&&x.quote&&x.quote.k===old.k)await dbPut('entries',{...x,quote:{...x.quote,date,time}})
+  for(const x of await dbByPAll(old.pid))if(x.k!==en.k&&x.quote&&x.quote.k===old.k)await dbPut('entries',{...x,quote:{...x.quote,date,time}})
  }catch(e){toast('移動失敗，可能是檔案太大或空間不足');return false}
  dropDraft();await loadView();return true}
 function moveEntry(){edDate===NODATE?openMv():moveToNote()}
 async function moveToNote(){if(await commitMove(NODATE,null)){$('#ed').close();toast('已移至隨手記');render()}}
 let AC=null;
 function sfx(kind){if(!FEAT.sound)return;try{
- if(!AC&&navigator.audioSession){try{navigator.audioSession.type='playback'}catch(e){}}
  AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();
  const seq={tap:[[560,0]],low:[[330,0]]}[kind]||[[560,0]],t0=AC.currentTime;
  seq.forEach(([f,d])=>{const o=AC.createOscillator(),g=AC.createGain();o.type='square';o.frequency.value=f;
@@ -837,6 +857,69 @@ function hlMark(){const k=qs.trim().toLowerCase();if(!k)return;
 function hlScroll(){document.querySelectorAll('.card:not(.open) .txt.hlc').forEach(t=>{const m=t.querySelector('mark.hl');if(!m)return;t.scrollTop=0;const hm=!!t.closest('.cbody.hm'),line=parseFloat(getComputedStyle(t).lineHeight)||22,tr=t.getBoundingClientRect(),mr=m.getBoundingClientRect(),top=mr.top-tr.top;
   if(mr.bottom-tr.top>t.clientHeight+1)t.scrollTop=Math.max(0,hm?top:top-line)})}
 {const r0=render;render=function(){r0.apply(this,arguments);hlMark()}}
+/* ===== 周復盤 / 封存 ===== */
+const ARD=7*864e5;
+async function purgeArchive(){try{const lim=Date.now()-ARD;for(const e of await dbAll('entries'))if(e.archived&&e.archived<lim)await dbDel('entries',e.k)}catch(_){}}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)purgeArchive()});
+function dtNodes(en,L){const M=en.media||[],by=t=>M.filter(m=>m.t===t),au=by('audio'),ad=m=>h('audio',{src:mu(m,L),controls:''});
+ return [h('div',{class:'dth'},(FEAT.people&&people.length>1?pname(en.pid)+'・':'')+(en.date===NODATE?'隨手記':fmtD(en.date))+(en.time?'　'+en.time:'')),
+  en.text&&h('div',{class:'txt dtt'},...blocks(en.text)),
+  by('image').map(m=>h('img',{class:'dtm',src:mu(m,L),alt:''})),
+  by('video').map(m=>h('video',{class:'dtm',src:mu(m,L),controls:'',playsinline:'',preload:'metadata',...(m.p?{poster:mu({b:m.p},L)}:{})})),
+  by('file').map(m=>fileA(m,L)),
+  au.filter(m=>m.n!=='錄音').map(ad),au.filter(m=>m.n==='錄音').map(ad),
+  (en.links||[]).length>0&&h('div',{class:'dtl'},...en.links.map(l=>h('a',{href:l,target:'_blank',rel:'noopener noreferrer'},l))),
+  (en.tags||[]).length>0&&h('div',{class:'tgs dtgs'},...en.tags.map(t=>h('span',{class:'tg dtg'},'#'+t))),
+  FEAT.quote&&en.quote&&h('div',{class:'qv'},h('div',{class:'qb'},h('div',{class:'rd'},qLbl(en.quote)),h('div',{class:'qtx'},qTxt(en.quote))))]}
+let wrQ=[],wrI=0,wrN=0,wrDirty=false,wrUrls=[],wrMoved=false,wrBusy=false,wrPend=[];
+async function openWr(){await purgeArchive();
+ const all=(await dbAll('entries')).filter(e=>!e.reviewed&&!e.archived);
+ if(!all.length){toast('目前沒有未整理的紀錄');openMn('review');return}
+ const dated=all.filter(e=>e.date!==NODATE).sort((a,b)=>a.date<b.date?1:a.date>b.date?-1:((a.time||'')<(b.time||'')?1:(a.time||'')>(b.time||'')?-1:tsOf(b)-tsOf(a))),
+  note=all.filter(e=>e.date===NODATE).sort((a,b)=>tsOf(b)-tsOf(a));
+ wrQ=[...dated,...note];wrI=0;wrN=wrQ.length;wrDirty=false;wrPend=[];wrShow();$('#wr').showModal()}
+function wrShow(){wrUrls.forEach(URL.revokeObjectURL);wrUrls=[];wrBusy=false;
+ const s=$('#wrs'),old=s.querySelector('.wc');if(old)old.remove();$('#wrk').style.opacity=$('#wra').style.opacity=0;
+ const en=wrQ[wrI];
+ if(!en){rc($('#wrh'));s.append(h('div',{class:'wc wdone in'},'未整理的紀錄已全部整理完畢'));return}
+ rc($('#wrh'),h('div',{},`${wrI+1} / ${wrN}`),h('div',{},'右滑保留・左滑封存'));
+ const c=h('div',{class:'wc in'},...dtNodes(en,wrUrls));s.append(c);wrBind(c)}
+function wrBind(c){let x0=0,y0=0,t0=0,id=null,mode=0,dx=0;const kb=$('#wrk'),ab=$('#wra');
+ c.addEventListener('pointerdown',e=>{if(wrBusy||(e.pointerType==='mouse'&&e.button>0)||e.target.closest('video,audio,input,select,textarea'))return;
+  id=e.pointerId;x0=e.clientX;y0=e.clientY;t0=e.timeStamp;mode=0;dx=0;wrMoved=false;c.classList.remove('anim','in')});
+ c.addEventListener('pointermove',e=>{if(e.pointerId!==id)return;const mx=e.clientX-x0,my=e.clientY-y0;
+  if(!mode){if(Math.abs(mx)>10&&Math.abs(mx)>Math.abs(my)*1.2){mode=1;try{c.setPointerCapture(id)}catch(_){}}else if(Math.abs(my)>10){mode=2;id=null;return}else return}
+  if(mode!==1)return;wrMoved=true;dx=mx;c.style.transform=`translateX(${dx}px) rotate(${dx/18}deg)`;
+  const p=Math.min(Math.abs(dx)/110,1);kb.style.opacity=dx>0?p:0;ab.style.opacity=dx<0?p:0});
+ const end=e=>{if(e.pointerId!==id)return;id=null;if(mode!==1)return;const v=dx/Math.max(e.timeStamp-t0,1);
+  if(Math.abs(dx)>110||(Math.abs(v)>.6&&Math.abs(dx)>40))wrFly(c,dx>0?1:-1);
+  else{c.classList.add('anim');c.style.transform='';kb.style.opacity=ab.style.opacity=0}};
+ c.addEventListener('pointerup',end);c.addEventListener('pointercancel',end);
+ c.addEventListener('click',e=>{if(wrMoved){e.preventDefault();e.stopPropagation();wrMoved=false}},true)}
+function wrFly(c,dir){if(wrBusy)return;wrBusy=true;const en=wrQ[wrI],kb=$('#wrk'),ab=$('#wra');wrDirty=true;sfx(dir>0?'tap':'low');
+ (dir>0?kb:ab).style.opacity=1;c.classList.add('anim');c.style.transform=`translateX(${dir*(innerWidth+240)}px) rotate(${dir*18}deg)`;c.style.opacity='0';
+ let fin=false;const go=()=>{if(fin)return;fin=true;wrAct(en,dir);wrI++;wrShow()};
+ c.addEventListener('transitionend',go,{once:true});setTimeout(go,420)}
+function wrAct(en,dir){const t=Date.now(),n={...en,reviewed:t};if(dir<0)n.archived=t;
+ wrPend.push(dbPut('entries',n).catch(()=>toast('儲存失敗，可能是空間不足')))}
+$('#wr').addEventListener('keydown',e=>{const c=$('#wrs .wc:not(.wdone)');if(!c)return;if(e.key==='ArrowRight')wrFly(c,1);else if(e.key==='ArrowLeft')wrFly(c,-1)});
+function closeWr(){$('#wr').close()}
+$('#wr').onclose=async()=>{wrUrls.forEach(URL.revokeObjectURL);wrUrls=[];$('#wrs .wc')?.remove();await Promise.all(wrPend);wrPend=[];if(wrDirty){wrDirty=false;await loadView();render()}};
+async function openAr(){await purgeArchive();
+ const d=$('#ar'),all=(await dbAll('entries')).filter(e=>e.archived).sort((a,b)=>b.archived-a.archived);
+ const items=all.map(e=>{const left=Math.max(1,Math.ceil((e.archived+ARD-Date.now())/864e5));
+  return h('div',{class:'arc'},
+   h('div',{class:'dth'},(FEAT.people&&people.length>1?pname(e.pid)+'・':'')+(e.date===NODATE?'隨手記':fmtD(e.date))+(e.time?'　'+e.time:'')),
+   h('div',{class:'artx'},(e.text||'').slice(0,60)||cntStr(e)||'（沒有文字）'),
+   h('div',{class:'ardn'},`${left} 天後自動刪除`),
+   h('div',{class:'ea'},h('button',{class:'edit',onclick:()=>arRestore(e)},'還原'),h('button',{class:'edit',onclick:()=>arDel(e)},'刪除')))});
+ rc(d,h('h2',{style:'text-align:center'},'★封存★'),h('p',{class:'sub',style:'text-align:center;margin:-6px 0 12px'},'封存的紀錄會在 7 天後自動刪除'),
+  h('div',{class:'arl'},...(items.length?items:[h('p',{class:'sub',style:'text-align:center'},'目前沒有封存的紀錄')])),
+  h('div',{class:'acts',style:'justify-content:center;flex-wrap:wrap'},...(all.length?[h('button',{onclick:()=>arDelAll(all.length)},'全部刪除')]:[]),h('button',{onclick:()=>{d.close();openMn()}},'返回'),h('button',{onclick:()=>d.close()},'退出')));
+ if(!d.open)d.showModal()}
+async function arDelAll(n){if(!await ask(`${n} 則封存的紀錄會被永久刪除，無法復原`))return;try{for(const e of (await dbAll('entries')).filter(e=>e.archived))await dbDel('entries',e.k);toast('已全部刪除');openAr()}catch(_){toast('刪除失敗')}}
+async function arRestore(e){try{await dbPut('entries',{...e,archived:0});await loadView();render();toast('已還原');openAr()}catch(_){toast('還原失敗')}}
+async function arDel(e){if(!await ask('這則紀錄會被永久刪除，無法復原'))return;try{await dbDel('entries',e.k);openAr()}catch(_){toast('刪除失敗')}}
 function fillMvd(d){const n=new Date(+$('#mvy').value,+$('#mvm').value,0).getDate();rc($('#mvd'),...Array.from({length:n},(_,i)=>h('option',{value:i+1},(i+1)+'日')));$('#mvd').value=Math.min(d,n)}
 function mvMode(v){document.querySelector(`input[name=mvt][value=${v}]`).checked=true;const t=$('#mvtv');t.value=v==='now'?nowStr():v==='manual'?(t.value||nowStr()):'';t.disabled=v!=='manual'}
 document.querySelectorAll('input[name=mvt]').forEach(r=>r.onchange=()=>mvMode(r.value));
@@ -895,7 +978,7 @@ async function save(){
  if(empty&&dtags.length){toast('請輸入紀錄內容');return}
  if(empty&&edK&&!await ask('內容已清空，這則紀錄會被刪除'))return;
  try{if(empty)await removeEntry();
- else{const en={k:edK||`${cur}|${edDate}|${Date.now()}`,pid:old?old.pid:cur,date:edDate,time,text,links,tags:[...dtags],media:draft,quote:dquote?{...dquote}:null};
+ else{const en={k:edK||`${cur}|${edDate}|${Date.now()}`,pid:old?old.pid:cur,date:edDate,time,text,links,tags:[...dtags],media:draft,quote:dquote?{...dquote}:null,...(old&&old.reviewed?{reviewed:old.reviewed}:{})};
   await dbPut('entries',en);const L=E[edDate]||(E[edDate]=[]),i=L.findIndex(x=>x.k===en.k);i<0?L.push(en):L[i]=en}
  dropDraft();$('#ed').close();render()}catch(e){toast('儲存失敗，可能是檔案太大或空間不足')}}
 
@@ -956,7 +1039,7 @@ async function importBackup(f){
      it={t:m.t,n:String(m.n||''),b:new Blob([b],{type:ty})};
     if(m.t==='video'&&/^data:image\//.test(m.p||''))it.p=await(await fetch(m.p)).blob();media.push(it)}
    await dbPut('entries',{k:String(e.k),pid:String(e.pid),date:e.date,time:/^\d{2}:\d{2}$/.test(e.time)?e.time:null,text:String(e.text||''),
-    links:(e.links||[]).map(String).filter(l=>/^https?:\/\//i.test(l)),tags:(e.tags||[]).map(x=>String(x).slice(0,20)).slice(0,10),media,quote:(e.quote&&typeof e.quote==='object'&&e.quote.k)?e.quote:null});
+    links:(e.links||[]).map(String).filter(l=>/^https?:\/\//i.test(l)),tags:(e.tags||[]).map(x=>String(x).slice(0,20)).slice(0,10),media,quote:(e.quote&&typeof e.quote==='object'&&e.quote.k)?e.quote:null,reviewed:Number(e.reviewed)||0});
    n++;st.textContent=`匯入中… ${n}/${j.entries.length}`;
   }
   people=await dbAll('people');people.sort((a,b)=>a.id<b.id?-1:1);
@@ -967,7 +1050,7 @@ async function importBackup(f){
 $('#bf').onchange=e=>{if(e.target.files[0])importBackup(e.target.files[0]);e.target.value=''};
 if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
-(async()=>{await openDB();people=await dbAll('people');people.sort((a,b)=>a.id<b.id?-1:1);
+(async()=>{await openDB();await purgeArchive();people=await dbAll('people');people.sort((a,b)=>a.id<b.id?-1:1);
  try{const g=localStorage.getItem(TK);if(g&&people.length){for(const p of people)if(!p.color){p.color=g;await dbPut('people',p)}localStorage.removeItem(TK)}}catch(e){}
  if(!FEAT.people&&!people.length){const p={id:'p'+Date.now(),name:'我'};await dbPut('people',p);people.push(p)}
  applyFeat();await sel(people[0]?.id||null)})();
