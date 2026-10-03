@@ -96,7 +96,7 @@ label{display:block;font-size:14px;color:var(--mute)}
 .htm{position:absolute;left:0;top:0;font:600 12px/18px "BaDing",serif;color:var(--acx)}
 .lab{margin-left:3px;flex:none;align-self:center;font-size:11px;font-weight:500;line-height:20px;padding:0 7px;--pxc:3px;border-radius:0;clip-path:var(--cut);background:var(--soft);color:var(--acx);white-space:nowrap}
 .xb[hidden],.cx[hidden]{display:none}
-.cbody.hm{max-height:130px}.cbody.hm.clip::after{display:none}.card:not(.open) .cbody.hm .txt{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:1;line-clamp:1;overflow:hidden}
+.cbody.hm{max-height:130px}.cbody.hm.clip::after{display:none}.card:not(.open) .cbody.hm .txt:not(.hlc){display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:1;line-clamp:1;overflow:hidden}
 .card.open .cbody{max-height:none}.card.open .cbody.clip::after{display:none}
 .lh{display:flex;justify-content:space-between;align-items:center;margin:-4px 0 6px}.lh .edit{margin:0}
 .r{display:inline-flex;align-items:center;gap:4px;color:var(--ink)}
@@ -190,6 +190,8 @@ video.dtm{background:#000}
 .hmhead button:disabled{opacity:.25;cursor:default}
 #pt.np #tagrow{margin-top:0}#pt.np #tagrow::before{display:none}
 #ptc:focus,#ptc:active,.tg button:focus,.tg button:active{clip-path:none}
+/* 搜尋時，未展開的方塊把視窗捲到標亮處 */
+.card:not(.open) .txt.hlc{overflow:hidden;max-height:5.1em}
 mark.hl{background:rgba(128,128,128,.3);background:color-mix(in srgb,var(--acc) 38%,transparent);color:inherit;padding:0;border-radius:0}
 .hmstat{color:var(--mute);font-size:12px;text-align:center;line-height:1.6;margin:0 0 10px}
 .hmwrap{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px}
@@ -476,13 +478,13 @@ function blocks(t){const out=[],L=t.split('\n');let buf=[],i=0;
   buf.push(l);i++}
  flush();return out}
 function txtBits(t,c){return t?[h('div',{class:'txt'+(c?' clamp':'')},...blocks(t))]:[]}
-function toggleX(b){const c=b.closest('.card'),t=c.querySelector('.txt');if(!t)return;const o=t.classList.toggle('clamp');c.classList.toggle('open',!o);b.textContent=o?'展開':'收合'}
+function toggleX(b){const c=b.closest('.card'),t=c.querySelector('.txt');if(!t)return;const open=!c.classList.contains('open');c.classList.toggle('open',open);t.classList.toggle('clamp',!open&&!t.classList.contains('hlc'));b.textContent=open?'收合':'展開';hlScroll()}
 function toggleC(b){const c=b.closest('.card'),o=c.classList.toggle('open');b.textContent=o?'收合':'展開';chkClip()}
 function fitCnt(){document.querySelectorAll('.card .cnt').forEach(c=>{const w0=c.closest('.hi')||c.closest('.card');c.style.width='';w0.classList.remove('wide');if(c.hidden)return;const sp=[...c.querySelectorAll('.cs')];if(sp.length>1&&sp[sp.length-1].getBoundingClientRect().top-sp[0].getBoundingClientRect().top>4)w0.classList.add('wide');const L=c.getBoundingClientRect().left;let r=0;c.querySelectorAll('.cs').forEach(x=>{r=Math.max(r,x.getBoundingClientRect().right)});const w=r-L;if(w>0&&w<c.clientWidth)c.style.width=Math.ceil(w)+1+'px'})}
 function fitX(){document.querySelectorAll('.card .xb').forEach(b=>{const c=b.closest('.card'),t=c.querySelector('.txt'),show=c.classList.contains('open')||(t&&t.scrollHeight>t.clientHeight+1);b.hidden=!show;const cn=b.closest('.ea')?.querySelector('.cnt');if(cn)cn.hidden=!show});fitCnt()}
 function chkClip(){document.querySelectorAll('.card .cbody').forEach(d=>{const c=d.closest('.card'),o=c.classList.contains('open');
  if(d.classList.contains('hm')){if(o)d.style.maxHeight='';else{const ths=[...d.querySelectorAll('.th')].slice(0,2),b=ths.length?Math.max(...ths.map(x=>x.offsetTop+x.offsetHeight)):0;if(b>20)d.style.maxHeight=(b+2)+'px'}}
- const ov=!o&&d.scrollHeight>d.clientHeight+1,t=d.querySelector('.txt'),tc=!o&&d.classList.contains('hm')&&t&&t.scrollHeight>t.clientHeight+1;d.classList.toggle('clip',ov);const show=o||ov||tc;const b=c.querySelector('.cx');if(b)b.hidden=!show;const cn=c.querySelector('.cnt');if(cn)cn.hidden=!show});fitCnt()}
+ const ov=!o&&d.scrollHeight>d.clientHeight+1,t=d.querySelector('.txt'),tc=!o&&d.classList.contains('hm')&&t&&t.scrollHeight>t.clientHeight+1;d.classList.toggle('clip',ov);const show=o||ov||tc;const b=c.querySelector('.cx');if(b)b.hidden=!show;const cn=c.querySelector('.cnt');if(cn)cn.hidden=!show});fitCnt();hlScroll()}
 document.fonts&&document.fonts.ready.then(()=>{fitX();chkClip()});addEventListener('orientationchange',()=>setTimeout(()=>{fitX();chkClip()},300));addEventListener('resize',()=>{fitX();chkClip()});
 function wrap(m){const t=$('#tx'),a=t.selectionStart,b=t.selectionEnd,v=t.value;t.value=v.slice(0,a)+m+v.slice(a,b)+m+v.slice(b);t.focus();t.setSelectionRange(a+m.length,b+m.length)}
 function lineP(p){const t=$('#tx'),v=t.value,a=t.selectionStart,b=t.selectionEnd,s0=v.lastIndexOf('\n',a-1)+1;let e0=v.indexOf('\n',b);if(e0<0)e0=v.length;
@@ -815,7 +817,9 @@ function hlMark(){const k=qs.trim().toLowerCase();if(!k)return;
  document.querySelectorAll('.card .txt').forEach(root=>{const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT),ns=[];while(w.nextNode())ns.push(w.currentNode);
   ns.forEach(n=>{const t=n.nodeValue,lo=t.toLowerCase();if(lo.length!==t.length||!lo.includes(k))return;
    const f=document.createDocumentFragment();let i=0,j;while((j=lo.indexOf(k,i))>=0){if(j>i)f.append(t.slice(i,j));const m=document.createElement('mark');m.className='hl';m.textContent=t.slice(j,j+k.length);f.append(m);i=j+k.length}
-   if(i<t.length)f.append(t.slice(i));n.replaceWith(f)})})}
+   if(i<t.length)f.append(t.slice(i));n.replaceWith(f)});if(root.querySelector('mark.hl')){root.classList.remove('clamp');root.classList.add('hlc')}});hlScroll()}
+function hlScroll(){document.querySelectorAll('.card:not(.open) .txt.hlc').forEach(t=>{const m=t.querySelector('mark.hl');if(!m)return;t.scrollTop=0;const hm=!!t.closest('.cbody.hm'),line=parseFloat(getComputedStyle(t).lineHeight)||22,tr=t.getBoundingClientRect(),mr=m.getBoundingClientRect(),top=mr.top-tr.top;
+  if(mr.bottom-tr.top>t.clientHeight+1)t.scrollTop=Math.max(0,hm?top:top-line)})}
 {const r0=render;render=function(){r0.apply(this,arguments);hlMark()}}
 function fillMvd(d){const n=new Date(+$('#mvy').value,+$('#mvm').value,0).getDate();rc($('#mvd'),...Array.from({length:n},(_,i)=>h('option',{value:i+1},(i+1)+'日')));$('#mvd').value=Math.min(d,n)}
 function mvMode(v){document.querySelector(`input[name=mvt][value=${v}]`).checked=true;const t=$('#mvtv');t.value=v==='now'?nowStr():v==='manual'?(t.value||nowStr()):'';t.disabled=v!=='manual'}
