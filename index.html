@@ -675,7 +675,7 @@ function renderOther(A,P){
  const k=qs.toLowerCase(),all=Object.values(E).flat(),filt=!!(qs||ftags.length),
   list=all.filter(e=>matchF(e)&&(!k||hay(e).includes(k))).sort((a,b)=>tsOf(b)-tsOf(a));
  rc(A,
-  h('div',{class:'ohead'},h('div',{class:'otl'},'★隨手記★'),h('div',{class:'dgR'},h('button',{class:'edit',onclick:toggleOther},'返回'))),
+  h('div',{class:'ohead'},h('div',{class:'otl'},'★隨手記★')),
   h('p',{class:'sub'},filt?[ftagLabel()+(ftags.length&&qs?'　':'')+(qs?`搜尋「${qs}」`:'')+`：${list.length} 則　`,h('button',{class:'edit',style:'margin:0',onclick:clearF},'清除')]:`${P.name}共記錄了${all.length}則。`),
   list.length?h('div',{class:'ol'},...list.slice(0,rlim).map(e=>card(e,NODATE,false,true))):null,
   list.length>rlim&&h('button',{class:'more',onclick:()=>{rlim+=50;render()}},'顯示更多'),
