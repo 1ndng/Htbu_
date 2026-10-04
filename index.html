@@ -344,7 +344,7 @@ dialog{overscroll-behavior:none}
 /* 手機用的自製捲軸（iOS Safari 不顯示原生捲軸） */
 html.jsb :is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea)::-webkit-scrollbar{display:none;width:0;height:0}
 html.jsb :is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea){scrollbar-width:none}
-html.jsb .arl{padding-right:18px}
+html.jsb #hmc{padding-right:6px}
 .jsb-bar{position:fixed;z-index:60;display:none;background:var(--btnf);touch-action:none;-webkit-user-select:none;user-select:none;box-shadow:inset 0 0 0 1px var(--mute)}
 .jsb-bar.on{display:flex}
 .jsb-bar.v{width:14px;flex-direction:column}
@@ -1017,8 +1017,8 @@ function sbPlace(el,ax){
  }
  if(bar.parentNode!==host)host.append(bar);
  const on=g.sh>g.ch+1;bar.classList.toggle('on',on);if(!on)return;
- const isDlg=!b.win&&el.matches('dialog,.wcs'),ins=isDlg?10:0,side=isDlg?8:(b.win||el.classList.contains('arl')?0:2),tt=isDlg?(parseFloat(getComputedStyle(el.classList.contains('wcs')?el.parentNode:el).getPropertyValue('--tt'))||5)+6:0;
- if(v){const t=r.top+(isDlg?tt:ins),L=Math.max(0,r.bottom-ins-t);bar.style.cssText=`left:${r.right-14-side}px;top:${t}px;height:${L}px`}
+ const isDlg=!b.win&&el.matches('dialog,.wcs'),ins=isDlg?10:0,side=isDlg?8:(b.win||el.classList.contains('arl')||el.id==='hmc'?0:2),tt=isDlg?(parseFloat(getComputedStyle(el.classList.contains('wcs')?el.parentNode:el).getPropertyValue('--tt'))||5)+6:0;
+ if(v){const t=r.top+(isDlg?tt:ins),L=Math.max(0,r.bottom-ins-t),dl=(el.classList.contains('arl')||el.id==='hmc')&&el.closest('dialog'),rx=dl?dl.getBoundingClientRect().right-8:r.right-side;bar.style.cssText=`left:${rx-14}px;top:${t}px;height:${L}px`}
  else{const l=r.left+ins,L=Math.max(0,r.right-ins-l);bar.style.cssText=`top:${r.bottom-14-side}px;left:${l}px;width:${L}px`}
  if(!b.win&&el.classList.contains('wcs')){const cd=el.parentNode,tf=cd.style.transform;bar.style.transition=cd.classList.contains('anim')?getComputedStyle(cd).transition:'none';bar.style.opacity=cd.style.opacity;
   if(tf){const bl=r.right-14-side,bt=r.top+tt;bar.style.transformOrigin=`${(r.left+r.width*.5)-bl}px ${(r.top+r.height*.9)-bt}px`;bar.style.transform=tf}else bar.style.transform=''}
