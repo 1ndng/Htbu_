@@ -271,7 +271,7 @@ dialog.tbd>h2:first-child{position:absolute;left:9px;right:70px;top:5px;height:2
 dialog.tbd>.eth:first-child{position:absolute;left:9px;right:37px;top:5px;height:24px;margin:0;padding:0;gap:8px}
 .eth h2{font-size:15px;line-height:24px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .eth .edit{height:24px;line-height:20px;padding:0 10px;margin:0;font-size:12px}
-#dt{padding:36px 5px 5px}
+#dt{padding:35px 4px 4px}
 #dtt{position:absolute;left:9px;right:70px;top:5px;height:24px;font:600 16px/24px "BaDing",serif;letter-spacing:.1em;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #dtc>.dth{display:none}
 .card{--tt:5px;padding:12px 14px}
@@ -284,7 +284,7 @@ dialog.tbd>.eth:first-child{position:absolute;left:9px;right:37px;top:5px;height
 .tg,.dtg,.card .tg{--pxc:3px;border:0;border-radius:0;clip-path:var(--stair);background:var(--soft);color:var(--acx);font-size:12px;font-weight:500;line-height:22px;padding:0 8px;white-space:nowrap}
 .tg.add{color:var(--mute)}.tg.del{color:var(--del)}.tg.on{background:var(--acc);color:var(--onacc)}
 /* 懸浮展開方塊：最外層深色框線加粗為 3px */
-#dt{--bw:3px;--frm:linear-gradient(var(--pp),var(--pp)) 7px calc(var(--tt) + 4px)/calc(100% - 14px) calc(100% - var(--tt) - 13px) no-repeat border-box,linear-gradient(var(--pp),var(--pp)) 9px calc(var(--tt) + 2px)/calc(100% - 18px) calc(100% - var(--tt) - 9px) no-repeat border-box,linear-gradient(var(--fa),var(--fa)) 5px calc(var(--tt) + 2px)/calc(100% - 10px) calc(100% - var(--tt) - 9px) no-repeat border-box,linear-gradient(var(--fa),var(--fa)) 7px var(--tt)/calc(100% - 14px) calc(100% - var(--tt) - 5px) no-repeat border-box,linear-gradient(var(--fa),var(--fa)) 3px 3px/2px 2px no-repeat border-box,linear-gradient(var(--fa),var(--fa)) calc(100% - 5px) 3px/2px 2px no-repeat border-box,linear-gradient(var(--fa),var(--fa)) 3px calc(100% - 5px)/2px 2px no-repeat border-box,linear-gradient(var(--fa),var(--fa)) calc(100% - 5px) calc(100% - 5px)/2px 2px no-repeat border-box,linear-gradient(var(--fb),var(--fb)) padding-box,var(--fa)}
+#dt{--bw:4px;--frm:linear-gradient(var(--pp),var(--pp)) 8px calc(var(--tt) + 5px)/calc(100% - 16px) calc(100% - var(--tt) - 15px) no-repeat border-box,linear-gradient(var(--pp),var(--pp)) 10px calc(var(--tt) + 3px)/calc(100% - 20px) calc(100% - var(--tt) - 11px) no-repeat border-box,linear-gradient(var(--fa),var(--fa)) 6px calc(var(--tt) + 3px)/calc(100% - 12px) calc(100% - var(--tt) - 11px) no-repeat border-box,linear-gradient(var(--fa),var(--fa)) 8px calc(var(--tt) + 1px)/calc(100% - 16px) calc(100% - var(--tt) - 7px) no-repeat border-box,linear-gradient(var(--fa),var(--fa)) 4px 4px/2px 2px no-repeat border-box,linear-gradient(var(--fa),var(--fa)) calc(100% - 6px) 4px/2px 2px no-repeat border-box,linear-gradient(var(--fa),var(--fa)) 4px calc(100% - 6px)/2px 2px no-repeat border-box,linear-gradient(var(--fa),var(--fa)) calc(100% - 6px) calc(100% - 6px)/2px 2px no-repeat border-box,linear-gradient(var(--fb),var(--fb)) padding-box,var(--fa)}
 /* ===== 捲軸：復古 Mac OS 8 視窗風（上下／左右箭頭鈕＋可拖動滑塊；只在內容超出時才出現，只需單向捲動時不會出現另一軸） ===== */
 :is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar{width:16px;height:16px;background:var(--btnf)}
 :is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-track{background:repeating-conic-gradient(var(--line) 0 25%,var(--bg) 0 50%) 0 0/2px 2px}
@@ -305,9 +305,19 @@ dialog.tbd>.eth:first-child{position:absolute;left:9px;right:37px;top:5px;height
 @supports not selector(::-webkit-scrollbar){:is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea){scrollbar-width:thin;scrollbar-color:var(--mute) var(--line)}}
 /* 紀錄方塊按下去的效果：內部填色變深（比照按鈕按下） */
 .card[data-k]:active:not(:has(button:active)):not(:has(a:active)){--pp:var(--btnf);--pp:color-mix(in srgb,var(--card) 88%,var(--ink))}
+/* 紀錄方塊（未展開時；參考掌機簡訊清單）：階梯切角＋2px 深色外框＋內側淺線＋淡色底，內文與按鈕之間有分隔線。展開後維持原樣 */
+.card:not(.empty):not(.open){--cf0:var(--card);--cf:var(--cf0);--cl:var(--line);--cr:var(--card);--fr:var(--acx);border:2px solid transparent;padding:12px 14px;clip-path:var(--stair);
+background:linear-gradient(var(--cf),var(--cf)) 4px 6px/calc(100% - 8px) calc(100% - 12px) no-repeat border-box,linear-gradient(var(--cf),var(--cf)) 6px 4px/calc(100% - 12px) calc(100% - 8px) no-repeat border-box,linear-gradient(var(--cr),var(--cr)) 2px 4px/calc(100% - 4px) calc(100% - 8px) no-repeat border-box,linear-gradient(var(--cr),var(--cr)) 4px 2px/calc(100% - 8px) calc(100% - 4px) no-repeat border-box,var(--fr)}
+@supports (color:color-mix(in srgb,red,blue)){.card:not(.empty):not(.open){--cf0:color-mix(in srgb,var(--acc) 16%,var(--card));--cl:color-mix(in srgb,var(--acc) 60%,var(--card))}}
+.card:not(.empty):not(.open) .cbody.clip::after{background:linear-gradient(to bottom,transparent,var(--cf))}
+.card:not(.empty):not(.open) .ea{margin-top:6px;border-top:2px solid var(--cl)}
+.card[data-k]:not(.empty):not(.open):active:not(:has(button:active)):not(:has(a:active)){--cf:var(--btnf)}
+@supports (color:color-mix(in srgb,red,blue)){.card[data-k]:not(.empty):not(.open):active:not(:has(button:active)):not(:has(a:active)){--cf:color-mix(in srgb,var(--cf0) 88%,var(--ink))}}
 
 /* 固定頂列（瀏海）：標題＋對象＋標籤列捲動時固定在頁面頂端 */
-#hdr{position:sticky;top:0;z-index:30;margin:-18px -16px 20px;padding:calc(6px + env(safe-area-inset-top,0px)) 16px 0;background:var(--fb);border-bottom:var(--bw) solid var(--fa)}
+#hdr{position:sticky;top:0;z-index:30;margin:-18px -16px 20px;padding:calc(6px + env(safe-area-inset-top,0px)) 16px 0;background:var(--fb);border-bottom:2px solid var(--fa);box-shadow:inset 0 -2px 0 var(--fa),inset 0 -4px 0 var(--fb)}
+/* 瀏海邊框：由外到內逐階變淺的線（無漸層） */
+@supports (color:color-mix(in srgb,red,blue)){#hdr{box-shadow:inset 0 -2px 0 color-mix(in srgb,var(--fa) 65%,var(--fb)),inset 0 -4px 0 color-mix(in srgb,var(--fa) 30%,var(--fb))}}
 #hdr .top{border-bottom:2px solid var(--ink);margin-bottom:6px;padding-bottom:6px}
 #hdr:has(#pt.collapsed) .top{border-bottom:0;margin-bottom:0}
 #hdr #pplrow{margin-bottom:9px}
