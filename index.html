@@ -307,14 +307,15 @@ dialog.tbd>.eth:first-child{position:absolute;left:9px;right:37px;top:5px;height
 @supports not selector(::-webkit-scrollbar){:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea){scrollbar-width:thin;scrollbar-color:var(--mute) var(--line)}}
 /* 紀錄方塊按下去的效果：內部填色變深（比照按鈕按下） */
 .card[data-k]:active:not(:has(button:active)):not(:has(a:active)){--pp:var(--btnf);--pp:color-mix(in srgb,var(--card) 88%,var(--ink))}
-/* 紀錄方塊（未展開時；參考掌機簡訊清單）：階梯切角＋2px 深色外框＋內側淺線＋淡色底，內文與按鈕之間有分隔線。展開後維持原樣 */
-.card:not(.empty):not(.open){--cf0:var(--card);--cf:var(--cf0);--cl:var(--line);--cr:var(--card);--fr:var(--acx);border:2px solid transparent;padding:12px 14px;clip-path:var(--stair);
-background:linear-gradient(var(--cf),var(--cf)) 4px 6px/calc(100% - 8px) calc(100% - 12px) no-repeat border-box,linear-gradient(var(--cf),var(--cf)) 6px 4px/calc(100% - 12px) calc(100% - 8px) no-repeat border-box,linear-gradient(var(--cr),var(--cr)) 2px 4px/calc(100% - 4px) calc(100% - 8px) no-repeat border-box,linear-gradient(var(--cr),var(--cr)) 4px 2px/calc(100% - 8px) calc(100% - 4px) no-repeat border-box,var(--fr)}
-@supports (color:color-mix(in srgb,red,blue)){.card:not(.empty):not(.open){--cf0:color-mix(in srgb,var(--acc) 16%,var(--card));--cl:color-mix(in srgb,var(--acc) 60%,var(--card))}}
-.card:not(.empty):not(.open) .cbody.clip::after{background:linear-gradient(to bottom,transparent,var(--cf))}
-.card:not(.empty):not(.open) .ea{margin-top:6px;border-top:2px solid var(--cl)}
-.card[data-k]:not(.empty):not(.open):active:not(:has(button:active)):not(:has(a:active)){--cf:var(--btnf)}
-@supports (color:color-mix(in srgb,red,blue)){.card[data-k]:not(.empty):not(.open):active:not(:has(button:active)):not(:has(a:active)){--cf:color-mix(in srgb,var(--cf0) 88%,var(--ink))}}
+/* 紀錄方塊（參考掌機簡訊清單）：階梯切角＋2px 深色外框＋內側淺線＋底色，內文與按鈕之間有分隔線。未展開＝淡色底＋白線；展開＝白底＋淡色線（互為對比） */
+.card:not(.empty){--cf0:var(--card);--ca:var(--cf0);--cb:var(--card);--cl:var(--line);--fr:var(--acx);border:2px solid transparent;padding:12px 14px;clip-path:var(--stair);
+background:linear-gradient(var(--ca),var(--ca)) 4px 6px/calc(100% - 8px) calc(100% - 12px) no-repeat border-box,linear-gradient(var(--ca),var(--ca)) 6px 4px/calc(100% - 12px) calc(100% - 8px) no-repeat border-box,linear-gradient(var(--cb),var(--cb)) 2px 4px/calc(100% - 4px) calc(100% - 8px) no-repeat border-box,linear-gradient(var(--cb),var(--cb)) 4px 2px/calc(100% - 8px) calc(100% - 4px) no-repeat border-box,var(--fr)}
+@supports (color:color-mix(in srgb,red,blue)){.card:not(.empty){--cf0:color-mix(in srgb,var(--acc) 16%,var(--card));--cl:color-mix(in srgb,var(--acc) 60%,var(--card))}}
+.card.open:not(.empty){--ca:var(--card);--cb:var(--cf0)}
+.card:not(.empty) .cbody.clip::after{background:linear-gradient(to bottom,transparent,var(--ca))}
+.card:not(.empty) .ea{margin-top:6px;border-top:2px solid var(--cl)}
+.card[data-k]:not(.empty):active:not(:has(button:active)):not(:has(a:active)){--ca:var(--btnf)}
+@supports (color:color-mix(in srgb,red,blue)){.card[data-k]:not(.empty):not(.open):active:not(:has(button:active)):not(:has(a:active)){--ca:color-mix(in srgb,var(--cf0) 88%,var(--ink))}.card.open[data-k]:not(.empty):active:not(:has(button:active)):not(:has(a:active)){--ca:color-mix(in srgb,var(--card) 88%,var(--ink))}}
 
 /* 固定頂列（瀏海）：標題＋對象＋標籤列捲動時固定在頁面頂端 */
 #hdr{position:sticky;top:0;z-index:30;margin:-18px -16px 20px;padding:calc(6px + env(safe-area-inset-top,0px)) 16px 0;background:var(--fb);border-bottom:2px solid var(--fa);box-shadow:inset 0 -2px 0 var(--fa),inset 0 -4px 0 var(--fb)}
