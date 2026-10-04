@@ -226,9 +226,9 @@ mark.hl{background:rgba(128,128,128,.3);background:color-mix(in srgb,var(--acc) 
 #wrb .xcl{padding:0;font-size:0;line-height:0}
 #wr{overscroll-behavior:none}
 .wdone{white-space:pre-line}
-.arl{max-height:56vh;overflow-y:auto;padding:2px;margin-bottom:12px}
+.arl{max-height:56vh;overflow-y:auto;padding:2px 4px 2px 2px;margin-bottom:12px}
 .arc{--pxc:3px;clip-path:var(--cut);background:var(--pxbg);border:var(--bw) solid transparent;padding:10px 12px;margin-bottom:10px;display:flex;flex-direction:column;gap:4px}
-.artx{font-size:14px;line-height:1.6;word-break:break-word}.ardn{font-size:11px;color:var(--mute)}
+.arc{cursor:pointer}.artx{font-size:14px;line-height:1.6;word-break:break-word;overflow-wrap:anywhere;white-space:pre-wrap;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}.arc.open .artx{display:block;-webkit-line-clamp:unset;line-clamp:unset;overflow:visible}.ardn{font-size:11px;color:var(--mute)}
 .hmstat{color:var(--mute);font-size:12px;text-align:center;line-height:1.6;margin:0 0 10px}
 .hmwrap{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px}
 .hmonth{margin-bottom:18px}
@@ -343,6 +343,7 @@ dialog{overscroll-behavior:none}
 /* 手機用的自製捲軸（iOS Safari 不顯示原生捲軸） */
 html.jsb :is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar{display:none;width:0;height:0}
 html.jsb :is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea){scrollbar-width:none}
+html.jsb .arl{padding-right:18px}
 .jsb-bar{position:fixed;z-index:60;display:none;background:var(--btnf);touch-action:none;-webkit-user-select:none;user-select:none;box-shadow:inset 0 0 0 1px var(--mute)}
 .jsb-bar.on{display:flex}
 .jsb-bar.v{width:14px;flex-direction:column}
@@ -1014,17 +1015,18 @@ function sbPlace(el,ax){
  }
  if(bar.parentNode!==host)host.append(bar);
  const on=g.sh>g.ch+1;bar.classList.toggle('on',on);if(!on)return;
- const isDlg=!b.win&&el.matches('dialog,.wc'),ins=isDlg?10:0,side=isDlg?8:(b.win?0:2),tt=isDlg?(parseFloat(getComputedStyle(el).getPropertyValue('--tt'))||5)+6:0;
+ const isDlg=!b.win&&el.matches('dialog,.wc'),ins=isDlg?10:0,side=isDlg?8:(b.win||el.classList.contains('arl')?0:2),tt=isDlg?(parseFloat(getComputedStyle(el).getPropertyValue('--tt'))||5)+6:0;
  if(v){const t=r.top+(isDlg?tt:ins),L=Math.max(0,r.bottom-ins-t);bar.style.cssText=`left:${r.right-14-side}px;top:${t}px;height:${L}px`}
  else{const l=r.left+ins,L=Math.max(0,r.right-ins-l);bar.style.cssText=`top:${r.bottom-14-side}px;left:${l}px;width:${L}px`}
  const trk=bar.querySelector('.trk'),tl=(v?trk.clientHeight:trk.clientWidth)||0,len=Math.max(22,Math.round(tl*g.ch/g.sh)),pos=g.sh>g.ch?Math.round((tl-len)*g.st/(g.sh-g.ch)):0;
  b.thm.style[v?'top':'left']=Math.max(0,Math.min(tl-len,pos))+'px';b.thm.style[v?'height':'width']=len+'px'}
-function sbRefresh(){if(!document.documentElement.classList.contains('jsb'))return;cancelAnimationFrame(sbRaf);sbRaf=requestAnimationFrame(()=>{
+function sbRefresh(now){if(!document.documentElement.classList.contains('jsb'))return;cancelAnimationFrame(sbRaf);const run=()=>{
  const list=[...[...document.querySelectorAll('dialog')].map(d=>[d,'v']),...[...document.querySelectorAll(SBSEL)].map(e=>[e,e.classList.contains('hs')?'h':'v'])];
  list.forEach(([e,a])=>{try{sbPlace(e,a)}catch(x){}});
- sbMap.forEach((o,el)=>{if(el!==window&&!el.isConnected){Object.values(o).forEach(b=>b.bar.remove());sbMap.delete(el)}})})}
+ sbMap.forEach((o,el)=>{if(el!==window&&!el.isConnected){Object.values(o).forEach(b=>b.bar.remove());sbMap.delete(el)}})};
+ if(now===true)run();else sbRaf=requestAnimationFrame(run)}
 if(document.documentElement.classList.contains('jsb')){
- document.addEventListener('scroll',()=>sbRefresh(),true);addEventListener('resize',sbRefresh);addEventListener('orientationchange',sbRefresh);
+ document.addEventListener('scroll',()=>sbRefresh(true),true);addEventListener('resize',sbRefresh);addEventListener('orientationchange',sbRefresh);
  new MutationObserver(sbRefresh).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['open','hidden','class','style']});
  sbRefresh()}
 /* 點開後的視窗：內容已在頂（或底）時繼續拖曳，不讓畫面被拉動；標題列／邊框區的拖曳也不動 */
@@ -1183,9 +1185,9 @@ $('#wr').onclose=async()=>{if(!document.querySelector('dialog[open]'))wrLock(fal
 async function openAr(){await purgeArchive();
  const d=$('#ar'),all=(await dbAll('entries')).filter(e=>e.archived).sort((a,b)=>b.archived-a.archived);
  const items=all.map(e=>{const left=Math.max(1,Math.ceil((e.archived+ARD-Date.now())/864e5));
-  return h('div',{class:'arc'},
+  return h('div',{class:'arc',onclick:ev=>{if(ev.target.closest('button'))return;ev.currentTarget.classList.toggle('open')}},
    h('div',{class:'dth'},(FEAT.people&&people.length>1?pname(e.pid)+'・':'')+(e.date===NODATE?'隨手記':fmtD(e.date))+(e.time?'　'+e.time:'')),
-   h('div',{class:'artx'},(e.text||'').slice(0,60)||cntStr(e)||'（沒有文字）'),
+   h('div',{class:'artx'},(e.text||'')||cntStr(e)||'（沒有文字）'),
    h('div',{class:'ardn'},`${left} 天後自動刪除`),
    h('div',{class:'ea'},h('button',{class:'edit',onclick:()=>arRestore(e)},'還原'),h('button',{class:'edit',onclick:()=>arDel(e)},'刪除')))});
  rc(d,h('h2',{style:'text-align:center'},'★封存★'),h('p',{class:'sub',style:'text-align:center;margin:-6px 0 12px'},'封存的紀錄會在 7 天後自動刪除'),
