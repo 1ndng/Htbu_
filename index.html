@@ -48,6 +48,8 @@ a:focus-visible{outline:2px solid var(--acx);outline-offset:2px}
 .prow{display:flex;align-items:center;gap:8px}
 #pplrow{margin:-3px -3px 17px}
 #ppl{display:flex;gap:10px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scrollbar-width:none;padding:3px;min-width:0;flex:1}#ppl::-webkit-scrollbar{display:none}
+/* +／-按鈕固定在右側，不跟著對象、標籤滑動 */
+.rx{display:flex;flex:none;gap:8px;padding:3px 3px 3px 0}.rx:empty{display:none}
 .chip{--pxc:3px;border-radius:0;clip-path:var(--cut);flex:none;white-space:nowrap;font-size:14px;line-height:25.5px;padding:1px 12px}.chip.on{--fill:var(--acc);--bd:var(--acc);color:var(--onacc)}.chip.add{color:var(--mute)}
 .dhead{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:nowrap;margin:14px 0 12px}
 .dgL,.dgR{display:flex;align-items:center;gap:6px;flex:none}
@@ -65,7 +67,7 @@ a:focus-visible{outline:2px solid var(--acx);outline-offset:2px}
 .row::before{content:"";position:absolute;left:-1px;top:9px;width:16px;height:16px;background:var(--acx);clip-path:var(--dot16);transform:translateX(-50%)}
 .row::after{content:"";position:absolute;left:-1px;top:11px;width:12px;height:12px;background:var(--bg);clip-path:var(--dot12);transform:translateX(-50%)}
 .row.has::after{background:var(--acx)}.row.has::before{background:var(--acx)}
-.rh{display:flex;align-items:center;height:34px}.yr{font:600 21px/1 "BaDing",serif;letter-spacing:.1em;margin-right:8px}.ago{color:var(--mute);font-size:14px;line-height:1}
+.rh{display:flex;align-items:center;height:34px}.rh .radd{margin:0 0 0 auto;flex:none}.yr{font:600 21px/1 "BaDing",serif;letter-spacing:.1em;margin-right:8px}.ago{color:var(--mute);font-size:14px;line-height:1}
 .card{--pxc:4px;background:var(--frm);border:var(--bw) solid transparent;border-radius:0;padding:12px 14px;margin-top:8px;clip-path:var(--stair);display:flex;flex-direction:column}
 .cbody{max-height:4.9em;overflow:hidden;position:relative;flex:1 1 auto}
 .cbody.clip::after{pointer-events:none;content:'';position:absolute;left:0;right:0;bottom:0;height:1.6em;background:linear-gradient(to bottom,transparent,var(--card))}
@@ -376,8 +378,8 @@ html.jsb :is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea){scrollbar-widt
 <main>
 <header id="hdr">
 <div class="top"><div><button id="mnb" class="edit" onclick="openMn()" aria-label="功能選單">≡</button></div><h1>HTBU_?</h1><div><button id="bkb" class="edit" onclick="bkbClick()">★隨手記★</button></div></div>
-<div id="pt"><div id="pplrow" class="prow"><span class="lab">對象</span><div id="ppl"></div></div>
-<div id="tagrow" class="prow"><span class="lab">標籤</span><div id="tagbar"></div></div></div><button id="ptc" onclick="togglePt()" aria-label="收合對象與標籤"></button>
+<div id="pt"><div id="pplrow" class="prow"><span class="lab">對象</span><div id="ppl"></div><div id="pplx" class="rx"></div></div>
+<div id="tagrow" class="prow"><span class="lab">標籤</span><div id="tagbar"></div><div id="tagx" class="rx"></div></div></div><button id="ptc" onclick="togglePt()" aria-label="收合對象與標籤"></button>
 </header>
 <input type="search" id="q" placeholder="搜尋" aria-label="搜尋紀錄" hidden>
 <div id="app"></div>
@@ -759,30 +761,32 @@ const parts=(en,date,jump,showTime)=>{
  const ea=h('div',{class:'ea'},jump?h('button',{class:'edit xb',onclick:e=>toggleX(e.currentTarget)},'展開'):h('button',{class:'edit cx',hidden:true,onclick:e=>toggleC(e.currentTarget)},'展開'),!multi&&h('button',{class:'edit',onclick:()=>openEd(date,en.k)},'編輯'),!multi&&FEAT.quote&&h('button',{class:'edit',onclick:()=>quoteFrom(en)},'引用'),jump&&h('button',{class:'edit',onclick:()=>goDay(date)},'跳到這天'),cs&&h('span',{class:'cnt',hidden:true},...cntParts(en).map((p,i,a)=>h('span',{class:'cs'},i<a.length-1?p+'、':p))));
  return jump?[...body,ea]:[h('div',{class:'cbody'+(en.media.some(m=>m.t==='image'||m.t==='video')?' hm':'')},...body),ea]};
 const card=(en,date,jump,st)=>h('div',{class:'card'+(en.media&&en.media.length?' hasm':''),style:pstyle(en),'data-k':en.k,'data-d':date},...parts(en,date,jump,st));
+let lastTap={k:'',t:0};
+const dbl=k=>{const n=Date.now(),r=lastTap.k===k&&n-lastTap.t<400;lastTap={k,t:r?0:n};return r};
 function drawChips(){const on=p=>multi?msel.has(p.id):p.id===cur;
  rc($('#ppl'),...people.map(p=>{const c=colInfo(p.color),o=on(p);
-  return h('button',{class:'chip'+(o?' on':''),'aria-pressed':o,style:multi&&o&&c?`--fill:${c.acc};--bd:${c.acc};color:${c.on}`:'',onclick:()=>multi?tog(p.id):sel(p.id)},p.name)}),
-  !multi&&h('button',{class:'chip add',onclick:()=>{pd.showModal();$('#pn').focus()}},'＋ 新增對象'),
-  !multi&&cur&&h('button',{class:'chip add',onclick:openPe},'編輯對象'),
-  !multi&&cur&&h('button',{class:'chip del',onclick:()=>delP()},'－ 刪除對象'))}
-function drawTagbar(){if(!FEAT.tags){rc($('#tagbar'));$('#tagrow').style.display='none';return}
+  return h('button',{class:'chip'+(o?' on':''),'aria-pressed':o,style:multi&&o&&c?`--fill:${c.acc};--bd:${c.acc};color:${c.on}`:'',onclick:()=>{if(multi)return tog(p.id);if(dbl('p'+p.id)){(async()=>{if(cur!==p.id)await sel(p.id);openPe()})();return}sel(p.id)}},p.name)}),
+  );
+ rc($('#pplx'),!multi&&h('button',{class:'chip add','aria-label':'新增對象',onclick:()=>{pd.showModal();$('#pn').focus()}},'+'),
+  !multi&&cur&&h('button',{class:'chip del','aria-label':'刪除對象',onclick:()=>delP()},'-'))}
+function drawTagbar(){if(!FEAT.tags){rc($('#tagbar'));rc($('#tagx'));$('#tagrow').style.display='none';return}
  const ids=multi?[...msel]:cur?[cur]:[],items=[];
  for(const id of ids){const cnt={},c=colInfo(people.find(p=>p.id===id)?.color);
   Object.values(E).flat().filter(e=>e.pid===id).forEach(e=>(e.tags||[]).forEach(t=>cnt[t]=(cnt[t]||0)+1));
   if(!multi)(people.find(p=>p.id===id)?.tags||[]).forEach(t=>{if(!(t in cnt))cnt[t]=0});
   Object.keys(cnt).sort().forEach(t=>{const o=ftags.some(x=>x.pid===id&&x.tag===t);
-   items.push(h('button',{class:'tg'+(o?' on':''),'aria-pressed':o,style:o&&c?`--fill:${c.acc};--bd:${c.acc};color:${c.on}`:'',onclick:()=>setTag(id,t)},(multi&&FEAT.people?pname(id)+'・':'')+'#'+t+' '+cnt[t]))})}
+   items.push(h('button',{class:'tg'+(o?' on':''),'aria-pressed':o,style:o&&c?`--fill:${c.acc};--bd:${c.acc};color:${c.on}`:'',onclick:()=>{if(!multi&&cur&&dbl('t'+id+'\u0000'+t)){setTag(id,t);openTm('edit',t);return}setTag(id,t)}},(multi&&FEAT.people?pname(id)+'・':'')+'#'+t+' '+cnt[t]))})}
  rc($('#tagbar'),...items,
-  !multi&&cur&&h('button',{class:'tg add',onclick:()=>openTm('add')},'＋ 新增標籤'),
-  !multi&&cur&&h('button',{class:'tg add',onclick:()=>openTm('edit')},'編輯標籤'),
-  !multi&&cur&&h('button',{class:'tg del',onclick:()=>openTm('del')},'－ 刪除標籤'));$('#tagrow').style.display='flex'}
+  );
+ rc($('#tagx'),!multi&&cur&&h('button',{class:'tg add','aria-label':'新增標籤',onclick:()=>openTm('add')},'+'),
+  !multi&&cur&&h('button',{class:'tg del','aria-label':'刪除標籤',onclick:()=>openTm('del')},'-'));$('#tagrow').style.display='flex'}
 const normTag=v=>String(v||'').trim().replace(/^#+/,'').slice(0,20);
 const tagsOf=id=>[...new Set([...(people.find(p=>p.id===id)?.tags||[]),...Object.values(E).flat().filter(e=>e.pid===id).flatMap(e=>e.tags||[])])].sort();
-function openTm(mode){const P=people.find(p=>p.id===cur);if(!P)return;const ts=tagsOf(cur);
+function openTm(mode,pick){const P=people.find(p=>p.id===cur);if(!P)return;const ts=tagsOf(cur);
  if(mode!=='add'&&!ts.length){toast('目前沒有標籤');return}
  tmMode=mode;$('#tmt').textContent={add:'新增標籤',edit:'編輯標籤',del:'刪除標籤'}[mode];
  rc($('#tms'),...ts.map(t=>h('option',{value:t},'#'+t)));
- $('#tmsw').hidden=mode==='add';$('#tmnw').hidden=mode==='del';$('#tmn').value=mode==='edit'?ts[0]:'';
+ if(pick&&ts.includes(pick))$('#tms').value=pick;$('#tmsw').hidden=mode==='add';$('#tmnw').hidden=mode==='del';$('#tmn').value=mode==='edit'?(pick&&ts.includes(pick)?pick:ts[0]):'';
  $('#tmo').textContent={add:'新增',edit:'儲存',del:'刪除'}[mode];
  $('#tm').showModal();if(mode!=='del')$('#tmn').focus()}
 let tmMode=null;
@@ -874,15 +878,15 @@ function render(){
  for(let y=cy;y>=minY;y--){
   if(new Date(y,mo-1,dy).getDate()!==dy)continue;
   const date=`${y}-${pad(mo)}-${pad(dy)}`,list=E[date]||[];if(list.length)filled++;
-  const head=h('div',{class:'rh'},h('span',{class:'yr'},y+''),h('span',{class:'ago'},y===cy?'今年':(cy-y)+' 年前'));
+  const head=h('div',{class:'rh'},h('span',{class:'yr'},y+''),h('span',{class:'ago'},y===cy?'今年':(cy-y)+' 年前'),!multi&&h('button',{class:'edit radd',onclick:()=>openEd(date)},'新增'));
   let body;
-  if(!list.length)body=multi?null:h('div',{class:'card empty'},h('button',{class:'edit',onclick:()=>openEd(date)},'新增'));
+  if(!list.length)body=null;
   else{
    const T=list.filter(x=>x.time).sort((a,b)=>a.time<b.time?-1:1),N=list.filter(x=>!x.time);
    body=h('div',{},
     T.length>0&&h('div',{class:'hs'},...T.map(x=>h('div',{class:'hi',style:pstyle(x)},h('div',{class:'htm'},x.time),card(x,date)))),
     N.length>0&&h('div',{class:'hs'},...N.map(x=>card(x,date))),
-    !multi&&h('button',{class:'edit',onclick:()=>openEd(date)},'新增'));
+    );
   }
   rows.push(h('div',{class:'row'+(list.length?' has':'')+''},head,body));
  }
