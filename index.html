@@ -509,7 +509,7 @@ html.jsb :is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea){scrollbar-widt
 <div class="acts end"><button onclick="$('#cv').close()">取消</button></div>
 </dialog>
 <dialog id="cf"><p>是否刪除？</p><p class="sm" id="cfs" hidden></p><div class="acts"><button id="cfy" class="pri">是</button><button id="cfn">否</button></div></dialog>
-<dialog id="dt"><div id="dtt"></div><div id="dts"><div id="dtc"></div><div class="dtf"><button id="dtb" hidden onclick="dtBack()">返回</button><button onclick="$('#dt').close()">退出</button></div></div></dialog>
+<dialog id="dt"><div id="dtt"></div><div id="dts"><div id="dtc"></div></div><div class="dtf"><button id="dtb" hidden onclick="dtBack()">返回</button><button onclick="$('#dt').close()">退出</button></div></dialog>
 <dialog id="qd"><h2>選擇要引用的紀錄</h2><div class="qsrow"><input type="search" id="qs2" placeholder="搜尋文字或標籤" enterkeyhint="search" autocomplete="off"><button id="qsb" class="pri" onclick="qdGo(true)">搜尋</button></div><div id="qdc"></div><div class="acts end"><button onclick="$('#qd').close()">取消</button></div></dialog>
 <dialog id="lb"><button id="lbx" class="xcl" aria-label="關閉" onclick="$('#lb').close()">關閉</button><div id="lbc"></div></dialog>
 <button id="fab" hidden onclick="fabAdd()">+新增</button>
@@ -1022,6 +1022,13 @@ if(document.documentElement.classList.contains('jsb')){
  document.addEventListener('scroll',()=>sbRefresh(),true);addEventListener('resize',sbRefresh);addEventListener('orientationchange',sbRefresh);
  new MutationObserver(sbRefresh).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['open','hidden','class','style']});
  sbRefresh()}
+/* 點開後的視窗：內容已在頂（或底）時繼續拖曳，不讓畫面被拉動；標題列／邊框區的拖曳也不動 */
+{const dt=document.getElementById('dt'),ds=document.getElementById('dts');let ly=0;
+ dt.addEventListener('touchstart',e=>{ly=e.touches[0].clientY},{passive:true});
+ dt.addEventListener('touchmove',e=>{if(e.touches.length>1)return;const y=e.touches[0].clientY,dy=y-ly;ly=y;
+  if(!ds.contains(e.target)){e.preventDefault();return}
+  const top=ds.scrollTop<=0,bot=ds.scrollTop+ds.clientHeight>=ds.scrollHeight-1;
+  if(ds.scrollHeight<=ds.clientHeight+1||(top&&dy>0)||(bot&&dy<0))e.preventDefault()},{passive:false})}
 let AC=null;
 function sfx(kind){if(!FEAT.sound)return;try{
  AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();
