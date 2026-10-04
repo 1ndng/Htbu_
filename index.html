@@ -206,8 +206,8 @@ mark.hl{background:rgba(128,128,128,.3);background:color-mix(in srgb,var(--acc) 
 #wrh{flex:none;text-align:center;color:var(--mute);font-size:12px;line-height:1.5;padding:calc(8px + env(safe-area-inset-top,0px)) 7px 8px}
 #wrs{flex:1 1 auto;min-height:0;position:relative;overflow:hidden}
 .wc{--pxc:4px;clip-path:var(--stair);background:var(--frm);border:var(--bw) solid transparent;position:absolute;left:42px;right:42px;top:4px;bottom:6px;overscroll-behavior:contain;overflow-y:auto;overflow-x:hidden;touch-action:pan-y;-webkit-overflow-scrolling:touch;will-change:transform;transform-origin:50% 90%;padding:21px 21px 11px}
-.wc>*{margin-bottom:14px}.wc audio{display:block;width:100%}.wc .fl{padding:10px 12px;font-size:15px}
-.wc.anim{transition:transform .28s cubic-bezier(.22,.8,.3,1),opacity .28s ease-out}
+.wcs>*{margin-bottom:14px}.wc audio{display:block;width:100%}.wc .fl{padding:10px 12px;font-size:15px}
+.wc.anim{transition:transform .26s cubic-bezier(.3,.7,.3,1)}
 .wc.in{animation:wcin .26s ease-out}
 @keyframes wcin{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
 .wdone{display:flex;align-items:center;justify-content:center;color:var(--mute);text-align:center}
@@ -224,7 +224,7 @@ mark.hl{background:rgba(128,128,128,.3);background:color-mix(in srgb,var(--acc) 
 #wrb{align-items:center}#wrb button{padding:4px 16px;font-size:13px}#wrb .wrbare{padding:2px 14px}
 #wr button:disabled{opacity:.35;cursor:default}
 #wrb .xcl{padding:0;font-size:0;line-height:0}
-#wr{overscroll-behavior:none;touch-action:none}#wr .wc,#wr textarea{touch-action:pan-y}html:has(#wr[open]),html:has(#wr[open]) body{overscroll-behavior:none}
+#wr{overscroll-behavior:none;touch-action:none}#wr .wc,#wr .wcs,#wr textarea{touch-action:pan-y}html:has(#wr[open]),html:has(#wr[open]) body{overscroll-behavior:none}
 .wdone{white-space:pre-line}
 .arl{max-height:56vh;overflow-y:auto;padding:2px 4px 2px 2px;margin-bottom:12px}
 .arc{--pxc:3px;clip-path:var(--cut);background:var(--pxbg);border:var(--bw) solid transparent;padding:10px 12px;margin-bottom:10px;display:flex;flex-direction:column;gap:4px}
@@ -281,32 +281,33 @@ dialog.tbd>.eth:first-child{position:absolute;left:9px;right:37px;top:5px;height
 .card{--tt:5px;padding:12px 14px}
 .card.empty{padding:0}
 /* 周復盤的紀錄方塊：和視窗一樣有標題列（瀏海），日期放在標題列上 */
-.wc{--tt:36px;padding:calc(var(--tt) + 10px) 21px 11px;background-attachment:local,local,local,local,scroll,scroll,scroll,scroll,local,scroll}
+.wc{--tt:36px;padding:0;overflow:hidden;background-attachment:scroll}
+.wcs{position:absolute;left:0;right:0;top:46px;bottom:0;padding:0 21px 11px;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y}
 .wc>.dth{position:absolute;left:9px;right:9px;top:5px;height:24px;margin:0;font:600 16px/24px "BaDing",serif;letter-spacing:.1em;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.wc.wdone{--tt:5px;padding:21px;background-attachment:scroll}
+.wc.wdone{--tt:5px;padding:21px;overflow:visible}
 /* 標籤：不要框線，長相同「對象／標籤」標示（顏色跟著目前對象），字比標示大一點點 */
 .tg,.dtg,.card .tg{--pxc:3px;border:0;border-radius:0;clip-path:var(--stair);background:var(--soft);color:var(--acx);font-size:12px;font-weight:500;line-height:22px;padding:0 8px;white-space:nowrap}
 .tg.add{color:var(--mute)}.tg.del{color:var(--del)}.tg.on{background:var(--acc);color:var(--onacc)}
 /* 懸浮展開方塊：最外層深色框線加粗為 3px */
 #dt{--bw:4px;--frm:linear-gradient(var(--pp),var(--pp)) 8px calc(var(--tt) + 5px)/calc(100% - 16px) calc(100% - var(--tt) - 15px) no-repeat border-box,linear-gradient(var(--pp),var(--pp)) 10px calc(var(--tt) + 3px)/calc(100% - 20px) calc(100% - var(--tt) - 11px) no-repeat border-box,linear-gradient(var(--fa),var(--fa)) 6px calc(var(--tt) + 3px)/calc(100% - 12px) calc(100% - var(--tt) - 11px) no-repeat border-box,linear-gradient(var(--fa),var(--fa)) 8px calc(var(--tt) + 1px)/calc(100% - 16px) calc(100% - var(--tt) - 7px) no-repeat border-box,linear-gradient(var(--fa),var(--fa)) 4px 4px/2px 2px no-repeat border-box,linear-gradient(var(--fa),var(--fa)) calc(100% - 6px) 4px/2px 2px no-repeat border-box,linear-gradient(var(--fa),var(--fa)) 4px calc(100% - 6px)/2px 2px no-repeat border-box,linear-gradient(var(--fa),var(--fa)) calc(100% - 6px) calc(100% - 6px)/2px 2px no-repeat border-box,linear-gradient(var(--fb),var(--fb)) padding-box,var(--fa)}
 /* ===== 捲軸：復古 Mac OS 8 視窗風（上下／左右箭頭鈕＋可拖動滑塊；只在內容超出時才出現，只需單向捲動時不會出現另一軸） ===== */
-:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar{width:16px;height:16px;background:var(--btnf)}
-:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-track{background:repeating-conic-gradient(var(--line) 0 25%,var(--bg) 0 50%) 0 0/2px 2px}
-:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-track:vertical{box-shadow:inset 1px 0 0 var(--mute)}
-:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-track:horizontal{box-shadow:inset 0 1px 0 var(--mute)}
-:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-thumb{background-color:var(--btnf);box-shadow:inset 0 0 0 1px var(--mute),inset 2px 2px 0 var(--bhi),inset -2px -2px 0 var(--blo);min-width:20px;min-height:20px}
-:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-thumb:vertical{background-image:repeating-linear-gradient(to bottom,var(--mute) 0 1px,transparent 1px 3px),repeating-linear-gradient(to bottom,var(--bhi) 0 1px,transparent 1px 3px);background-position:50% 50%,calc(50% + 1px) calc(50% + 1px);background-size:8px 7px;background-repeat:no-repeat}
-:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-thumb:horizontal{background-image:repeating-linear-gradient(to right,var(--mute) 0 1px,transparent 1px 3px),repeating-linear-gradient(to right,var(--bhi) 0 1px,transparent 1px 3px);background-position:50% 50%,calc(50% + 1px) calc(50% + 1px);background-size:7px 8px;background-repeat:no-repeat}
-:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-thumb:active{box-shadow:inset 0 0 0 1px var(--mute),inset 2px 2px 0 var(--blo),inset -2px -2px 0 var(--bhi)}
-:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:single-button{display:block;width:16px;height:16px;background-color:var(--btnf);box-shadow:inset 0 0 0 1px var(--mute),inset 2px 2px 0 var(--bhi),inset -2px -2px 0 var(--blo)}
-:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:single-button:active{box-shadow:inset 0 0 0 1px var(--mute),inset 2px 2px 0 var(--blo),inset -2px -2px 0 var(--bhi)}
-:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:vertical:start:increment,:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:vertical:end:decrement,:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:horizontal:start:increment,:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:horizontal:end:decrement{display:none}
-:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:vertical:start:decrement{background:linear-gradient(var(--ink),var(--ink)) 50% 6px/2px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 7px/4px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 8px/6px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 9px/8px 1px no-repeat,var(--btnf)}
-:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:vertical:end:increment{background:linear-gradient(var(--ink),var(--ink)) 50% 6px/8px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 7px/6px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 8px/4px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 9px/2px 1px no-repeat,var(--btnf)}
-:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:horizontal:start:decrement{background:linear-gradient(var(--ink),var(--ink)) 6px 50%/1px 2px no-repeat,linear-gradient(var(--ink),var(--ink)) 7px 50%/1px 4px no-repeat,linear-gradient(var(--ink),var(--ink)) 8px 50%/1px 6px no-repeat,linear-gradient(var(--ink),var(--ink)) 9px 50%/1px 8px no-repeat,var(--btnf)}
-:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:horizontal:end:increment{background:linear-gradient(var(--ink),var(--ink)) 6px 50%/1px 8px no-repeat,linear-gradient(var(--ink),var(--ink)) 7px 50%/1px 6px no-repeat,linear-gradient(var(--ink),var(--ink)) 8px 50%/1px 4px no-repeat,linear-gradient(var(--ink),var(--ink)) 9px 50%/1px 2px no-repeat,var(--btnf)}
-:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-corner{background:repeating-linear-gradient(135deg,transparent 0 2px,var(--mute) 2px 3px),var(--btnf);box-shadow:inset 1px 1px 0 var(--mute)}
-@supports not selector(::-webkit-scrollbar){:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea){scrollbar-width:thin;scrollbar-color:var(--mute) var(--line)}}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea)::-webkit-scrollbar{width:16px;height:16px;background:var(--btnf)}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea)::-webkit-scrollbar-track{background:repeating-conic-gradient(var(--line) 0 25%,var(--bg) 0 50%) 0 0/2px 2px}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea)::-webkit-scrollbar-track:vertical{box-shadow:inset 1px 0 0 var(--mute)}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea)::-webkit-scrollbar-track:horizontal{box-shadow:inset 0 1px 0 var(--mute)}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea)::-webkit-scrollbar-thumb{background-color:var(--btnf);box-shadow:inset 0 0 0 1px var(--mute),inset 2px 2px 0 var(--bhi),inset -2px -2px 0 var(--blo);min-width:20px;min-height:20px}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea)::-webkit-scrollbar-thumb:vertical{background-image:repeating-linear-gradient(to bottom,var(--mute) 0 1px,transparent 1px 3px),repeating-linear-gradient(to bottom,var(--bhi) 0 1px,transparent 1px 3px);background-position:50% 50%,calc(50% + 1px) calc(50% + 1px);background-size:8px 7px;background-repeat:no-repeat}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea)::-webkit-scrollbar-thumb:horizontal{background-image:repeating-linear-gradient(to right,var(--mute) 0 1px,transparent 1px 3px),repeating-linear-gradient(to right,var(--bhi) 0 1px,transparent 1px 3px);background-position:50% 50%,calc(50% + 1px) calc(50% + 1px);background-size:7px 8px;background-repeat:no-repeat}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea)::-webkit-scrollbar-thumb:active{box-shadow:inset 0 0 0 1px var(--mute),inset 2px 2px 0 var(--blo),inset -2px -2px 0 var(--bhi)}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea)::-webkit-scrollbar-button:single-button{display:block;width:16px;height:16px;background-color:var(--btnf);box-shadow:inset 0 0 0 1px var(--mute),inset 2px 2px 0 var(--bhi),inset -2px -2px 0 var(--blo)}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea)::-webkit-scrollbar-button:single-button:active{box-shadow:inset 0 0 0 1px var(--mute),inset 2px 2px 0 var(--blo),inset -2px -2px 0 var(--bhi)}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea)::-webkit-scrollbar-button:vertical:start:increment,:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea)::-webkit-scrollbar-button:vertical:end:decrement,:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea)::-webkit-scrollbar-button:horizontal:start:increment,:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea)::-webkit-scrollbar-button:horizontal:end:decrement{display:none}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea)::-webkit-scrollbar-button:vertical:start:decrement{background:linear-gradient(var(--ink),var(--ink)) 50% 6px/2px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 7px/4px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 8px/6px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 9px/8px 1px no-repeat,var(--btnf)}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea)::-webkit-scrollbar-button:vertical:end:increment{background:linear-gradient(var(--ink),var(--ink)) 50% 6px/8px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 7px/6px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 8px/4px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 9px/2px 1px no-repeat,var(--btnf)}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea)::-webkit-scrollbar-button:horizontal:start:decrement{background:linear-gradient(var(--ink),var(--ink)) 6px 50%/1px 2px no-repeat,linear-gradient(var(--ink),var(--ink)) 7px 50%/1px 4px no-repeat,linear-gradient(var(--ink),var(--ink)) 8px 50%/1px 6px no-repeat,linear-gradient(var(--ink),var(--ink)) 9px 50%/1px 8px no-repeat,var(--btnf)}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea)::-webkit-scrollbar-button:horizontal:end:increment{background:linear-gradient(var(--ink),var(--ink)) 6px 50%/1px 8px no-repeat,linear-gradient(var(--ink),var(--ink)) 7px 50%/1px 6px no-repeat,linear-gradient(var(--ink),var(--ink)) 8px 50%/1px 4px no-repeat,linear-gradient(var(--ink),var(--ink)) 9px 50%/1px 2px no-repeat,var(--btnf)}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea)::-webkit-scrollbar-corner{background:repeating-linear-gradient(135deg,transparent 0 2px,var(--mute) 2px 3px),var(--btnf);box-shadow:inset 1px 1px 0 var(--mute)}
+@supports not selector(::-webkit-scrollbar){:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea){scrollbar-width:thin;scrollbar-color:var(--mute) var(--line)}}
 /* 紀錄方塊按下去的效果：內部填色變深（比照按鈕按下） */
 .card[data-k]:active:not(:has(button:active)):not(:has(a:active)){--pp:var(--btnf);--pp:color-mix(in srgb,var(--card) 88%,var(--ink))}
 /* 紀錄方塊（參考掌機簡訊清單）：階梯切角＋2px 深色外框＋內側淺線＋底色，內文與按鈕之間有分隔線。未展開＝淡色底＋白線；展開＝白底＋淡色線（互為對比） */
@@ -341,8 +342,8 @@ dialog{overscroll-behavior:none}
 #wr .xcl{top:calc(8px + env(safe-area-inset-top,0px));right:12px}
 #wred{align-self:start}
 /* 手機用的自製捲軸（iOS Safari 不顯示原生捲軸） */
-html.jsb :is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar{display:none;width:0;height:0}
-html.jsb :is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea){scrollbar-width:none}
+html.jsb :is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea)::-webkit-scrollbar{display:none;width:0;height:0}
+html.jsb :is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea){scrollbar-width:none}
 html.jsb .arl{padding-right:18px}
 .jsb-bar{position:fixed;z-index:60;display:none;background:var(--btnf);touch-action:none;-webkit-user-select:none;user-select:none;box-shadow:inset 0 0 0 1px var(--mute)}
 .jsb-bar.on{display:flex}
@@ -975,7 +976,7 @@ document.querySelectorAll('dialog').forEach(d=>{decoDlg(d);new MutationObserver(
 {const hd=document.getElementById('hdr');if(hd&&window.ResizeObserver){const f=()=>document.documentElement.style.setProperty('--hdr',hd.offsetHeight+'px');new ResizeObserver(f).observe(hd);f()}}
 /* 手機自製捲軸：Mac OS 8 風（箭頭鈕＋滑塊，可拖曳／點軌道／長按箭頭） */
 if(matchMedia('(pointer:coarse)').matches)document.documentElement.classList.add('jsb');
-const SBSEL='#dts,#hmc,.arl,#qdc,.gb,.wc,.hs';
+const SBSEL='#dts,#hmc,.arl,#qdc,.gb,.wcs,.hs';
 const sbMap=new Map();let sbRaf=0;
 function sbMake(el,ax){
  const v=ax==='v',bar=document.createElement('div');bar.className='jsb-bar '+ax;
@@ -1012,12 +1013,15 @@ function sbPlace(el,ax){
   if(dlg){if(!dlg.open){bar.classList.remove('on');return}host=dlg}
   else if(document.querySelector('dialog[open]')){bar.classList.remove('on');return}
   r=el.getBoundingClientRect();if(r.width===0&&r.height===0){bar.classList.remove('on');return}
+  if(el.classList.contains('wcs')){const cd=el.parentNode;if(cd.offsetParent){const pr=cd.offsetParent.getBoundingClientRect(),L0=pr.left+cd.offsetLeft,T0=pr.top+cd.offsetTop;r={left:L0,top:T0,right:L0+cd.offsetWidth,bottom:T0+cd.offsetHeight,width:cd.offsetWidth,height:cd.offsetHeight}}}
  }
  if(bar.parentNode!==host)host.append(bar);
  const on=g.sh>g.ch+1;bar.classList.toggle('on',on);if(!on)return;
- const isDlg=!b.win&&el.matches('dialog,.wc'),ins=isDlg?10:0,side=isDlg?8:(b.win||el.classList.contains('arl')?0:2),tt=isDlg?(parseFloat(getComputedStyle(el).getPropertyValue('--tt'))||5)+6:0;
+ const isDlg=!b.win&&el.matches('dialog,.wcs'),ins=isDlg?10:0,side=isDlg?8:(b.win||el.classList.contains('arl')?0:2),tt=isDlg?(parseFloat(getComputedStyle(el.classList.contains('wcs')?el.parentNode:el).getPropertyValue('--tt'))||5)+6:0;
  if(v){const t=r.top+(isDlg?tt:ins),L=Math.max(0,r.bottom-ins-t);bar.style.cssText=`left:${r.right-14-side}px;top:${t}px;height:${L}px`}
  else{const l=r.left+ins,L=Math.max(0,r.right-ins-l);bar.style.cssText=`top:${r.bottom-14-side}px;left:${l}px;width:${L}px`}
+ if(!b.win&&el.classList.contains('wcs')){const cd=el.parentNode,tf=cd.style.transform;bar.style.transition=cd.classList.contains('anim')?getComputedStyle(cd).transition:'none';bar.style.opacity=cd.style.opacity;
+  if(tf){const bl=r.right-14-side,bt=r.top+tt;bar.style.transformOrigin=`${(r.left+r.width*.5)-bl}px ${(r.top+r.height*.9)-bt}px`;bar.style.transform=tf}else bar.style.transform=''}
  const trk=bar.querySelector('.trk'),tl=(v?trk.clientHeight:trk.clientWidth)||0,len=Math.max(22,Math.round(tl*g.ch/g.sh)),pos=g.sh>g.ch?Math.round((tl-len)*g.st/(g.sh-g.ch)):0;
  b.thm.style[v?'top':'left']=Math.max(0,Math.min(tl-len,pos))+'px';b.thm.style[v?'height':'width']=len+'px'}
 function sbRefresh(now){if(!document.documentElement.classList.contains('jsb'))return;cancelAnimationFrame(sbRaf);const run=()=>{
@@ -1130,24 +1134,24 @@ function wrShow(){wrUrls.forEach(URL.revokeObjectURL);wrUrls=[];wrBusy=false;wrE
  const en=wrQ[wrI];
  if(!en){wrHead(h('div',{},`${wrN} / ${wrN}`));s.append(h('div',{class:'wc wdone in'},'未整理的紀錄已全部整理完畢'+(wrSkip?`\n跳過的 ${wrSkip} 則仍留在未整理`:'')));wrBtns();return}
  wrHead(h('div',{},`${wrI+1} / ${wrN}`));
- const c=h('div',{class:'wc in'},...dtNodes(en,wrUrls));s.append(c);wrBind(c);wrBtns()}
+ const nd=dtNodes(en,wrUrls),sc=h('div',{class:'wcs'},...nd.slice(1)),c=h('div',{class:'wc in'},nd[0],sc);c._sc=sc;s.append(c);wrBind(c);wrBtns()}
 function wrBind(c){const kb=$('#wrk'),ab=$('#wra'),sb=$('#wrp');
- let x0=0,y0=0,id=null,mode=0,dx=0,ty=0,s0=0,fr=false,sm=[];
+ const sc=c._sc;let x0=0,y0=0,id=null,mode=0,dx=0,ty=0,s0=0,fr=false,sm=[];
  const T=()=>Math.max(70,Math.min(110,Math.min(innerWidth,640)*.22));
  /* 內容沒超出、或已捲到底時，整張卡片可往任意方向拖；內容太長時保留原生捲動，左右滑仍可用 */
- const free=()=>c.scrollHeight<=c.clientHeight+2||c.scrollTop+c.clientHeight>=c.scrollHeight-2;
- const upd=()=>{if(!wrEd)c.style.touchAction=free()?'none':'pan-y'};
- upd();c.addEventListener('scroll',upd,{passive:true});
- if(window.ResizeObserver){const ro=new ResizeObserver(upd);ro.observe(c);[...c.children].forEach(k=>ro.observe(k));c._ro=ro}
+ const free=()=>sc.scrollHeight<=sc.clientHeight+2||sc.scrollTop+sc.clientHeight>=sc.scrollHeight-2;
+ const upd=()=>{if(!wrEd)c.style.touchAction=sc.style.touchAction=free()?'none':'pan-y'};
+ upd();sc.addEventListener('scroll',upd,{passive:true});
+ if(window.ResizeObserver){const ro=new ResizeObserver(upd);ro.observe(sc);[...sc.children].forEach(k=>ro.observe(k));c._ro=ro}
  c.addEventListener('pointerdown',e=>{if(wrBusy||wrEd||(e.pointerType==='mouse'&&e.button>0)||e.target.closest('video,audio,input,select,textarea,button'))return;
-  id=e.pointerId;x0=e.clientX;y0=e.clientY;mode=0;dx=0;ty=0;s0=c.scrollTop;fr=c.style.touchAction==='none';sm=[{x:0,y:0,t:e.timeStamp}];wrMoved=false;c.classList.remove('anim','in')});
+  id=e.pointerId;x0=e.clientX;y0=e.clientY;mode=0;dx=0;ty=0;s0=sc.scrollTop;fr=c.style.touchAction==='none';sm=[{x:0,y:0,t:e.timeStamp}];wrMoved=false;c.classList.remove('anim','in')});
  c.addEventListener('pointermove',e=>{if(e.pointerId!==id)return;const mx=e.clientX-x0,my=e.clientY-y0;
   if(!mode){if(Math.hypot(mx,my)<8)return;
    if(!fr&&Math.abs(my)>Math.abs(mx)){mode=2;id=null;return}
    mode=1;try{c.setPointerCapture(id)}catch(_){}}
   if(mode!==1)return;wrMoved=true;dx=mx;ty=0;
-  if(fr){if(my<0)ty=my;else if(c.scrollHeight>c.clientHeight+2)c.scrollTop=Math.max(0,s0-my)}
-  c.style.transform=`translate(${dx}px,${ty}px) rotate(${dx/22}deg)`;
+  if(fr){if(my<0)ty=my;else if(sc.scrollHeight>sc.clientHeight+2)sc.scrollTop=Math.max(0,s0-my)}
+  c.style.transform=`translate(${dx}px,${ty}px)`;sbRefresh(true);
   sm.push({x:dx,y:ty,t:e.timeStamp});while(sm.length>2&&e.timeStamp-sm[0].t>100)sm.shift();
   const t=T(),horiz=Math.abs(dx)>=-ty;
   kb.style.opacity=horiz&&dx>0?Math.min(dx/t,1):0;ab.style.opacity=horiz&&dx<0?Math.min(-dx/t,1):0;sb.style.opacity=!horiz?Math.min(-ty/t,1):0});
@@ -1156,13 +1160,13 @@ function wrBind(c){const kb=$('#wrk'),ab=$('#wra'),sb=$('#wrp');
   if(ax>=ay){if(ax>t||(Math.abs(vx)>.5&&ax>30))d=dx>0?1:-1}
   else if(ay>t||(vy<-.5&&ay>30))d=0;
   if(d!==null)wrFly(c,d);
-  else{c.classList.add('anim');c.style.transform='';kb.style.opacity=ab.style.opacity=sb.style.opacity=0}};
+  else{c.classList.add('anim');c.style.transform='';sbRefresh(true);kb.style.opacity=ab.style.opacity=sb.style.opacity=0}};
  c.addEventListener('pointerup',end);c.addEventListener('pointercancel',end);
  c.addEventListener('click',e=>{if(wrMoved){e.preventDefault();e.stopPropagation();wrMoved=false}},true)}
 /* dir：1 保留、-1 封存、0 跳過 */
 function wrFly(c,dir){if(wrBusy||wrEd)return;wrBusy=true;const en=wrQ[wrI];if(dir)wrDirty=true;sfx(dir<0?'low':'tap');
  (dir>0?$('#wrk'):dir<0?$('#wra'):$('#wrp')).style.opacity=1;
- c.classList.add('anim');c.style.transform=dir?`translateX(${dir*(innerWidth+240)}px) rotate(${dir*18}deg)`:`translateY(${-(innerHeight+120)}px)`;c.style.opacity='0';
+ c.classList.add('anim');c.style.transform=dir?`translateX(${dir*(innerWidth+240)}px)`:`translateY(${-(innerHeight+120)}px)`;sbRefresh(true);
  let fin=false;const go=()=>{if(fin)return;fin=true;wrHist.push({en,act:dir>0?'keep':dir<0?'arc':'skip'});
   if(dir)wrAct(en,dir);else wrSkip++;wrI++;wrShow()};
  c.addEventListener('transitionend',go,{once:true});setTimeout(go,420)}
