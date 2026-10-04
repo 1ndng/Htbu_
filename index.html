@@ -163,7 +163,7 @@ dialog select{--pxc:3px;clip-path:var(--cut);border:var(--bw) solid transparent;
 .qchip .qtx{color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .qchip button{flex:none}
 #dt{width:min(640px,94vw);max-height:88vh;padding:5px;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch}
-#dt[open]{display:block}
+#dt[open]{display:flex;flex-direction:column}
 #dtc{overflow:visible;padding:12px 16px 12px}
 #dtc>*{margin-bottom:14px}
 .dth{font:600 16px "BaDing",serif;letter-spacing:.1em;color:var(--acx)}
@@ -271,7 +271,9 @@ dialog.tbd>h2:first-child{position:absolute;left:9px;right:70px;top:5px;height:2
 dialog.tbd>.eth:first-child{position:absolute;left:9px;right:37px;top:5px;height:24px;margin:0;padding:0;gap:8px}
 .eth h2{font-size:15px;line-height:24px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .eth .edit{height:24px;line-height:20px;padding:0 10px;margin:0;font-size:12px}
-#dt{padding:35px 4px 4px}
+#dt{padding:35px 4px 4px;overflow:hidden;background-attachment:scroll}
+/* 標題列（瀏海）固定：只有下方內容區在捲動 */
+#dts{flex:1 1 auto;min-height:0;margin-bottom:2px;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:none}
 #dtt{position:absolute;left:9px;right:70px;top:5px;height:24px;font:600 16px/24px "BaDing",serif;letter-spacing:.1em;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #dtc>.dth{display:none}
 .card{--tt:5px;padding:12px 14px}
@@ -286,23 +288,23 @@ dialog.tbd>.eth:first-child{position:absolute;left:9px;right:37px;top:5px;height
 /* 懸浮展開方塊：最外層深色框線加粗為 3px */
 #dt{--bw:4px;--frm:linear-gradient(var(--pp),var(--pp)) 8px calc(var(--tt) + 5px)/calc(100% - 16px) calc(100% - var(--tt) - 15px) no-repeat border-box,linear-gradient(var(--pp),var(--pp)) 10px calc(var(--tt) + 3px)/calc(100% - 20px) calc(100% - var(--tt) - 11px) no-repeat border-box,linear-gradient(var(--fa),var(--fa)) 6px calc(var(--tt) + 3px)/calc(100% - 12px) calc(100% - var(--tt) - 11px) no-repeat border-box,linear-gradient(var(--fa),var(--fa)) 8px calc(var(--tt) + 1px)/calc(100% - 16px) calc(100% - var(--tt) - 7px) no-repeat border-box,linear-gradient(var(--fa),var(--fa)) 4px 4px/2px 2px no-repeat border-box,linear-gradient(var(--fa),var(--fa)) calc(100% - 6px) 4px/2px 2px no-repeat border-box,linear-gradient(var(--fa),var(--fa)) 4px calc(100% - 6px)/2px 2px no-repeat border-box,linear-gradient(var(--fa),var(--fa)) calc(100% - 6px) calc(100% - 6px)/2px 2px no-repeat border-box,linear-gradient(var(--fb),var(--fb)) padding-box,var(--fa)}
 /* ===== 捲軸：復古 Mac OS 8 視窗風（上下／左右箭頭鈕＋可拖動滑塊；只在內容超出時才出現，只需單向捲動時不會出現另一軸） ===== */
-:is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar{width:16px;height:16px;background:var(--btnf)}
-:is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-track{background:repeating-conic-gradient(var(--line) 0 25%,var(--bg) 0 50%) 0 0/2px 2px}
-:is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-track:vertical{box-shadow:inset 1px 0 0 var(--mute)}
-:is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-track:horizontal{box-shadow:inset 0 1px 0 var(--mute)}
-:is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-thumb{background-color:var(--btnf);box-shadow:inset 0 0 0 1px var(--mute),inset 2px 2px 0 var(--bhi),inset -2px -2px 0 var(--blo);min-width:20px;min-height:20px}
-:is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-thumb:vertical{background-image:repeating-linear-gradient(to bottom,var(--mute) 0 1px,transparent 1px 3px),repeating-linear-gradient(to bottom,var(--bhi) 0 1px,transparent 1px 3px);background-position:50% 50%,calc(50% + 1px) calc(50% + 1px);background-size:8px 7px;background-repeat:no-repeat}
-:is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-thumb:horizontal{background-image:repeating-linear-gradient(to right,var(--mute) 0 1px,transparent 1px 3px),repeating-linear-gradient(to right,var(--bhi) 0 1px,transparent 1px 3px);background-position:50% 50%,calc(50% + 1px) calc(50% + 1px);background-size:7px 8px;background-repeat:no-repeat}
-:is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-thumb:active{box-shadow:inset 0 0 0 1px var(--mute),inset 2px 2px 0 var(--blo),inset -2px -2px 0 var(--bhi)}
-:is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:single-button{display:block;width:16px;height:16px;background-color:var(--btnf);box-shadow:inset 0 0 0 1px var(--mute),inset 2px 2px 0 var(--bhi),inset -2px -2px 0 var(--blo)}
-:is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:single-button:active{box-shadow:inset 0 0 0 1px var(--mute),inset 2px 2px 0 var(--blo),inset -2px -2px 0 var(--bhi)}
-:is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:vertical:start:increment,:is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:vertical:end:decrement,:is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:horizontal:start:increment,:is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:horizontal:end:decrement{display:none}
-:is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:vertical:start:decrement{background:linear-gradient(var(--ink),var(--ink)) 50% 6px/2px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 7px/4px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 8px/6px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 9px/8px 1px no-repeat,var(--btnf)}
-:is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:vertical:end:increment{background:linear-gradient(var(--ink),var(--ink)) 50% 6px/8px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 7px/6px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 8px/4px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 9px/2px 1px no-repeat,var(--btnf)}
-:is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:horizontal:start:decrement{background:linear-gradient(var(--ink),var(--ink)) 6px 50%/1px 2px no-repeat,linear-gradient(var(--ink),var(--ink)) 7px 50%/1px 4px no-repeat,linear-gradient(var(--ink),var(--ink)) 8px 50%/1px 6px no-repeat,linear-gradient(var(--ink),var(--ink)) 9px 50%/1px 8px no-repeat,var(--btnf)}
-:is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:horizontal:end:increment{background:linear-gradient(var(--ink),var(--ink)) 6px 50%/1px 8px no-repeat,linear-gradient(var(--ink),var(--ink)) 7px 50%/1px 6px no-repeat,linear-gradient(var(--ink),var(--ink)) 8px 50%/1px 4px no-repeat,linear-gradient(var(--ink),var(--ink)) 9px 50%/1px 2px no-repeat,var(--btnf)}
-:is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-corner{background:repeating-linear-gradient(135deg,transparent 0 2px,var(--mute) 2px 3px),var(--btnf);box-shadow:inset 1px 1px 0 var(--mute)}
-@supports not selector(::-webkit-scrollbar){:is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea){scrollbar-width:thin;scrollbar-color:var(--mute) var(--line)}}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar{width:16px;height:16px;background:var(--btnf)}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-track{background:repeating-conic-gradient(var(--line) 0 25%,var(--bg) 0 50%) 0 0/2px 2px}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-track:vertical{box-shadow:inset 1px 0 0 var(--mute)}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-track:horizontal{box-shadow:inset 0 1px 0 var(--mute)}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-thumb{background-color:var(--btnf);box-shadow:inset 0 0 0 1px var(--mute),inset 2px 2px 0 var(--bhi),inset -2px -2px 0 var(--blo);min-width:20px;min-height:20px}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-thumb:vertical{background-image:repeating-linear-gradient(to bottom,var(--mute) 0 1px,transparent 1px 3px),repeating-linear-gradient(to bottom,var(--bhi) 0 1px,transparent 1px 3px);background-position:50% 50%,calc(50% + 1px) calc(50% + 1px);background-size:8px 7px;background-repeat:no-repeat}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-thumb:horizontal{background-image:repeating-linear-gradient(to right,var(--mute) 0 1px,transparent 1px 3px),repeating-linear-gradient(to right,var(--bhi) 0 1px,transparent 1px 3px);background-position:50% 50%,calc(50% + 1px) calc(50% + 1px);background-size:7px 8px;background-repeat:no-repeat}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-thumb:active{box-shadow:inset 0 0 0 1px var(--mute),inset 2px 2px 0 var(--blo),inset -2px -2px 0 var(--bhi)}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:single-button{display:block;width:16px;height:16px;background-color:var(--btnf);box-shadow:inset 0 0 0 1px var(--mute),inset 2px 2px 0 var(--bhi),inset -2px -2px 0 var(--blo)}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:single-button:active{box-shadow:inset 0 0 0 1px var(--mute),inset 2px 2px 0 var(--blo),inset -2px -2px 0 var(--bhi)}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:vertical:start:increment,:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:vertical:end:decrement,:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:horizontal:start:increment,:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:horizontal:end:decrement{display:none}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:vertical:start:decrement{background:linear-gradient(var(--ink),var(--ink)) 50% 6px/2px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 7px/4px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 8px/6px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 9px/8px 1px no-repeat,var(--btnf)}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:vertical:end:increment{background:linear-gradient(var(--ink),var(--ink)) 50% 6px/8px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 7px/6px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 8px/4px 1px no-repeat,linear-gradient(var(--ink),var(--ink)) 50% 9px/2px 1px no-repeat,var(--btnf)}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:horizontal:start:decrement{background:linear-gradient(var(--ink),var(--ink)) 6px 50%/1px 2px no-repeat,linear-gradient(var(--ink),var(--ink)) 7px 50%/1px 4px no-repeat,linear-gradient(var(--ink),var(--ink)) 8px 50%/1px 6px no-repeat,linear-gradient(var(--ink),var(--ink)) 9px 50%/1px 8px no-repeat,var(--btnf)}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-button:horizontal:end:increment{background:linear-gradient(var(--ink),var(--ink)) 6px 50%/1px 8px no-repeat,linear-gradient(var(--ink),var(--ink)) 7px 50%/1px 6px no-repeat,linear-gradient(var(--ink),var(--ink)) 8px 50%/1px 4px no-repeat,linear-gradient(var(--ink),var(--ink)) 9px 50%/1px 2px no-repeat,var(--btnf)}
+:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar-corner{background:repeating-linear-gradient(135deg,transparent 0 2px,var(--mute) 2px 3px),var(--btnf);box-shadow:inset 1px 1px 0 var(--mute)}
+@supports not selector(::-webkit-scrollbar){:is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea){scrollbar-width:thin;scrollbar-color:var(--mute) var(--line)}}
 /* 紀錄方塊按下去的效果：內部填色變深（比照按鈕按下） */
 .card[data-k]:active:not(:has(button:active)):not(:has(a:active)){--pp:var(--btnf);--pp:color-mix(in srgb,var(--card) 88%,var(--ink))}
 /* 紀錄方塊（未展開時；參考掌機簡訊清單）：階梯切角＋2px 深色外框＋內側淺線＋淡色底，內文與按鈕之間有分隔線。展開後維持原樣 */
@@ -336,8 +338,8 @@ dialog{overscroll-behavior:none}
 #wr .xcl{top:calc(8px + env(safe-area-inset-top,0px));right:12px}
 #wred{align-self:start}
 /* 手機用的自製捲軸（iOS Safari 不顯示原生捲軸） */
-html.jsb :is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar{display:none;width:0;height:0}
-html.jsb :is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea){scrollbar-width:none}
+html.jsb :is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea)::-webkit-scrollbar{display:none;width:0;height:0}
+html.jsb :is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea){scrollbar-width:none}
 .jsb-bar{position:fixed;z-index:60;display:none;background:var(--btnf);touch-action:none;-webkit-user-select:none;user-select:none;box-shadow:inset 0 0 0 1px var(--mute)}
 .jsb-bar.on{display:flex}
 .jsb-bar.v{width:14px;flex-direction:column}
@@ -506,7 +508,7 @@ html.jsb :is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea){scrollbar-width:non
 <div class="acts end"><button onclick="$('#cv').close()">取消</button></div>
 </dialog>
 <dialog id="cf"><p>是否刪除？</p><p class="sm" id="cfs" hidden></p><div class="acts"><button id="cfy" class="pri">是</button><button id="cfn">否</button></div></dialog>
-<dialog id="dt"><div id="dtt"></div><div id="dtc"></div><div class="dtf"><button id="dtb" hidden onclick="dtBack()">返回</button><button onclick="$('#dt').close()">退出</button></div></dialog>
+<dialog id="dt"><div id="dtt"></div><div id="dts"><div id="dtc"></div><div class="dtf"><button id="dtb" hidden onclick="dtBack()">返回</button><button onclick="$('#dt').close()">退出</button></div></div></dialog>
 <dialog id="qd"><h2>選擇要引用的紀錄</h2><div class="qsrow"><input type="search" id="qs2" placeholder="搜尋文字或標籤" enterkeyhint="search" autocomplete="off"><button id="qsb" class="pri" onclick="qdGo(true)">搜尋</button></div><div id="qdc"></div><div class="acts end"><button onclick="$('#qd').close()">取消</button></div></dialog>
 <dialog id="lb"><button id="lbx" class="xcl" aria-label="關閉" onclick="$('#lb').close()">關閉</button><div id="lbc"></div></dialog>
 <button id="fab" hidden onclick="fabAdd()">+新增</button>
@@ -607,7 +609,7 @@ function dtRender(en){dtCur=en;dturls.forEach(URL.revokeObjectURL);dturls=[];
   (en.links||[]).length>0&&h('div',{class:'dtl'},...en.links.map(l=>h('a',{href:l,target:'_blank',rel:'noopener noreferrer'},l))),
   (en.tags||[]).length>0&&h('div',{class:'tgs dtgs'},...en.tags.map(t=>h('span',{class:'tg dtg'},'#'+t))),
   FEAT.quote&&en.quote&&h('div',{class:'qv',role:'button',tabindex:'0',onclick:()=>qOpen(en.quote)},h('div',{class:'qb'},h('div',{class:'rd'},qLbl(en.quote)),h('div',{class:'qtx'},qTxt(en.quote)))));
- $('#dtt').textContent=($('#dtc .dth')||{}).textContent||'';$('#dt').scrollTop=0;$('#dtb').hidden=!dtStack.length;if(!$('#dt').open)$('#dt').showModal()}
+ $('#dtt').textContent=($('#dtc .dth')||{}).textContent||'';$('#dts').scrollTop=0;$('#dtb').hidden=!dtStack.length;if(!$('#dt').open)$('#dt').showModal()}
 $('#dt').onclose=()=>{$('#dtc').replaceChildren();dturls.forEach(URL.revokeObjectURL);dturls=[];dtStack=[];dtCur=null};
 $('#dt').onclick=e=>{if(e.target===$('#dt'))$('#dt').close()};
 $('#app').addEventListener('click',e=>{
@@ -966,7 +968,7 @@ document.querySelectorAll('dialog').forEach(d=>{decoDlg(d);new MutationObserver(
 {const hd=document.getElementById('hdr');if(hd&&window.ResizeObserver){const f=()=>document.documentElement.style.setProperty('--hdr',hd.offsetHeight+'px');new ResizeObserver(f).observe(hd);f()}}
 /* 手機自製捲軸：Mac OS 8 風（箭頭鈕＋滑塊，可拖曳／點軌道／長按箭頭） */
 if(matchMedia('(pointer:coarse)').matches)document.documentElement.classList.add('jsb');
-const SBSEL='#hmc,.arl,#qdc,.gb,.wc,.hs';
+const SBSEL='#dts,#hmc,.arl,#qdc,.gb,.wc,.hs';
 const sbMap=new Map();let sbRaf=0;
 function sbMake(el,ax){
  const v=ax==='v',bar=document.createElement('div');bar.className='jsb-bar '+ax;
