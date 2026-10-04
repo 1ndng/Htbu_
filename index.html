@@ -201,7 +201,7 @@ mark.hl{background:rgba(128,128,128,.3);background:color-mix(in srgb,var(--acc) 
 #wrk,#wra,#wrp{background:none;clip-path:none;padding:4px 0;color:var(--ink);text-shadow:0 0 5px var(--bg),0 0 5px var(--bg)}#wrk{left:52px}#wra{right:52px}
 #wr{width:100vw;max-width:640px;height:100vh;height:100dvh;max-height:100vh;max-height:100dvh;margin:0 auto;padding:0;border:0;clip-path:none;overflow:hidden;background:var(--bg)}
 #wr[open]{display:flex;flex-direction:column}
-#wrh{flex:none;text-align:center;color:var(--mute);font-size:12px;line-height:1.5;padding:calc(10px + env(safe-area-inset-top,0px)) 12px 8px}
+#wrh{flex:none;text-align:center;color:var(--mute);font-size:12px;line-height:1.5;padding:calc(8px + env(safe-area-inset-top,0px)) 7px 8px}
 #wrs{flex:1 1 auto;min-height:0;position:relative;overflow:hidden}
 .wc{--pxc:4px;clip-path:var(--stair);background:var(--frm);border:var(--bw) solid transparent;position:absolute;left:42px;right:42px;top:4px;bottom:6px;overscroll-behavior:contain;overflow-y:auto;overflow-x:hidden;touch-action:pan-y;-webkit-overflow-scrolling:touch;will-change:transform;transform-origin:50% 90%;padding:21px 21px 11px}
 .wc>*{margin-bottom:14px}.wc audio{display:block;width:100%}.wc .fl{padding:10px 12px;font-size:15px}
@@ -212,7 +212,7 @@ mark.hl{background:rgba(128,128,128,.3);background:color-mix(in srgb,var(--acc) 
 @media (prefers-reduced-motion:reduce){.wc.anim{transition-duration:.01s}.wc.in{animation:none}}
 #wrp{left:50%;transform:translateX(-50%)}
 #wrh{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px;touch-action:none}#wrh>:first-child{justify-self:start}
-#wred{padding:2px 10px;font-size:12px}
+#wred{height:24px;line-height:20px;padding:0 10px;margin:0;font-size:12px}
 .wrbare{background:none;border:0;clip-path:none;color:var(--acx);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15;touch-action:none}
 .wrbare i{font-style:normal;font-size:22px;line-height:1}
 #wr .wrbare:focus,#wr .wrbare:active{clip-path:none;outline:none}
@@ -988,7 +988,7 @@ function wrShow(){wrUrls.forEach(URL.revokeObjectURL);wrUrls=[];wrBusy=false;wrE
  ['#wrk','#wra','#wrp'].forEach(q=>$(q).style.opacity=0);
  const en=wrQ[wrI];
  if(!en){wrHead(h('div',{},`${wrN} / ${wrN}`));s.append(h('div',{class:'wc wdone in'},'未整理的紀錄已全部整理完畢'+(wrSkip?`\n跳過的 ${wrSkip} 則仍留在未整理`:'')));wrBtns();return}
- wrHead(h('div',{},`${wrI+1} / ${wrN}`),h('div',{},'右滑保留・左滑封存・上滑跳過'));
+ wrHead(h('div',{},`${wrI+1} / ${wrN}`));
  const c=h('div',{class:'wc in'},...dtNodes(en,wrUrls));s.append(c);wrBind(c);wrBtns()}
 function wrBind(c){const kb=$('#wrk'),ab=$('#wra'),sb=$('#wrp');
  let x0=0,y0=0,id=null,mode=0,dx=0,ty=0,s0=0,fr=false,sm=[];
