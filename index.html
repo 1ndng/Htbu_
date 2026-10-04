@@ -342,6 +342,9 @@ html.jsb :is(dialog,.hs,#qdc,#gd .gb,#hmc,.wc,.arl,textarea){scrollbar-width:non
 .jsb-bar.on{display:flex}
 .jsb-bar.v{width:14px;flex-direction:column}
 .jsb-bar.h{height:14px;flex-direction:row}
+/* 一天中的左右捲軸：放在方塊列正下方（跟著頁面一起捲動，不蓋到方塊） */
+.jsb-bar.h.inl{position:relative;z-index:auto;margin:0 0 8px;width:100%}
+.jsb-bar.h.inl+.hs{margin-top:6px;padding-top:14px;border-top:1px solid var(--line)}
 .jsb-bar .trk{position:relative;flex:1;background:repeating-conic-gradient(var(--line) 0 25%,var(--bg) 0 50%) 0 0/2px 2px}
 .jsb-bar .thm{position:absolute;background:var(--btnf);box-shadow:inset 0 0 0 1px var(--mute),inset 2px 2px 0 var(--bhi),inset -2px -2px 0 var(--blo)}
 .jsb-bar.v .thm{left:0;right:0}
@@ -984,6 +987,14 @@ function sbPlace(el,ax){
  let o=sbMap.get(el);const key=ax;o=o||{};
  if(!o[key]){o[key]=sbMake(el,ax);sbMap.set(el,o)}
  const b=o[key],g=b.get(),v=b.v,bar=b.bar;
+ if(!b.win&&!v&&el.classList.contains('hs')){
+  if(!el.isConnected){bar.remove();return}
+  bar.classList.add('inl');
+  if(el.nextElementSibling!==bar)el.after(bar);
+  const on=g.sh>g.ch+1;bar.classList.toggle('on',on);if(!on)return;
+  const trk=bar.querySelector('.trk'),tl=trk.clientWidth||0,len=Math.max(22,Math.round(tl*g.ch/g.sh)),L=Math.max(0,Math.min(tl-len,Math.round((tl-len)*g.st/(g.sh-g.ch))))+'px',W=len+'px';
+  if(b.thm.style.left!==L)b.thm.style.left=L;if(b.thm.style.width!==W)b.thm.style.width=W;
+  return}
  let host=document.body,r;
  if(b.win){r={top:(document.getElementById('hdr')?document.getElementById('hdr').getBoundingClientRect().bottom:0),bottom:innerHeight,left:0,right:innerWidth}}
  else{
@@ -1001,7 +1012,7 @@ function sbPlace(el,ax){
  const trk=bar.querySelector('.trk'),tl=(v?trk.clientHeight:trk.clientWidth)||0,len=Math.max(22,Math.round(tl*g.ch/g.sh)),pos=g.sh>g.ch?Math.round((tl-len)*g.st/(g.sh-g.ch)):0;
  b.thm.style[v?'top':'left']=Math.max(0,Math.min(tl-len,pos))+'px';b.thm.style[v?'height':'width']=len+'px'}
 function sbRefresh(){if(!document.documentElement.classList.contains('jsb'))return;cancelAnimationFrame(sbRaf);sbRaf=requestAnimationFrame(()=>{
- const list=[[window,'v'],...[...document.querySelectorAll('dialog')].map(d=>[d,'v']),...[...document.querySelectorAll(SBSEL)].map(e=>[e,e.classList.contains('hs')?'h':'v'])];
+ const list=[...[...document.querySelectorAll('dialog')].map(d=>[d,'v']),...[...document.querySelectorAll(SBSEL)].map(e=>[e,e.classList.contains('hs')?'h':'v'])];
  list.forEach(([e,a])=>{try{sbPlace(e,a)}catch(x){}});
  sbMap.forEach((o,el)=>{if(el!==window&&!el.isConnected){Object.values(o).forEach(b=>b.bar.remove());sbMap.delete(el)}})})}
 if(document.documentElement.classList.contains('jsb')){
