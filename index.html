@@ -112,9 +112,9 @@ input[type=radio],input[type=checkbox]{accent-color:var(--acc)}
 #dl{margin-right:auto;color:var(--del)}
 #fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:5;--fill:var(--acc);--bd:var(--ink);color:var(--onacc);padding:11px 18px;margin:0;font-size:14px;font-weight:500}
 #fab[hidden]{display:none}
-#lb{background:transparent;clip-path:none;border:0;padding:0;width:auto;max-width:96vw;color:#fff;overflow:visible}
-#lb img,#lb video{--pxc:4px;clip-path:var(--cut);display:block;max-width:94vw;max-height:80vh;border-radius:0;margin:auto}
-#lbx{top:-32px;right:0}
+#lb{width:fit-content;min-width:min(240px,90vw);max-width:96vw;padding:calc(var(--tt,36px) + 6px) 8px 8px;overflow:hidden}
+#lbc{width:fit-content;margin:0 auto;background:#000;border:2px solid;border-color:var(--blo) var(--bhi) var(--bhi) var(--blo);display:flex;justify-content:center;align-items:center}
+#lb img,#lb video{clip-path:none;display:block;max-width:calc(96vw - 32px);max-height:calc(100vh - 120px);max-height:calc(100dvh - 120px);border-radius:0;margin:auto}
 .tb{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;align-items:center;margin:4px 0 8px}.tb::-webkit-scrollbar{display:none}.tb button{padding:2px 9px;flex:none;white-space:nowrap}
 .sw{flex:none;width:30px;height:30px;border-radius:0;padding:0;border:var(--bw) solid var(--ink)}
 #tc{--pxc:3px;clip-path:var(--cut);-webkit-appearance:none;appearance:none;width:30px;height:30px;padding:0;border:var(--bw) solid var(--ink);border-radius:0;overflow:hidden;background:none;flex:none;cursor:pointer}
@@ -377,6 +377,10 @@ mark{background:var(--acc);color:var(--onacc);border-radius:0}
 #srow{display:flex;gap:6px;align-items:stretch}
 #srow #q{flex:1;min-width:0}
 #qgo{flex:none;min-width:56px;padding:0 12px;font-size:13px;letter-spacing:1.56px;line-height:19.6px}
+.dtm.zm{cursor:pointer;background:#000}
+.dtv{position:relative}
+.dtv .pl{inset:auto;display:block;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:44px;height:44px;line-height:44px;text-align:center;background:var(--ink);color:var(--card);font-size:16px;pointer-events:none}
+#lbt{color:var(--onacc)}
 /* ===== UX 精進：空狀態主按鈕、按下回饋、鍵盤避讓 ===== */
 .emp{display:flex;flex-direction:column;align-items:center;gap:4px}.emp .note{align-self:stretch}
 .emp button{font-size:14px;letter-spacing:.04em;padding:8px 28px;min-width:160px}
@@ -604,7 +608,7 @@ dialog.tbd>h2:first-child,dialog.tbd>.eth:first-child h2,#dtt,.wc>.dth{color:var
 <dialog id="cf"><p id="cft">是否刪除？</p><p class="sm" id="cfs" hidden></p><div class="acts"><button id="cfy" class="pri">是</button><button id="cfn">否</button></div></dialog>
 <dialog id="dt"><div id="dtt"></div><div id="dts"><div id="dtc"></div></div><div class="dtf"><button id="dtb" hidden onclick="dtBack()">返回</button><button onclick="$('#dt').close()">退出</button></div></dialog>
 <dialog id="qd"><h2>選擇要引用的紀錄</h2><div class="qsrow"><input type="search" id="qs2" placeholder="搜尋文字或標籤" enterkeyhint="search" autocomplete="off"><button id="qsb" class="pri" onclick="qdGo(true)">搜尋</button></div><div id="qdc"></div><div class="acts end"><button onclick="$('#qd').close()">取消</button></div></dialog>
-<dialog id="lb"><button id="lbx" class="xcl" aria-label="關閉" onclick="$('#lb').close()">關閉</button><div id="lbc"></div></dialog>
+<dialog id="lb" class="tbd"><h2 id="lbt">圖片</h2><button id="lbx" class="xcl" aria-label="關閉" onclick="$('#lb').close()">關閉</button><div id="lbc"></div></dialog>
 <button id="fab" hidden onclick="fabAdd()">+新增</button>
 <div id="toast" role="status" popover="manual"></div>
 
@@ -675,7 +679,7 @@ const mEl=(m,en)=>{
  else{im=h('img',{alt:''});
   if(m.p)im.src=mu({b:m.p},L);
   else mkPoster(m.b).then(p=>{if(!p)return;m.p=p;im.src=mu({b:p},L);if(en)dbPut('entries',en).catch(()=>{})})}
- return h('div',{class:'th',role:'button',tabindex:'0','aria-label':'放大檢視',onclick:go,onkeydown:e=>{if(e.key==='Enter')go()}},im,m.t==='video'&&h('span',{class:'pl'},'▶'))};
+ return h('div',{class:'th',role:'button',tabindex:'0','aria-label':'放大檢視',onclick:go,onkeydown:e=>{if(e.key==='Enter')go()}},im,m.t==='video'&&h('span',{class:'pl'},'▷'))};
 let cvM=null,cvU=null;
 function openCv(m){cvM=m;const v=$('#cvv');cvU=URL.createObjectURL(m.b);v.src=cvU;$('#cvr').value=0;$('#cv').showModal()}
 $('#cvv').onloadedmetadata=()=>{$('#cvv').currentTime=0};
@@ -683,9 +687,9 @@ $('#cvr').oninput=e=>{const v=$('#cvv');if(v.duration)v.currentTime=v.duration*e
 async function cvUse(){const p=await shot($('#cvv'));if(p){cvM.p=p;drawDraft()}else toast('無法擷取這個畫面');$('#cv').close()}
 $('#cvf').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const p=await toCover(f);if(p){cvM.p=p;drawDraft()}else toast('無法讀取這張圖片');$('#cv').close()};
 $('#cv').onclose=()=>{const v=$('#cvv');v.pause();v.removeAttribute('src');v.load();if(cvU)URL.revokeObjectURL(cvU);cvU=null};
-function zoom(t,u){$('#lbc').replaceChildren(t==='image'?h('img',{src:u,alt:''}):h('video',{src:u,controls:'',autoplay:'',playsinline:''}));$('#lb').showModal()}
+function zoom(t,u){$('#lbt').textContent=t==='image'?'圖片':'影片';$('#lbc').replaceChildren(t==='image'?h('img',{src:u,alt:''}):h('video',{src:u,controls:'',autoplay:'',playsinline:''}));$('#lb').showModal()}
 $('#lb').onclose=()=>$('#lbc').replaceChildren();
-$('#lb').onclick=e=>{if(e.target===$('#lb'))$('#lb').close()};
+$('#lb').onclick=e=>{const d=$('#lb'),r=d.getBoundingClientRect();if(e.target===d&&(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom))d.close()};
 /* 詳情頁 */
 const fmtD=d=>{const [y,m,n]=d.split('-').map(Number);return `${y}年${m}月${n}日`};
 let dtStack=[],dtCur=null;
@@ -696,8 +700,9 @@ function dtRender(en){dtCur=en;dturls.forEach(URL.revokeObjectURL);dturls=[];
  rc($('#dtc'),
   h('div',{class:'dth'},(multi&&FEAT.people?pname(en.pid)+'・':'')+(en.date===NODATE?'隨手記':fmtD(en.date))+(en.time?'　'+en.time:'')),
   en.text&&h('div',{class:'txt dtt'},...blocks(en.text)),
-  by('image').map(m=>h('img',{class:'dtm',src:mu(m,dturls),alt:''})),
-  by('video').map(m=>h('video',{class:'dtm',src:mu(m,dturls),controls:'',playsinline:'',preload:'metadata',...(m.p?{poster:mu({b:m.p},dturls)}:{})})),
+  by('image').map(m=>{const u=mu(m,dturls);return h('img',{class:'dtm zm',src:u,alt:'',role:'button',tabindex:'0','aria-label':'放大檢視',onclick:()=>zoom('image',u)})}),
+  by('video').map(m=>{const u=mu(m,dturls),im=h('img',{class:'dtm zm',alt:''});if(m.p)im.src=mu({b:m.p},dturls);else mkPoster(m.b).then(p=>{if(p){m.p=p;im.src=mu({b:p},dturls);dbPut('entries',en).catch(()=>{})}});
+   return h('div',{class:'dtv',role:'button',tabindex:'0','aria-label':'放大檢視',onclick:()=>zoom('video',u)},im,h('span',{class:'pl'},'▷'))}),
   by('file').map(m=>fileA(m,dturls)),
   au.filter(m=>m.n!=='錄音').map(ad),au.filter(m=>m.n==='錄音').map(ad),
   (en.links||[]).length>0&&h('div',{class:'dtl'},...en.links.map(l=>h('a',{href:l,target:'_blank',rel:'noopener noreferrer'},l))),
@@ -1465,6 +1470,11 @@ document.addEventListener('touchstart',()=>{},{passive:true});
 
 /* ===== UX：可點範圍擴大（外觀不變）＋鍵盤避讓 ===== */
 (function(){try{
+ /* 鍵盤彈出／收起、輸入、對焦時，連續幾格更新自製捲軸位置，避免捲軸停在舊位置 */
+ let trk=0;const track=ms=>{if(typeof sbRefresh!=='function')return;const t0=performance.now();cancelAnimationFrame(trk);const loop=()=>{sbRefresh(true);if(performance.now()-t0<ms)trk=requestAnimationFrame(loop)};loop()};
+ ['focusin','focusout','input','touchend'].forEach(ev=>document.addEventListener(ev,()=>track(900),true));
+ document.addEventListener('scroll',()=>track(250),true);
+
  const MIN=44;
  document.addEventListener('click',e=>{
   if(!e.isTrusted||!e.detail||e.defaultPrevented)return;
@@ -1484,7 +1494,7 @@ document.addEventListener('touchstart',()=>{},{passive:true});
  const vv=window.visualViewport,de=document.documentElement;
  if(vv){const upd=()=>{const kb=innerHeight-vv.height>120;de.classList.toggle('kb',kb);
    if(kb){de.style.setProperty('--vvh',vv.height+'px');de.style.setProperty('--vvt',vv.offsetTop+'px')}else{de.style.removeProperty('--vvh');de.style.removeProperty('--vvt')}};
-  const rf=()=>{upd();if(typeof sbRefresh==='function'){sbRefresh(true);setTimeout(()=>sbRefresh(true),250)}};vv.addEventListener('resize',rf);vv.addEventListener('scroll',rf)}
+  const rf=()=>{upd();track(1000)};vv.addEventListener('resize',rf);vv.addEventListener('scroll',rf)}
  addEventListener('focusin',e=>{const t=e.target;if(!t.matches||!t.matches('input:not([type=radio]):not([type=checkbox]):not([type=range]),textarea,select'))return;
   setTimeout(()=>{try{t.scrollIntoView({block:'center',behavior:'smooth'})}catch(_){}},350)});
 }catch(e){}})();
