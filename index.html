@@ -327,11 +327,15 @@ background:linear-gradient(var(--ca),var(--ca)) 4px 6px/calc(100% - 8px) calc(10
 #hdr .top{border-bottom:2px solid var(--ink);margin-bottom:6px;padding-bottom:6px}
 #hdr:has(#pt.collapsed) .top{border-bottom:0;margin-bottom:0}
 #hdr #pplrow{margin-bottom:9px}
-#hdr #tagrow{margin-bottom:5px}
-#hdr #tagrow::before{top:-3px;height:1px;background:var(--sep)}
+#hdr #tagrow{margin-top:-2px;margin-bottom:5px}
+#hdr #tagrow::before{top:-4px;height:1px;background:var(--sep)}
 #hdr #pt.collapsed #tagrow::before{display:none}
 #hdr #ptc{position:absolute;left:50%;bottom:-20px;transform:translateX(-50%);width:44px;height:20px;display:block;padding:0;border:0;background:none;box-shadow:none;color:var(--mute);font-size:16px;line-height:20px;text-align:center;outline:none}
 #hdr .lab{background:var(--bg)}
+#hdr #qrow{position:relative;margin:10px -3px 6px;padding:0 3px}
+#hdr #qrow::before{content:"";position:absolute;left:3px;right:3px;top:-7px;height:1px;background:var(--sep)}
+#hdr #q{flex:1;min-width:0;width:auto;margin:0;padding:3px 10px}
+#pt.np #tagrow[style*="none"]+#qrow{margin-top:0}#pt.np #tagrow[style*="none"]+#qrow::before{display:none}
 /* 視窗：不讓背景跟著滑，拉到頂或底也不會與底色分離 */
 dialog{overscroll-behavior:none}
 #dt,#ed,#hm{overscroll-behavior:none}
@@ -382,9 +386,9 @@ html.jsb #hmc{padding-right:6px}
 <header id="hdr">
 <div class="top"><div><button id="mnb" class="edit" onclick="openMn()" aria-label="功能選單">≡</button></div><h1>HTBU_?</h1><div><button id="bkb" class="edit" onclick="bkbClick()">★隨手記★</button></div></div>
 <div id="pt"><div id="pplrow" class="prow"><span class="lab">對象</span><div id="ppl"></div><div id="pplx" class="rx"></div></div>
-<div id="tagrow" class="prow"><span class="lab">標籤</span><div id="tagbar"></div><div id="tagx" class="rx"></div></div></div><button id="ptc" onclick="togglePt()" aria-label="收合對象與標籤"></button>
+<div id="tagrow" class="prow"><span class="lab">標籤</span><div id="tagbar"></div><div id="tagx" class="rx"></div></div>
+<div id="qrow" class="prow" style="display:none"><input type="search" id="q" placeholder="搜尋" aria-label="搜尋紀錄"></div></div><button id="ptc" onclick="togglePt()" aria-label="收合對象、標籤與搜尋"></button>
 </header>
-<input type="search" id="q" placeholder="搜尋" aria-label="搜尋紀錄" hidden>
 <div id="app"></div>
 </main>
 
@@ -442,7 +446,7 @@ html.jsb #hmc{padding-right:6px}
 <div id="tgd" class="acts" style="margin-top:0"></div>
 <div id="tgi" hidden><div class="acts" style="margin:0 0 8px"><input type="text" id="tn" placeholder="輸入標籤" maxlength="20" style="flex:1;margin:0"><button onclick="addTag($('#tn').value)">加入</button></div><div id="tsg" class="acts" style="margin-top:0"></div></div>
 <div id="dm" class="media"></div>
-<div class="acts end"><button id="dl" onclick="delEntry()">刪除</button><button class="pri" onclick="save()">儲存</button><button onclick="cancelEd()">取消</button></div>
+<div class="acts end"><button id="dl" onclick="archiveEntry()">封存</button><button class="pri" onclick="save()">儲存</button><button onclick="cancelEd()">取消</button></div>
 </dialog>
 <dialog id="bk">
 <h2>★備份★</h2>
@@ -513,7 +517,7 @@ html.jsb #hmc{padding-right:6px}
 <div class="acts"><button class="pri" onclick="cvUse()">用這個畫面</button><button onclick="$('#cvf').click()">從相簿選圖</button><input type="file" id="cvf" accept="image/*" hidden></div>
 <div class="acts end"><button onclick="$('#cv').close()">取消</button></div>
 </dialog>
-<dialog id="cf"><p>是否刪除？</p><p class="sm" id="cfs" hidden></p><div class="acts"><button id="cfy" class="pri">是</button><button id="cfn">否</button></div></dialog>
+<dialog id="cf"><p id="cft">是否刪除？</p><p class="sm" id="cfs" hidden></p><div class="acts"><button id="cfy" class="pri">是</button><button id="cfn">否</button></div></dialog>
 <dialog id="dt"><div id="dtt"></div><div id="dts"><div id="dtc"></div></div><div class="dtf"><button id="dtb" hidden onclick="dtBack()">返回</button><button onclick="$('#dt').close()">退出</button></div></dialog>
 <dialog id="qd"><h2>選擇要引用的紀錄</h2><div class="qsrow"><input type="search" id="qs2" placeholder="搜尋文字或標籤" enterkeyhint="search" autocomplete="off"><button id="qsb" class="pri" onclick="qdGo(true)">搜尋</button></div><div id="qdc"></div><div class="acts end"><button onclick="$('#qd').close()">取消</button></div></dialog>
 <dialog id="lb"><button id="lbx" class="xcl" aria-label="關閉" onclick="$('#lb').close()">關閉</button><div id="lbc"></div></dialog>
@@ -533,7 +537,7 @@ let db,useMem=false,M={people:{},entries:{}},people=[],cur=null,E={},urls=[],ext
 const NODATE='0000-00-00',tsOf=e=>+String(e.k).split('|').pop()||0;
 const now=new Date();let mo=now.getMonth()+1,dy=now.getDate();
 
-function ask(sub){return new Promise(res=>{const d=$('#cf'),s=$('#cfs');s.textContent=sub||'';s.hidden=!sub;let done=false;
+function ask(sub,title){return new Promise(res=>{const d=$('#cf'),s=$('#cfs');$('#cft').textContent=title||'是否刪除？';s.textContent=sub||'';s.hidden=!sub;let done=false;
  const fin=v=>{if(done)return;done=true;if(d.open)d.close();res(v)};
  $('#cfy').onclick=()=>fin(true);$('#cfn').onclick=()=>fin(false);d.onclose=()=>fin(false);d.showModal()})}
 async function clr(id){const e=$(id);if(e.value&&await ask())e.value=''}
@@ -861,12 +865,17 @@ function renderOther(A,P){
 function bkbClick(){multi?toggleMulti():toggleOther()}
 const matchF=e=>!ftags.length||ftags.every(x=>x.pid===e.pid&&(e.tags||[]).includes(x.tag));
 const ftagLabel=()=>ftags.length?`標籤「${[...new Set(ftags.map(x=>x.tag))].map(t=>'#'+t).join('、')}」`:'';
+function renderKeep(){const y=scrollY,m={},key=(r,i)=>((r.querySelector('.yr')||{}).textContent||'')+'|'+i;
+ document.querySelectorAll('#app .row').forEach(r=>r.querySelectorAll('.hs').forEach((x,i)=>{if(x.scrollLeft)m[key(r,i)]=x.scrollLeft}));
+ render();scrollTo(0,y);
+ document.querySelectorAll('#app .row').forEach(r=>r.querySelectorAll('.hs').forEach((x,i)=>{const v=m[key(r,i)];if(v)x.scrollLeft=v}));
+ if(typeof sbRefresh==='function')sbRefresh(true)}
 function render(){
  urls.forEach(URL.revokeObjectURL);urls=[];updFab();
  $('#bkb').textContent=multi?'結束回顧':other?'返回':'★隨手記★';
  drawChips();drawTagbar();
  const P=people.find(p=>p.id===cur),A=$('#app');
- $('#q').hidden=!(multi||P);
+ $('#qrow').style.display=(multi||P)?'':'none';
  if(!multi&&!P){rc(A,h('p',{class:'note'},'先新增一個對象，可以是你自己，也可以是你想追蹤的人。每個對象有各自獨立的日記。'));return}
  if(other){renderOther(A,P);return}
  if(qs||ftags.length){
@@ -961,7 +970,7 @@ async function commitMove(date,time){
  }catch(e){toast('移動失敗，可能是檔案太大或空間不足');return false}
  dropDraft();await loadView();return true}
 function moveEntry(){edDate===NODATE?openMv():moveToNote()}
-async function moveToNote(){if(await commitMove(NODATE,null)){$('#ed').close();toast('已移至隨手記');render()}}
+async function moveToNote(){if(await commitMove(NODATE,null)){$('#ed').close();toast('已移至隨手記');renderKeep()}}
 /* 視窗風：取消/退出 → 右上 ✕，返回 → －（沿用原按鈕，只改外觀與位置） */
 function decoDlg(d){if(d.id==='cf'||d.id==='lb')return;let any=false;
  d.querySelectorAll('button').forEach(b=>{const t=(b.textContent||'').trim();
@@ -1066,7 +1075,7 @@ document.addEventListener('pointerdown',e=>{if(e.target.matches&&e.target.matche
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches&&e.target.matches('input[type=search]'))sfx('tap')},true);
 const FEATS=[['people','對象'],['tags','標籤'],['time','時間'],['quote','引用'],['md','MARKDOWN語法'],['sound','音效']];
 function applyFeat(){const d=(el,on)=>{if(el)el.style.display=on?'':'none'};
- d($('#pplrow'),FEAT.people);d($('#pt'),FEAT.people||FEAT.tags);d($('#ptc'),FEAT.people||FEAT.tags);
+ d($('#pplrow'),FEAT.people);
  document.querySelectorAll('.mdb').forEach(b=>d(b,FEAT.md));d($('#txl'),FEAT.md);d($('#txb'),FEAT.md);d($('#txh'),!FEAT.md);
  $('#pt').classList.toggle('np',!FEAT.people);
  d($('#tgbtn'),FEAT.tags);d($('#tgd'),FEAT.tags);d($('#qbtn'),FEAT.quote);d($('#qpv'),FEAT.quote);d($('#tqrow'),FEAT.tags||FEAT.quote);d($('#mvtw'),FEAT.time);
@@ -1222,7 +1231,7 @@ function openMv(){const cy=now.getFullYear();
 async function mvOk(){const mode=document.querySelector('input[name=mvt]:checked').value;let time=null;
  if(mode==='now')time=nowStr();else if(mode==='manual'){time=$('#mvtv').value||null;if(!time){toast('請輸入時間');return}}
  const date=`${$('#mvy').value}-${pad(+$('#mvm').value)}-${pad(+$('#mvd').value)}`;
- if(await commitMove(date,time)){$('#mv').close();$('#ed').close();toast('已移至時間軸');render()}}
+ if(await commitMove(date,time)){$('#mv').close();$('#ed').close();toast('已移至時間軸');renderKeep()}}
 async function removeEntry(){if(!edK)return;await dbDel('entries',edK);E[edDate]=E[edDate].filter(x=>x.k!==edK);if(!E[edDate].length)delete E[edDate]}
 function mkQuoteSnap(en){return{k:en.k,pid:en.pid,date:en.date,time:en.time||null,text:(en.text||'').slice(0,60),
  mc:{image:(en.media||[]).filter(m=>m.t==='image').length,video:(en.media||[]).filter(m=>m.t==='video').length,audio:(en.media||[]).filter(m=>m.t==='audio').length,file:(en.media||[]).filter(m=>m.t==='file').length},
@@ -1245,8 +1254,9 @@ $('#qs2').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();
 function quoteFrom(en){const snap=mkQuoteSnap(en);
  openEd(`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`);
  dquote=snap;drawQuote()}
-async function delEntry(){if(!await ask())return;
- try{await removeEntry();dropDraft();$('#ed').close();render()}catch(e){toast('刪除失敗')}}
+async function archiveEntry(){if(!edK)return;const old=(E[edDate]||[]).find(x=>x.k===edK);if(!old)return;
+ if(!await ask(`封存的紀錄會在 ${Math.round(ARD/864e5)} 天後自動刪除，期間可以在封存箱還原`,'是否封存？'))return;
+ try{await dbPut('entries',{...old,archived:Date.now()});E[edDate]=E[edDate].filter(x=>x.k!==edK);if(!E[edDate].length)delete E[edDate];dropDraft();$('#ed').close();renderKeep();toast('已封存')}catch(e){toast('封存失敗')}}
 $('#fi').onchange=e=>{for(const f of e.target.files){const t=['image','video','audio'].find(x=>f.type.startsWith(x))||'file';draft.push({t,b:f,n:f.name})}e.target.value='';drawDraft()};
 $('#ed').onclose=()=>{edReady=false;clearTimeout(dtm);durls.forEach(URL.revokeObjectURL);durls=[]};
 $('#tn').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();addTag(e.target.value)}};
@@ -1270,7 +1280,7 @@ async function save(){
  try{if(empty)await removeEntry();
  else{const en={k:edK||`${cur}|${edDate}|${Date.now()}`,pid:old?old.pid:cur,date:edDate,time,text,links,tags:[...dtags],media:draft,quote:dquote?{...dquote}:null,...(old&&old.reviewed?{reviewed:old.reviewed}:{})};
   await dbPut('entries',en);const L=E[edDate]||(E[edDate]=[]),i=L.findIndex(x=>x.k===en.k);i<0?L.push(en):L[i]=en}
- dropDraft();$('#ed').close();render()}catch(e){toast('儲存失敗，可能是檔案太大或空間不足')}}
+ dropDraft();$('#ed').close();renderKeep()}catch(e){toast('儲存失敗，可能是檔案太大或空間不足')}}
 
 
 /* ===== 備份與還原 ===== */
