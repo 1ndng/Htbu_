@@ -371,6 +371,12 @@ button{padding-top:3px;padding-bottom:3px;line-height:19.6px}
 .cbody{max-height:calc(5.1em + 12px)}
 .cbody.clip::after,.card:not(.empty) .cbody.clip::after{display:none}
 .card:not(.open) .cbody:not(.hm) .txt{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
+.day .dn{text-decoration-color:var(--ink)}
+mark{background:var(--acc);color:var(--onacc);border-radius:0}
+::selection{background:var(--acc);color:var(--onacc)}
+#srow{display:flex;gap:6px;align-items:stretch}
+#srow #q{flex:1;min-width:0}
+#qgo{flex:none;min-width:56px;padding:0 12px;font-size:13px;letter-spacing:1.56px;line-height:19.6px}
 /* ===== UX 精進：空狀態主按鈕、按下回饋、鍵盤避讓 ===== */
 .emp{display:flex;flex-direction:column;align-items:center;gap:4px}.emp .note{align-self:stretch}
 .emp button{font-size:14px;letter-spacing:.04em;padding:8px 28px;min-width:160px}
@@ -464,7 +470,7 @@ dialog.tbd>h2:first-child,dialog.tbd>.eth:first-child h2,#dtt,.wc>.dth{color:var
 <header id="hdr">
 <div class="hb"><h1>HTBU_?</h1></div>
 <nav id="mbar" aria-label="功能選單"><button class="mi" data-m="set" onclick="toggleMenu('set')">設置</button><button class="mi" data-m="ppl" onclick="toggleMenu('ppl')">對象</button><button class="mi" data-m="tag" onclick="toggleMenu('tag')">標籤</button><button class="mi" data-m="rev" onclick="toggleMenu('rev')">回顧</button><button class="mi" data-m="arc" onclick="toggleMenu('arc')">封存</button><button class="mi" data-m="help" onclick="toggleMenu('help')">說明</button><button class="mi" data-m="bak" onclick="toggleMenu('bak')">備份</button></nav>
-<div id="srow" class="prow"><input type="search" id="q" placeholder="搜尋" aria-label="搜尋紀錄"></div>
+<div id="srow" class="prow"><input type="search" id="q" placeholder="搜尋" aria-label="搜尋紀錄" enterkeyhint="search" autocomplete="off"><button id="qgo" type="button" aria-label="搜尋">搜尋</button></div>
 <div id="mdd" role="menu" hidden></div>
 </header>
 <div id="mback" hidden></div>
@@ -1354,7 +1360,14 @@ async function archiveEntry(){if(!edK)return;const old=(E[edDate]||[]).find(x=>x
 $('#fi').onchange=e=>{for(const f of e.target.files){const t=['image','video','audio'].find(x=>f.type.startsWith(x))||'file';draft.push({t,b:f,n:f.name})}e.target.value='';drawDraft()};
 $('#ed').onclose=()=>{edReady=false;clearTimeout(dtm);durls.forEach(URL.revokeObjectURL);durls=[]};
 $('#tn').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();addTag(e.target.value)}};
-$('#q').oninput=()=>{clearTimeout(qt);qt=setTimeout(()=>{qs=$('#q').value.trim();rlim=50;render()},250)};
+function updQb(){const b=$('#qgo');if(!b)return;const v=$('#q').value.trim(),act=!!(qs||ftags.length),clr=act&&v===qs;b.textContent=clr?'清除':'搜尋';b.setAttribute('aria-label',clr?'清除搜尋':'搜尋');b.dataset.mode=clr?'clr':'go'}
+function qGo(){const b=$('#qgo');if(b&&b.dataset.mode==='clr'){clearTimeout(qt);clearF();$('#q').blur();scrollTo(0,0);return}
+ clearTimeout(qt);const v=$('#q').value.trim();if(!v&&!qs)return;qs=v;rlim=50;$('#q').blur();render();scrollTo(0,0)}
+$('#q').oninput=()=>{updQb();clearTimeout(qt);qt=setTimeout(()=>{qs=$('#q').value.trim();rlim=50;render()},250)};
+$('#q').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('#q').dataset.x='';const b=$('#qgo');b.dataset.mode='go';qGo()}});
+$('#qgo').onclick=qGo;
+const _render0=render;render=function(){_render0.apply(this,arguments);updQb()};
+updQb();
 addEventListener('gesturestart',e=>{if(!$('#lb').open)e.preventDefault()});
 addEventListener('touchmove',e=>{if(e.touches.length>1&&!$('#lb').open)e.preventDefault()},{passive:false});
 let rec,chunks;
@@ -1471,7 +1484,7 @@ document.addEventListener('touchstart',()=>{},{passive:true});
  const vv=window.visualViewport,de=document.documentElement;
  if(vv){const upd=()=>{const kb=innerHeight-vv.height>120;de.classList.toggle('kb',kb);
    if(kb){de.style.setProperty('--vvh',vv.height+'px');de.style.setProperty('--vvt',vv.offsetTop+'px')}else{de.style.removeProperty('--vvh');de.style.removeProperty('--vvt')}};
-  vv.addEventListener('resize',upd);vv.addEventListener('scroll',upd)}
+  const rf=()=>{upd();if(typeof sbRefresh==='function'){sbRefresh(true);setTimeout(()=>sbRefresh(true),250)}};vv.addEventListener('resize',rf);vv.addEventListener('scroll',rf)}
  addEventListener('focusin',e=>{const t=e.target;if(!t.matches||!t.matches('input:not([type=radio]):not([type=checkbox]):not([type=range]),textarea,select'))return;
   setTimeout(()=>{try{t.scrollIntoView({block:'center',behavior:'smooth'})}catch(_){}},350)});
 }catch(e){}})();
