@@ -877,7 +877,7 @@ function render(){
    hits.length>rlim&&h('button',{class:'more',onclick:()=>{rlim+=50;render()}},'顯示更多'));
   fitX();return}
  const cy=now.getFullYear(),ys=Object.keys(E).map(k=>+k.slice(0,4)),
-  minY=Math.max(MINY||-Infinity,Math.min(cy-4-extra*5,...ys,hy||cy)),atFloor=MINY&&(cy-4-extra*5)<=MINY,rows=[];let filled=0;
+  oldY=Math.min(cy,...ys),minY=Math.max(MINY||-Infinity,Math.min(cy-2-extra*3,hy||cy)),atFloor=(MINY&&(cy-2-extra*3)<=MINY)||minY<=oldY,rows=[];let filled=0;
  for(let y=cy;y>=minY;y--){
   if(new Date(y,mo-1,dy).getDate()!==dy)continue;
   const date=`${y}-${pad(mo)}-${pad(dy)}`,list=E[date]||[];if(list.length)filled++;
@@ -901,7 +901,7 @@ function render(){
   h('div',{class:'dhead'},
    h('div',{class:'dgL'},h('button',{class:'edit arrow',onclick:step(-1),'aria-label':'前一天'},'‹'),h('div',{class:'dpick'},h('div',{class:'day'},h('span',{class:'dn'},String(mo)),'月',h('span',{class:'dn'},String(dy)),'日'),dpk),h('button',{class:'edit arrow',onclick:step(1),'aria-label':'後一天'},'›')),
    h('div',{class:'dgR'},!(mo===now.getMonth()+1&&dy===now.getDate())&&h('button',{class:'edit',onclick:()=>{mo=now.getMonth()+1;dy=now.getDate();hy=null;render()}},'跳回今日'))),
-  h('p',{class:'sub'},multi&&!msel.size?'選擇你要回顧的對象':`這一天，${who}共記錄了${cnt}則，共記錄了${filled}年。`),
+  h('p',{class:'sub'},multi&&!msel.size?'選擇你要回顧的對象':`這一天，${who}共記錄了${cnt}則，共記錄了${Object.keys(E).filter(k=>k.slice(5)===md_&&E[k].length).length}年。`),
   h('div',{class:'tl'},rows),
   h('div',{class:'acts',style:'justify-content:center'},!atFloor&&h('button',{onclick:()=>{extra++;render()}},'展開更多'),extra>0&&h('button',{onclick:()=>{extra=0;render()}},'收合')),
   useMem&&h('p',{class:'note'},'此瀏覽器無法長期儲存，關閉頁面後資料會消失。'));
