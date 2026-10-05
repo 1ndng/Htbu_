@@ -321,16 +321,16 @@ background:linear-gradient(var(--ca),var(--ca)) 4px 6px/calc(100% - 8px) calc(10
 @supports (color:color-mix(in srgb,red,blue)){.card[data-k]:not(.empty):not(.open):active:not(:has(button:active)):not(:has(a:active)){--ca:color-mix(in srgb,var(--cf0) 88%,var(--ink))}.card.open[data-k]:not(.empty):active:not(:has(button:active)):not(:has(a:active)){--ca:color-mix(in srgb,var(--card) 88%,var(--ink))}}
 
 /* 固定頂列（瀏海）：標題＋對象＋標籤列捲動時固定在頁面頂端 */
-#hdr{position:sticky;top:0;z-index:30;margin:-18px -16px 20px;padding:calc(6px + env(safe-area-inset-top,0px)) 16px 0;background:var(--fb);border-bottom:2px solid var(--fa);box-shadow:inset 0 -2px 0 var(--fa),inset 0 -4px 0 var(--fb)}
+#hdr{position:sticky;top:0;z-index:30;margin:-18px -16px 14px;padding:calc(6px + env(safe-area-inset-top,0px)) 16px 0;background:var(--fb);border-bottom:2px solid var(--fa);box-shadow:inset 0 -2px 0 var(--fa),inset 0 -4px 0 var(--fb)}
 /* 瀏海邊框：由外到內逐階變淺的線（無漸層） */
 @supports (color:color-mix(in srgb,red,blue)){#hdr{box-shadow:inset 0 -2px 0 color-mix(in srgb,var(--fa) 65%,var(--fb)),inset 0 -4px 0 color-mix(in srgb,var(--fa) 30%,var(--fb))}}
 #hdr .top{border-bottom:2px solid var(--ink);margin-bottom:6px;padding-bottom:6px}
-#hdr:has(#pt.collapsed) .top{border-bottom:0;margin-bottom:0}
+#hdr:has(#pt.collapsed) .top{margin-bottom:0}
 #hdr #pplrow{margin-bottom:9px}
 #hdr #tagrow{margin-top:-2px;margin-bottom:5px}
 #hdr #tagrow::before{top:-4px;height:1px;background:var(--sep)}
 #hdr #pt.collapsed #tagrow::before{display:none}
-#hdr #ptc{position:absolute;left:50%;bottom:-20px;transform:translateX(-50%);width:44px;height:20px;display:block;padding:0;border:0;background:none;box-shadow:none;color:var(--mute);font-size:16px;line-height:20px;text-align:center;outline:none}
+#hdr #ptc{position:relative;display:block;width:100%;height:22px;margin:0;padding:0;border:0;background:none;box-shadow:none;color:var(--mute);font-size:16px;line-height:20px;text-align:center;outline:none}
 #hdr .lab{background:var(--bg)}
 #hdr #qrow{position:relative;margin:10px -3px 6px;padding:0 3px}
 #hdr #qrow::before{content:"";position:absolute;left:3px;right:3px;top:-7px;height:1px;background:var(--sep)}
@@ -378,7 +378,6 @@ html.jsb #hmc{padding-right:6px}
 .wbd .pxa{margin:-4px 8px}
 #hdr #ptc::after{content:"";position:absolute;left:50%;top:50%;width:24px;height:8px;transform:translate(-50%,-50%);background:var(--mute);-webkit-mask:var(--ar-u) center/contain no-repeat;mask:var(--ar-u) center/contain no-repeat}
 #hdr:has(#pt.collapsed) #ptc::after{-webkit-mask-image:var(--ar-d);mask-image:var(--ar-d)}
-#hdr:has(#pt.collapsed) #ptc{bottom:-24px}
 </style>
 </head>
 <body>
