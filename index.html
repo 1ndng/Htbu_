@@ -317,7 +317,7 @@ dialog.tbd>.eth:first-child{position:absolute;left:8px;right:32px;top:4px;height
 /* 圖檔：同樣內凹（左上深、右下淺），不用黑框 */
 .th,.dtm{border:2px solid;border-color:var(--blo) var(--bhi) var(--bhi) var(--blo);clip-path:none}
 /* 未點開的方塊底色淺一點；按下去的瞬間變回原本的主題色① */
-@supports (color:color-mix(in srgb,red,blue)){.card:not(.empty):not(.open){--ca:color-mix(in srgb,var(--bg) 55%,var(--card))}}
+@supports (color:color-mix(in srgb,red,blue)){.card:not(.empty){--ca:color-mix(in srgb,var(--bg) 55%,var(--card))}}
 .card[data-k]:not(.empty):not(.open):active:not(:has(button:active)):not(:has(a:active)){--ca:var(--bg)}
 
 button,input:not([type=radio]):not([type=checkbox]):not([type=range]):not([type=color]):not([type=file]),textarea,select,#q,#qs2,.fl,.qhit,.qv,.qchip,.dtg,#tv,#mvtv{--bw:1px}
@@ -358,6 +358,21 @@ button{padding-top:3px;padding-bottom:3px;line-height:19.6px}
 .tb button{padding-top:1px;padding-bottom:1px}
 .ya{display:flex;align-items:baseline;min-width:0}
 .sw,#tc{border:2px solid;border-color:var(--blo) var(--bhi) var(--bhi) var(--blo)}
+/* ===== 引用方塊：上日期（標題列）、下內文（短、單行折疊） ===== */
+.qv,.qchip{display:flex;align-items:stretch;padding:0;gap:0}
+.qv{flex-direction:column}
+.qv .qb,.qchip .qb{border-left:0;padding:0;flex:1;min-width:0}
+.qv .rd,.qchip .rd{background:var(--bg);color:var(--ink);font-size:12px;line-height:18px;margin:0;padding:2px 8px;border-bottom:1px solid var(--sep)}
+.qv .qtx,.qchip .qtx{color:var(--ink);font-size:13px;line-height:20px;padding:4px 8px 5px;margin:0}
+.qv .qtx:empty,.qchip .qtx:empty{display:none}
+.qchip{align-items:center}.qchip>button{margin:0 6px 0 4px}
+/* ===== UX 精進：空狀態主按鈕、按下回饋、鍵盤避讓 ===== */
+.emp{display:flex;flex-direction:column;align-items:center;gap:4px}.emp .note{align-self:stretch}
+.emp button{font-size:14px;letter-spacing:.04em;padding:8px 28px;min-width:160px}
+button:active:not(:disabled){text-indent:1px}
+button.hit{--hi:var(--blo);--lo:var(--bhi);text-indent:1px}
+html.kb #wr[open]{height:var(--vvh);max-height:var(--vvh);top:var(--vvt,0px);bottom:auto}
+html.kb dialog[open]:not(#wr){max-height:calc(var(--vvh) - 16px);top:calc(var(--vvt,0px) + 8px);bottom:auto;margin-top:0;margin-bottom:0}
 /* 固定頂列（瀏海）：三行——標題列（主題色②）、選單列（主題色①）、搜尋列（主題色①） */
 #hdr{position:sticky;top:0;z-index:30;margin:-18px -16px 14px;padding:0;background:var(--bg);border-bottom:1px solid var(--ink)}
 #hdr .hb{background:var(--acc);border-bottom:1px solid var(--ink);box-shadow:inset 0 -1px 0 var(--blo);padding:calc(4px + env(safe-area-inset-top,0px)) 16px 4px}
@@ -708,7 +723,7 @@ function fitEa(){document.querySelectorAll('.card:not(.empty)').forEach(c=>{cons
  let w=0,n=0;ea.querySelectorAll(':scope>button').forEach(b=>{if(b.hidden||!b.offsetWidth)return;w+=b.offsetWidth;n++});
  if(n>1)w+=8*(n-1);
  const cn=ea.querySelector('.cnt');if(cn&&!cn.hidden){let m=0;cn.querySelectorAll('.cs').forEach(x=>{m=Math.max(m,x.offsetWidth)});w+=(n?8:0)+m}
- if(w>0)c.style.minWidth=Math.ceil(w)+'px'})}
+ if(w>0&&w>c.offsetWidth)c.style.minWidth=Math.ceil(w)+'px'})}
 function fitCnt(){document.querySelectorAll('.card .cnt').forEach(c=>{const w0=c.closest('.hi')||c.closest('.card');c.style.width='';w0.classList.remove('wide');if(c.hidden)return;const sp=[...c.querySelectorAll('.cs')];if(sp.length>1&&sp[sp.length-1].getBoundingClientRect().top-sp[0].getBoundingClientRect().top>4)w0.classList.add('wide');const L=c.getBoundingClientRect().left;let r=0;c.querySelectorAll('.cs').forEach(x=>{r=Math.max(r,x.getBoundingClientRect().right)});const w=r-L;if(w>0&&w<c.clientWidth)c.style.width=Math.ceil(w)+1+'px'})}
 function fitX(){document.querySelectorAll('.card .xb').forEach(b=>{const c=b.closest('.card'),t=c.querySelector('.txt'),show=c.classList.contains('open')||(t&&t.scrollHeight>t.clientHeight+1);b.hidden=!show;const cn=b.closest('.ea')?.querySelector('.cnt');if(cn)cn.hidden=!show});fitEa();fitCnt()}
 function chkClip(){document.querySelectorAll('.card .cbody').forEach(d=>{const c=d.closest('.card'),o=c.classList.contains('open');
@@ -837,7 +852,7 @@ function cntParts(en){const M=en.media||[],g=t=>M.filter(x=>x.t===t).length,L=(e
  return [g('image')&&g('image')+'張圖',g('video')&&g('video')+'部影片',g('audio')&&g('audio')+'個音訊',g('file')&&g('file')+'個檔案',L&&L+'個連結',Q&&'含引用'].filter(Boolean)}
 function cntStr(en){return cntParts(en).join('、')}
 const hay=e=>[e.date===NODATE?'':e.date,e.text,...(e.links||[]),...(e.tags||[]),...(e.media||[]).map(m=>m.n)].join('\n').toLowerCase();
-const qTxt=q=>(q.text||'').slice(0,28)||(cntStr(q)||(q.time?q.time+' 的紀錄':'一則紀錄'));
+const qTxt=q=>(q.text||'').replace(/\s+/g,' ').trim().slice(0,28)||cntStr(q)||'';
 const qFind=q=>(E[q.date]||[]).find(x=>x.k===q.k);
 const qGone=q=>!qFind(q);
 const qOpen=q=>{const t=qFind(q);if(!t){toast('此紀錄已被刪除');return}if(dtCur)dtStack.push(dtCur);dtRender(t)};
@@ -945,7 +960,7 @@ function render(){
  urls.forEach(URL.revokeObjectURL);urls=[];updFab();
  drawMbar();
  const P=people.find(p=>p.id===cur),A=$('#app');
- if(!multi&&!P){rc(A,h('p',{class:'note'},'先新增一個對象，可以是你自己，也可以是你想追蹤的人。每個對象有各自獨立的日記。'));return}
+ if(!multi&&!P){rc(A,h('div',{class:'emp'},h('p',{class:'note'},'先新增一個對象，可以是你自己，也可以是你想追蹤的人。每個對象有各自獨立的日記。'),h('button',{class:'pri',onclick:()=>{pd.showModal();$('#pn').focus()}},'新增對象')));return}
  if(other){renderOther(A,P);return}
  if(qs||ftags.length){
   const k=qs.toLowerCase(),hits=Object.values(E).flat().filter(e=>matchF(e)&&(!k||hay(e).includes(k)))
@@ -1423,6 +1438,32 @@ try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}ca
  if(!FEAT.people&&!people.length){const p={id:'p'+Date.now(),name:'我'};await dbPut('people',p);people.push(p)}
  applyFeat();await sel(people[0]?.id||null)})();
 document.addEventListener('touchstart',()=>{},{passive:true});
+
+/* ===== UX：可點範圍擴大（外觀不變）＋鍵盤避讓 ===== */
+(function(){try{
+ const MIN=44;
+ document.addEventListener('click',e=>{
+  if(!e.isTrusted||!e.detail||e.defaultPrevented)return;
+  const t=e.target;if(!(t instanceof Element))return;
+  if(t.closest('button,a,input,textarea,select,label,summary,[contenteditable],#mdd,#mbar,.xcl,.xbk'))return;
+  const root=t.closest('dialog[open]')||document,x=e.clientX,y=e.clientY;let best=null,bd=1e9;
+  for(const b of root.querySelectorAll('button:not(:disabled)')){
+   const r=b.getBoundingClientRect();if(!r.width||!r.height)continue;
+   const ax=Math.max(0,(MIN-r.width)/2),ay=Math.max(0,(MIN-r.height)/2);
+   const dx=Math.max(r.left-x,0,x-r.right),dy=Math.max(r.top-y,0,y-r.bottom);
+   if(dx>ax||dy>ay)continue;
+   const d=Math.hypot(dx,dy);if(d<bd){bd=d;best=b}}
+  if(!best)return;
+  e.preventDefault();e.stopPropagation();
+  best.classList.add('hit');setTimeout(()=>best.classList.remove('hit'),130);best.click()
+ },true);
+ const vv=window.visualViewport,de=document.documentElement;
+ if(vv){const upd=()=>{const kb=innerHeight-vv.height>120;de.classList.toggle('kb',kb);
+   if(kb){de.style.setProperty('--vvh',vv.height+'px');de.style.setProperty('--vvt',vv.offsetTop+'px')}else{de.style.removeProperty('--vvh');de.style.removeProperty('--vvt')}};
+  vv.addEventListener('resize',upd);vv.addEventListener('scroll',upd)}
+ addEventListener('focusin',e=>{const t=e.target;if(!t.matches||!t.matches('input:not([type=radio]):not([type=checkbox]):not([type=range]),textarea,select'))return;
+  setTimeout(()=>{try{t.scrollIntoView({block:'center',behavior:'smooth'})}catch(_){}},350)});
+}catch(e){}})();
 </script>
 </body>
 </html>
