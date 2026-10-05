@@ -366,6 +366,11 @@ button{padding-top:3px;padding-bottom:3px;line-height:19.6px}
 .qv .qtx,.qchip .qtx{color:var(--ink);font-size:13px;line-height:20px;padding:4px 8px 5px;margin:0}
 .qv .qtx:empty,.qchip .qtx:empty{display:none}
 .qchip{align-items:center}.qchip>button{margin:0 6px 0 4px}
+.dtf button.xcl,.dtf button.xbk,.acts button.xcl,.acts button.xbk,button.xcl,button.xbk{padding:0;min-width:0;width:24px}
+.qv,.qv:focus,.qv:focus-visible,.qchip{outline:none;-webkit-tap-highlight-color:transparent}
+.cbody{max-height:calc(5.1em + 12px)}
+.cbody.clip::after,.card:not(.empty) .cbody.clip::after{display:none}
+.card:not(.open) .cbody:not(.hm) .txt{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
 /* ===== UX 精進：空狀態主按鈕、按下回饋、鍵盤避讓 ===== */
 .emp{display:flex;flex-direction:column;align-items:center;gap:4px}.emp .note{align-self:stretch}
 .emp button{font-size:14px;letter-spacing:.04em;padding:8px 28px;min-width:160px}
@@ -728,7 +733,7 @@ function fitCnt(){document.querySelectorAll('.card .cnt').forEach(c=>{const w0=c
 function fitX(){document.querySelectorAll('.card .xb').forEach(b=>{const c=b.closest('.card'),t=c.querySelector('.txt'),show=c.classList.contains('open')||(t&&t.scrollHeight>t.clientHeight+1);b.hidden=!show;const cn=b.closest('.ea')?.querySelector('.cnt');if(cn)cn.hidden=!show});fitEa();fitCnt()}
 function chkClip(){document.querySelectorAll('.card .cbody').forEach(d=>{const c=d.closest('.card'),o=c.classList.contains('open');
  if(d.classList.contains('hm')){if(o)d.style.maxHeight='';else{const ths=[...d.querySelectorAll('.th')].slice(0,2),b=ths.length?Math.max(...ths.map(x=>x.offsetTop+x.offsetHeight)):0;if(b>20)d.style.maxHeight=(b+2)+'px'}}
- const ov=!o&&d.scrollHeight>d.clientHeight+1,t=d.querySelector('.txt'),tc=!o&&d.classList.contains('hm')&&t&&t.scrollHeight>t.clientHeight+1;d.classList.toggle('clip',ov);const show=o||ov||tc;const b=c.querySelector('.cx');if(b)b.hidden=!show;const cn=c.querySelector('.cnt');if(cn)cn.hidden=!show});fitEa();fitCnt();hlScroll()}
+ const ov=!o&&d.scrollHeight>d.clientHeight+1,t=d.querySelector('.txt'),tc=!o&&t&&t.scrollHeight>t.clientHeight+1;d.classList.toggle('clip',ov);const show=o||ov||tc;const b=c.querySelector('.cx');if(b)b.hidden=!show;const cn=c.querySelector('.cnt');if(cn)cn.hidden=!show});fitEa();fitCnt();hlScroll()}
 document.fonts&&document.fonts.ready.then(()=>{fitX();chkClip()});addEventListener('orientationchange',()=>setTimeout(()=>{fitX();chkClip()},300));addEventListener('resize',()=>{fitX();chkClip()});
 function wrap(m){const t=$('#tx'),a=t.selectionStart,b=t.selectionEnd,v=t.value;t.value=v.slice(0,a)+m+v.slice(a,b)+m+v.slice(b);t.focus();t.setSelectionRange(a+m.length,b+m.length)}
 function lineP(p){const t=$('#tx'),v=t.value,a=t.selectionStart,b=t.selectionEnd,s0=v.lastIndexOf('\n',a-1)+1;let e0=v.indexOf('\n',b);if(e0<0)e0=v.length;
@@ -852,7 +857,13 @@ function cntParts(en){const M=en.media||[],g=t=>M.filter(x=>x.t===t).length,L=(e
  return [g('image')&&g('image')+'張圖',g('video')&&g('video')+'部影片',g('audio')&&g('audio')+'個音訊',g('file')&&g('file')+'個檔案',L&&L+'個連結',Q&&'含引用'].filter(Boolean)}
 function cntStr(en){return cntParts(en).join('、')}
 const hay=e=>[e.date===NODATE?'':e.date,e.text,...(e.links||[]),...(e.tags||[]),...(e.media||[]).map(m=>m.n)].join('\n').toLowerCase();
-const qTxt=q=>(q.text||'').replace(/\s+/g,' ').trim().slice(0,28)||cntStr(q)||'';
+const qTxt=q=>{const t=(q.text||'').replace(/\s+/g,' ').trim();if(t)return t.slice(0,28);
+ const live=q.media||q.links?q:qFind(q)||null;let mc=q.mc,lc=q.lc;
+ if(!mc&&live){const M=live.media||[],g=x=>M.filter(m=>m.t===x).length;mc={image:g('image'),video:g('video'),audio:g('audio'),file:g('file')}}
+ if(lc==null&&live)lc=(live.links||[]).length;mc=mc||{};lc=lc||0;
+ const n=(mc.image||0)+(mc.video||0)+(mc.audio||0)+(mc.file||0);
+ if(!n&&lc&&live&&(live.links||[]).length)return String(live.links[0]).replace(/^https?:\/\//i,'').replace(/^www\./i,'')+(lc>1?'　等'+lc+'個連結':'');
+ return[mc.image&&mc.image+'張圖',mc.video&&mc.video+'部影片',mc.audio&&mc.audio+'個音訊',mc.file&&mc.file+'個檔案',lc&&lc+'個連結'].filter(Boolean).join('、')||(live&&live.quote?'含引用':'')};
 const qFind=q=>(E[q.date]||[]).find(x=>x.k===q.k);
 const qGone=q=>!qFind(q);
 const qOpen=q=>{const t=qFind(q);if(!t){toast('此紀錄已被刪除');return}if(dtCur)dtStack.push(dtCur);dtRender(t)};
