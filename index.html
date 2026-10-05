@@ -545,7 +545,7 @@ dialog.tbd>h2:first-child,dialog.tbd>.eth:first-child h2,#dtt,.wc>.dth{color:var
 <div class="acts"><button onclick="prepBackup()">準備備份檔</button><button id="bsave" class="pri" style="display:none" onclick="saveBackup()">儲存備份檔</button></div>
 <p class="sub" id="bst" style="margin:0 0 16px"></p>
 <label>匯入備份檔（與現有資料合併，相同的紀錄以備份檔為準）</label>
-<div class="acts"><button onclick="$('#bf').click()">選擇備份檔</button><input type="file" id="bf" accept=".json,application/json" hidden></div>
+<div class="acts"><button onclick="$('#bf').click()">選擇備份檔</button><input type="file" id="bf" accept=".json,application/json" multiple hidden></div>
 <p class="sub" id="bst2" style="margin:0"></p>
 <div class="acts end"><button onclick="$('#bk').close();openMenu('bak')">返回</button><button onclick="$('#bk').close()">退出</button></div>
 </dialog>
@@ -1401,26 +1401,43 @@ function lbMap(){try{const m=JSON.parse(localStorage.getItem(LBK)||'null');if(m)
 const lastB=id=>{const m=lbMap();return Math.max(m.all||0,id?m[id]||0:0)};
 const markB=v=>{try{const m=lbMap();m[v]=Date.now();localStorage.setItem(LBK,JSON.stringify(m))}catch(e){}};
 const b64=b=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=()=>rej(r.error);r.readAsDataURL(b)});
-let bkFile=null,bkSel='all';
+let bkFile=null,bkFiles=[],bkSel='all';
 function updBlast(){const v=$('#bsel').value,t=v==='all'?(lbMap().all||0):lastB(v);$('#blast').textContent=t?'上次備份：'+new Date(t).toLocaleString('zh-TW'):'尚未備份過'}
 function openBk(){const s=$('#bsel');rc(s,h('option',{value:'all'},'全部對象'),...people.map(p=>h('option',{value:p.id},p.name)));s.value='all';
  s.onchange=()=>{updBlast();$('#bst').textContent='';$('#bsave').style.display='none';bkFile=null};
  updBlast();$('#bst').textContent='';$('#bst2').textContent='';$('#bsave').style.display='none';bkFile=null;$('#bk').showModal()}
+const BK_LIM=60*1048576;
+async function b64Parts(blob){/* 分段轉 base64，每段轉成 Blob 放掉字串，避免大檔把記憶體撐爆（iPhone 會閃退） */
+ const CH=3*1024*1024,out=[JSON.stringify('data:'+(blob.type||'')+';base64,').slice(0,-1)];
+ for(let o=0;o<blob.size;o+=CH){const s=await b64(blob.slice(o,o+CH));out.push(new Blob([s.slice(s.indexOf(',')+1)]))}
+ out.push('"');return out}
 async function prepBackup(){
- const st=$('#bst');bkFile=null;$('#bsave').style.display='none';bkSel=$('#bsel').value;
+ const st=$('#bst');bkFile=null;bkFiles=[];$('#bsave').style.display='none';bkSel=$('#bsel').value;
  try{
   st.textContent='準備中…';
   const all=await dbAll('people'),ps=bkSel==='all'?all:all.filter(p=>p.id===bkSel),
-   parts=['{"app":"nyear-diary","v":1,"at":'+JSON.stringify(new Date().toISOString())+',"people":'+JSON.stringify(ps)+',"entries":['];
-  let n=0;
+   at=JSON.stringify(new Date().toISOString()),head='{"app":"nyear-diary","v":1,"at":'+at+',"people":'+JSON.stringify(ps)+',"entries":[',PH='@@M'+Date.now()+'@@';
+  const groups=[];let cur=[],bytes=0,n=0,gn=0;
   for(const p of ps)for(const e of await dbByP(p.id)){
-   const media=[];for(const m of e.media||[])media.push({t:m.t,n:m.n,y:m.b.type,d:await b64(m.b),p:m.p?await b64(m.p):null});
-   parts.push((n?',':'')+JSON.stringify({...e,media}));n++;st.textContent='準備中… '+n;
+   const base=JSON.stringify({...e,media:PH}).split('"'+PH+'"'),ep=[(gn?',':'')+base[0]+'['];
+   let mi=0;
+   for(const m of e.media||[]){
+    ep.push((mi++?',':'')+'{"t":'+JSON.stringify(m.t)+',"n":'+JSON.stringify(m.n)+',"y":'+JSON.stringify(m.b.type)+',"d":');
+    ep.push(...await b64Parts(m.b));ep.push(',"p":');
+    if(m.p)ep.push(...await b64Parts(m.p));else ep.push('null');
+    ep.push('}');bytes+=(m.b.size+(m.p?m.p.size:0))*1.37}
+   ep.push(']'+base[1]);bytes+=(e.text||'').length*3+400;
+   cur.push(ep);gn++;n++;st.textContent='準備中… '+n;
+   if(bytes>=BK_LIM){groups.push(cur);cur=[];bytes=0;gn=0}
+   await new Promise(r=>setTimeout(r,0));
   }
-  parts.push(']}');
-  const nm=bkSel==='all'?'':'-'+(ps[0]?.name||'').replace(/[\\/:*?"<>|\s]+/g,'_');
-  bkFile=new File(parts,'n-year-diary'+nm+'-'+new Date().toISOString().slice(0,10)+'.json',{type:'application/json'});
-  st.textContent=`完成：${ps.length} 位對象、${n} 則紀錄，約 ${(bkFile.size/1048576).toFixed(1)} MB。請按「儲存備份檔」。`;
+  if(cur.length||!groups.length)groups.push(cur);
+  const nm=bkSel==='all'?'':'-'+(ps[0]?.name||'').replace(/[\\/:*?"<>|\s]+/g,'_'),day=new Date().toISOString().slice(0,10);
+  groups.forEach((g,i)=>{const parts=[head];g.forEach(ep=>parts.push(...ep));parts.push(']}');
+   bkFiles.push(new File(parts,'n-year-diary'+nm+'-'+day+(groups.length>1?`-${i+1}of${groups.length}`:'')+'.json',{type:'application/json'}))});
+  bkFile=bkFiles[0];
+  const tot=bkFiles.reduce((a,f)=>a+f.size,0);
+  st.textContent=`完成：${ps.length} 位對象、${n} 則紀錄，約 ${(tot/1048576).toFixed(1)} MB`+(bkFiles.length>1?`，已分成 ${bkFiles.length} 個檔案（還原時全部選取即可）`:'')+'。請按「儲存備份檔」。';
   $('#bsave').style.display='';
  }catch(e){st.textContent='備份失敗：'+(e.message||e)}
 }
@@ -1428,9 +1445,10 @@ function dl(f){const u=URL.createObjectURL(f),a=h('a',{href:u,download:f.name});
 async function saveBackup(){
  if(!bkFile)return;
  try{
-  if(navigator.canShare&&navigator.canShare({files:[bkFile]})){
-   try{await navigator.share({files:[bkFile],title:'HTBU_?備份'})}catch(e){if(e.name==='AbortError')return;dl(bkFile)}
-  }else dl(bkFile);
+  const fs=bkFiles.length?bkFiles:[bkFile];
+  if(navigator.canShare&&navigator.canShare({files:fs})){
+   try{await navigator.share({files:fs,title:'HTBU_?備份'})}catch(e){if(e.name==='AbortError')return;fs.forEach((f,i)=>setTimeout(()=>dl(f),i*600))}
+  }else fs.forEach((f,i)=>setTimeout(()=>dl(f),i*600));
   markB(bkSel);updBlast();render();
   $('#bst').textContent='已送出。請確認檔案真的存到「檔案」App、雲端硬碟或其他安全的地方。';
  }catch(e){toast('無法儲存：'+(e.message||e))}
@@ -1459,7 +1477,7 @@ async function importBackup(f){
   st.textContent=`匯入完成：${n} 則紀錄。`;
  }catch(e){st.textContent='匯入失敗：'+(e.message||e)}
 }
-$('#bf').onchange=e=>{if(e.target.files[0])importBackup(e.target.files[0]);e.target.value=''};
+$('#bf').onchange=async e=>{const fl=[...e.target.files];e.target.value='';for(let i=0;i<fl.length;i++){if(fl.length>1)$('#bst2').textContent=`第 ${i+1}/${fl.length} 個檔案…`;await importBackup(fl[i])}};
 if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
 (async()=>{await openDB();await purgeArchive();people=await dbAll('people');people.sort((a,b)=>a.id<b.id?-1:1);
