@@ -108,7 +108,7 @@ label{display:block;font-size:14px;color:var(--mute)}
 .r{display:inline-flex;align-items:center;gap:4px;color:var(--ink)}
 input[type=radio],input[type=checkbox]{accent-color:var(--acc)}
 #tv,#mvtv{--pxc:3px;--fill:var(--card);clip-path:var(--cut);border:var(--bw) solid transparent;background:var(--pxbg);border-radius:0;padding:4px 8px}#tv:disabled,#mvtv:disabled{opacity:.4}
-#dl{margin-right:auto;color:var(--del)}
+#dl{margin-right:auto}
 #fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:5;--fill:var(--acc);--bd:var(--ink);color:var(--onacc);padding:11px 18px;margin:0;font-size:14px;font-weight:500}
 #fab[hidden]{display:none}
 #lb{width:fit-content;min-width:min(240px,90vw);max-width:96vw;padding:calc(var(--tt,36px) + 6px) 8px 8px;overflow:hidden}
@@ -451,7 +451,7 @@ html.kb.jsb dialog.sbx:not(#dt):not(#wr){padding-right:21px}
 .emp{display:flex;flex-direction:column;align-items:center;gap:4px}.emp .note{align-self:stretch}
 .emp button{font-size:14px;letter-spacing:.04em;padding:8px 28px;min-width:160px}
 button:active:not(:disabled){text-indent:1px}
-button.hit{--hi:var(--blo);--lo:var(--bhi);text-indent:1px}
+button.tapfx{--hi:var(--blo);--lo:var(--bhi);text-indent:1px}
 html.kb #wr[open]{height:var(--vvh);max-height:var(--vvh);top:var(--vvt,0px);bottom:auto}
 html.kb dialog[open]:not(#wr){max-height:calc(var(--vvh) - 16px);top:calc(var(--vvt,0px) + 8px);bottom:auto;margin-top:0;margin-bottom:0}
 /* 固定頂列（瀏海）：三行——標題列（主題色②）、選單列（主題色①）、搜尋列（主題色①） */
@@ -585,6 +585,35 @@ dialog select{padding-left:7px}
 #dtc{padding:9px 9px}
 .wcs{padding-left:9px;padding-right:9px}
 .arc{padding:7px 9px}
+/* 時間欄高度＝連結欄；連結清除鈕＝工具列清除鈕 */
+#tv,#mvtv{height:28px;min-height:0;box-sizing:border-box;line-height:18px;padding-top:0;padding-bottom:0;-webkit-appearance:none;appearance:none;display:block}
+#tv::-webkit-date-and-time-value,#mvtv::-webkit-date-and-time-value{min-height:0;height:18px;line-height:18px;margin:0;padding:0;text-align:left}
+#tv::-webkit-datetime-edit,#mvtv::-webkit-datetime-edit{padding:0;line-height:18px}
+#lk{height:28px;min-height:28px}
+#ed .lh .edit{padding:1px 9px;margin:0}
+/* 單選鈕：參考 Mac OS 8 風格——白色圓、立體邊、黑色圓點（與 .cbx 同一套邊框色） */
+input[type=radio]{-webkit-appearance:none;appearance:none;position:relative;flex:none;width:16px;height:16px;margin:0 6px 0 0;padding:0;border:0;background:linear-gradient(135deg,var(--blo) 0 50%,var(--bhi) 50% 100%);clip-path:var(--dot16);vertical-align:-3px}
+input[type=radio]::before{content:"";position:absolute;inset:2px;background:var(--card);clip-path:var(--dot12)}
+input[type=radio]:checked::after{content:"";position:absolute;inset:4px;background:var(--ink);clip-path:polygon(2px 0,calc(100% - 2px) 0,100% 2px,100% calc(100% - 2px),calc(100% - 2px) 100%,2px 100%,0 calc(100% - 2px),0 2px)}
+input[type=radio]:disabled{opacity:.4}
+/* 時間列：單選鈕＋時間框同一行，時間置中 */
+#tmwrap .acts,#mvtw .acts{gap:4px 8px;align-items:center}
+.acts label.r{white-space:nowrap}
+input[type=radio]{margin-right:3px}
+#tv,#mvtv{width:84px;flex:none;padding-left:0;padding-right:0;text-align:center}
+#tv::-webkit-date-and-time-value,#mvtv::-webkit-date-and-time-value{text-align:center}
+#tv::-webkit-datetime-edit,#mvtv::-webkit-datetime-edit{text-align:center}
+#tv::-webkit-calendar-picker-indicator,#mvtv::-webkit-calendar-picker-indicator{display:none}
+.acts label.r{display:inline-flex;align-items:center}
+@media (max-width:400px){#tmwrap .acts,#mvtw .acts{column-gap:6px}#tv,#mvtv{width:76px}}
+.acts label.r{letter-spacing:0}
+@media (max-width:400px){#tmwrap .acts,#mvtw .acts{column-gap:5px}#tv,#mvtv{width:72px}}
+#tv,#mvtv{width:auto;padding:4px 7px;height:28px;line-height:18px}
+@media (max-width:400px){#tv,#mvtv{width:auto}#tmwrap .acts,#mvtw .acts{column-gap:4px}}
+input[type=radio]{margin-right:2px}
+#tv,#mvtv{font-size:13px}
+input[type=radio]{margin-right:1px}
+@media (max-width:400px){#tmwrap .acts,#mvtw .acts{column-gap:3px}}
 </style>
 </head>
 <body>
@@ -599,7 +628,7 @@ dialog select{padding-left:7px}
 <div id="app"></div>
 </main>
 
-<dialog id="hm"><h2 style="text-align:center">☆年視圖☆</h2><div id="hmc"></div><div class="acts end"><button onclick="$('#hm').close();heatBack()">返回</button><button onclick="$('#hm').close()">退出</button></div></dialog>
+<dialog id="hm"><h2 style="text-align:center">年視圖</h2><div id="hmc"></div><div class="acts end"><button onclick="$('#hm').close();heatBack()">返回</button><button onclick="$('#hm').close()">退出</button></div></dialog>
 <dialog id="gd"></dialog>
 <dialog id="pe">
 <h2>編輯對象</h2>
@@ -634,7 +663,7 @@ dialog select{padding-left:7px}
 <div class="tb" id="txb">
 <button class="mdb" onclick="lineP('# ')" aria-label="標題" title="標題">H</button>
 <button class="mdb" onclick="wrap('==')" aria-label="標記" title="標記"><mark>A</mark></button>
-<button class="mdb" onclick="wrap('~~')" aria-label="加線" title="加線"><s>S</s></button>
+<button class="mdb" onclick="wrap('~~')" aria-label="刪除線" title="刪除線"><s>S</s></button>
 <button class="mdb" onclick="lineP('- ')" aria-label="清單" title="清單"><span class="gd"></span>―</button>
 <button class="mdb" onclick="lineP('> ')" aria-label="引用" title="引用">❝</button>
 <button onclick="clr('#tx')">清除</button>
@@ -655,7 +684,7 @@ dialog select{padding-left:7px}
 <div class="acts end"><button id="dl" onclick="archiveEntry()">封存</button><button class="pri" onclick="save()">儲存</button><button onclick="cancelEd()">取消</button></div>
 </dialog>
 <dialog id="bk">
-<h2>★備份★</h2>
+<h2>備份</h2>
 <p class="sub" id="blast" style="margin:0 0 12px"></p>
 <label for="bsel">備份對象</label>
 <select id="bsel" style="margin:6px 0 12px"></select>
@@ -674,7 +703,7 @@ dialog select{padding-left:7px}
 <div class="acts" style="justify-content:center"><button onclick="$('#th').close();thBack()">返回</button><button onclick="$('#th').close();$('#cl').close()">退出</button></div>
 </dialog>
 <dialog id="ft">
-<h2>☆功能☆</h2>
+<h2>功能設定</h2>
 <p class="sub" style="text-align:center;margin:-6px 0 12px">點按可開啟或關閉</p>
 <div class="mb" id="ftc"></div>
 <div class="acts" style="justify-content:center"><button onclick="$('#ft').close();openMenu('set')">返回</button><button onclick="$('#ft').close()">退出</button></div>
@@ -682,18 +711,18 @@ dialog select{padding-left:7px}
 <dialog id="wr"><div id="wrh"></div><div id="wrs"><div class="wbd" id="wrk">保留<i class="pxa r"></i></div><div class="wbd" id="wra"><i class="pxa l"></i>封存</div><div class="wbd" id="wrp"><i class="pxa u"></i>跳過</div><button class="wrbare wrside" id="wrla" onclick="wrBtn(-1)"><i class="pxa l"></i>封存</button><button class="wrbare wrside" id="wrrk" onclick="wrBtn(1)"><i class="pxa r"></i>保留</button></div><div id="wrb"><button id="wrun" onclick="wrUndo()">上一步</button><button class="wrbare" id="wrup" onclick="wrBtn(0)"><i class="pxa u"></i>跳過</button><button id="wrx" onclick="closeWr()">退出</button></div></dialog>
 <dialog id="ar"></dialog>
 <dialog id="hp">
-<h2>☆年視圖☆</h2>
+<h2>選擇對象</h2>
 <p class="sub" style="text-align:center;margin:-6px 0 12px">選擇想查看的對象</p>
 <div class="mb" id="hpc"></div>
 <div class="acts" style="justify-content:center"><button onclick="$('#hp').close();openMenu('rev')">返回</button><button onclick="$('#hp').close()">退出</button></div>
 </dialog>
 <dialog id="cl">
-<h2>☆主題色☆</h2>
+<h2>色彩設定</h2>
 <div class="mb" id="clc"></div>
 <div class="acts" style="justify-content:center"><button onclick="$('#cl').close();openMenu('set')">返回</button><button onclick="$('#cl').close()">退出</button></div>
 </dialog>
 <dialog id="my">
-<h2>☆最早年份☆</h2>
+<h2>年份設定</h2>
 <p class="sub">回顧列表「展開更多」最多只會捲到這一年，避免無限往回展開。</p>
 <select id="myv" aria-label="最早年份"></select>
 <div class="acts end"><button class="pri" onclick="saveMinY()">儲存</button><button onclick="clearMinY()">不限制</button><button onclick="$('#my').close()">返回</button><button onclick="$('#my').close()">取消</button></div>
@@ -723,7 +752,7 @@ dialog select{padding-left:7px}
 <div class="acts"><button class="pri" onclick="cvUse()">用這個畫面</button><button onclick="$('#cvf').click()">從相簿選圖</button><input type="file" id="cvf" accept="image/*" hidden></div>
 <div class="acts end"><button onclick="$('#cv').close()">取消</button></div>
 </dialog>
-<dialog id="cf"><p id="cft">是否刪除？</p><p class="sm" id="cfs" hidden></p><div class="acts"><button id="cfy" class="pri">是</button><button id="cfn">否</button></div></dialog>
+<dialog id="cf"><p id="cft">是否刪除？</p><p class="sm" id="cfs" hidden></p><div class="acts"><button id="cfy" class="pri">確定</button><button id="cfn">取消</button></div></dialog>
 <dialog id="dt"><div id="dtt"></div><div id="dts"><div id="dtc"></div></div><div class="dtf"><button id="dtb" hidden onclick="dtBack()">返回</button><button onclick="$('#dt').close()">退出</button></div></dialog>
 <dialog id="qd"><h2>選擇要引用的紀錄</h2><div class="qsrow"><input type="search" id="qs2" placeholder="搜尋文字或標籤" enterkeyhint="search" autocomplete="off"><button id="qsb" class="pri" onclick="qdGo(true)">搜尋</button></div><div id="qdc"></div><div class="acts end"><button onclick="$('#qd').close()">取消</button></div></dialog>
 <dialog id="lb" class="tbd"><h2 id="lbt">圖片</h2><button id="lbx" class="xcl" aria-label="關閉" onclick="$('#lb').close()">關閉</button><div id="lbc"></div></dialog>
@@ -1467,7 +1496,7 @@ async function openAr(){await purgeArchive();
    h('div',{class:'artx'},(e.text||'')||cntStr(e)||'（沒有文字）'),
    h('div',{class:'ardn'},`${left} 天後自動刪除`),
    h('div',{class:'ea'},h('button',{class:'edit',onclick:()=>arRestore(e)},'還原'),h('button',{class:'edit',onclick:()=>arDel(e)},'刪除')))});
- rc(d,h('h2',{style:'text-align:center'},'★封存★'),h('p',{class:'sub',style:'text-align:center;margin:-6px 0 12px'},'封存的紀錄會在 7 天後自動刪除'),
+ rc(d,h('h2',{style:'text-align:center'},'封存'),h('p',{class:'sub',style:'text-align:center;margin:-6px 0 12px'},'封存的紀錄會在 7 天後自動刪除'),
   h('div',{class:'arl'},...(items.length?items:[h('p',{class:'sub',style:'text-align:center'},'目前沒有封存的紀錄')])),
   h('div',{class:'acts',style:'justify-content:center;flex-wrap:wrap'},...(all.length?[h('button',{onclick:()=>arDelAll(all.length)},'全部刪除')]:[]),h('button',{onclick:()=>{d.close();openMenu('org')}},'返回'),h('button',{onclick:()=>d.close()},'退出')));
  if(!d.open)d.showModal()}
@@ -1657,7 +1686,7 @@ document.addEventListener('touchstart',()=>{},{passive:true});
    const d=Math.hypot(dx,dy);if(d<bd){bd=d;best=b}}
   if(!best)return;
   e.preventDefault();e.stopPropagation();
-  best.classList.add('hit');setTimeout(()=>best.classList.remove('hit'),130);best.click()
+  best.classList.add('tapfx');setTimeout(()=>best.classList.remove('tapfx'),130);best.click()
  },true);
  const vv=window.visualViewport,de=document.documentElement;
  if(vv){const upd=()=>{const kb=innerHeight-vv.height>120;de.classList.toggle('kb',kb);
