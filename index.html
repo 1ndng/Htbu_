@@ -223,8 +223,6 @@ mark.hl{background:rgba(128,128,128,.3);background:color-mix(in srgb,var(--acc) 
 #wr{overscroll-behavior:none;touch-action:none}#wr .wc,#wr .wcs,#wr textarea{touch-action:pan-y}html:has(#wr[open]),html:has(#wr[open]) body{overscroll-behavior:none}
 .wdone{white-space:pre-line}
 .arl{max-height:56vh;overflow-y:auto;padding:2px;margin-bottom:12px}
-.arc{--pxc:3px;clip-path:var(--cut);background:var(--pxbg);border:var(--bw) solid transparent;padding:10px 12px;margin-bottom:10px;display:flex;flex-direction:column;gap:4px}
-.arc{cursor:pointer}.artx{font-size:14px;line-height:1.6;word-break:break-word;overflow-wrap:anywhere;white-space:pre-wrap;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}.arc.open .artx{display:block;-webkit-line-clamp:unset;line-clamp:unset;overflow:visible}.ardn{font-size:11px;color:var(--mute)}
 .hmstat{color:var(--mute);font-size:12px;text-align:center;line-height:1.6;margin:0 0 10px}
 .hmwrap{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px}
 .hmonth{margin-bottom:18px}
@@ -322,9 +320,6 @@ dialog.tbd>.eth:is(:first-child,.sbw+.eth){position:absolute;left:8px;right:32px
 button,input:not([type=radio]):not([type=checkbox]):not([type=range]):not([type=color]):not([type=file]),textarea,select,#q,#qs2,.fl,.qhit,.qv,.qchip,.dtg,#tv,#mvtv{--bw:1px}
 *{--stair1:polygon(2px 0,calc(100% - 2px) 0,calc(100% - 2px) 1px,calc(100% - 1px) 1px,calc(100% - 1px) 2px,100% 2px,100% calc(100% - 2px),calc(100% - 1px) calc(100% - 2px),calc(100% - 1px) calc(100% - 1px),calc(100% - 2px) calc(100% - 1px),calc(100% - 2px) 100%,2px 100%,2px calc(100% - 1px),1px calc(100% - 1px),1px calc(100% - 2px),0 calc(100% - 2px),0 2px,1px 2px,1px 1px,2px 1px)}
 dialog,.wc{--bw:2px}
-/* 封存裡的紀錄：同樣是視窗（標題列放日期） */
-.arc{--tt:36px;--pp:var(--bg);--bw:2px;position:relative;clip-path:none;background:var(--frm);padding:calc(var(--tt) + 4px) 12px 10px}
-.arc>.dth{position:absolute;left:8px;right:8px;top:4px;height:24px;margin:0;font:400 16px/24px "Cubic 11",serif;letter-spacing:.1em;color:var(--onacc);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 /* ===== 字級統一：按鈕 14px／淺色提示字 11px（輸入欄提示字除外）／輸入欄與紀錄文字 16px ===== */
 button,.edit,.card .edit,.card button,.eth .edit,.rm>.cvb,#wred,.wrside,#wrb button,.tg,.dtg,.card .tg,.fl,.card .fl,#dtc .fl,.wc .fl,.qv,.qchip,#cl .edit,#hp .edit,#ft .edit,#gd .mb .edit{font-size:13px;letter-spacing:1.56px}
 .tg,.dtg,.card .tg{letter-spacing:.04em}
@@ -334,7 +329,7 @@ dialog.tbd>h2:is(:first-child,.sbw+h2),.eth h2{font-size:16px}
 #my .sub,#gd .sub{text-align:center}
 label:not(.r),.sub,#my .sub,.hmstat,.hmtitle,#wrh,#wrh>div,#cf .sm,.qhit .qtx,.bkn{font-size:11px}
 textarea,input,select,dialog select,#tx,#lk,#tv,#mvtv,#tn,#q{font-size:14px}
-.card,.card .hd,.card .links a,.dtl a,.dtt,.artx,#cf p{font-size:14px}
+.card,.card .hd,.card .links a,.dtl a,.dtt,#cf p{font-size:14px}
 .day,.otl{font:400 32px/1.2 "Cubic 11","BaDing",serif}
 @media (max-width:370px){.day,.otl{font-size:30px}}
 .yr{font-size:22px}
@@ -499,11 +494,11 @@ html.jsb :is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,#edb,textarea){scrollba
 html.jsb #dtc{padding-left:20px;padding-right:20px}
 html.jsb .wcs{padding-left:20px!important;padding-right:20px!important}
 /* 內框：捲軸貼在內框外緣、長在內框裡；內框本身左右對稱，不把捲軸算進體積 */
-html.jsb :is(#hmc,.arl){background:var(--card);box-shadow:inset 1px 1px 0 var(--blo),inset -1px -1px 0 var(--bhi),0 0 0 1px var(--ink);padding-left:20px;padding-right:20px}
+html.jsb :is(#hmc,.arl){background:var(--card);box-shadow:inset 1px 1px 0 var(--blo),inset -1px -1px 0 var(--bhi),0 0 0 1px var(--ink);padding-left:20px;padding-right:max(0px,calc(20px - var(--nsb,0px)))}
 html.jsb #hmc{padding-top:12px;padding-bottom:4px}
 html.jsb .arl{padding-top:10px;padding-bottom:0;background:var(--bg)!important;background:color-mix(in srgb,var(--bg) 55%,var(--card))!important}
-/* 有捲軸時：把「框 − 捲軸」當成真正的內容區，內文在剩下的空間裡置中 */
-html.jsb :is(#hmc,.arl).sbon{padding-right:35px}
+/* 有捲軸時：把「框 − 捲軸」當成真正的內容區，內文在剩下的空間裡置中（--nsb＝瀏覽器沒藏乾淨、仍佔位的原生捲軸寬，由程式量出來扣掉） */
+html.jsb :is(#hmc,.arl).sbon{padding-right:max(0px,calc(35px - var(--nsb,0px)))}
 html.jsb #dts.sbon #dtc{padding-right:35px}
 html.jsb .wcs.sbon{padding-right:35px!important}
 html.jsb :is(#edb,#qdc,#gd .gb).sbon{padding-right:21px}
@@ -538,7 +533,7 @@ html.jsb :is(#edb,#qdc,#gd .gb){padding-left:6px;padding-right:6px}
 dialog{--pp:var(--bg)}
 #dt{--pp:var(--bg)}
 #dts{background:var(--card);box-shadow:inset 1px 1px 0 var(--blo),inset -1px -1px 0 var(--bhi),0 0 0 1px var(--ink)}
-.arc,.qhit,.qv,.qchip,.fl{--fill:var(--card)}
+.qhit,.qv,.qchip,.fl{--fill:var(--card)}
 #hdr h1{color:var(--onacc)}
 dialog.tbd>h2:is(:first-child,.sbw+h2),dialog.tbd>.eth:is(:first-child,.sbw+.eth) h2,#dtt,.wc>.dth{color:var(--onacc)}
 /* 小型輸入視窗：扁一點，上下留白一致、輸入框與按鈕拉近 */
@@ -590,9 +585,11 @@ dialog select{padding-left:7px}
 .card:not(.empty){padding:8px 9px}
 #dtc{padding:9px 9px}
 .wcs{padding-left:9px;padding-right:9px}
-.arc{padding:calc(var(--tt) + 4px) 4px 4px;gap:0}
-.arb{background:var(--card);box-shadow:inset 1px 1px 0 var(--blo),inset -1px -1px 0 var(--bhi),0 0 0 1px var(--ink);padding:9px 9px;display:flex;flex-direction:column;gap:4px;margin-bottom:6px}
-.ari{margin-bottom:12px}.ari>.arc{margin-bottom:3px}.arb{margin-bottom:0}.arf{display:flex;align-items:flex-end;gap:8px;padding:0 2px}.arf .ardn{line-height:1;padding-bottom:3px;white-space:nowrap}
+.ardn{font-size:11px;color:var(--mute)}
+/* 封存裡的紀錄：跟引用方塊同樣式（上日期、下內文），內文最多三行，點一下展開 */
+.ari{margin-bottom:12px}.ari>.arq{margin:0 0 6px;cursor:pointer}
+.arq .qtx{white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;text-overflow:clip;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
+.arq.open .qtx{display:block;-webkit-line-clamp:unset;line-clamp:unset;overflow:visible}.arf{display:flex;align-items:flex-end;gap:8px;padding:0 2px}.arf .ardn{line-height:1;padding-bottom:3px;white-space:nowrap}
 /* 時間欄高度＝連結欄；連結清除鈕＝工具列清除鈕 */
 #tv,#mvtv{height:28px;min-height:0;box-sizing:border-box;line-height:18px;padding-top:0;padding-bottom:0;-webkit-appearance:none;appearance:none;display:block}
 #tv::-webkit-date-and-time-value,#mvtv::-webkit-date-and-time-value{min-height:0;height:18px;line-height:18px;margin:0;padding:0;text-align:left}
@@ -1341,6 +1338,7 @@ function sbPlace(el,ax){
  let o=sbMap.get(el);if(!o){o={};sbMap.set(el,o)}
  if(!o[ax]){o[ax]=sbMake(el,ax);el.addEventListener('scroll',()=>sbThumb(o[ax],el),{passive:true})}
  const b=o[ax],g=b.get(),v=b.v,bar=b.bar;
+ if(v&&el.matches('#hmc,.arl')){const n=Math.max(0,el.offsetWidth-el.clientWidth-el.clientLeft*2)+'px';if(el.style.getPropertyValue('--nsb')!==n)el.style.setProperty('--nsb',n)}
  if(!v&&el.classList.contains('hs')){/* 一天中的左右捲軸：放在方塊列正下方 */
   if(!el.isConnected){bar.remove();return}
   bar.classList.add('inl');if(el.nextElementSibling!==bar)el.after(bar);
@@ -1532,9 +1530,9 @@ $('#wr').onclose=async()=>{if(!document.querySelector('dialog[open]'))wrLock(fal
 async function openAr(){await purgeArchive();
  const d=$('#ar'),all=(await dbAll('entries')).filter(e=>e.archived).sort((a,b)=>b.archived-a.archived);
  const items=all.map(e=>{const left=Math.max(1,Math.ceil((e.archived+ARD-Date.now())/864e5));
-  return h('div',{class:'ari'},h('div',{class:'arc',onclick:ev=>{ev.currentTarget.classList.toggle('open')}},
-   h('div',{class:'dth'},(FEAT.people&&people.length>1?pname(e.pid)+'・':'')+(e.date===NODATE?'隨手記':fmtD(e.date))+(e.time?'　'+e.time:'')),
-   h('div',{class:'arb'},h('div',{class:'artx'},(e.text||'')||cntStr(e)||'（沒有文字）'))),
+  return h('div',{class:'ari'},h('div',{class:'qv arq',onclick:ev=>{ev.currentTarget.classList.toggle('open')}},
+   h('div',{class:'qb'},h('div',{class:'rd'},(FEAT.people&&people.length>1?pname(e.pid)+'・':'')+(e.date===NODATE?'隨手記':fmtD(e.date))+(e.time?'　'+e.time:'')),
+   h('div',{class:'qtx'},(e.text||'')||cntStr(e)||'（沒有文字）'))),
    h('div',{class:'arf'},h('button',{class:'edit',onclick:()=>arRestore(e)},'還原'),h('button',{class:'edit',onclick:()=>arDel(e)},'刪除'),h('span',{class:'ardn'},`${left} 天後自動刪除`)))});
  rc(d,h('h2',{style:'text-align:center'},'封存'),
   h('div',{class:'arl'},...(items.length?items:[h('p',{class:'sub',style:'text-align:center'},'目前沒有封存的紀錄')])),
