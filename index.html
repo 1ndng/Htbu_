@@ -133,7 +133,9 @@ html,body{touch-action:manipulation}
 .tgs{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.dtgs{margin-top:0}.dtg{border:var(--bw) solid transparent;background:var(--pxbg);line-height:1.7}
 .gd{display:inline-block;width:8px;height:8px;background:currentColor;clip-path:var(--dot8);margin:0 5px 1px 0;vertical-align:middle}
 .dot{display:inline-block;width:8px;height:8px;border-radius:0;clip-path:var(--dot8);margin-right:6px}
-.ea{display:flex;flex-wrap:nowrap;align-items:flex-end;gap:0 8px}.ea>.edit{flex:none;white-space:nowrap;padding-left:9px;padding-right:9px}
+.ea{display:flex;flex-wrap:nowrap;align-items:flex-end;gap:0 8px}
+/* 跳回今日與隨手記的間距＝編輯與引用的間距 */
+.dhead .dgR{gap:8px}.ea>.edit{flex:none;white-space:nowrap;padding-left:9px;padding-right:9px}
 .hit{margin-bottom:14px}.rd{font:400 16px "Cubic 11",serif;letter-spacing:.1em}
 blockquote{margin:4px 0;padding:2px 10px;border-left:3px solid var(--hotx,var(--acx));color:var(--mute)}
 .txt ul{margin:4px 0;padding-left:20px}.hd{font-weight:600;font-size:15px}
@@ -899,7 +901,7 @@ function dtRender(en){dtCur=en;dturls.forEach(URL.revokeObjectURL);dturls=[];
   (en.links||[]).length>0&&h('div',{class:'dtl'},...en.links.map(l=>h('a',{href:l,target:'_blank',rel:'noopener noreferrer'},l))),
   (en.tags||[]).length>0&&h('div',{class:'tgs dtgs'},...en.tags.map(t=>h('span',{class:'tg dtg'},'#'+t))),
   FEAT.quote&&en.quote&&h('div',{class:'qv',role:'button',tabindex:'0',onclick:()=>qOpen(en.quote)},h('div',{class:'qb'},h('div',{class:'rd'},qLbl(en.quote)),h('div',{class:'qtx'},qTxt(en.quote)))));
- $('#dtt').textContent=($('#dtc .dth')||{}).textContent||'';$('#dts').scrollTop=0;$('#dtb').hidden=!dtStack.length;if(!$('#dt').open)$('#dt').showModal()}
+ $('#dtt').textContent=($('#dtc .dth')||{}).textContent||'';$('#dts').scrollTop=0;$('#dtb').hidden=!dtStack.length;if(!$('#dt').open){$('#dt').showModal();/* 開啟時不聚焦任何元素（否則會框住第一張圖） */const a=document.activeElement;if(a&&a!==document.body&&$('#dt').contains(a))a.blur()}}
 $('#dt').onclose=()=>{$('#dtc').replaceChildren();dturls.forEach(URL.revokeObjectURL);dturls=[];dtStack=[];dtCur=null};
 $('#dt').onclick=e=>{if(e.target===$('#dt'))$('#dt').close()};
 $('#app').addEventListener('click',e=>{
