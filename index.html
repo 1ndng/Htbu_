@@ -235,7 +235,14 @@ mark.hl{background:rgba(128,128,128,.3);background:color-mix(in srgb,var(--acc) 
 .hmleg{display:flex;align-items:center;gap:6px;justify-content:center;font-size:11px;color:var(--mute);margin:2px 0 14px}
 .hmleg .hcell{width:11px;height:11px;flex:none}
 .hcell.ck{cursor:pointer}
+.hcell.c1{background:color-mix(in srgb,var(--hotx,var(--acx)) 42%,var(--bg))}
+.hcell.c2{background:color-mix(in srgb,var(--hotx,var(--acx)) 58%,var(--bg))}
+.hcell.c3{background:color-mix(in srgb,var(--hotx,var(--acx)) 80%,var(--bg))}
 .hcell.c4{background:var(--hotx,var(--acx))}
+@keyframes swl{from{transform:translateX(28px);opacity:.4}}@keyframes swr{from{transform:translateX(-28px);opacity:.4}}
+#app.swl{animation:swl .16s steps(4,end)}#app.swr{animation:swr .16s steps(4,end)}
+@media (prefers-reduced-motion:reduce){#app.swl,#app.swr{animation:none}}
+.hmleg{flex-wrap:wrap}.hmleg .hcell+span{margin-right:4px}
 .cnt{font-size:11px;line-height:1.4;color:var(--mute);margin:0 0 -2px auto;align-self:flex-end;flex:0 1 auto;min-width:0;text-align:left;padding:0}.cnt .cs{display:inline-block;white-space:nowrap}
 .ohead{display:flex;align-items:center;justify-content:space-between;gap:6px;margin:14px 0 12px}
 .ohead .edit{margin:0;height:32px;line-height:28px;padding:0 12px;box-sizing:border-box}
@@ -707,6 +714,9 @@ input.tmx:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink)
 <label>匯出</label>
 <div class="acts"><button onclick="prepBackup()">準備備份檔</button><button id="bsave" class="pri" style="display:none" onclick="saveBackup()">儲存備份檔</button></div>
 <p class="sub" id="bst" style="margin:0 0 16px"></p>
+<label>匯出成文字（Markdown，可用任何文字或筆記 App 閱讀，無法匯入回來）</label>
+<div class="acts"><button onclick="exportMd()">匯出文字檔</button></div>
+<p class="sub" id="bst3" style="margin:0 0 16px"></p>
 <label>匯入備份檔（與現有資料合併，相同的紀錄以備份檔為準）</label>
 <div class="acts"><button onclick="$('#bf').click()">選擇備份檔</button><input type="file" id="bf" accept=".json,application/json" multiple hidden></div>
 <p class="sub" id="bst2" style="margin:0"></p>
@@ -1141,24 +1151,26 @@ async function heatGo(ds){$('#hm').close();const p=hmPid;
 function openHeat(pid){hmPid=pid;
  dbByP(pid).then(arr=>{hmData=arr.filter(e=>e.date!==NODATE);
   const yrs=hmData.map(e=>+e.date.slice(0,4));hmY=yrs.length?Math.max(...yrs):now.getFullYear();if(MINY&&hmY<MINY)hmY=MINY;if(hmY>now.getFullYear())hmY=now.getFullYear();
-  drawHeat();$('#hp').close();$('#hm').showModal()})}
+  drawHeat();$('#hp').close();$('#hm').showModal();const a=document.activeElement;if(a&&a!==document.body&&$('#hm').contains(a))a.blur()})}
+/* 年視圖深淺：1–3／4–7／8–15／16 則以上 */
+const HMLV=[['c1','1–3'],['c2','4–7'],['c3','8–15'],['c4','16+']],hmLv=c=>c<=3?'c1':c<=7?'c2':c<=15?'c3':'c4';
 function drawHeat(){
- const yd=hmData.filter(e=>+e.date.slice(0,4)===hmY),has=new Set(yd.map(e=>e.date)),months=[],
-  total=new Date(hmY,1,29).getMonth()===1?366:365,mcnt=Array(12).fill(0);yd.forEach(e=>mcnt[+e.date.slice(5,7)-1]++);
+ const yd=hmData.filter(e=>+e.date.slice(0,4)===hmY),has=new Set(yd.map(e=>e.date)),dcnt={},months=[],
+  total=new Date(hmY,1,29).getMonth()===1?366:365,mcnt=Array(12).fill(0);yd.forEach(e=>{mcnt[+e.date.slice(5,7)-1]++;dcnt[e.date]=(dcnt[e.date]||0)+1});
  const mx=Math.max(...mcnt),mis=mcnt.map((c,i)=>c===mx?i+1:0).filter(Boolean);
  for(let m=0;m<12;m++){
   const dim=new Date(hmY,m+1,0).getDate(),first=new Date(hmY,m,1).getDay(),cells=[];
   for(let i=0;i<first;i++)cells.push(h('div',{class:'hcell blank'}));
   for(let d=1;d<=dim;d++){
-   const ds=`${hmY}-${pad(m+1)}-${pad(d)}`,on=has.has(ds);
-   cells.push(h('div',{class:'hcell'+(on?' c4 ck':''),title:`${m+1}月${d}日：${on?'有紀錄':'無紀錄'}`,onclick:on?()=>{sfx('tap');heatGo(ds)}:null}))
+   const ds=`${hmY}-${pad(m+1)}-${pad(d)}`,c=dcnt[ds]||0,on=c>0;
+   cells.push(h('div',{class:'hcell'+(on?` ${hmLv(c)} ck`:''),title:`${m+1}月${d}日：${on?c+' 則紀錄':'無紀錄'}`,onclick:on?()=>{sfx('tap');heatGo(ds)}:null}))
   }
   months.push(h('div',{class:'hmonth'},h('div',{class:'hmtitle'},`${m+1}月`),h('div',{class:'hgrid'},cells)))
  }
  rc($('#hmc'),
   h('div',{class:'hmhead'},h('button',{onclick:()=>{if(MINY&&hmY<=MINY)return;hmY--;drawHeat()},'aria-label':'上一年',...(MINY&&hmY<=MINY?{disabled:''}:{})},'‹'),h('div',{},`${hmY}年`),h('button',{onclick:()=>{if(hmY>=now.getFullYear())return;hmY++;drawHeat()},'aria-label':'下一年',...(hmY>=now.getFullYear()?{disabled:''}:{})},'›')),
   h('div',{class:'hmstat'},`在${total}天中，${pname(hmPid)}共記錄了${has.size}天。`,...(has.size?[h('br'),`其中${mis.join('、')}月記錄了最多，共記錄了${mx}則。`]:[])),
-  h('div',{class:'hmleg'},h('div',{class:'hcell'}),'無紀錄',h('div',{class:'hcell c4'}),'有紀錄'),
+  h('div',{class:'hmleg'},h('div',{class:'hcell'}),h('span',{},'無紀錄'),...HMLV.map(([c,t])=>[h('div',{class:'hcell '+c}),h('span',{},t)]).flat()),
   h('div',{class:'hmwrap'},...months))}
 function renderOther(A,P){
  const k=qs.toLowerCase(),all=Object.values(E).flat(),filt=!!(qs||ftags.length),
@@ -1179,6 +1191,7 @@ function renderKeep(){const y=scrollY,m={},key=(r,i)=>((r.querySelector('.yr')||
  render();scrollTo(0,y);
  document.querySelectorAll('#app .row').forEach(r=>r.querySelectorAll('.hs').forEach((x,i)=>{const v=m[key(r,i)];if(v)x.scrollLeft=v}));
  if(typeof sbRefresh==='function')sbRefresh(true)}
+function shiftDay(n){const d=new Date(2024,mo-1,dy+n);mo=d.getMonth()+1;dy=d.getDate();hy=null;render()}
 function render(){
  urls.forEach(URL.revokeObjectURL);urls=[];updFab();
  drawMbar();
@@ -1209,7 +1222,7 @@ function render(){
   }
   rows.push(h('div',{class:'row'+(list.length?' has':'')+''},head,body));
  }
- const step=n=>()=>{const d=new Date(2024,mo-1,dy+n);mo=d.getMonth()+1;dy=d.getDate();hy=null;render()};
+ const step=n=>()=>shiftDay(n);
  const dpk=h('button',{class:'dpin','aria-label':'選擇日期',onclick:openDp});
  const md_=`${pad(mo)}-${pad(dy)}`,cnt=Object.keys(E).filter(k=>k.slice(5)===md_).reduce((n,k)=>n+E[k].length,0),
   who=multi?[...msel].map(pname).join('、'):P.name;
@@ -1289,6 +1302,16 @@ document.querySelectorAll('dialog').forEach(d=>{decoDlg(d);new MutationObserver(
 
 
 {const hd=document.getElementById('hdr');if(hd&&window.ResizeObserver){const f=()=>document.documentElement.style.setProperty('--hdr',hd.offsetHeight+'px');new ResizeObserver(f).observe(hd);f()}}
+/* 日期頁左右滑動換日：往左滑＝後一天、往右滑＝前一天（從可左右捲動的方塊列、輸入欄、播放器開始的滑動不算） */
+{let sx=0,sy=0,st=0,ok=false;const A=$('#app');
+ const dayView=()=>!other&&!qs&&!ftags.length&&!!A.querySelector('.dhead')&&!document.querySelector('dialog[open]')&&!mOpen;
+ const hScroll=t=>{for(let n=t;n&&n!==A;n=n.parentNode)if(n.nodeType===1&&(n.matches('input,textarea,select,.ap,.jsb-bar')||(n.scrollWidth>n.clientWidth+1&&/(auto|scroll)/.test(getComputedStyle(n).overflowX))))return true;return false};
+ A.addEventListener('touchstart',e=>{const t=e.touches[0];ok=e.touches.length===1&&dayView()&&t.clientX>20&&t.clientX<innerWidth-20&&!hScroll(e.target);if(ok){sx=t.clientX;sy=t.clientY;st=Date.now()}},{passive:true});
+ A.addEventListener('touchmove',e=>{if(ok&&e.touches.length>1)ok=false},{passive:true});
+ A.addEventListener('touchend',e=>{if(!ok)return;ok=false;const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;
+  if(Date.now()-st>700||Math.abs(dx)<60||Math.abs(dy)>Math.abs(dx)*.6||!dayView())return;
+  shiftDay(dx<0?1:-1);A.classList.remove('swl','swr');void A.offsetWidth;A.classList.add(dx<0?'swl':'swr')},{passive:true});
+ A.addEventListener('animationend',()=>A.classList.remove('swl','swr'))}
 /* 手機自製捲軸：Mac OS 8 風（箭頭鈕＋滑塊，可拖曳／點軌道／長按箭頭） */
 document.documentElement.classList.add('jsb');
 /* 自製捲軸：長在視窗外框「裡面」，位置只由版面尺寸（offset*）算出，不讀螢幕座標，所以鍵盤、動畫、拖曳時不會漂移 */
@@ -1608,7 +1631,7 @@ async function save(){
  try{if(empty)await removeEntry();
  else{const en={k:edK||`${cur}|${edDate}|${Date.now()}`,pid:old?old.pid:cur,date:edDate,time,text,links,tags:[...dtags],media:draft,quote:dquote?{...dquote}:null,...(old&&old.reviewed?{reviewed:old.reviewed}:{})};
   await dbPut('entries',en);const L=E[edDate]||(E[edDate]=[]),i=L.findIndex(x=>x.k===en.k);i<0?L.push(en):L[i]=en}
- dropDraft();$('#ed').close();renderKeep()}catch(e){toast('儲存失敗，可能是檔案太大或空間不足')}}
+ const isNew=!edK&&!empty;dropDraft();$('#ed').close();renderKeep();if(isNew)bkNudge()}catch(e){toast('儲存失敗，可能是檔案太大或空間不足')}}
 
 
 /* ===== 備份與還原 ===== */
@@ -1616,12 +1639,20 @@ const LBK='nyear-lb2';
 function lbMap(){try{const m=JSON.parse(localStorage.getItem(LBK)||'null');if(m)return m;const o=+localStorage.getItem('nyear-lastbackup')||0;return o?{all:o}:{}}catch(e){return{}}}
 const lastB=id=>{const m=lbMap();return Math.max(m.all||0,id?m[id]||0:0)};
 const markB=v=>{try{const m=lbMap();m[v]=Date.now();localStorage.setItem(LBK,JSON.stringify(m))}catch(e){}};
+/* 自上次備份後新增滿 50 則就提醒一次（以紀錄建立時間對照各對象的上次備份時間） */
+const BKA='nyear-bkask',BKN=50;
+async function bkNudge(){try{
+ const n=(await dbAll('entries')).filter(e=>!e.archived&&tsOf(e)>lastB(e.pid)).length;
+ let a=+localStorage.getItem(BKA)||0;if(n<a)a=0;
+ if(n<BKN||Math.floor(n/BKN)<=Math.floor(a/BKN)){if(a!==(+localStorage.getItem(BKA)||0))localStorage.setItem(BKA,a);return}
+ localStorage.setItem(BKA,n);
+ if(await ask(Object.keys(lbMap()).length?`自上次備份又多記錄了 ${n} 則`:`還沒備份過，目前已記錄了 ${n} 則`,'是否要備份？'))openBk()}catch(_){}}
 const b64=b=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=()=>rej(r.error);r.readAsDataURL(b)});
 let bkFile=null,bkFiles=[],bkSel='all';
 function updBlast(){const v=$('#bsel').value,t=v==='all'?(lbMap().all||0):lastB(v);$('#blast').textContent=t?'上次備份：'+new Date(t).toLocaleString('zh-TW'):'尚未備份過'}
 function openBk(){const s=$('#bsel');rc(s,h('option',{value:'all'},'全部對象'),...people.map(p=>h('option',{value:p.id},p.name)));s.value='all';
  s.onchange=()=>{updBlast();$('#bst').textContent='';$('#bsave').style.display='none';bkFile=null};
- updBlast();$('#bst').textContent='';$('#bst2').textContent='';$('#bsave').style.display='none';bkFile=null;$('#bk').showModal()}
+ updBlast();$('#bst').textContent='';$('#bst2').textContent='';$('#bst3').textContent='';$('#bsave').style.display='none';bkFile=null;$('#bk').showModal()}
 const BK_LIM=60*1048576;
 async function b64Parts(blob){/* 分段轉 base64，每段轉成 Blob 放掉字串，避免大檔把記憶體撐爆（iPhone 會閃退） */
  const CH=3*1024*1024,out=[JSON.stringify('data:'+(blob.type||'')+';base64,').slice(0,-1)];
@@ -1669,6 +1700,28 @@ async function saveBackup(){
   $('#bst').textContent='已送出。請確認檔案真的存到「檔案」App、雲端硬碟或其他安全的地方。';
  }catch(e){toast('無法儲存：'+(e.message||e))}
 }
+/* 匯出成 Markdown：依對象、日期排列，附件只列出數量 */
+async function exportMd(){const st=$('#bst3'),sel=$('#bsel').value;
+ try{st.textContent='準備中…';
+  const ps=(await dbAll('people')).filter(p=>sel==='all'||p.id===sel),out=[`# HTBU_? 日記${sel==='all'?'':'：'+(ps[0]?.name||'')}`,'',`匯出時間：${new Date().toLocaleString('zh-TW')}`,''];
+  const one=(e,head)=>{const M=e.media||[],g=t=>M.filter(x=>x.t===t).length,
+    att=[g('image')&&g('image')+' 張圖',g('video')&&g('video')+' 部影片',g('audio')&&g('audio')+' 個音訊',g('file')&&g('file')+' 個檔案'].filter(Boolean);
+   out.push(head+(e.time?'　'+e.time:''),'');
+   if(e.text)out.push(e.text.trim(),'');
+   if((e.links||[]).length)out.push(...e.links.map(l=>'- '+l),'');
+   if((e.tags||[]).length)out.push(e.tags.map(t=>'#'+t).join(' '),'');
+   if(att.length)out.push(`（附件：${att.join('、')}）`,'');
+   if(e.quote)out.push(`> 引用 ${qLbl(e.quote)}：${qTxt(e.quote)}`,'')};
+  let n=0;
+  for(const p of ps){const L=(await dbByP(p.id)).sort((a,b)=>a.date===b.date?(a.time||'').localeCompare(b.time||'')||tsOf(a)-tsOf(b):(a.date<b.date?-1:1));
+   if(ps.length>1)out.push(`## ${p.name}`,'');
+   const lv=ps.length>1?'###':'##',dated=L.filter(e=>e.date!==NODATE),free=L.filter(e=>e.date===NODATE);
+   dated.forEach(e=>{one(e,`${lv} ${fmtD(e.date)}`);n++});
+   if(free.length){out.push(`${lv} 隨手記`,'');free.forEach(e=>{one(e,`${lv}# ${new Date(tsOf(e)||0).toLocaleDateString('zh-TW')}`);n++})}}
+  const nm=sel==='all'?'':'-'+(ps[0]?.name||'').replace(/[\\/:*?"<>|\s]+/g,'_'),
+   f=new File([out.join('\n')],'n-year-diary'+nm+'-'+new Date().toISOString().slice(0,10)+'.md',{type:'text/markdown'});
+  if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],title:'HTBU_? 日記'})}catch(e){if(e.name==='AbortError'){st.textContent='';return}dl(f)}}else dl(f);
+  st.textContent=`已匯出 ${n} 則紀錄。`}catch(e){st.textContent='匯出失敗：'+(e.message||e)}}
 async function importBackup(f){
  const st=$('#bst2');
  try{
