@@ -577,14 +577,13 @@ dialog.tbd>h2:first-child,dialog.tbd>.eth:first-child h2{font-family:"Cubic 11",
 .card:not(.empty){padding:9px 10px}
 #dtc{padding:10px 10px 10px}
 .wcs{padding-left:10px;padding-right:10px}
-.arc{padding:8px 10px}
 /* 左右內距 ≈ 上下內距 + 一點點 */
 #q,#qs2,#tv,#mvtv,#tn,#tx,#lk,#pn,#pen,#tmn,input[type=text],input[type=search],input[type=time],textarea,#hdr #q{padding-left:7px;padding-right:7px}
 dialog select{padding-left:7px}
 .card:not(.empty){padding:8px 9px}
 #dtc{padding:9px 9px}
 .wcs{padding-left:9px;padding-right:9px}
-.arc{padding:7px 9px}
+.arc{padding:calc(var(--tt) + 4px) 9px 8px}
 /* 時間欄高度＝連結欄；連結清除鈕＝工具列清除鈕 */
 #tv,#mvtv{height:28px;min-height:0;box-sizing:border-box;line-height:18px;padding-top:0;padding-bottom:0;-webkit-appearance:none;appearance:none;display:block}
 #tv::-webkit-date-and-time-value,#mvtv::-webkit-date-and-time-value{min-height:0;height:18px;line-height:18px;margin:0;padding:0;text-align:left}
@@ -614,13 +613,20 @@ input[type=radio]{margin-right:2px}
 #tv,#mvtv{font-size:13px}
 input[type=radio]{margin-right:1px}
 @media (max-width:400px){#tmwrap .acts,#mvtw .acts{column-gap:3px}}
+/* 時間框（24 小時制文字框）：固定 47×28、文字置中；選項間距＝「＋ 新增標籤／＋ 新增引用」的間距 */
+input.tmx,dialog input.tmx{width:47px!important;height:28px;margin:0!important;padding:4px 3px!important;box-sizing:border-box;text-align:center;font-size:13px;line-height:18px;flex:none;letter-spacing:0}
+input.tmx:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink)}
+#tmwrap:has(input[value=now]:checked) #tv,#mvtw:has(input[value=now]:checked) #mvtv{opacity:.4}
+#tmwrap .acts,#mvtw .acts{gap:10px;align-items:center}
+@media (max-width:400px){#tmwrap .acts,#mvtw .acts{column-gap:10px}}
+.acts label.r{letter-spacing:1.56px;font-size:13px}
 </style>
 </head>
 <body>
 <main>
 <header id="hdr">
 <div class="hb"><h1>HTBU_?</h1></div>
-<nav id="mbar" aria-label="功能選單"><button class="mi" data-m="set" onclick="toggleMenu('set')">設置</button><button class="mi" data-m="ppl" onclick="toggleMenu('ppl')">對象</button><button class="mi" data-m="tag" onclick="toggleMenu('tag')">標籤</button><button class="mi" data-m="rev" onclick="toggleMenu('rev')">回顧</button><button class="mi" data-m="org" onclick="toggleMenu('org')">整理</button><button class="mi" data-m="help" onclick="toggleMenu('help')">說明</button><button class="mi" data-m="bak" onclick="toggleMenu('bak')">備份</button></nav>
+<nav id="mbar" aria-label="功能選單"><button class="mi" data-m="set" onclick="toggleMenu('set')">設定</button><button class="mi" data-m="ppl" onclick="toggleMenu('ppl')">對象</button><button class="mi" data-m="tag" onclick="toggleMenu('tag')">標籤</button><button class="mi" data-m="rev" onclick="toggleMenu('rev')">回顧</button><button class="mi" data-m="org" onclick="toggleMenu('org')">整理</button><button class="mi" data-m="help" onclick="toggleMenu('help')">說明</button><button class="mi" data-m="bak" onclick="toggleMenu('bak')">備份</button></nav>
 <div id="srow" class="prow"><input type="search" id="q" placeholder="搜尋" aria-label="搜尋紀錄" enterkeyhint="search" autocomplete="off"><button id="qgo" type="button" aria-label="搜尋">搜尋</button></div>
 <div id="mdd" role="menu" hidden></div>
 </header>
@@ -655,7 +661,7 @@ input[type=radio]{margin-right:1px}
 <label class="r"><input type="radio" name="tm" value="none" checked> 不記時間</label>
 <label class="r"><input type="radio" name="tm" value="now"> 現在時間</label>
 <label class="r"><input type="radio" name="tm" value="manual"> 手動輸入</label>
-<input type="time" id="tv" disabled aria-label="時間">
+<input type="text" id="tv" class="tmx" inputmode="numeric" maxlength="5" autocomplete="off" disabled aria-label="時間（24 小時制）">
 </div>
 </div>
 <label for="tx" id="txl">文字</label>
@@ -673,10 +679,9 @@ input[type=radio]{margin-right:1px}
 <textarea id="lk" rows="1" placeholder="https://"></textarea>
 <div class="acts">
 <button onclick="fi.click()">＋ 照片／影片／音訊／檔案</button>
-<button id="rc" onclick="toggleRec()"><span class="gd"></span>錄音</button>
 <input type="file" id="fi" multiple hidden>
 </div>
-<div class="acts" id="tqrow"><button id="tgbtn" onclick="tagToggle()">＋ 新增標籤</button><button id="qbtn" onclick="openQd()">＋ 新增引用</button></div>
+<div class="acts" id="tqrow"><button id="tgbtn" onclick="tagToggle()">＋ 標籤</button><button id="qbtn" onclick="openQd()">＋ 引用</button></div>
 <div id="qpv"></div>
 <div id="tgd" class="acts" style="margin-top:0"></div>
 <div id="tgi" hidden><div class="acts" style="margin:0 0 8px"><input type="text" id="tn" placeholder="輸入標籤" maxlength="20" style="flex:1;margin:0"><button onclick="addTag($('#tn').value)">加入</button></div><div id="tsg" class="acts" style="margin-top:0"></div></div>
@@ -736,7 +741,7 @@ input[type=radio]{margin-right:1px}
 <label class="r"><input type="radio" name="mvt" value="none" checked> 不記時間</label>
 <label class="r"><input type="radio" name="mvt" value="now"> 現在時間</label>
 <label class="r"><input type="radio" name="mvt" value="manual"> 手動輸入</label>
-<input type="time" id="mvtv" disabled aria-label="時間">
+<input type="text" id="mvtv" class="tmx" inputmode="numeric" maxlength="5" autocomplete="off" disabled aria-label="時間（24 小時制）">
 </div></div>
 <div class="acts end"><button class="pri" onclick="mvOk()">確定</button><button onclick="$('#mv').close()">取消</button></div>
 </dialog>
@@ -937,7 +942,7 @@ function openGd(i){const d=$('#gd');
  if(i==null){d.close();openMenu('help');return}
  rc(d,h('h2',{},GUIDE[i].t),h('div',{class:'gb'},GUIDE[i].b),h('div',{class:'acts'},h('button',{onclick:()=>openGd(null)},'返回'),h('button',{onclick:()=>d.close()},'退出')));
  if(!d.open)d.showModal();d.scrollTop=0}
-/* ===== 頂列選單：設置／對象／標籤／回顧／封存／說明／備份，點擊後向下彈出功能條 ===== */
+/* ===== 頂列選單：設定／對象／標籤／回顧／封存／說明／備份，點擊後向下彈出功能條 ===== */
 let mOpen=null;
 const mBtn=k=>document.querySelector(`#mbar [data-m="${k}"]`);
 function menuGroups(k){
@@ -1040,6 +1045,12 @@ $('#swt').replaceChildren(h('button',{class:'sw',style:'background:'+PRE[0],'ari
 $('#tc').oninput=e=>setTheme(e.target.value);
 
 const nowStr=()=>{const d=new Date();return pad(d.getHours())+':'+pad(d.getMinutes())};
+/* 24 小時制時間輸入：只收數字、自動補冒號，並限制在 00:00–23:59 */
+function normTime(v){const d=String(v||'').replace(/\D/g,'').slice(0,4);if(!d)return '';let h,m;
+ if(d.length<=2){h=+d;m=0}else if(d.length===3){h=+d[0];m=+d.slice(1)}else{h=+d.slice(0,2);m=+d.slice(2)}
+ h=Math.min(23,h);m=Math.min(59,m);return pad(h)+':'+pad(m)}
+function fmtTimeInput(e){const t=e.target,d=t.value.replace(/\D/g,'').slice(0,4);t.value=d.length>2?d.slice(0,2)+':'+d.slice(2):d}
+['#tv','#mvtv'].forEach(q=>{const t=$(q);t.addEventListener('input',fmtTimeInput);t.addEventListener('blur',()=>{if(!t.disabled)t.value=normTime(t.value)||nowStr()})});
 const pname=id=>people.find(p=>p.id===id)?.name||'';
 const colVars=id=>{const c=colInfo(people.find(p=>p.id===id)?.color);return c?`--acc:${c.acc};--acx:${c.acx};--soft:${c.soft};--mark:${c.mark};--onacc:${c.on}`:''};
 const pstyle=en=>multi?colVars(en.pid):'';
@@ -1245,7 +1256,6 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden){clearTimeo
 {const a=drawTags;drawTags=function(){a.apply(this,arguments);schedDraft()};const b=drawQuote;drawQuote=function(){b.apply(this,arguments);schedDraft()}}
 async function commitMove(date,time){
  const old=edK&&E[edDate]?E[edDate].find(x=>x.k===edK):null;if(!old)return false;
- if(rec&&rec.state==='recording'){toast('請先停止錄音');return false}
  addTag($('#tn').value);
  const text=$('#tx').value.trim(),links=$('#lk').value.split(/\s+/).filter(Boolean).map(l=>/^https?:\/\//i.test(l)?l:'https://'+l);
  if(!text&&!links.length&&!draft.length&&!dquote){toast('內容是空的，無法移動');return false}
@@ -1513,7 +1523,7 @@ function openMv(){const cy=now.getFullYear();
  $('#mvy').value=cy;$('#mvm').value=now.getMonth()+1;fillMvd(now.getDate());mvMode('none');
  $('#mv').showModal();if(document.activeElement&&document.activeElement.blur)document.activeElement.blur()}
 async function mvOk(){const mode=document.querySelector('input[name=mvt]:checked').value;let time=null;
- if(mode==='now')time=nowStr();else if(mode==='manual'){time=$('#mvtv').value||null;if(!time){toast('請輸入時間');return}}
+ if(mode==='now')time=nowStr();else if(mode==='manual'){time=normTime($('#mvtv').value)||null;if(!time){toast('請輸入時間');return}}
  const date=`${$('#mvy').value}-${pad(+$('#mvm').value)}-${pad(+$('#mvd').value)}`;
  if(await commitMove(date,time)){$('#mv').close();$('#ed').close();toast('已移至時間軸');renderKeep()}}
 async function removeEntry(){if(!edK)return;await dbDel('entries',edK);E[edDate]=E[edDate].filter(x=>x.k!==edK);if(!E[edDate].length)delete E[edDate]}
@@ -1554,17 +1564,10 @@ const _render0=render;render=function(){_render0.apply(this,arguments);updQb()};
 updQb();
 addEventListener('gesturestart',e=>{if(!$('#lb').open)e.preventDefault()});
 addEventListener('touchmove',e=>{if(e.touches.length>1&&!$('#lb').open)e.preventDefault()},{passive:false});
-let rec,chunks;
-async function toggleRec(){const b=$('#rc');if(rec&&rec.state==='recording'){rec.stop();return}
- try{const s=await navigator.mediaDevices.getUserMedia({audio:true});chunks=[];rec=new MediaRecorder(s);
- rec.ondataavailable=e=>chunks.push(e.data);
- rec.onstop=()=>{s.getTracks().forEach(t=>t.stop());draft.push({t:'audio',b:new Blob(chunks,{type:rec.mimeType}),n:'錄音'});b.innerHTML='<span class="gd"></span>錄音';drawDraft()};
- rec.start();b.textContent='■ 停止錄音'}catch(e){toast('無法使用麥克風，可改用「＋ 照片／影片／音訊／檔案」上傳音訊')}}
 async function save(){
- if(rec&&rec.state==='recording')return toast('請先停止錄音');
  addTag($('#tn').value);
  const text=$('#tx').value.trim(),links=$('#lk').value.split(/\s+/).filter(Boolean).map(l=>/^https?:\/\//i.test(l)?l:'https://'+l);
- const old=edK?E[edDate].find(x=>x.k===edK):null,mode=document.querySelector('input[name=tm]:checked').value,time=!FEAT.time?(old?old.time||null:null):(mode==='none'?null:($('#tv').value||null));
+ const old=edK?E[edDate].find(x=>x.k===edK):null,mode=document.querySelector('input[name=tm]:checked').value,time=!FEAT.time?(old?old.time||null:null):(mode==='none'?null:(normTime($('#tv').value)||null));
  const empty=!text&&!links.length&&!draft.length&&!dquote;
  if(empty&&dtags.length){toast('請輸入紀錄內容');return}
  if(empty&&edK&&!await ask('內容已清空，這則紀錄會被刪除'))return;
