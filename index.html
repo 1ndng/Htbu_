@@ -1566,14 +1566,18 @@ function openQd(){if(!cur){toast('請先選擇對象');return}$('#qs2').value=''
 async function drawQd(k){const my=drawQd.n=(drawQd.n||0)+1,all=(await dbByP(cur)).filter(e=>e.k!==edK),kk=k.trim().toLowerCase(),
  list=all.filter(e=>!kk||hay(e).includes(kk)).sort((a,b)=>a.date===b.date?(b.time||'').localeCompare(a.time||''):(a.date<b.date?1:-1)).slice(0,80);
  if(my!==drawQd.n)return;
- rc($('#qdc'),list.length?list.map(e=>h('button',{class:'qhit',onclick:()=>{dquote=mkQuoteSnap(e);drawQuote();$('#qd').close()}},h('div',{class:'rd'},(e.date===NODATE?'隨手記':fmtD(e.date))+(e.time?'　'+e.time:'')),h('div',{class:'qtx'},qTxt(e)))):h('p',{class:'sub'},'沒有符合的紀錄'))}
-function qdGo(b){clearTimeout(drawQd.t);drawQd($('#qs2').value);if(b===true)$('#qs2').blur()}
+ rc($('#qdc'),list.length?list.map(e=>h('button',{class:'qhit',onclick:()=>{if(Date.now()<qdHold)return;dquote=mkQuoteSnap(e);drawQuote();$('#qd').close()}},h('div',{class:'rd'},(e.date===NODATE?'隨手記':fmtD(e.date))+(e.time?'　'+e.time:'')),h('div',{class:'qtx'},qTxt(e)))):h('p',{class:'sub'},'沒有符合的紀錄'))}
+/* 手機：搜尋欄聚焦／失焦、鍵盤開關時視窗會跳位，同一下觸控可能落到剛移到指尖下的第一筆引用；跳位後短時間內不接受點選 */
+let qdHold=0;const qdWait=()=>{qdHold=Date.now()+500};
+function qdGo(b){clearTimeout(drawQd.t);qdWait();drawQd($('#qs2').value);if(b===true)$('#qs2').blur()}
+$('#qsb').addEventListener('mousedown',e=>e.preventDefault());/* 按搜尋時不先讓搜尋欄失焦（避免按下去的瞬間視窗就跳位） */
+if(window.visualViewport)visualViewport.addEventListener('resize',()=>{if($('#qd').open)qdWait()});
 $('#qs2').oninput=()=>{clearTimeout(drawQd.t);drawQd.t=setTimeout(()=>drawQd($('#qs2').value),200)};
 $('#qs2').addEventListener('compositionend',()=>qdGo());
 $('#qs2').addEventListener('search',()=>qdGo());
 $('#qs2').addEventListener('change',()=>qdGo());
-$('#qs2').addEventListener('focus',()=>$('#qd').classList.add('kb'));
-$('#qs2').addEventListener('blur',()=>$('#qd').classList.remove('kb'));
+$('#qs2').addEventListener('focus',()=>{qdWait();$('#qd').classList.add('kb')});
+$('#qs2').addEventListener('blur',()=>{qdWait();$('#qd').classList.remove('kb')});
 $('#qs2').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();qdGo(true)}});
 function quoteFrom(en){const snap=mkQuoteSnap(en);
  openEd(`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`);
