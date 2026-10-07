@@ -222,7 +222,7 @@ mark.hl{background:rgba(128,128,128,.3);background:color-mix(in srgb,var(--acc) 
 #wrb .xcl{padding:0;font-size:0;line-height:0}
 #wr{overscroll-behavior:none;touch-action:none}#wr .wc,#wr .wcs,#wr textarea{touch-action:pan-y}html:has(#wr[open]),html:has(#wr[open]) body{overscroll-behavior:none}
 .wdone{white-space:pre-line}
-.arl{max-height:56vh;overflow-y:auto;padding:2px 4px 2px 2px;margin-bottom:12px}
+.arl{max-height:56vh;overflow-y:auto;padding:2px;margin-bottom:12px}
 .arc{--pxc:3px;clip-path:var(--cut);background:var(--pxbg);border:var(--bw) solid transparent;padding:10px 12px;margin-bottom:10px;display:flex;flex-direction:column;gap:4px}
 .arc{cursor:pointer}.artx{font-size:14px;line-height:1.6;word-break:break-word;overflow-wrap:anywhere;white-space:pre-wrap;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}.arc.open .artx{display:block;-webkit-line-clamp:unset;line-clamp:unset;overflow:visible}.ardn{font-size:11px;color:var(--mute)}
 .hmstat{color:var(--mute);font-size:12px;text-align:center;line-height:1.6;margin:0 0 10px}
@@ -264,8 +264,8 @@ input:not([type=radio]):not([type=checkbox]):not([type=range]):not([type=color])
 dialog{background-attachment:local}
 
 dialog.tbd{--tt:36px;padding-top:calc(var(--tt) + 6px)}
-dialog.tbd>h2:first-child{position:absolute;left:8px;right:64px;top:4px;height:24px;margin:0!important;padding:0;font-size:15px;line-height:24px;text-align:left!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-dialog.tbd>.eth:first-child{position:absolute;left:8px;right:32px;top:4px;height:24px;margin:0;padding:0;gap:8px}
+dialog.tbd>h2:is(:first-child,.sbw+h2){position:absolute;left:8px;right:64px;top:4px;height:24px;margin:0!important;padding:0;font-size:15px;line-height:24px;text-align:left!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+dialog.tbd>.eth:is(:first-child,.sbw+.eth){position:absolute;left:8px;right:32px;top:4px;height:24px;margin:0;padding:0;gap:8px}
 .eth h2{font-size:15px;line-height:24px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .eth .edit{height:24px;line-height:20px;padding:0 10px;margin:0;font-size:12px}
 #dt{padding:36px 4px 4px;overflow:hidden;background-attachment:scroll}
@@ -329,7 +329,7 @@ dialog,.wc{--bw:2px}
 button,.edit,.card .edit,.card button,.eth .edit,.rm>.cvb,#wred,.wrside,#wrb button,.tg,.dtg,.card .tg,.fl,.card .fl,#dtc .fl,.wc .fl,.qv,.qchip,#cl .edit,#hp .edit,#ft .edit,#gd .mb .edit{font-size:13px;letter-spacing:1.56px}
 .tg,.dtg,.card .tg{letter-spacing:.04em}
 .xcl,.xbk{font-size:0}
-dialog.tbd>h2:first-child,.eth h2{font-size:16px}
+dialog.tbd>h2:is(:first-child,.sbw+h2),.eth h2{font-size:16px}
 .dhead>.dgL{margin-left:-5px}
 #my .sub,#gd .sub{text-align:center}
 label:not(.r),.sub,#my .sub,.hmstat,.hmtitle,#wrh,#wrh>div,#cf .sm,.qhit .qtx,.bkn{font-size:11px}
@@ -432,8 +432,6 @@ dialog select{-webkit-appearance:none;appearance:none;padding-right:30px;backgro
  linear-gradient(var(--blo),var(--blo)) right 2px top 2px/1px calc(100% - 4px) no-repeat,
  linear-gradient(var(--btnf),var(--btnf)) right 2px top 2px/18px calc(100% - 4px) no-repeat,
  var(--pxbg)}
-html.kb .jsb-bar{display:none!important}
-html.kb.jsb dialog.sbx:not(#dt):not(#wr){padding-right:21px}
 .mit.sel{background:var(--acc);color:var(--onacc)}
 .ap .r1{align-items:stretch}
 .ap .pn{padding:0 6px;display:flex;align-items:center;justify-content:center;min-height:22px;line-height:1}
@@ -492,18 +490,24 @@ dialog{overscroll-behavior:none}
 #wr .xcl{top:calc(8px + env(safe-area-inset-top,0px));right:12px}
 #wred{align-self:start}
 /* 手機用的自製捲軸（iOS Safari 不顯示原生捲軸） */
-html.jsb :is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea)::-webkit-scrollbar{display:none;width:0;height:0}
-html.jsb :is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,textarea){scrollbar-width:none}
-html.jsb .arl{padding-right:15px}
-html.jsb #hmc{padding-right:13px}
-html.jsb #qdc{padding-right:13px}
-html.jsb #gd .gb{padding-right:13px}
-html.jsb #dtc{padding-right:32px}
-html.jsb .wcs{padding-right:34px}
-html.jsb dialog.sbx:not(#dt):not(#wr){padding-right:34px}
-.jsb-bar{position:fixed;z-index:60;display:none;background:var(--btnf);touch-action:none;-webkit-user-select:none;user-select:none;box-shadow:inset 0 0 0 1px var(--mute)}
+html.jsb :is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,#edb,textarea)::-webkit-scrollbar{display:none;width:0;height:0}
+html.jsb :is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,#edb,textarea){scrollbar-width:none}
+.sbw{position:sticky;height:0;margin:0;padding:0;border:0;z-index:6;pointer-events:none}.sbw>.jsb-bar{pointer-events:auto}
+.jsb-bar{position:absolute;z-index:6;display:none;background:var(--btnf);touch-action:none;-webkit-user-select:none;user-select:none;box-shadow:inset 0 0 0 1px var(--mute)}
 .jsb-bar.on{display:flex}
 .jsb-bar.v{width:14px;flex-direction:column}
+html.jsb #dtc{padding-left:20px;padding-right:20px}
+html.jsb .wcs{padding-left:20px!important;padding-right:20px!important}
+/* 內框：捲軸貼在內框外緣、長在內框裡；內框本身左右對稱，不把捲軸算進體積 */
+html.jsb :is(#hmc,.arl){background:var(--card);box-shadow:inset 1px 1px 0 var(--blo),inset -1px -1px 0 var(--bhi),0 0 0 1px var(--ink);padding-left:20px;padding-right:20px}
+html.jsb #hmc{padding-top:12px;padding-bottom:4px}
+html.jsb .arl{padding-top:10px;padding-bottom:0;background:var(--bg)!important;background:color-mix(in srgb,var(--bg) 55%,var(--card))!important}
+/* 有捲軸時：把「框 − 捲軸」當成真正的內容區，內文在剩下的空間裡置中 */
+html.jsb :is(#hmc,.arl).sbon{padding-right:35px}
+html.jsb #dts.sbon #dtc{padding-right:35px}
+html.jsb .wcs.sbon{padding-right:35px!important}
+html.jsb :is(#edb,#qdc,#gd .gb).sbon{padding-right:21px}
+html.jsb :is(#edb,#qdc,#gd .gb){padding-left:6px;padding-right:6px}
 .jsb-bar.h{height:14px;flex-direction:row}
 /* 一天中的左右捲軸：放在方塊列正下方（跟著頁面一起捲動，不蓋到方塊） */
 .jsb-bar.h.inl{position:relative;z-index:auto;margin:0 0 8px;width:100%}
@@ -516,6 +520,7 @@ html.jsb dialog.sbx:not(#dt):not(#wr){padding-right:34px}
 .jsb-bar .arw{flex:none;width:14px;height:14px;background:var(--btnf);box-shadow:inset 0 0 0 1px var(--mute),inset 2px 2px 0 var(--bhi),inset -2px -2px 0 var(--blo);position:relative}
 .jsb-bar .arw:active{box-shadow:inset 0 0 0 1px var(--mute),inset 2px 2px 0 var(--blo),inset -2px -2px 0 var(--bhi)}
 .jsb-bar .arw::after{content:"";position:absolute;left:50%;top:50%;width:0;height:0;border:4px solid transparent;transform:translate(-50%,-50%)}
+.jsb-bar.h .arw{width:14px;height:14px}.jsb-bar.h .arw::after{border-width:4px}
 .jsb-bar .arw.up::after{border-bottom-color:var(--ink);border-top-width:0;margin-top:-1px}
 .jsb-bar .arw.dn::after{border-top-color:var(--ink);border-bottom-width:0;margin-top:1px}
 .jsb-bar .arw.lf::after{border-right-color:var(--ink);border-left-width:0;margin-left:-1px}
@@ -535,7 +540,7 @@ dialog{--pp:var(--bg)}
 #dts{background:var(--card);box-shadow:inset 1px 1px 0 var(--blo),inset -1px -1px 0 var(--bhi),0 0 0 1px var(--ink)}
 .arc,.qhit,.qv,.qchip,.fl{--fill:var(--card)}
 #hdr h1{color:var(--onacc)}
-dialog.tbd>h2:first-child,dialog.tbd>.eth:first-child h2,#dtt,.wc>.dth{color:var(--onacc)}
+dialog.tbd>h2:is(:first-child,.sbw+h2),dialog.tbd>.eth:is(:first-child,.sbw+.eth) h2,#dtt,.wc>.dth{color:var(--onacc)}
 /* 小型輸入視窗：扁一點，上下留白一致、輸入框與按鈕拉近 */
 #pd,#pe,#tm,#my,#dp,#mv{padding:38px 12px 10px}
 #pd input[type=text],#pe input[type=text],#tm input[type=text]{padding:4px 9px;margin:0;line-height:1.3}
@@ -568,10 +573,12 @@ dialog select{padding-top:2px;padding-bottom:2px;line-height:1.3}
 #tm #tmsw{margin-bottom:8px}#tm #tmsw[hidden]{margin:0}
 /* 視窗統一：留白、寬度、標題字、周復盤編輯鈕 */
 #ed,#qd,#cv,#mv{padding:38px 12px 10px}
+#ed[open]{display:flex;flex-direction:column;overflow:hidden;background-attachment:scroll}
+#edb{flex:1 1 auto;min-height:0;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:none}
 #pd,#pe,#tm,#dp,#my{width:min(320px,86vw)}
-dialog.tbd>h2:first-child,dialog.tbd>.eth:first-child h2{font-family:"Cubic 11","BaDing",serif;font-weight:400;letter-spacing:.1em}
+dialog.tbd>h2:is(:first-child,.sbw+h2),dialog.tbd>.eth:is(:first-child,.sbw+.eth) h2{font-family:"Cubic 11","BaDing",serif;font-weight:400;letter-spacing:.1em}
 #wr #wred{height:27px;line-height:23px;padding:0 9px;color:var(--ink)}
-#ed .eth #emv,#ed.tbd>.eth:first-child .edit{height:24px;line-height:20px}
+#ed .eth #emv,#ed.tbd>.eth:is(:first-child,.sbw+.eth) .edit{height:24px;line-height:20px}
 #wr #wrb #wrun{height:27px;line-height:23px;padding:0 9px;color:var(--ink)}
 /* 記錄方塊文字貼近邊框（比照搜尋欄內距） */
 .card:not(.empty){padding:9px 10px}
@@ -583,7 +590,9 @@ dialog select{padding-left:7px}
 .card:not(.empty){padding:8px 9px}
 #dtc{padding:9px 9px}
 .wcs{padding-left:9px;padding-right:9px}
-.arc{padding:calc(var(--tt) + 4px) 9px 8px}
+.arc{padding:calc(var(--tt) + 4px) 4px 4px;gap:0}
+.arb{background:var(--card);box-shadow:inset 1px 1px 0 var(--blo),inset -1px -1px 0 var(--bhi),0 0 0 1px var(--ink);padding:9px 9px;display:flex;flex-direction:column;gap:4px;margin-bottom:6px}
+.ari{margin-bottom:12px}.ari>.arc{margin-bottom:3px}.arb{margin-bottom:0}.arf{display:flex;align-items:flex-end;gap:8px;padding:0 2px}.arf .ardn{line-height:1;padding-bottom:3px;white-space:nowrap}
 /* 時間欄高度＝連結欄；連結清除鈕＝工具列清除鈕 */
 #tv,#mvtv{height:28px;min-height:0;box-sizing:border-box;line-height:18px;padding-top:0;padding-bottom:0;-webkit-appearance:none;appearance:none;display:block}
 #tv::-webkit-date-and-time-value,#mvtv::-webkit-date-and-time-value{min-height:0;height:18px;line-height:18px;margin:0;padding:0;text-align:left}
@@ -655,6 +664,7 @@ input.tmx:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink)
 
 <dialog id="ed">
 <div class="eth"><h2 id="et"></h2><button id="emv" class="edit" hidden onclick="moveEntry()"></button></div>
+<div id="edb">
 <div id="tmwrap">
 <label>時間</label>
 <div class="acts">
@@ -677,6 +687,7 @@ input.tmx:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink)
 <textarea id="tx" rows="3" placeholder="任何你想記錄的。"></textarea>
 <div class="lh"><label for="lk">連結（每行一個）</label><button class="edit" onclick="clr('#lk')">清除</button></div>
 <textarea id="lk" rows="1" placeholder="https://"></textarea>
+<label>附件/其他</label>
 <div class="acts">
 <button onclick="fi.click()">＋ 照片／影片／音訊／檔案</button>
 <input type="file" id="fi" multiple hidden>
@@ -687,6 +698,7 @@ input.tmx:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink)
 <div id="tgi" hidden><div class="acts" style="margin:0 0 8px"><input type="text" id="tn" placeholder="輸入標籤" maxlength="20" style="flex:1;margin:0"><button onclick="addTag($('#tn').value)">加入</button></div><div id="tsg" class="acts" style="margin-top:0"></div></div>
 <div id="dm" class="media"></div>
 <div class="acts end"><button id="dl" onclick="archiveEntry()">封存</button><button class="pri" onclick="save()">儲存</button><button onclick="cancelEd()">取消</button></div>
+</div>
 </dialog>
 <dialog id="bk">
 <h2>備份</h2>
@@ -1279,63 +1291,82 @@ document.querySelectorAll('dialog').forEach(d=>{decoDlg(d);new MutationObserver(
 
 {const hd=document.getElementById('hdr');if(hd&&window.ResizeObserver){const f=()=>document.documentElement.style.setProperty('--hdr',hd.offsetHeight+'px');new ResizeObserver(f).observe(hd);f()}}
 /* 手機自製捲軸：Mac OS 8 風（箭頭鈕＋滑塊，可拖曳／點軌道／長按箭頭） */
-if(matchMedia('(pointer:coarse)').matches)document.documentElement.classList.add('jsb');
-const SBSEL='#dts,#hmc,.arl,#qdc,.gb,.wcs,.hs';
+document.documentElement.classList.add('jsb');
+/* 自製捲軸：長在視窗外框「裡面」，位置只由版面尺寸（offset*）算出，不讀螢幕座標，所以鍵盤、動畫、拖曳時不會漂移 */
+const SBSEL='#dts,#hmc,.arl,#qdc,.gb,.wcs,.hs,#edb';
 const sbMap=new Map();let sbRaf=0;
 function sbMake(el,ax){
  const v=ax==='v',bar=document.createElement('div');bar.className='jsb-bar '+ax;
  const a1=document.createElement('div'),a2=document.createElement('div'),trk=document.createElement('div'),thm=document.createElement('div');
  a1.className='arw '+(v?'up':'lf');a2.className='arw '+(v?'dn':'rt');trk.className='trk';thm.className='thm';trk.append(thm);bar.append(a1,trk,a2);
- const win=el===window,get=()=>win?{st:v?scrollY:scrollX,sh:v?document.documentElement.scrollHeight:document.documentElement.scrollWidth,ch:v?innerHeight:innerWidth}:{st:v?el.scrollTop:el.scrollLeft,sh:v?el.scrollHeight:el.scrollWidth,ch:v?el.clientHeight:el.clientWidth};
- const set=n=>win?scrollTo(v?scrollX:n,v?n:scrollY):el.scrollTo(v?{top:n}:{left:n});
+ const get=()=>({st:v?el.scrollTop:el.scrollLeft,sh:v?el.scrollHeight:el.scrollWidth,ch:v?el.clientHeight:el.clientWidth});
+ const set=n=>el.scrollTo(v?{top:n}:{left:n});
  let rep=0;const stop=()=>{clearInterval(rep);rep=0};
- const arrow=(btn,dir)=>btn.addEventListener('pointerdown',e=>{e.preventDefault();const g=()=>{const q=get();set(q.st+dir*Math.max(40,q.ch*.12))};g();rep=setInterval(g,90);const up=()=>{stop();removeEventListener('pointerup',up);removeEventListener('pointercancel',up)};addEventListener('pointerup',up);addEventListener('pointercancel',up)});
+ const arrow=(btn,dir)=>btn.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();const g=()=>{const q=get();set(q.st+dir*Math.max(40,q.ch*.12))};g();rep=setInterval(g,90);const up=()=>{stop();removeEventListener('pointerup',up);removeEventListener('pointercancel',up)};addEventListener('pointerup',up);addEventListener('pointercancel',up)});
  arrow(a1,-1);arrow(a2,1);
  thm.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();thm.setPointerCapture(e.pointerId);thm.classList.add('act');const p0=v?e.clientY:e.clientX,g0=get(),sp=(v?trk.clientHeight:trk.clientWidth)-(v?thm.offsetHeight:thm.offsetWidth);
   const mv=ev=>{const d=(v?ev.clientY:ev.clientX)-p0;if(sp>0)set(g0.st+d*(g0.sh-g0.ch)/sp)};
   const up=()=>{thm.classList.remove('act');thm.removeEventListener('pointermove',mv);thm.removeEventListener('pointerup',up);thm.removeEventListener('pointercancel',up)};
   thm.addEventListener('pointermove',mv);thm.addEventListener('pointerup',up);thm.addEventListener('pointercancel',up)});
- trk.addEventListener('pointerdown',e=>{if(e.target===thm)return;e.preventDefault();const q=get(),r=thm.getBoundingClientRect(),before=(v?e.clientY<r.top:e.clientX<r.left);set(q.st+(before?-1:1)*q.ch*.9)});
- return {bar,thm,get,v,win}}
-function sbPlace(el,ax){
- let o=sbMap.get(el);const key=ax;o=o||{};
- if(!o[key]){o[key]=sbMake(el,ax);sbMap.set(el,o)}
- const b=o[key],g=b.get(),v=b.v,bar=b.bar;
- if(!b.win&&!v&&el.classList.contains('hs')){
-  if(!el.isConnected){bar.remove();return}
-  bar.classList.add('inl');
-  if(el.nextElementSibling!==bar)el.after(bar);
-  const on=g.sh>g.ch+1;bar.classList.toggle('on',on);if(!on)return;
-  const trk=bar.querySelector('.trk'),tl=trk.clientWidth||0,len=Math.max(22,Math.round(tl*g.ch/g.sh)),L=Math.max(0,Math.min(tl-len,Math.round((tl-len)*g.st/(g.sh-g.ch))))+'px',W=len+'px';
-  if(b.thm.style.left!==L)b.thm.style.left=L;if(b.thm.style.width!==W)b.thm.style.width=W;
-  return}
- let host=document.body,r;
- if(b.win){r={top:(document.getElementById('hdr')?document.getElementById('hdr').getBoundingClientRect().bottom:0),bottom:innerHeight,left:0,right:innerWidth}}
- else{
-  if(!el.isConnected){bar.classList.remove('on');return}
-  const dlg=el.tagName==='DIALOG'?el:el.closest('dialog');
-  if(dlg){if(!dlg.open){bar.classList.remove('on');return}host=dlg}
-  else if(document.querySelector('dialog[open]')){bar.classList.remove('on');return}
-  r=el.getBoundingClientRect();if(r.width===0&&r.height===0){bar.classList.remove('on');return}
-  if(el.classList.contains('wcs')){const cd=el.parentNode;if(cd.offsetParent){const pr=cd.offsetParent.getBoundingClientRect(),L0=pr.left+cd.offsetLeft,T0=pr.top+cd.offsetTop;r={left:L0,top:T0,right:L0+cd.offsetWidth,bottom:T0+cd.offsetHeight,width:cd.offsetWidth,height:cd.offsetHeight}}}
- }
- if(bar.parentNode!==host)host.append(bar);
- const on=g.sh>g.ch+1;bar.classList.toggle('on',on);if(el.tagName==='DIALOG'&&el.id!=='dt'&&el.id!=='wr')el.classList.toggle('sbx',on);if(!on)return;
- const isDlg=!b.win&&el.matches('dialog,.wcs'),ins=isDlg?10:0,side=isDlg?8:(b.win||el.classList.contains('arl')||el.id==='hmc'||el.id==='qdc'||el.classList.contains('gb')?0:2),tt=isDlg?(parseFloat(getComputedStyle(el.classList.contains('wcs')?el.parentNode:el).getPropertyValue('--tt'))||5)+6:0;
- if(v){const t=r.top+(isDlg?tt:ins),L=Math.max(0,r.bottom-ins-t),dl=(el.classList.contains('arl')||el.id==='hmc'||el.id==='qdc'||el.classList.contains('gb'))&&el.closest('dialog'),rx=dl?dl.getBoundingClientRect().right-8:r.right-side;bar.style.cssText=`left:${rx-14}px;top:${t}px;height:${L}px`}
- else{const l=r.left+ins,L=Math.max(0,r.right-ins-l);bar.style.cssText=`top:${r.bottom-14-side}px;left:${l}px;width:${L}px`}
- if(!b.win&&el.classList.contains('wcs')){const cd=el.parentNode,tf=cd.style.transform;bar.style.transition=cd.classList.contains('anim')?getComputedStyle(cd).transition:'none';bar.style.opacity=cd.style.opacity;
-  if(tf){const bl=r.right-14-side,bt=r.top+tt;bar.style.transformOrigin=`${(r.left+r.width*.5)-bl}px ${(r.top+r.height*.9)-bt}px`;bar.style.transform=tf}else bar.style.transform=''}
- const trk=bar.querySelector('.trk'),tl=(v?trk.clientHeight:trk.clientWidth)||0,len=Math.max(22,Math.round(tl*g.ch/g.sh)),pos=g.sh>g.ch?Math.round((tl-len)*g.st/(g.sh-g.ch)):0;
+ trk.addEventListener('pointerdown',e=>{if(e.target===thm)return;e.preventDefault();e.stopPropagation();const q=get(),r=thm.getBoundingClientRect(),before=(v?e.clientY<r.top:e.clientX<r.left);set(q.st+(before?-1:1)*q.ch*.9)});
+ bar.addEventListener('pointerdown',e=>e.stopPropagation());
+ return {bar,thm,trk,get,v}}
+/* 相對於 host 的版面位置（只加總 offsetLeft/Top，不受捲動、transform 影響） */
+function sbOff(el,host){let x=0,y=0,n=el;while(n&&n!==host){x+=n.offsetLeft;y+=n.offsetTop;n=n.offsetParent}return n===host?{x,y}:null}
+const SBW=14;
+const sbInner=d=>[...d.querySelectorAll('#hmc,.arl,#qdc,.gb,#edb')].some(e=>e.offsetParent&&e.scrollHeight>e.clientHeight+1);
+/* 各瀏覽器對「有 padding 的捲動容器裡 sticky top」的算法不同（從內容邊或從邊框內緣量起）：先實測一次 */
+let sbSem=null;
+function sbProbe(){if(sbSem)return sbSem;const c=document.createElement('div');c.style.cssText='position:fixed;left:-999px;top:0;width:50px;height:50px;overflow:auto;padding:20px;box-sizing:border-box';
+ const w=document.createElement('div');w.style.cssText='position:sticky;top:0;height:0';const f=document.createElement('div');f.style.height='300px';c.append(w,f);document.body.append(c);c.scrollTop=100;
+ const y=w.getBoundingClientRect().top-c.getBoundingClientRect().top;c.remove();return sbSem=y>10?'content':'padding'}
+function sbGeom(el){
+ const isD=el.tagName==='DIALOG',px=(cs,k)=>parseFloat(cs[k])||0,G=1;
+ if(isD){
+  if(!el.open||el.id==='dt'||el.id==='wr'||el.id==='cf')return null;
+  const cs=getComputedStyle(el),pl=px(cs,'paddingLeft'),pt=px(cs,'paddingTop'),bw=px(cs,'borderTopWidth'),
+   y0=(el.classList.contains('tbd')?(parseFloat(cs.getPropertyValue('--tt'))||5)+6:10)-bw;
+  return{host:el,wrap:true,pt,x:el.clientWidth-SBW-G-pl,y:y0-pt,h:el.clientHeight-y0-8}}
+ const dlg=el.closest('dialog');if(!dlg||!dlg.open)return null;
+ if(el.classList.contains('wcs')){const cd=el.parentNode;if(!cd||!cd.offsetParent)return null;
+  return{host:cd,x:cd.clientWidth-SBW-G,y:el.offsetTop+2,h:el.offsetHeight-12}}
+ const o=sbOff(el,dlg);if(!o)return null;
+ if(el.matches('#hmc,.arl,#dts'))return{host:dlg,x:o.x+el.offsetWidth-SBW-1,y:o.y+1,h:el.offsetHeight-2};/* 內框：捲軸在框內貼右緣 */
+ return{host:dlg,x:dlg.clientWidth-SBW-G,y:o.y,h:el.offsetHeight}}
+function sbThumb(b,el){
+ const g=b.get(),v=b.v,tl=(v?b.trk.clientHeight:b.trk.clientWidth)||0;if(!tl)return;
+ const len=Math.max(22,Math.round(tl*g.ch/g.sh)),pos=g.sh>g.ch?Math.round((tl-len)*g.st/(g.sh-g.ch)):0;
  b.thm.style[v?'top':'left']=Math.max(0,Math.min(tl-len,pos))+'px';b.thm.style[v?'height':'width']=len+'px'}
+function sbPlace(el,ax){
+ let o=sbMap.get(el);if(!o){o={};sbMap.set(el,o)}
+ if(!o[ax]){o[ax]=sbMake(el,ax);el.addEventListener('scroll',()=>sbThumb(o[ax],el),{passive:true})}
+ const b=o[ax],g=b.get(),v=b.v,bar=b.bar;
+ if(!v&&el.classList.contains('hs')){/* 一天中的左右捲軸：放在方塊列正下方 */
+  if(!el.isConnected){bar.remove();return}
+  bar.classList.add('inl');if(el.nextElementSibling!==bar)el.after(bar);
+  const on=g.sh>g.ch+1;bar.classList.toggle('on',on);if(on)sbThumb(b,el);return}
+ const off=()=>{if(el.tagName!=='DIALOG')el.classList.remove('sbon');bar.classList.remove('on');if(o.wrap&&o.wrap.parentNode)o.wrap.remove()};
+ if(!el.isConnected||g.sh<=g.ch+1||(el.tagName==='DIALOG'&&sbInner(el))){off();return}
+ const G=sbGeom(el);if(!G||G.h<30){off();return}
+ let par=G.host;
+ if(G.wrap){const w=o.wrap||(o.wrap=Object.assign(document.createElement('div'),{className:'sbw'}));
+  w.style.top=(sbProbe()==='content'?0:G.pt)+'px';if(w.parentNode!==G.host||G.host.firstChild!==w)G.host.prepend(w);par=w}
+ else if(o.wrap&&o.wrap.parentNode)o.wrap.remove();
+ if(bar.parentNode!==par)par.append(bar);
+ bar.classList.add('on');if(el.tagName!=='DIALOG')el.classList.add('sbon');
+ const css=`left:${Math.round(G.x)}px;top:${Math.round(G.y)}px;height:${Math.round(G.h)}px`;if(bar.style.cssText!==css)bar.style.cssText=css;
+ sbThumb(b,el)}
 function sbRefresh(now){if(!document.documentElement.classList.contains('jsb'))return;cancelAnimationFrame(sbRaf);const run=()=>{
- const list=[...[...document.querySelectorAll('dialog')].map(d=>[d,'v']),...[...document.querySelectorAll(SBSEL)].map(e=>[e,e.classList.contains('hs')?'h':'v'])];
+ const list=[...[...document.querySelectorAll('dialog[open]')].map(d=>[d,'v']),...[...document.querySelectorAll(SBSEL)].map(e=>[e,e.classList.contains('hs')?'h':'v'])];
+
  list.forEach(([e,a])=>{try{sbPlace(e,a)}catch(x){}});
- sbMap.forEach((o,el)=>{if(el!==window&&!el.isConnected){Object.values(o).forEach(b=>b.bar.remove());sbMap.delete(el)}})};
+ sbMap.forEach((o,el)=>{if(!el.isConnected||(el.tagName==='DIALOG'&&!el.open)){Object.values(o).forEach(b=>b&&b.bar&&b.bar.remove());if(o.wrap)o.wrap.remove();if(!el.isConnected)sbMap.delete(el)}})};
  if(now===true)run();else sbRaf=requestAnimationFrame(run)}
 if(document.documentElement.classList.contains('jsb')){
- document.addEventListener('scroll',()=>sbRefresh(true),true);addEventListener('resize',sbRefresh);addEventListener('orientationchange',sbRefresh);
- new MutationObserver(sbRefresh).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['open','hidden','class','style']});
+ addEventListener('resize',sbRefresh);addEventListener('orientationchange',sbRefresh);
+ if(window.visualViewport)visualViewport.addEventListener('resize',sbRefresh);
+ new MutationObserver(sbRefresh).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['open','hidden','class']});
+ if(window.ResizeObserver){const ro=new ResizeObserver(sbRefresh);const watch=()=>document.querySelectorAll('dialog,'+SBSEL).forEach(e=>ro.observe(e));watch();new MutationObserver(watch).observe(document.body,{childList:true,subtree:true})}
  sbRefresh()}
 /* 點開後的視窗：內容已在頂（或底）時繼續拖曳，不讓畫面被拉動；標題列／邊框區的拖曳也不動 */
 {const dt=document.getElementById('dt'),ds=document.getElementById('dts');let ly=0;
@@ -1454,7 +1485,7 @@ function wrBind(c){const kb=$('#wrk'),ab=$('#wra'),sb=$('#wrp');
    mode=1;try{c.setPointerCapture(id)}catch(_){}}
   if(mode!==1)return;wrMoved=true;dx=mx;ty=0;
   if(fr){if(my<0)ty=my;else if(sc.scrollHeight>sc.clientHeight+2)sc.scrollTop=Math.max(0,s0-my)}
-  c.style.transform=`translate(${dx}px,${ty}px)`;sbRefresh(true);
+  c.style.transform=`translate(${dx}px,${ty}px)`;
   sm.push({x:dx,y:ty,t:e.timeStamp});while(sm.length>2&&e.timeStamp-sm[0].t>100)sm.shift();
   const t=T(),horiz=Math.abs(dx)>=-ty;
   kb.style.opacity=horiz&&dx>0?Math.min(dx/t,1):0;ab.style.opacity=horiz&&dx<0?Math.min(-dx/t,1):0;sb.style.opacity=!horiz?Math.min(-ty/t,1):0});
@@ -1463,13 +1494,13 @@ function wrBind(c){const kb=$('#wrk'),ab=$('#wra'),sb=$('#wrp');
   if(ax>=ay){if(ax>t||(Math.abs(vx)>.5&&ax>30))d=dx>0?1:-1}
   else if(ay>t||(vy<-.5&&ay>30))d=0;
   if(d!==null)wrFly(c,d);
-  else{c.classList.add('anim');c.style.transform='';sbRefresh(true);kb.style.opacity=ab.style.opacity=sb.style.opacity=0}};
+  else{c.classList.add('anim');c.style.transform='';kb.style.opacity=ab.style.opacity=sb.style.opacity=0}};
  c.addEventListener('pointerup',end);c.addEventListener('pointercancel',end);
  c.addEventListener('click',e=>{if(wrMoved){e.preventDefault();e.stopPropagation();wrMoved=false}},true)}
 /* dir：1 保留、-1 封存、0 跳過 */
 function wrFly(c,dir){if(wrBusy||wrEd)return;wrBusy=true;const en=wrQ[wrI];if(dir)wrDirty=true;sfx(dir<0?'low':'tap');
  (dir>0?$('#wrk'):dir<0?$('#wra'):$('#wrp')).style.opacity=1;
- c.classList.add('anim');c.style.transform=dir?`translateX(${dir*(innerWidth+240)}px)`:`translateY(${-(innerHeight+120)}px)`;sbRefresh(true);
+ c.classList.add('anim');c.style.transform=dir?`translateX(${dir*(innerWidth+240)}px)`:`translateY(${-(innerHeight+120)}px)`;
  let fin=false;const go=()=>{if(fin)return;fin=true;wrHist.push({en,act:dir>0?'keep':dir<0?'arc':'skip'});
   if(dir)wrAct(en,dir);else wrSkip++;wrI++;wrShow()};
  c.addEventListener('transitionend',go,{once:true});setTimeout(go,420)}
@@ -1501,12 +1532,11 @@ $('#wr').onclose=async()=>{if(!document.querySelector('dialog[open]'))wrLock(fal
 async function openAr(){await purgeArchive();
  const d=$('#ar'),all=(await dbAll('entries')).filter(e=>e.archived).sort((a,b)=>b.archived-a.archived);
  const items=all.map(e=>{const left=Math.max(1,Math.ceil((e.archived+ARD-Date.now())/864e5));
-  return h('div',{class:'arc',onclick:ev=>{if(ev.target.closest('button'))return;ev.currentTarget.classList.toggle('open')}},
+  return h('div',{class:'ari'},h('div',{class:'arc',onclick:ev=>{ev.currentTarget.classList.toggle('open')}},
    h('div',{class:'dth'},(FEAT.people&&people.length>1?pname(e.pid)+'・':'')+(e.date===NODATE?'隨手記':fmtD(e.date))+(e.time?'　'+e.time:'')),
-   h('div',{class:'artx'},(e.text||'')||cntStr(e)||'（沒有文字）'),
-   h('div',{class:'ardn'},`${left} 天後自動刪除`),
-   h('div',{class:'ea'},h('button',{class:'edit',onclick:()=>arRestore(e)},'還原'),h('button',{class:'edit',onclick:()=>arDel(e)},'刪除')))});
- rc(d,h('h2',{style:'text-align:center'},'封存'),h('p',{class:'sub',style:'text-align:center;margin:-6px 0 12px'},'封存的紀錄會在 7 天後自動刪除'),
+   h('div',{class:'arb'},h('div',{class:'artx'},(e.text||'')||cntStr(e)||'（沒有文字）'))),
+   h('div',{class:'arf'},h('button',{class:'edit',onclick:()=>arRestore(e)},'還原'),h('button',{class:'edit',onclick:()=>arDel(e)},'刪除'),h('span',{class:'ardn'},`${left} 天後自動刪除`)))});
+ rc(d,h('h2',{style:'text-align:center'},'封存'),
   h('div',{class:'arl'},...(items.length?items:[h('p',{class:'sub',style:'text-align:center'},'目前沒有封存的紀錄')])),
   h('div',{class:'acts',style:'justify-content:center;flex-wrap:wrap'},...(all.length?[h('button',{onclick:()=>arDelAll(all.length)},'全部刪除')]:[]),h('button',{onclick:()=>{d.close();openMenu('org')}},'返回'),h('button',{onclick:()=>d.close()},'退出')));
  if(!d.open)d.showModal()}
@@ -1671,7 +1701,7 @@ document.addEventListener('touchstart',()=>{},{passive:true});
 /* ===== UX：可點範圍擴大（外觀不變）＋鍵盤避讓 ===== */
 (function(){try{
  /* 鍵盤彈出／收起、輸入、對焦時，連續幾格更新自製捲軸位置，避免捲軸停在舊位置 */
- let trk=0;const track=ms=>{if(typeof sbRefresh!=='function')return;const t0=performance.now();cancelAnimationFrame(trk);const loop=()=>{sbRefresh(true);if(performance.now()-t0<ms)trk=requestAnimationFrame(loop)};loop()};
+ const track=()=>{if(typeof sbRefresh==='function')sbRefresh()};
  ['focusin','focusout','input','touchend'].forEach(ev=>document.addEventListener(ev,()=>track(900),true));
  document.addEventListener('scroll',()=>track(250),true);
 
