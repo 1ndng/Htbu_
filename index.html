@@ -125,6 +125,8 @@ input[type=radio],input[type=checkbox]{accent-color:var(--acc)}
 #cvv{--pxc:4px;clip-path:var(--cut);width:100%;max-height:40vh;border-radius:0;background:#000;display:block;margin-bottom:10px}
 #cvr{width:100%}
 html,body{touch-action:manipulation}
+/* 整頁不回彈：往下拉時不會露出頂端列上方的空白，左右滑動換日時頁面也不會跟著上下晃 */
+html,body{overscroll-behavior:none}
 #tagrow{display:none;margin:-3px -3px 14px;position:relative}#tagrow::before{content:"";position:absolute;left:3px;right:3px;top:-7px;height:1px;background:var(--line)}
 #tagbar{display:flex;gap:8px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scrollbar-width:none;padding:3px;min-width:0;flex:1}#tagbar::-webkit-scrollbar{display:none}
 #q{--pxc:3px;clip-path:var(--cut);display:block;width:100%;border:var(--bw) solid transparent;background:var(--pxbg);border-radius:0;padding:6px 10px;margin-bottom:14px;-webkit-appearance:none;appearance:none}#q[hidden]{display:none}
