@@ -592,10 +592,10 @@ dialog select{padding-top:2px;padding-bottom:2px;line-height:1.3}
 .av{position:relative;flex:none;border-radius:50%;overflow:hidden;background:var(--acc);box-shadow:0 0 0 1px var(--ink)}
 .av img{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;max-width:none;clip-path:none;border:0;pointer-events:none}
 #peaw{margin-top:10px}#peaw[hidden],#peaz[hidden],#peah[hidden]{display:none}#peaw>label{display:block;margin-bottom:6px}
-#pear{display:flex;align-items:center;gap:12px}#peaf{width:96px;height:96px;touch-action:none}#peaf img{width:auto;height:auto}
-#peab{position:relative;display:flex;flex-direction:column;gap:6px;flex:1;min-width:0}#peab .edit{margin:0;justify-content:center}
+#pear{display:flex;align-items:stretch;gap:12px}#peaf{width:96px;height:96px;touch-action:none}#peaf img{width:auto;height:auto}
+#peab{position:relative;justify-content:space-between;display:flex;flex-direction:column;gap:6px;flex:1;min-width:0}#peab .edit{margin:0;justify-content:center}
 
-#peal{flex:none;width:96px;display:flex;flex-direction:column;align-items:center;gap:8px}#peaz{width:96px;margin:0;accent-color:var(--acc)}#peaz:disabled{opacity:.4}#pe #penw>label{margin-bottom:6px}#peah{margin-top:8px!important}#peac{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;border:0;padding:0}#pe label{display:block}#pe #penw{margin:0}#pe #penw[hidden]{display:none}
+#peal{flex:none;width:96px;display:flex;flex-direction:column;align-items:center;gap:8px}#peaz{width:96px;margin:0;accent-color:var(--acc)}#peaz:disabled{opacity:.4}#pe #penw>label{margin-bottom:6px}#peac{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;border:0;padding:0}#pe label{display:block}#pe #penw{margin:0}#pe #penw[hidden]{display:none}
 /* 視窗統一：留白、寬度、標題字、紀錄整理編輯鈕 */
 #ed,#qd,#cv,#mv{padding:38px 12px 10px}
 #ed[open]{display:flex;flex-direction:column;overflow:hidden;background-attachment:scroll}
@@ -755,7 +755,7 @@ html.jsb #dmvl,html.jsb #dmvl.sbon{padding:0 15px 0 0}
 <dialog id="pe">
 <h2 id="pet">編輯對象</h2>
 <div id="penw"><label for="pen">名稱</label><input type="text" id="pen" placeholder="對象名稱" maxlength="30"></div>
-<div id="peaw"><label>頭貼</label><div id="pear"><div id="peal"><div id="peaf" class="av"><img id="peai" alt=""></div><input type="range" id="peaz" min="1" max="4" step="0.01" value="1" aria-label="頭貼大小"></div><div id="peab"><button class="edit" onclick="$('#peaf2').click()">圖片</button><button class="edit" id="peacw" onclick="$('#peac').click()">純色</button><input type="color" id="peac" tabindex="-1" aria-hidden="true"><button class="edit" onclick="peAvSet(null)">預設</button></div></div><p class="sub" id="peah">拖曳圖片調整位置，拉桿縮放</p><input type="file" id="peaf2" accept="image/*" hidden></div>
+<div id="peaw"><label>頭貼</label><div id="pear"><div id="peal"><div id="peaf" class="av"><img id="peai" alt=""></div><input type="range" id="peaz" min="1" max="4" step="0.01" value="1" aria-label="頭貼大小"></div><div id="peab"><button class="edit" onclick="$('#peaf2').click()">圖片</button><button class="edit" id="peacw" onclick="$('#peac').click()">純色</button><input type="color" id="peac" tabindex="-1" aria-hidden="true"><button class="edit" onclick="peAvSet(null)">預設</button></div></div><input type="file" id="peaf2" accept="image/*" hidden></div>
 <div class="acts end"><button class="pri" id="peo" onclick="peOk()">儲存</button><button onclick="pe.close();openMenu('ppl')">返回</button><button onclick="pe.close()">取消</button></div>
 </dialog>
 <dialog id="tm">
@@ -954,7 +954,7 @@ function peAvLoad(id){const P=people.find(p=>p.id===id);peAv={P,mode:P&&P.av?'im
 function peAvGeo(){const F=$('#peaf').clientWidth||96,im=peAv.img,iw=im.naturalWidth,ih=im.naturalHeight,s=Math.max(F/iw,F/ih)*peAv.z,v=F/s;
  peAv.cx=Math.min(iw-v/2,Math.max(v/2,peAv.cx));peAv.cy=Math.min(ih-v/2,Math.max(v/2,peAv.cy));return{F,iw,ih,s,v}}
 function peAvDraw(){const f=$('#peaf'),i=$('#peai'),img=peAv&&peAv.mode==='img'&&peAv.img;f.style.background=peAv&&peAv.mode==='color'?peAv.color:avAcc(peAv&&peAv.P);
- $('#peaz').disabled=$('#peah').hidden=!img;i.hidden=!img;if(!img)return;const g=peAvGeo();i.src=img.src;
+ $('#peaz').disabled=!img;i.hidden=!img;if(!img)return;const g=peAvGeo();i.src=img.src;
  Object.assign(i.style,{width:g.iw*g.s+'px',height:g.ih*g.s+'px',left:(g.F/2-peAv.cx*g.s)+'px',top:(g.F/2-peAv.cy*g.s)+'px'})}
 function peAvSet(mode){if(!peAv)return;peAv.mode=mode;peAv.dirty=true;if(mode===null)$('#peac').value=String(avAcc(peAv.P)).toLowerCase().startsWith('#')?avAcc(peAv.P).toLowerCase():'#000080';peAvDraw()}
 $('#peac').addEventListener('input',()=>{if(!peAv)return;peAv.color=$('#peac').value;peAvSet('color')});
