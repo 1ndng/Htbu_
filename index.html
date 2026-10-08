@@ -950,7 +950,7 @@ async function addP(){const n=$('#pn').value.trim();if(!n)return;const p={id:'p'
 /* 編輯／刪除對象：只針對目前的對象 */
 let peMode='edit',peId=null;
 function openPe(mode){if(!people.some(p=>p.id===cur)){toast('目前沒有對象');return}peMode=mode==='del'?'del':'edit';peId=cur;
- $('#pet').textContent=pT(peMode==='del'?'刪除對象':'編輯對象');$('#peo').textContent=peMode==='del'?'刪除':'儲存';
+ $('#pet').textContent=peMode==='del'?'刪除對象':'編輯對象';$('#peo').textContent=peMode==='del'?'刪除':'儲存';
  $('#penw').hidden=$('#peaw').hidden=peMode==='del';$('#pen').value=pname(peId);peAvLoad(peId);
  pe.showModal();if(peMode==='edit'){$('#pen').focus();$('#pen').select()}}
 /* 頭貼編輯：選圖後在圓框裡拖曳、縮放；儲存時裁成 256×256 */
@@ -1230,8 +1230,8 @@ function normTime(v){const d=String(v||'').replace(/\D/g,'').slice(0,4);if(!d)re
 function fmtTimeInput(e){const t=e.target,d=t.value.replace(/\D/g,'').slice(0,4);t.value=d.length>2?d.slice(0,2)+':'+d.slice(2):d}
 ['#tv','#mvtv'].forEach(q=>{const t=$(q);t.addEventListener('input',fmtTimeInput);t.addEventListener('blur',()=>{if(!t.disabled)t.value=normTime(t.value)||nowStr()})});
 const pname=id=>people.find(p=>p.id===id)?.name||'';
-/* 視窗標題：「對象名稱」的＋功能名稱（日回顧多人時只顯示功能名稱） */
-const pT=(t,id)=>{const n=(id||!multi)&&pname(id||cur);return n?`「${n}」的${t}`:t};
+/* 視窗標題：對象名稱的＋功能名稱（日回顧多人時只顯示功能名稱） */
+const pT=(t,id)=>{const n=(id||!multi)&&pname(id||cur);return n?`${n}的${t}`:t};
 /* 日回顧：方塊（與點開後）用該對象自己的整組主題色；其餘介面維持固定的黑白灰 */
 const colVars=id=>{const x=people.find(p=>p.id===id)?.color,c=colInfo(x),d=DEFV,v={};
  [...THV,'--bg','--acc','--acx','--soft','--mark','--onacc'].forEach(k=>v[k]=d[k]);
@@ -1273,7 +1273,7 @@ const normTag=v=>String(v||'').trim().replace(/^#+/,'').slice(0,20);
 const tagsOf=id=>[...new Set([...(people.find(p=>p.id===id)?.tags||[]),...Object.values(E).flat().filter(e=>e.pid===id).flatMap(e=>e.tags||[])])].sort();
 function openTm(mode,pick){const P=people.find(p=>p.id===cur);if(!P)return;const ts=tagsOf(cur);
  if(mode!=='add'&&!ts.length){toast('目前沒有標籤');return}
- tmMode=mode;$('#tmt').textContent=pT({add:'新增標籤',edit:'編輯標籤',del:'刪除標籤'}[mode]);
+ tmMode=mode;$('#tmt').textContent={add:'新增標籤',edit:'編輯標籤',del:'刪除標籤'}[mode];
  rc($('#tms'),...ts.map(t=>h('option',{value:t},'#'+t)));
  if(pick&&ts.includes(pick))$('#tms').value=pick;$('#tmsw').hidden=mode==='add';$('#tmnw').hidden=mode==='del';$('#tmn').value=mode==='edit'?(pick&&ts.includes(pick)?pick:ts[0]):'';
  $('#tmo').textContent={add:'新增',edit:'儲存',del:'刪除'}[mode];
