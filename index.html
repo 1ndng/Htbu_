@@ -923,13 +923,11 @@ html.w7 .ap .r3 .pp{flex:0 0 40px;height:40px;margin:-4px 6px;border-radius:50%;
 html.w7 .ap .r3 .pp::before,html.w7 .ap .r3 .ff::before{display:none}
 html.w7 .ap .r3 .pp .ic{background:#FFFFFF}
 html.w7 .ap .ic{background:linear-gradient(to bottom,#5BA5E8,#1D5FAF)}
-/* 時間軸（參考圖片編輯的選取框）：2px 主題色線；控點＝白圈＋主題色實心圓＋柔和陰影（沒紀錄的年份＝白心） */
-html.w7 .tl{border-left-width:2px}
-html.w7 .hi::before{height:2px;top:24px}
-html.w7 .row::before{left:-1px;top:10px;width:15px;height:15px;box-sizing:border-box;border-radius:50%;clip-path:none;transform:translateX(-50%);background:#FFFFFF;border:3px solid #FFFFFF;box-shadow:inset 0 0 0 2px var(--acc),0 1px 3px rgba(0,0,0,.35)}
-html.w7 .row.has::before{background:var(--acc);box-shadow:0 1px 3px rgba(0,0,0,.35)}
+/* 時間軸（參考圖片編輯的選取框）：線寬不變；控點＝主題色實心圓＋白色光暈（沒紀錄的年份＝空心圓） */
+html.w7 .row::before{left:-.75px;top:12.5px;width:10px;height:10px;box-sizing:border-box;border-radius:50%;clip-path:none;transform:translateX(-50%);background:var(--bg);box-shadow:inset 0 0 0 2px var(--acc),0 0 3px 1px #FFFFFF,0 0 7px 2px rgba(255,255,255,.85)}
+html.w7 .row.has::before{background:var(--acc);box-shadow:0 0 3px 1px #FFFFFF,0 0 7px 2px rgba(255,255,255,.85)}
 html.w7 .row::after,html.w7 .row.has::after{display:none}
-html.w7 .htm::after{top:17.5px;width:15px;height:15px;box-sizing:border-box;border-radius:50%;clip-path:none;background:var(--acc);border:3px solid #FFFFFF;box-shadow:0 1px 3px rgba(0,0,0,.35)}
+html.w7 .htm::after{top:19.5px;width:10px;height:10px;box-sizing:border-box;border-radius:50%;clip-path:none;background:var(--acc);box-shadow:0 0 3px 1px #FFFFFF,0 0 7px 2px rgba(255,255,255,.85)}
 /* 左右滑動換日：平滑移動（Win95 是逐格） */
 html.w7 #app.swl{animation:swl .18s ease-out}html.w7 #app.swr{animation:swr .18s ease-out}
 /* 週總結編輯器（全螢幕）：沒有外框 */
