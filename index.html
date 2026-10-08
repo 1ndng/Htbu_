@@ -797,15 +797,15 @@ html.w7 .mi{height:24px;line-height:24px;padding:0 8px;border-radius:3px;border:
 html.w7 .mi.on,html.w7 .mi:active:not(:disabled){color:var(--ink);background:linear-gradient(to bottom,rgba(255,255,255,.75),rgba(255,255,255,.15)),color-mix(in srgb,var(--acc) 24%,#FFFFFF);border-color:color-mix(in srgb,var(--acc) 55%,#FFFFFF)}
 @media (hover:hover){html.w7 .mi:hover:not(:disabled){background:linear-gradient(to bottom,rgba(255,255,255,.75),rgba(255,255,255,.15)),color-mix(in srgb,var(--acc) 16%,#FFFFFF);border-color:color-mix(in srgb,var(--acc) 45%,#FFFFFF)}}
 html.w7 #srow{border-top:0;box-shadow:none;background:linear-gradient(to bottom,color-mix(in srgb,var(--gl) 20%,#FFFFFF),color-mix(in srgb,var(--gl) 6%,#FFFFFF));padding:6px 5px 7px}
-/* 下拉選單（右鍵選單風）：灰底、左側圖示欄、淡藍反白 */
-html.w7 :is(#mdd,#dmdd){background:linear-gradient(to right,transparent 27px,#E2E3E3 27px 28px,#FFFFFF 28px 29px,transparent 29px),#F0F0F0;border:1px solid #979797;box-shadow:2px 2px 4px rgba(0,0,0,.28);padding:2px}
-html.w7 .mit{position:relative;padding-left:34px;border-radius:3px;border:1px solid transparent;min-height:30px}
-html.w7 .mit:not(.dis):active,html.w7 .mit.sel{color:var(--ink);background:none}
+/* 下拉選單（右鍵選單風）：灰底、淡藍反白（不留左側圖示欄） */
+html.w7 :is(#mdd,#dmdd){background:#F0F0F0;border:1px solid #979797;box-shadow:2px 2px 4px rgba(0,0,0,.28);padding:2px}
+html.w7 .mit{position:relative;padding-left:10px;border-radius:3px;border:1px solid transparent;min-height:30px}
+html.w7 .mit:not(.dis):active{color:var(--ink);background:none}
+html.w7 .mit.sel{color:var(--ink);background:linear-gradient(to bottom,rgba(255,255,255,.8),rgba(255,255,255,.2)),color-mix(in srgb,var(--acc) 22%,#FFFFFF);border-color:color-mix(in srgb,var(--acc) 50%,#FFFFFF)}
 html.w7 .mit:not(.dis):active{background:linear-gradient(to bottom,rgba(255,255,255,.8),rgba(255,255,255,.2)),color-mix(in srgb,var(--acc) 22%,#FFFFFF);border-color:color-mix(in srgb,var(--acc) 50%,#FFFFFF)}
 @media (hover:hover){html.w7 .mit:not(.dis):hover{color:var(--ink);background:linear-gradient(to bottom,rgba(255,255,255,.8),rgba(255,255,255,.2)),color-mix(in srgb,var(--acc) 18%,#FFFFFF);border-color:color-mix(in srgb,var(--acc) 45%,#FFFFFF)}}
 html.w7 .mit.del,html.w7 .mit.del:active{color:var(--del)}
-html.w7 .mit.sel::before{content:"";position:absolute;left:10px;top:50%;width:7px;height:7px;margin-top:-3.5px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#7FB4E8,#1E3287)}
-html.w7 .msep{margin:3px 2px 3px 30px;border-top:1px solid #E0E0E0;border-bottom:1px solid #FFFFFF}
+html.w7 .msep{margin:3px 4px;border-top:1px solid #E0E0E0;border-bottom:1px solid #FFFFFF}
 /* 紀錄方塊：白底細框圓角，按下＝淡藍選取 */
 html.w7 .card:not(.empty){border:1px solid color-mix(in srgb,var(--acc) 22%,#CFCFCF);border-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.08)}
 html.w7 .card[data-k]:not(.empty):active:not(:has(button:active)):not(:has(a:active)){--ca:color-mix(in srgb,var(--acc) 16%,#FFFFFF)!important;border-color:color-mix(in srgb,var(--acc) 55%,#FFFFFF)}
