@@ -483,8 +483,8 @@ dialog{overscroll-behavior:none}
 #wr .xbk{top:calc(8px + env(safe-area-inset-top,0px));right:40px}#wrb .xbk{padding:0;font-size:0;line-height:0}
 #wred{align-self:start}
 /* 捲軸：一律用自製捲軸（Mac OS 8 風），原生捲軸隱藏 */
-html.jsb :is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,#edb,#dmvl,textarea)::-webkit-scrollbar{display:none;width:0;height:0}
-html.jsb :is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,#edb,#dmvl,textarea){scrollbar-width:none}
+html.jsb :is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,#edb,#dmvl,#dmml,textarea)::-webkit-scrollbar{display:none;width:0;height:0}
+html.jsb :is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,#edb,#dmvl,#dmml,textarea){scrollbar-width:none}
 .sbw{position:sticky;height:0;margin:0;padding:0;border:0;z-index:6;pointer-events:none}.sbw>.jsb-bar{pointer-events:auto}
 .jsb-bar{position:absolute;z-index:6;display:none;background:var(--btnf);touch-action:none;-webkit-user-select:none;user-select:none;box-shadow:inset 0 0 0 1px var(--mute)}
 .jsb-bar.on{display:flex}
@@ -499,8 +499,8 @@ html.jsb .arl{padding-top:10px;padding-bottom:0;background:var(--bg)!important;b
 html.jsb :is(#hmc,.arl).sbon{padding-right:max(0px,calc(35px - var(--nsb,0px)))}
 html.jsb #dts.sbon #dtc{padding-right:35px}
 html.jsb .wcs.sbon{padding-right:35px!important}
-html.jsb :is(#edb,#qdc,#gd .gb).sbon{padding-right:21px}
-html.jsb :is(#edb,#qdc,#gd .gb){padding-left:6px;padding-right:6px}
+html.jsb :is(#edb,#qdc,#gd .gb,#dmml).sbon{padding-right:21px}
+html.jsb :is(#edb,#qdc,#gd .gb,#dmml){padding-left:6px;padding-right:6px}
 .jsb-bar.h{height:14px;flex-direction:row}
 /* 一天中的左右捲軸：放在方塊列正下方（跟著頁面一起捲動，不蓋到方塊） */
 .jsb-bar.h.inl{position:relative;z-index:auto;margin:0 0 8px;width:100%}
@@ -629,6 +629,7 @@ input.tmx:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink)
 @media (max-width:400px){#tmwrap .acts,#mvtw .acts{column-gap:10px}}
 .acts label.r{letter-spacing:1.56px;font-size:13px}
 /* ===== 週總結 dump 編輯器 ===== */
+#dmml:focus{outline:none}
 #dmml{display:flex;flex-direction:column;gap:8px;max-height:55vh;overflow-y:auto;margin-bottom:8px}
 #dmbg .mb{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%}#dmbg .mb .edit{min-width:200px;justify-content:center}#dmbgcw{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;letter-spacing:1.56px;color:var(--ink)}#dmbg .mb .edit.on,#dmbgcw.on{outline:2px solid var(--ink);outline-offset:2px}
 #dmvn{margin:-6px -12px 0;padding:8px 12px;text-align:center;font:400 17px/1.4 "Cubic 11","BaDing",serif;letter-spacing:.08em;border-bottom:1px solid var(--sep);box-shadow:0 1px 0 var(--bhi);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -1433,7 +1434,7 @@ document.querySelectorAll('dialog').forEach(d=>{decoDlg(d);new MutationObserver(
 /* 手機自製捲軸：Mac OS 8 風（箭頭鈕＋滑塊，可拖曳／點軌道／長按箭頭） */
 document.documentElement.classList.add('jsb');
 /* 自製捲軸：長在視窗外框「裡面」，位置只由版面尺寸（offset*）算出，不讀螢幕座標，所以鍵盤、動畫、拖曳時不會漂移 */
-const SBSEL='#dts,#hmc,.arl,#qdc,.gb,.wcs,.hs,#edb,#dmvl';
+const SBSEL='#dts,#hmc,.arl,#qdc,.gb,.wcs,.hs,#edb,#dmvl,#dmml';
 const sbMap=new Map();let sbRaf=0;
 function sbMake(el,ax){
  const v=ax==='v',bar=document.createElement('div');bar.className='jsb-bar '+ax;
@@ -1454,7 +1455,7 @@ function sbMake(el,ax){
 /* 相對於 host 的版面位置（只加總 offsetLeft/Top，不受捲動、transform 影響） */
 function sbOff(el,host){let x=0,y=0,n=el;while(n&&n!==host){x+=n.offsetLeft;y+=n.offsetTop;n=n.offsetParent}return n===host?{x,y}:null}
 const SBW=14;
-const sbInner=d=>[...d.querySelectorAll('#hmc,.arl,#qdc,.gb,#edb,#dmvl')].some(e=>e.offsetParent&&e.scrollHeight>e.clientHeight+1);
+const sbInner=d=>[...d.querySelectorAll('#hmc,.arl,#qdc,.gb,#edb,#dmvl,#dmml')].some(e=>e.offsetParent&&e.scrollHeight>e.clientHeight+1);
 /* 各瀏覽器對「有 padding 的捲動容器裡 sticky top」的算法不同（從內容邊或從邊框內緣量起）：先實測一次 */
 let sbSem=null;
 function sbProbe(){if(sbSem)return sbSem;const c=document.createElement('div');c.style.cssText='position:fixed;left:-999px;top:0;width:50px;height:50px;overflow:auto;padding:20px;box-sizing:border-box';
