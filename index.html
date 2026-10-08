@@ -457,8 +457,8 @@ dialog select{-webkit-appearance:none;appearance:none;padding-right:30px;backgro
 button:active:not(:disabled){text-indent:1px}
 /* 頂端選單列與下拉選單：按下時只變色，文字與按鈕都不位移 */
 #mbar .mi:active,#mdd .mit:active,#mdd .mit:active *{text-indent:0}
-/* 配色主題 2、3：主題色②的按鈕按下瞬間變成對比色（預設主題與自訂顏色不變） */
-html[data-th] :is(.pri,#fab,.chip.on,.tg.on):active:not(:disabled){--fill:var(--del)}
+/* 配色主題 2、3：主題色②的按鈕按下瞬間變色（顏色見 THEMES 的 press；預設主題與自訂顏色不變） */
+html[data-th] :is(.pri,#fab,.chip.on,.tg.on):active:not(:disabled){--fill:var(--press,var(--del));color:var(--ink)}
 button.tapfx{--hi:var(--blo);--lo:var(--bhi);text-indent:1px}
 html.kb #wr[open]{height:var(--vvh);max-height:var(--vvh);top:var(--vvt,0px);bottom:auto}
 html.kb dialog[open]:not(#wr){max-height:calc(var(--vvh) - 16px);top:calc(var(--vvt,0px) + 8px);bottom:auto;margin-top:0;margin-bottom:0}
@@ -1037,14 +1037,14 @@ function bkDue(){return people.some(p=>Date.now()-lastB(p.id)>1209600000)}
 /* 主題色（每位對象各自設定） */
 const TK='nyear-theme',PRE=['#000080'],REVK='nyear-review-color';
 /* 配色主題：主題1（預設，Windows 95）寫在 CSS :root；主題2、3 在這裡。儲存時記成 "T:代號"
-   bg＝主題色①（也是按鈕面 btnf）、acc＝主題色②、ink＝功能色（深）、card＝功能色（淺）、del＝功能色（對比，已調深到看得清楚）
+   bg＝主題色①（也是按鈕面 btnf）、acc＝主題色②、ink＝功能色（深）、card＝功能色（淺）、del＝功能色（對比，已調深到看得清楚）、press＝主題色②按鈕按下瞬間的顏色
    acx＝②調深後的文字／線條色、mute／line／sep＝由深色與①調出的次要文字／分隔線、on＝②上的文字色 */
 const THEMES={
- t2:{n:'主題2',bg:'#F0EEF3',btnf:'#F0EEF3',card:'#DDEAE8',ink:'#2A2A2A',mute:'#5C5B5C',line:'#F8F6F9',sep:'#AFADB1',bhi:'#FCFCFD',blo:'#B2B0B4',acc:'#CD5782',acx:'#BE3869',del:'#2F6F6A',hotx:'#2F6F6A',hotbg:'rgba(47,111,106,.16)',soft:'rgba(205,87,130,.16)',mark:'rgba(47,111,106,.28)',on:'#FFFFFF'},
- t3:{n:'主題3',bg:'#D7DBEF',btnf:'#D7DBEF',card:'#EDF2D4',ink:'#4B4A3E',mute:'#6B6B72',line:'#E8EBF7',sep:'#A8ABBF',bhi:'#F5F6FC',blo:'#9FA3BD',acc:'#667F60',acx:'#455641',del:'#8A3A5C',hotx:'#8A3A5C',hotbg:'rgba(138,58,92,.16)',soft:'rgba(102,127,96,.18)',mark:'rgba(138,58,92,.28)',on:'#FFFFFF'}};
+ t2:{n:'主題2',bg:'#F0EEF3',btnf:'#F0EEF3',card:'#DDEAE8',ink:'#2A2A2A',mute:'#5C5B5C',line:'#F8F6F9',sep:'#AFADB1',bhi:'#FCFCFD',blo:'#B2B0B4',acc:'#CD5782',acx:'#BE3869',press:'#C7DAD8',del:'#2F6F6A',hotx:'#2F6F6A',hotbg:'rgba(47,111,106,.16)',soft:'rgba(205,87,130,.16)',mark:'rgba(47,111,106,.28)',on:'#FFFFFF'},
+ t3:{n:'主題3',bg:'#D0DDC4',btnf:'#D0DDC4',card:'#E0E4E7',ink:'#520523',mute:'#723B4B',line:'#E4ECDD',sep:'#A5948D',bhi:'#F4F7F1',blo:'#A18D88',acc:'#77A39A',acx:'#45655F',press:'#CB96BA',del:'#8A3A5C',hotx:'#8A3A5C',hotbg:'rgba(138,58,92,.16)',soft:'rgba(119,163,154,.18)',mark:'rgba(138,58,92,.28)',on:'#FFFFFF'}};
 const isTh=x=>typeof x==='string'&&x.startsWith('T:')&&!!THEMES[x.slice(2)];
 const tcVal=x=>isTh(x)?THEMES[x.slice(2)].acc:(x||PRE[0]);
-const THV=['--card','--ink','--mute','--line','--sep','--del','--btnf','--hotx','--hotbg','--bhi','--blo'];
+const THV=['--card','--ink','--mute','--line','--sep','--del','--btnf','--hotx','--hotbg','--bhi','--blo','--press'];
 let REVCOL=localStorage.getItem(REVK)||null;
 const rlum=(r,g,b)=>{const f=v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)};return .2126*f(r)+.7152*f(g)+.0722*f(b)};
 function txc(R,G,B){/* 淺色主題色當文字/小圖示用時，壓暗到看得清楚 */let r=R/255,g=G/255,b=B/255;const M=Math.max(r,g,b),m=Math.min(r,g,b);let l=(M+m)/2,h=0,s=0;
