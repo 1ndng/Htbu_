@@ -1779,6 +1779,12 @@ function dmWrap(c,it,t,maxW){const k=maxW+'|'+c.font+'|'+t;if(it._wk===k)return 
  for(const para of String(t||'').split('\n')){let line='';for(const ch of para){const tl=line+ch;if(line&&c.measureText(tl).width>maxW){out.push(line);line=ch.trim()?ch:''}else line=tl}out.push(line)}
  it._wk=k;it._wl=out;return out}
 const dmBox=it=>({x:it.x,y:it.y,w:it.w,h:it.t==='text'?(it.h||it.fs*1.3):it.h});
+/* 紀錄方塊視窗：要完整放下全部文字所需的最小高度（依目前寬度與字級換行） */
+function dmCardMinH(it){const c=$('#dmcv').getContext('2d'),fs=it.fs||32;c.save();c.font=`${fs}px ${DFONT}`;const n=Math.max(1,dmWrap(c,it,it.text,it.w-20-fs).length);c.restore();
+ return Math.ceil(fs*.5+(n-1)*fs*1.44+fs*1.05+4+DTB+24)}
+/* 放不下時先加寬（最多到畫布寬），再加高；寬度改變後換行跟著變 */
+const dmFitCard=it=>{if(it.t!=='card')return;const lim=DH-40;while(dmCardMinH(it)>lim&&it.w<DW-40){it.w=Math.min(DW-40,it.w+40);it._wk=null}
+ it.h=Math.max(it.h,dmCardMinH(it));it.x=Math.max(0,Math.min(it.x,DW-it.w));if(it.y+it.h>DH)it.y=Math.max(0,DH-it.h)};
 const dmFmt=t=>isFinite(t)&&t>=0?Math.floor(t/60)+':'+String(Math.floor(t%60)).padStart(2,'0'):'--:--';
 const dmContra=x=>{const n=parseInt(String(x).slice(1),16);return((n>>16)*.299+(n>>8&255)*.587+(n&255)*.114)>150?'#000000':'#FFFFFF'};
 function dmBev(c,x,y,w,h,tl,br,n){c.fillStyle=tl;c.fillRect(x,y,w,n);c.fillRect(x,y,n,h);c.fillStyle=br;c.fillRect(x,y+h-n,w,n);c.fillRect(x+w-n,y,n,h)}
@@ -1851,7 +1857,9 @@ $('#dmcv').addEventListener('pointermove',e=>{if(!dmDrag)return;const p=dmPt(e),
  if(d.m==='m'){it.x=Math.min(DW-60,Math.max(60-b.w,d.b0.x+dx));it.y=Math.min(DH-40,Math.max(it.t==='text'?40-b.h:0,d.b0.y+dy))}
  else if(it.t==='text'){const f=Math.max(.15,(d.b0.w+dx)/d.b0.w);it.w=Math.max(40,d.b0.w*f);it.fs=Math.max(14,d.fs0*f)}
  else if(it.t==='pic'){const f=Math.max(60/d.b0.w,(d.b0.w+dx)/d.b0.w);it.w=d.b0.w*f;it.h=d.b0.h*f}
- else{it.w=Math.max(240,d.b0.w+dx);it.h=Math.max(DTB+90,d.b0.h+dy)}
+ else{const w0=it.w;it.w=Math.max(240,d.b0.w+dx);
+  if(it.t==='card'&&it.w<w0&&dmCardMinH(it)>DH-40)it.w=w0;/* 再窄文字就放不進畫布了：不讓它更窄 */
+  it.h=Math.max(DTB+90,d.b0.h+dy,it.t==='card'?dmCardMinH(it):0)}
  dmLater()});
 ['pointerup','pointercancel'].forEach(t=>$('#dmcv').addEventListener(t,()=>{dmDrag=null}));
 function dmSelBar(){const it=DM&&DM.items.find(x=>x.id===DM.sel),b=$('#dmsb');
@@ -1902,7 +1910,7 @@ async function dmPickOk(){const on=[...$('#dmil').querySelectorAll('input:checke
  const have=new Set(DM.items.map(x=>x.id));let n=DM.items.filter(x=>x.t!=='text').length;
  for(const id of on){if(have.has(id))continue;const j=id.lastIndexOf('|'),e=byK[id.slice(0,j)],part=id.slice(j+1);if(!e)continue;
   const title=fmtD(e.date)+(e.time?' '+e.time:''),pos={x:40+(n%2)*520+(Math.floor(n/8)%4)*30,y:40+(Math.floor(n/2)%4)*460+(Math.floor(n/8)%4)*30};n++;
-  if(part==='card'){DM.items.push({id,t:'card',title,text:e.text||cntStr(e)||'',...pos,w:440,h:340});continue}
+  if(part==='card'){const it={id,t:'card',title,text:e.text||cntStr(e)||'',...pos,w:440,h:340};dmFitCard(it);DM.items.push(it);continue}
   const m=(e.media||[])[+part.slice(1)];if(!m)continue;
   const it={id,t:m.t,title:m.t==='image'||m.t==='video'?title:(m.n||title),name:m.n||'',...pos,w:420,h:260};
   if(m.t==='audio'||m.t==='video')it.blob=m.b;if(m.t==='audio'){it.w=520;it.h=Math.round(504*92/300)+DTB+24;it.dur=await dmDur(m.b)}
@@ -1919,8 +1927,8 @@ function dmWinEd(it){dmWe=it;$('#dmwet').value=it.title||'';$('#dmwfw').hidden=i
 /* 照片／影片比例不同時的補底顏色：預設主題色①（跟著主題色變），也可以自訂 */
 $('#dmwl').addEventListener('input',()=>{if(dmWe){dmWe.lb=$('#dmwl').value;dmDraw()}});
 function dmLbReset(){if(!dmWe)return;dmWe.lb=null;$('#dmwl').value=dPal(DM.theme).bg.toLowerCase();dmDraw()}
-function dmWinOk(){if(!dmWe)return;dmWe.title=$('#dmwet').value;if(dmWe.t==='card'){dmWe.fs=+$('#dmwef').value;dmWe._wk=null}$('#dmwe').close();dmDraw()}
-$('#dmwef').oninput=()=>{if(dmWe&&dmWe.t==='card'){dmWe.fs=+$('#dmwef').value;dmWe._wk=null;dmDraw()}};
+function dmWinOk(){if(!dmWe)return;dmWe.title=$('#dmwet').value;if(dmWe.t==='card'){dmWe.fs=+$('#dmwef').value;dmWe._wk=null;dmFitCard(dmWe)}$('#dmwe').close();dmDraw()}
+$('#dmwef').oninput=()=>{if(dmWe&&dmWe.t==='card'){dmWe.fs=+$('#dmwef').value;dmWe._wk=null;dmFitCard(dmWe);dmDraw()}};
 /* 圖片（沒有視窗）：可放大縮小、調順序 */
 $('#dmf2').onchange=async()=>{const f=$('#dmf2').files&&$('#dmf2').files[0];$('#dmf2').value='';if(!f||!DM)return;const img=await dmImg(f);if(!img){toast('無法讀取這張圖片');return}
  const iw=img.naturalWidth||img.width,ih=img.naturalHeight||img.height,w=Math.min(600,iw),hh=w*ih/iw,it={id:'p'+(DM.nid++),t:'pic',img,b:f,w,h:hh,x:(DW-w)/2,y:Math.max(20,(DH-hh)/2)};
