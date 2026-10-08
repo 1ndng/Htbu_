@@ -461,7 +461,8 @@ button:active:not(:disabled){text-indent:1px}
 /* 配色主題 2～6：主題色②的按鈕按下瞬間變色（顏色見 THEMES 的 press；預設主題與自訂顏色不變） */
 html[data-th] :is(.pri,#fab,.chip.on,.tg.on):active:not(:disabled){--fill:var(--press,var(--del));color:var(--ink)}
 /* 痛車主題（t5）：沒展開的紀錄方塊也用功能淺色（鵝黃），不和主題色①混色 */
-html[data-th="t5"] .card:not(.empty){--ca:var(--card)}
+html.rvm .card .ea :is(.xb,.cx){--bg:#EEEEEE;--btnf:#EEEEEE;--card:#FFFFFF;--ink:#1C1C1C;--mute:#6E6E6E;--line:#F6F6F6;--sep:#C4C4C4;--bhi:#FFFFFF;--blo:#B8B8B8;--acc:#747474;--acx:#555555;--press:#D6D6D6;--del:#3A3A3A;--hotx:#3A3A3A;--hotbg:rgba(0,0,0,.07);--soft:rgba(0,0,0,.07);--mark:rgba(0,0,0,.16);--onacc:#FFFFFF}
+html[data-th="t5"]:not(.rvm) .card:not(.empty),html.rvm .card[data-pth="t5"]:not(.empty){--ca:var(--card)}
 button.tapfx{--hi:var(--blo);--lo:var(--bhi);text-indent:1px}
 html.kb #wr[open]{height:var(--vvh);max-height:var(--vvh);top:var(--vvt,0px);bottom:auto}
 html.kb dialog[open]:not(#wr){max-height:calc(var(--vvh) - 16px);top:calc(var(--vvt,0px) + 8px);bottom:auto;margin-top:0;margin-bottom:0}
@@ -1048,7 +1049,7 @@ const fmtD=d=>{const [y,m,n]=d.split('-').map(Number);return `${y}年${m}月${n}
 let dtStack=[],dtCur=null;
 function openDt(en){dtStack=[];dtRender(en)}
 function dtBack(){const p=dtStack.pop();if(p)dtRender(p)}
-function dtRender(en){dtCur=en;dturls.forEach(URL.revokeObjectURL);dturls=[];
+function dtRender(en){dtCur=en;$('#dt').style.cssText=pstyle(en);dturls.forEach(URL.revokeObjectURL);dturls=[];
  const M=en.media||[],by=t=>M.filter(m=>m.t===t),au=by('audio'),ad=m=>aEl(mu(m,dturls));
  rc($('#dtc'),
   h('div',{class:'dth'},(multi&&FEAT.people?pname(en.pid)+'・':'')+(en.date===NODATE?'隨手記':fmtD(en.date))+(en.time?'　'+en.time:'')),
@@ -1180,6 +1181,7 @@ const THEMES={/* 顯示順序＝這裡的順序（代號 t2～t6 是存檔用的
 const isTh=x=>typeof x==='string'&&x.startsWith('T:')&&!!THEMES[x.slice(2)];
 const tcVal=x=>isTh(x)?THEMES[x.slice(2)].acc:(x||PRE[0]);
 const THV=['--card','--ink','--mute','--line','--sep','--del','--btnf','--hotx','--hotbg','--bhi','--blo','--press'];
+const DEFV=(()=>{const cs=getComputedStyle(document.documentElement),o={};[...THV,'--bg','--acc','--acx','--soft','--mark','--onacc'].forEach(k=>o[k]=cs.getPropertyValue(k).trim());return o})();
 /* 日回顧的主題色固定（不能改）：參考線框稿的黑白灰淡色配色 */
 const RVTH={n:'日回顧',bg:'#EEEEEE',btnf:'#EEEEEE',card:'#FFFFFF',ink:'#1C1C1C',mute:'#6E6E6E',line:'#F6F6F6',sep:'#C4C4C4',bhi:'#FFFFFF',blo:'#B8B8B8',acc:'#747474',acx:'#555555',press:'#D6D6D6',del:'#3A3A3A',hotx:'#3A3A3A',hotbg:'rgba(0,0,0,.07)',soft:'rgba(0,0,0,.07)',mark:'rgba(0,0,0,.16)',on:'#FFFFFF'};
 const REVCOL='T:rv';
@@ -1223,7 +1225,12 @@ function normTime(v){const d=String(v||'').replace(/\D/g,'').slice(0,4);if(!d)re
 function fmtTimeInput(e){const t=e.target,d=t.value.replace(/\D/g,'').slice(0,4);t.value=d.length>2?d.slice(0,2)+':'+d.slice(2):d}
 ['#tv','#mvtv'].forEach(q=>{const t=$(q);t.addEventListener('input',fmtTimeInput);t.addEventListener('blur',()=>{if(!t.disabled)t.value=normTime(t.value)||nowStr()})});
 const pname=id=>people.find(p=>p.id===id)?.name||'';
-const colVars=id=>{const c=colInfo(people.find(p=>p.id===id)?.color);return c?`--acc:${c.acc};--acx:${c.acx};--soft:${c.soft};--mark:${c.mark};--onacc:${c.on}`:''};
+/* 日回顧：方塊（與點開後）用該對象自己的整組主題色；其餘介面維持固定的黑白灰 */
+const colVars=id=>{const x=people.find(p=>p.id===id)?.color,c=colInfo(x),d=DEFV,v={};
+ [...THV,'--bg','--acc','--acx','--soft','--mark','--onacc'].forEach(k=>v[k]=d[k]);
+ if(c){if(c.card){THV.forEach(k=>v[k]=c[k.slice(2)]);v['--bg']=c.bg}v['--acc']=c.acc;v['--acx']=c.acx;v['--soft']=c.soft;v['--mark']=c.mark;v['--onacc']=c.on}
+ return Object.entries(v).filter(e=>e[1]).map(([k,x])=>k+':'+x).join(';')};
+const pth=id=>{const x=people.find(p=>p.id===id)?.color;return isTh(x)?x.slice(2):''};
 const pstyle=en=>multi?colVars(en.pid):'';
 function cntParts(en){const M=en.media||[],g=t=>M.filter(x=>x.t===t).length,L=(en.links||[]).length,Q=en.quote?1:0;
  return [g('image')&&g('image')+'張圖',g('video')&&g('video')+'部影片',g('audio')&&g('audio')+'個音訊',g('file')&&g('file')+'個檔案',L&&L+'個連結',Q&&'含引用'].filter(Boolean)}
@@ -1252,7 +1259,7 @@ const parts=(en,date,jump,showTime)=>{
  const cs=cntStr(en);
  const ea=h('div',{class:'ea'},jump?h('button',{class:'edit xb',onclick:e=>toggleX(e.currentTarget)},'展開'):h('button',{class:'edit cx',hidden:true,onclick:e=>toggleC(e.currentTarget)},'展開'),!multi&&h('button',{class:'edit',onclick:()=>openEd(date,en.k)},'編輯'),!multi&&FEAT.quote&&h('button',{class:'edit',onclick:()=>quoteFrom(en)},'引用'),jump&&h('button',{class:'edit',onclick:()=>goDay(date)},'跳到這天'),cs&&h('span',{class:'cnt',hidden:true},...cntParts(en).map((p,i,a)=>h('span',{class:'cs'},i<a.length-1?p+'、':p))));
  return jump?[...body,ea]:[h('div',{class:'cbody'+(en.media.some(m=>m.t==='image'||m.t==='video')?' hm':'')},...body),ea]};
-const card=(en,date,jump,st)=>h('div',{class:'card'+(en.media&&en.media.length?' hasm':''),style:pstyle(en),'data-k':en.k,'data-d':date},...parts(en,date,jump,st));
+const card=(en,date,jump,st)=>h('div',{class:'card'+(en.media&&en.media.length?' hasm':''),style:pstyle(en),'data-pth':multi?pth(en.pid):'','data-k':en.k,'data-d':date},...parts(en,date,jump,st));
 let lastTap={k:'',t:0};
 const dbl=k=>{const n=Date.now(),r=lastTap.k===k&&n-lastTap.t<400;lastTap={k,t:r?0:n};return r};
 const normTag=v=>String(v||'').trim().replace(/^#+/,'').slice(0,20);
@@ -1364,7 +1371,7 @@ function render(){
   else{
    const T=list.filter(x=>x.time).sort((a,b)=>a.time<b.time?-1:1),N=list.filter(x=>!x.time);
    body=h('div',{},
-    T.length>0&&h('div',{class:'hs'},...T.map(x=>h('div',{class:'hi',style:pstyle(x)},h('div',{class:'htm'},x.time),card(x,date)))),
+    T.length>0&&h('div',{class:'hs'},...T.map(x=>h('div',{class:'hi'},h('div',{class:'htm'},x.time),card(x,date)))),
     N.length>0&&h('div',{class:'hs'},...N.map(x=>card(x,date))),
     );
   }
