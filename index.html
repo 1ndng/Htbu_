@@ -453,6 +453,9 @@ html[data-th] :is(.pri,#fab,.tg.on):active:not(:disabled){--fill:var(--press,var
 html[data-th="t5"] .card:not(.empty){--ca:var(--card)}
 button.tapfx{--hi:var(--blo);--lo:var(--bhi);text-indent:1px}
 html.kb #wr[open]{height:var(--vvh);max-height:var(--vvh);top:var(--vvt,0px);bottom:auto}
+/* 視窗不要被瀏海／動態島／底部橫條蓋住：置中範圍扣掉安全區域（全螢幕的整理、週總結編輯器除外） */
+dialog:not(#wr):not(#dmp){top:env(safe-area-inset-top,0px);bottom:env(safe-area-inset-bottom,0px);max-height:calc(100% - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 16px)}
+dialog#dt:not(#wr):not(#dmp){max-height:min(88vh,calc(100% - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 16px))}
 html.kb dialog[open]:not(#wr){max-height:calc(var(--vvh) - 16px);top:calc(var(--vvt,0px) + 8px);bottom:auto;margin-top:0;margin-bottom:0}
 /* 固定頂列（瀏海）：三行——標題列（主題色②）、選單列（主題色①）、搜尋列（主題色①） */
 #hdr{position:sticky;top:0;z-index:30;margin:-18px -16px 14px;padding:0;background:var(--bg);border-bottom:1px solid var(--ink)}
