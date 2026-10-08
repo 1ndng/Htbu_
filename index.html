@@ -459,6 +459,8 @@ button:active:not(:disabled){text-indent:1px}
 #mbar .mi:active,#mdd .mit:active,#mdd .mit:active *{text-indent:0}
 /* 配色主題 2～5：主題色②的按鈕按下瞬間變色（顏色見 THEMES 的 press；預設主題與自訂顏色不變） */
 html[data-th] :is(.pri,#fab,.chip.on,.tg.on):active:not(:disabled){--fill:var(--press,var(--del));color:var(--ink)}
+/* 主題5：沒展開的紀錄方塊也用功能淺色（鵝黃），不和主題色①混色 */
+html[data-th="t5"] .card:not(.empty){--ca:var(--card)}
 button.tapfx{--hi:var(--blo);--lo:var(--bhi);text-indent:1px}
 html.kb #wr[open]{height:var(--vvh);max-height:var(--vvh);top:var(--vvt,0px);bottom:auto}
 html.kb dialog[open]:not(#wr){max-height:calc(var(--vvh) - 16px);top:calc(var(--vvt,0px) + 8px);bottom:auto;margin-top:0;margin-bottom:0}
@@ -1060,7 +1062,7 @@ function colInfo(x){if(isTh(x))return THEMES[x.slice(2)];if(!/^#[0-9a-f]{6}$/i.t
  return{acc:`rgb(${R},${G},${B})`,acx:dark?`rgb(${R},${G},${B})`:txc(R,G,B),soft:`rgba(${R},${G},${B},.16)`,mark:`rgba(${R},${G},${B},.32)`,on:lum()>.62?'#111':'#fff'}}
 function applyTheme(x){const r=document.documentElement.style,mt=document.querySelector('meta[name=theme-color]'),c=colInfo(x);
  if(!c){['--acc','--acx','--soft','--mark','--onacc','--bg',...THV].forEach(k=>r.removeProperty(k));delete document.documentElement.dataset.th;mt.content='#000080';return}
- THV.forEach(k=>c.card?r.setProperty(k,c[k.slice(2)]):r.removeProperty(k));c.card?document.documentElement.dataset.th='1':delete document.documentElement.dataset.th;
+ THV.forEach(k=>c.card?r.setProperty(k,c[k.slice(2)]):r.removeProperty(k));c.card?document.documentElement.dataset.th=x.slice(2):delete document.documentElement.dataset.th;
  r.setProperty('--acc',c.acc);r.setProperty('--acx',c.acx);r.setProperty('--soft',c.soft);r.setProperty('--mark',c.mark);r.setProperty('--onacc',c.on);c.bg?r.setProperty('--bg',c.bg):r.removeProperty('--bg');mt.content=c.card?c.acc:x}
 async function setTheme(x){
  if(thEditing==='review'){REVCOL=x||null;x?localStorage.setItem(REVK,x):localStorage.removeItem(REVK);if(multi)applyTheme(x);$('#tc').value=tcVal(x);return}
