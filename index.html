@@ -830,6 +830,9 @@ html.w7 .tg,html.w7 .dtg,html.w7 .card .tg{border-radius:10px}
 html.w7 .tg.on{background:var(--shine),var(--acc)}
 html.w7 :is(.qv,.qchip) .rd{background:linear-gradient(to bottom,#FFFFFF,color-mix(in srgb,var(--gl) 30%,#FFFFFF));border-bottom-color:color-mix(in srgb,var(--gld) 30%,#FFFFFF);border-radius:3px 3px 0 0}
 html.w7 .day,html.w7 .otl{font-weight:300;color:var(--acx)}
+/* 主題2～6（與日回顧）：大日期與視窗大標題用文字色（同 Win95），底線與日期同色 */
+html.w7[data-th] :is(.day,.otl,dialog h2){color:var(--ink)}
+html.w7 .day .dn{text-decoration-color:currentColor}
 html.w7 .hcell{border-radius:2px}
 html.w7 :is(.sw,input[type=color]){border:1px solid #707070;border-radius:3px}
 html.w7 .av{box-shadow:0 0 0 1px var(--sep),0 1px 3px rgba(0,0,0,.2)}
