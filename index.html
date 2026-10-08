@@ -587,15 +587,15 @@ dialog select{padding-top:2px;padding-bottom:2px;line-height:1.3}
 #ar>.sub{margin:0 0 10px!important}#ar .arl{margin-bottom:8px;padding-top:0;padding-bottom:0}#ar .arl:has(+.acts.xe){margin-bottom:0}#ar .arl>p.sub{margin:0!important;padding:4px 0}
 #ar>.acts:not(.xe){margin:0!important}
 #tm #tmsw{margin-bottom:8px}#tm #tmsw[hidden]{margin:0}
-#pe #pesw{margin-bottom:8px}
+
 /* 頭貼：圓形（圖片／純色／預設＝主題色②） */
 .av{position:relative;flex:none;border-radius:50%;overflow:hidden;background:var(--acc);box-shadow:0 0 0 1px var(--ink)}
 .av img{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;max-width:none;clip-path:none;border:0;pointer-events:none}
 #peaw{margin-top:10px}#peaw[hidden],#peaz[hidden],#peah[hidden]{display:none}#peaw>label{display:block;margin-bottom:6px}
 #pear{display:flex;align-items:center;gap:12px}#peaf{width:96px;height:96px;touch-action:none}#peaf img{width:auto;height:auto}
-#peab{display:flex;flex-direction:column;gap:6px;flex:1;min-width:0}#peab .edit{margin:0;justify-content:center}
-#peacw{display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;font-size:13px;letter-spacing:1.56px;color:var(--ink)}
-#peaz{width:100%;margin:8px 0 2px}#peah{margin:0!important}#pe #pes{margin:4px 0 0!important}#pe label{display:block}#pe #penw{margin:0}#pe #penw[hidden]{display:none}
+#peab{position:relative;display:flex;flex-direction:column;gap:6px;flex:1;min-width:0}#peab .edit{margin:0;justify-content:center}
+
+#peaz{width:100%;margin:8px 0 2px}#peah{margin:0!important}#peac{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;border:0;padding:0}#pe label{display:block}#pe #penw{margin:0}#pe #penw[hidden]{display:none}
 /* 視窗統一：留白、寬度、標題字、紀錄整理編輯鈕 */
 #ed,#qd,#cv,#mv{padding:38px 12px 10px}
 #ed[open]{display:flex;flex-direction:column;overflow:hidden;background-attachment:scroll}
@@ -754,21 +754,20 @@ html.jsb #dmvl,html.jsb #dmvl.sbon{padding:0 15px 0 0}
 <dialog id="gd"></dialog>
 <dialog id="pe">
 <h2 id="pet">編輯對象</h2>
-<div id="pesw"><label for="pes">選擇對象</label><select id="pes"></select></div>
 <div id="penw"><input type="text" id="pen" placeholder="對象名稱" maxlength="30"></div>
-<div id="peaw"><label>頭貼</label><div id="pear"><div id="peaf" class="av"><img id="peai" alt=""></div><div id="peab"><button class="edit" onclick="$('#peaf2').click()">選擇圖片</button><label class="r" id="peacw">純色 <input type="color" id="peac"></label><button class="edit" onclick="peAvSet(null)">預設（主題色②）</button></div></div><input type="range" id="peaz" min="1" max="4" step="0.01" value="1"><p class="sub" id="peah">拖曳圖片調整位置，拉桿縮放</p><input type="file" id="peaf2" accept="image/*" hidden></div>
-<div class="acts end"><button class="pri" id="peo" onclick="peOk()">儲存</button><button onclick="pe.close()">取消</button></div>
+<div id="peaw"><label>頭貼</label><div id="pear"><div id="peaf" class="av"><img id="peai" alt=""></div><div id="peab"><button class="edit" onclick="$('#peaf2').click()">圖片</button><button class="edit" id="peacw" onclick="$('#peac').click()">純色</button><input type="color" id="peac" tabindex="-1" aria-hidden="true"><button class="edit" onclick="peAvSet(null)">預設</button></div></div><input type="range" id="peaz" min="1" max="4" step="0.01" value="1"><p class="sub" id="peah">拖曳圖片調整位置，拉桿縮放</p><input type="file" id="peaf2" accept="image/*" hidden></div>
+<div class="acts end"><button class="pri" id="peo" onclick="peOk()">儲存</button><button onclick="pe.close();openMenu('ppl')">返回</button><button onclick="pe.close()">取消</button></div>
 </dialog>
 <dialog id="tm">
 <h2 id="tmt"></h2>
 <div id="tmsw"><label for="tms">選擇標籤</label><select id="tms" style="margin:6px 0 12px"></select></div>
 <div id="tmnw"><input type="text" id="tmn" placeholder="輸入標籤" maxlength="20"></div>
-<div class="acts end"><button class="pri" id="tmo" onclick="tmOk()">確定</button><button onclick="tm.close()">取消</button></div>
+<div class="acts end"><button class="pri" id="tmo" onclick="tmOk()">確定</button><button onclick="tm.close();openMenu('tag')">返回</button><button onclick="tm.close()">取消</button></div>
 </dialog>
 <dialog id="pd">
 <h2>新增對象</h2>
 <input type="text" id="pn" placeholder="填入你想記錄的對象" maxlength="30">
-<div class="acts end"><button class="pri" onclick="addP()">建立</button><button onclick="pd.close()">取消</button></div>
+<div class="acts end"><button class="pri" onclick="addP()">建立</button><button onclick="pd.close();openMenu('ppl')">返回</button><button onclick="pd.close()">取消</button></div>
 </dialog>
 
 <dialog id="ed">
@@ -939,14 +938,12 @@ async function toggleOther(){
  applyTheme(people.find(p=>p.id===cur)?.color);await loadView();render()}
 async function tog(id){msel.has(id)?msel.delete(id):msel.add(id);ftags=ftags.filter(x=>msel.has(x.pid));await loadView();render()}
 async function addP(){const n=$('#pn').value.trim();if(!n)return;const p={id:'p'+Date.now(),name:n};await dbPut('people',p);people.push(p);$('#pn').value='';pd.close();sel(p.id)}
-/* 編輯／刪除對象：比照標籤，在視窗內先選擇對象（預設為目前的對象） */
-let peMode='edit';
-function openPe(mode){if(!people.length){toast('目前沒有對象');return}peMode=mode==='del'?'del':'edit';
- $('#pet').textContent=peMode==='del'?'刪除對象':'編輯對象';$('#peo').textContent=peMode==='del'?'刪除':'儲存';
- rc($('#pes'),...people.map(p=>h('option',{value:p.id},p.name)));$('#pes').value=people.some(p=>p.id===cur)?cur:people[0].id;
- $('#penw').hidden=$('#peaw').hidden=peMode==='del';$('#pen').value=pname($('#pes').value);peAvLoad($('#pes').value);
+/* 編輯／刪除對象：只針對目前的對象 */
+let peMode='edit',peId=null;
+function openPe(mode){if(!people.some(p=>p.id===cur)){toast('目前沒有對象');return}peMode=mode==='del'?'del':'edit';peId=cur;
+ $('#pet').textContent=pT(peMode==='del'?'刪除對象':'編輯對象');$('#peo').textContent=peMode==='del'?'刪除':'儲存';
+ $('#penw').hidden=$('#peaw').hidden=peMode==='del';$('#pen').value=pname(peId);peAvLoad(peId);
  pe.showModal();if(peMode==='edit'){$('#pen').focus();$('#pen').select()}}
-$('#pes').onchange=()=>{if(peMode==='edit'){$('#pen').value=pname($('#pes').value);peAvLoad($('#pes').value)}};
 /* 頭貼編輯：選圖後在圓框裡拖曳、縮放；儲存時裁成 256×256 */
 let peAv=null;
 const avAcc=P=>colInfo(P&&P.color)?.acc||PRE[0];
@@ -969,7 +966,7 @@ $('#peaf2').onchange=()=>{const f=$('#peaf2').files&&$('#peaf2').files[0];$('#pe
  ['pointerup','pointercancel'].forEach(t=>F.addEventListener(t,()=>{st=null}))}
 function peAvOut(){if(!peAv||peAv.mode!=='img'||!peAv.img)return null;const g=peAvGeo(),c=document.createElement('canvas');c.width=c.height=256;
  c.getContext('2d').drawImage(peAv.img,peAv.cx-g.v/2,peAv.cy-g.v/2,g.v,g.v,0,0,256,256);return c.toDataURL('image/jpeg',.86)}
-function peOk(){peMode==='del'?delP($('#pes').value):renameP($('#pes').value)}
+function peOk(){peMode==='del'?delP(peId):renameP(peId)}
 async function renameP(id){const P=people.find(p=>p.id===id),n=$('#pen').value.trim();if(!P)return;if(!n){toast('請輸入對象名稱');return}
  let ch=n!==P.name;P.name=n;
  if(peAv&&peAv.P===P&&peAv.dirty){P.av=peAv.mode==='img'?peAvOut():null;P.avc=peAv.mode==='color'?peAv.color:null;ch=true}
@@ -1204,7 +1201,7 @@ async function setTheme(x){
 let thEditing=null;
 function openTh(pid){pid=pid||cur;
  const p=people.find(q=>q.id===pid);if(!p){toast('請先新增對象，再選擇他的主題色');return}
- thEditing=pid;$('#tht').textContent=`「${p.name}」的主題色`;$('#tc').value=tcVal(p.color);$('#th').showModal()}
+ thEditing=pid;$('#tht').textContent=pT('色彩設定',pid);$('#tc').value=tcVal(p.color);$('#th').showModal()}
 function openColorList(){if(!people.length){toast('請先新增對象，再選擇他的主題色');openMenu('set');return}
  openTh(people.some(p=>p.id===cur)?cur:people[0].id)}
 function openMinYear(){const cy=now.getFullYear(),s=$('#myv');rc(s,h('option',{value:''},'請選擇年份'),...Array.from({length:cy-1900+1},(_,i)=>h('option',{value:cy-i},(cy-i)+'年')));s.value=MINY?String(MINY):'';$('#my').showModal()}
@@ -1224,6 +1221,8 @@ function normTime(v){const d=String(v||'').replace(/\D/g,'').slice(0,4);if(!d)re
 function fmtTimeInput(e){const t=e.target,d=t.value.replace(/\D/g,'').slice(0,4);t.value=d.length>2?d.slice(0,2)+':'+d.slice(2):d}
 ['#tv','#mvtv'].forEach(q=>{const t=$(q);t.addEventListener('input',fmtTimeInput);t.addEventListener('blur',()=>{if(!t.disabled)t.value=normTime(t.value)||nowStr()})});
 const pname=id=>people.find(p=>p.id===id)?.name||'';
+/* 視窗標題：「對象名稱」的＋功能名稱（日回顧多人時只顯示功能名稱） */
+const pT=(t,id)=>{const n=(id||!multi)&&pname(id||cur);return n?`「${n}」的${t}`:t};
 /* 日回顧：方塊（與點開後）用該對象自己的整組主題色；其餘介面維持固定的黑白灰 */
 const colVars=id=>{const x=people.find(p=>p.id===id)?.color,c=colInfo(x),d=DEFV,v={};
  [...THV,'--bg','--acc','--acx','--soft','--mark','--onacc'].forEach(k=>v[k]=d[k]);
@@ -1265,7 +1264,7 @@ const normTag=v=>String(v||'').trim().replace(/^#+/,'').slice(0,20);
 const tagsOf=id=>[...new Set([...(people.find(p=>p.id===id)?.tags||[]),...Object.values(E).flat().filter(e=>e.pid===id).flatMap(e=>e.tags||[])])].sort();
 function openTm(mode,pick){const P=people.find(p=>p.id===cur);if(!P)return;const ts=tagsOf(cur);
  if(mode!=='add'&&!ts.length){toast('目前沒有標籤');return}
- tmMode=mode;$('#tmt').textContent={add:'新增標籤',edit:'編輯標籤',del:'刪除標籤'}[mode];
+ tmMode=mode;$('#tmt').textContent=pT({add:'新增標籤',edit:'編輯標籤',del:'刪除標籤'}[mode]);
  rc($('#tms'),...ts.map(t=>h('option',{value:t},'#'+t)));
  if(pick&&ts.includes(pick))$('#tms').value=pick;$('#tmsw').hidden=mode==='add';$('#tmnw').hidden=mode==='del';$('#tmn').value=mode==='edit'?(pick&&ts.includes(pick)?pick:ts[0]):'';
  $('#tmo').textContent={add:'新增',edit:'儲存',del:'刪除'}[mode];
@@ -1305,7 +1304,7 @@ async function heatGo(ds){$('#hm').close();const p=hmPid;
 function openHeat(pid){hmPid=pid;
  dbByP(pid).then(arr=>{hmData=arr.filter(e=>e.date!==NODATE);
   const yrs=hmData.map(e=>+e.date.slice(0,4));hmY=yrs.length?Math.max(...yrs):now.getFullYear();if(MINY&&hmY<MINY)hmY=MINY;if(hmY>now.getFullYear())hmY=now.getFullYear();
-  drawHeat();$('#hp').close();$('#hm').showModal();const a=document.activeElement;if(a&&a!==document.body&&$('#hm').contains(a))a.blur()})}
+  drawHeat();$('#hp').close();$('#hm h2').textContent=pT('熱力圖',pid);$('#hm').showModal();const a=document.activeElement;if(a&&a!==document.body&&$('#hm').contains(a))a.blur()})}
 /* 年視圖深淺：1–3／4–7／8–15／16 則以上 */
 const HMLV=[['c1','1–3'],['c2','4–7'],['c3','8–15'],['c4','16+']],hmLv=c=>c<=3?'c1':c<=7?'c2':c<=15?'c3':'c4';
 function drawHeat(){
@@ -1797,7 +1796,7 @@ let DM=null,dmUrls=[],dmDrag=null,dmRaf=0,dmTx=null,dmCr=null;const dmStore={};
 const dmPids=()=>multi?[...msel]:cur?[cur]:[];
 async function dmEntries(){const out=[];for(const id of dmPids())out.push(...await dbByP(id));return out.filter(e=>e.date!==NODATE)}
 /* 週總結首頁：製作或瀏覽；儲存的 dump 會存在 dumps（依對象、週） */
-async function openDumpHome(){if(!dmPids().length){toast('請先新增對象');openMenu('rev');return}await dmMigrate();$('#dmh').showModal()}
+async function openDumpHome(){if(!dmPids().length){toast('請先新增對象');openMenu('rev');return}await dmMigrate();$('#dmh h2').textContent=pT('週總結');$('#dmh').showModal()}
 const dmPk=()=>dmPids().join(',');
 /* 週＝週一到週日，用該週週一的日期（YYYY-MM-DD）當代號 */
 const dmD=s=>{const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)},dmS=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
@@ -1839,7 +1838,7 @@ async function openDumpBrowse(){dmvUrls.forEach(URL.revokeObjectURL);dmvUrls=[];
  $('#dmvn').textContent=ps.map(p=>p.name).join('、')||'—';rc($('#dmva'),avEl(ps[0],80));$('#dmvc').textContent=ds.length;
  rc($('#dmvl'),...(ds.length?ds.map(d=>{const u=URL.createObjectURL(d.b);dmvUrls.push(u);
   return h('button',{class:'dmvt2','aria-label':dmYm(d.ym)+' dump',onclick:()=>dmvOpen(d)},d.type==='video'?h('video',{src:u+'#t=0.1',muted:'',playsinline:'',preload:'metadata'}):h('img',{src:u,alt:''}),d.type==='video'&&h('span',{class:'dmvp'},'▶'),h('span',{class:'dmvd'},dmWs(d.ym)))}):[h('p',{class:'sub'},'還沒有製作過的 dump，先到「製作」做一張吧')]));
- $('#dmv').showModal();$('#dmvl').scrollTop=0}
+ $('#dmv h2').textContent=pT('週總結・瀏覽');$('#dmv').showModal();$('#dmvl').scrollTop=0}
 $('#dmv').addEventListener('close',()=>{if(!$('#dmvw').open){dmvUrls.forEach(URL.revokeObjectURL);dmvUrls=[]}});
 let dmvD=null;
 async function dmvOpen(d){dmvCur=d;dmvD=null;const u=URL.createObjectURL(d.b);dmvUrls.push(u);$('#dmv').close();
@@ -1861,7 +1860,7 @@ async function openDump(){if(!dmPids().length){toast('請先新增對象');openM
  const ms=Object.keys(cnt).sort().reverse();if(!ms.length){toast('目前沒有可製作的紀錄');openMenu('rev');return}
  const recs=Object.fromEntries((await dbAll('dumps')).filter(d=>d.pk===dmPk()).map(d=>[d.ym,d]));
  rc($('#dmml'),...ms.map(m=>h('button',{class:'edit',onclick:()=>{$('#dmm').close();openDumpEd(m)}},`${dmYm(m)}（${cnt[m]} 則）`+(recs[m]?(recs[m].b?'・已製作':'・編輯中'):''))));
- $('#dmm').showModal()}
+ $('#dmm h2').textContent=pT('週總結');$('#dmm').showModal()}
 async function openDumpEd(ym){const key=dmPk()+'|'+ym,c=people.find(p=>p.id===cur)?.color;
  if(!dmStore[key]){const rec=await dmGetRec(key);dmStore[key]=rec&&rec.lay?await dmRestore(rec.lay,ym):{ym,bg:null,bgSrc:null,theme:isTh(c)?c.slice(2):null,items:[],sel:null,nid:1,sc:1,r:1}}
  DM=dmStore[key];
