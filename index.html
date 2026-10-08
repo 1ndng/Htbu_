@@ -732,9 +732,12 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
 input[type=range]::-moz-range-thumb{width:11px;height:21px;border:0;border-radius:0;background:var(--btnf);box-shadow:inset -1px -1px 0 var(--ink),inset 1px 1px 0 var(--bhi),inset -2px -2px 0 var(--blo)}
 input[type=range]:focus-visible::-webkit-slider-thumb{outline:1px dotted var(--ink);outline-offset:-4px}
 input[type=range]:disabled{cursor:default}
+/* 搜尋欄：右側像素放大鏡（Win95 風）；大日期、隨手記標題、年份：右下角 1px 淺色陰影（功能淺色） */
+#hdr #q,#qs2,#dmis{padding-right:28px;background:var(--magi,none) right 8px center/12px 12px no-repeat,var(--pxbg)}
+.day,.otl,.yr{text-shadow:1px 1px 0 var(--card)}
 </style>
 <style id="w7css">
-/* ===================== Windows 7 外觀（設定 › 外觀風格）：只換外型，功能與版面配置不變 =====================
+/* ===================== Windows 7 外觀（設定 › 風格設定）：只換外型，功能與版面配置不變 =====================
    參考 Win7 Aero：圓角玻璃視窗框、黑字白光暈標題、紅色關閉鈕；漸層按鈕；淡藍反白的選單；系統無襯線字。
    主題1（預設）改用 Win7 的白底＋淡藍配色；其他主題照各自的色彩，套在 Win7 外型上 */
 html.w7:not([data-th]){--bg:#FFFFFF;--card:#FFFFFF;--ink:#1B1B1B;--mute:#6D6D6D;--line:#E8E8E8;--sep:#C9CED6;--acc:#3D7FCB;--acx:#1E3287;--soft:rgba(61,127,203,.12);--mark:rgba(61,127,203,.28);--onacc:#FFFFFF;--del:#C42B1C;--bhi:#FFFFFF;--blo:#A9B4C2;--btnf:#E3E3E3}
@@ -837,6 +840,8 @@ html.w7 .day,html.w7 .otl{font-weight:300;color:var(--acx)}
 /* 主題2～6（與日回顧）：大日期與視窗大標題用文字色（同 Win95），底線與日期同色 */
 html.w7[data-th] :is(.day,.otl,dialog h2){color:var(--ink)}
 html.w7 .day .dn{text-decoration-color:currentColor}
+/* 大日期、隨手記標題、年份：白色光暈（同標題列） */
+html.w7 :is(.day,.otl,.yr){text-shadow:0 0 6px #FFFFFF,0 0 10px #FFFFFF,0 0 2px #FFFFFF}
 html.w7 .hcell{border-radius:2px}
 html.w7 :is(.sw,input[type=color]){border:1px solid #707070;border-radius:3px}
 html.w7 .av{box-shadow:0 0 0 1px var(--sep),0 1px 3px rgba(0,0,0,.2)}
@@ -1010,7 +1015,7 @@ html.w7 #dmp,html.w7 #wr{border:0;border-radius:0;box-shadow:none;background:var
 <div class="acts" style="justify-content:center"><button onclick="$('#th').close();openMenu('set')">返回</button><button onclick="$('#th').close()">退出</button></div>
 </dialog>
 <dialog id="ui">
-<h2>外觀風格</h2>
+<h2>風格設定</h2>
 <p class="sub" style="text-align:center;margin:-6px 0 12px">整個 App 的外型（配色照各對象的色彩設定）</p>
 <div class="mb" id="uic"></div>
 <div class="acts" style="justify-content:center"><button onclick="$('#ui').close();openMenu('set')">返回</button><button onclick="$('#ui').close()">退出</button></div>
@@ -1299,7 +1304,7 @@ let mOpen=null;
 const mBtn=k=>document.querySelector(`#mbar [data-m="${k}"]`);
 function menuGroups(k){
  const act=(t,f,o)=>({t,f:()=>{closeMenu();f()},...o}),keep=(t,f,o)=>({t,f,...o}),info=t=>({t,dis:1});
- if(k==='set')return [[act('年份設定',openMinYear),act('色彩設定',openColorList),act('外觀風格',openUi),act('功能設定',openFeat)]];
+ if(k==='set')return [[act('風格設定',openUi),act('色彩設定',openColorList),act('年份設定',openMinYear),act('功能設定',openFeat)]];
  if(k==='rev')return [[
   act('日回顧',()=>{if(people.length<1){toast('目前沒有可回顧的日記');openMenu('rev');return}toggleMulti()}),
   act('週總結',openDumpHome),act('熱力圖',openHp)]];
@@ -1374,7 +1379,14 @@ function colInfo(x){if(x===REVCOL)return RVTH;if(isTh(x))return THEMES[x.slice(2
  if(dark&&lum()<.5){const f=.45;R=Math.round(R+(255-R)*f);G=Math.round(G+(255-G)*f);B=Math.round(B+(255-B)*f)}
  const bs=dark?[18,23,28]:[244,246,248],f=dark?.1:.11,mx=(v,i)=>Math.round(bs[i]+(v-bs[i])*f);
  return{acc:`rgb(${R},${G},${B})`,acx:dark?`rgb(${R},${G},${B})`:txc(R,G,B),soft:`rgba(${R},${G},${B},.16)`,mark:`rgba(${R},${G},${B},.32)`,on:lum()>.62?'#111':'#fff'}}
-function applyTheme(x){const r=document.documentElement.style,mt=document.querySelector('meta[name=theme-color]'),c=colInfo(x);
+/* 搜尋欄右側的像素放大鏡（Win95）：顏色跟著目前的功能深色 */
+function setMag(){const d=document.documentElement,col=getComputedStyle(d).getPropertyValue('--ink').trim()||'#000';
+ const px=[[3,0,4,1],[2,1,1,1],[7,1,1,1],[1,2,1,4],[8,2,1,4],[2,6,1,1],[7,6,1,1],[3,7,4,1],[8,8,2,2],[9,9,2,2],[10,10,2,2]];
+ const svg=`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' shape-rendering='crispEdges' fill='${col}'>${px.map(([x,y,w,h])=>`<rect x='${x}' y='${y}' width='${w}' height='${h}'/>`).join('')}</svg>`;
+ d.style.setProperty('--magi',`url("data:image/svg+xml,${encodeURIComponent(svg)}")`)}
+function applyTheme(x){applyTheme0(x);setMag()}
+setMag();
+function applyTheme0(x){const r=document.documentElement.style,mt=document.querySelector('meta[name=theme-color]'),c=colInfo(x);
  if(!c){['--acc','--acx','--soft','--mark','--onacc','--bg',...THV].forEach(k=>r.removeProperty(k));delete document.documentElement.dataset.th;mt.content=document.documentElement.classList.contains('w7')?'#C3D6EE':'#000080';return}
  THV.forEach(k=>c.card?r.setProperty(k,c[k.slice(2)]):r.removeProperty(k));c.card?document.documentElement.dataset.th=x.slice(2):delete document.documentElement.dataset.th;
  r.setProperty('--acc',c.acc);r.setProperty('--acx',c.acx);r.setProperty('--soft',c.soft);r.setProperty('--mark',c.mark);r.setProperty('--onacc',c.on);c.bg?r.setProperty('--bg',c.bg):r.removeProperty('--bg');mt.content=c.card?c.acc:x}
@@ -1766,7 +1778,7 @@ function applyFeat(){const d=(el,on)=>{if(el)el.style.display=on?'':'none'};
  document.querySelectorAll('.mdb').forEach(b=>d(b,FEAT.md));d($('#txl'),FEAT.md);d($('#txb'),FEAT.md);d($('#txh'),!FEAT.md);
  d($('#tgbtn'),FEAT.tags);d($('#tgd'),FEAT.tags);d($('#qbtn'),FEAT.quote);d($('#qpv'),FEAT.quote);d($('#tqrow'),FEAT.tags||FEAT.quote);d($('#mvtw'),FEAT.time);
  if(!FEAT.tags)$('#tgi').hidden=true}
-/* 外觀風格：Windows 95（預設）／Windows 7，整個 App 一起換；存在這台裝置 */
+/* 風格設定：Windows 95（預設）／Windows 7，整個 App 一起換；存在這台裝置 */
 const UIS=[['95','Windows 95'],['w7','Windows 7']];let UI=document.documentElement.classList.contains('w7')?'w7':'95';
 function setUi(v){UI=v;try{localStorage.setItem('nyear-ui',v)}catch(e){}document.documentElement.classList.toggle('w7',v==='w7');drawSwt();applyTheme(multi?REVCOL:pById(cur)?.color);openUi();if(typeof sbRefresh==='function')sbRefresh()}
 function openUi(){rc($('#uic'),...UIS.map(([k,t])=>h('button',{class:'edit','aria-pressed':String(UI===k),onclick:()=>setUi(k)},(UI===k?'● ':'')+t)));if(!$('#ui').open)$('#ui').showModal()}
