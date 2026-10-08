@@ -1041,7 +1041,7 @@ const TK='nyear-theme',PRE=['#000080'],REVK='nyear-review-color';
    acx＝②調深後的文字／線條色、mute／line／sep＝由深色與①調出的次要文字／分隔線、on＝②上的文字色 */
 const THEMES={
  t2:{n:'主題2',bg:'#F0EEF3',btnf:'#F0EEF3',card:'#DDEAE8',ink:'#2A2A2A',mute:'#5C5B5C',line:'#F8F6F9',sep:'#AFADB1',bhi:'#FCFCFD',blo:'#B2B0B4',acc:'#CD5782',acx:'#BE3869',press:'#C7DAD8',del:'#2F6F6A',hotx:'#2F6F6A',hotbg:'rgba(47,111,106,.16)',soft:'rgba(205,87,130,.16)',mark:'rgba(47,111,106,.28)',on:'#FFFFFF'},
- t3:{n:'主題3',bg:'#B0B3D6',btnf:'#B0B3D6',card:'#E0E4E7',ink:'#520523',mute:'#6A3050',line:'#D2D4E8',sep:'#907899',bhi:'#EDEEF6',blo:'#8D7394',acc:'#41898B',acx:'#254D4E',press:'#CB96BA',del:'#2D4E41',hotx:'#2D4E41',hotbg:'rgba(45,78,65,.16)',soft:'rgba(65,137,139,.18)',mark:'rgba(45,78,65,.28)',on:'#FFFFFF'}};
+ t3:{n:'主題3',bg:'#B0B3D6',btnf:'#B0B3D6',card:'#E0E4E7',ink:'#520523',mute:'#6A3050',line:'#D2D4E8',sep:'#907899',bhi:'#EDEEF6',blo:'#8D7394',acc:'#41898B',acx:'#254D4E',press:'#B5D4C8',del:'#2D4E41',hotx:'#2D4E41',hotbg:'rgba(45,78,65,.16)',soft:'rgba(65,137,139,.18)',mark:'rgba(45,78,65,.28)',on:'#FFFFFF'}};
 const isTh=x=>typeof x==='string'&&x.startsWith('T:')&&!!THEMES[x.slice(2)];
 const tcVal=x=>isTh(x)?THEMES[x.slice(2)].acc:(x||PRE[0]);
 const THV=['--card','--ink','--mute','--line','--sep','--del','--btnf','--hotx','--hotbg','--bhi','--blo','--press'];
