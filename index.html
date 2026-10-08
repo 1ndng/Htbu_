@@ -735,6 +735,13 @@ input[type=range]:disabled{cursor:default}
 /* 搜尋欄：右側像素放大鏡（Win95 風）；大日期、隨手記標題、年份：右下角 1px 淺色陰影（功能淺色） */
 #hdr #q,#qs2,#dmis{padding-right:28px;background:var(--magi,none) right 8px center/12px 12px no-repeat,var(--pxbg)}
 .day,.otl,.yr{text-shadow:1px 1px 0 var(--card)}
+.dhead .arrow{filter:drop-shadow(1px 1px 0 var(--card))}
+/* Win95 時間軸：線 1px，圓點改成選取框邊角的小方框（9×9；沒紀錄＝空心、有紀錄＝實心；時間點＝實心），顏色不變 */
+html:not(.w7) .tl{border-left-width:1px}
+html:not(.w7) .row::before{left:-5px;top:13px;width:9px;height:9px;clip-path:none;transform:none}
+html:not(.w7) .row::after{left:-4px;top:14px;width:7px;height:7px;clip-path:none;transform:none}
+html:not(.w7) .row.has::after{background:var(--acc)}
+html:not(.w7) .htm::after{top:20px;width:9px;height:9px;clip-path:none}
 </style>
 <style id="w7css">
 /* ===================== Windows 7 外觀（設定 › 風格設定）：只換外型，功能與版面配置不變 =====================
@@ -842,6 +849,7 @@ html.w7[data-th] :is(.day,.otl,dialog h2){color:var(--ink)}
 html.w7 .day .dn{text-decoration-color:currentColor}
 /* 大日期、隨手記標題、年份：白色光暈（同標題列） */
 html.w7 :is(.day,.otl,.yr){text-shadow:0 0 6px #FFFFFF,0 0 10px #FFFFFF,0 0 2px #FFFFFF}
+html.w7 .dhead .arrow{filter:drop-shadow(0 0 2px #FFFFFF) drop-shadow(0 0 4px #FFFFFF)}
 html.w7 .hcell{border-radius:2px}
 html.w7 :is(.sw,input[type=color]){border:1px solid #707070;border-radius:3px}
 html.w7 .av{box-shadow:0 0 0 1px var(--sep),0 1px 3px rgba(0,0,0,.2)}
