@@ -654,7 +654,7 @@ input.tmx:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink)
 #dmsb,#dmtb{flex:none;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;align-items:center;min-height:28px}
 #dmsb .edit{margin:0}#dmsb .sub{margin:0;text-align:center}
 #dmp>.acts.xe{margin:0!important;height:0}
-#dmcf{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#000;touch-action:none;margin:0 0 8px;box-shadow:0 0 0 1px var(--ink)}
+#dmcf{position:relative;width:min(100%,calc(55vh * 9 / 16));aspect-ratio:9/16;margin-left:auto!important;margin-right:auto!important;overflow:hidden;background:#000;touch-action:none;margin:0 0 8px;box-shadow:0 0 0 1px var(--ink)}
 #dmci{position:absolute;left:0;top:0;max-width:none;max-height:none;border:0;clip-path:none;pointer-events:none;-webkit-user-select:none;user-select:none}
 #dmcz{width:100%;margin:4px 0 8px}
 #dmil{max-height:58vh;overflow-y:auto;display:flex;flex-direction:column;gap:14px;margin-bottom:8px}
@@ -816,7 +816,7 @@ input.tmx:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink)
 <dialog id="dt"><div id="dtt"></div><div id="dts"><div id="dtc"></div></div><div class="dtf"><button id="dtb" hidden onclick="dtBack()">返回</button><button onclick="$('#dt').close()">退出</button></div></dialog>
 <dialog id="dmm"><h2>月總結</h2><p class="sub">選擇要製作 dump 的月份</p><div id="dmml"></div><div class="acts end"><button onclick="$('#dmm').close();openMenu('rev')">返回</button><button onclick="$('#dmm').close()">退出</button></div></dialog>
 <dialog id="dmp"><h2 id="dmpt">月總結</h2><div id="dmw"><canvas id="dmcv"></canvas></div><div id="dmsb"></div><div id="dmtb"><button onclick="dmBg()">背景</button><button onclick="dmPick()">紀錄</button><button onclick="dmTextEd()">文字</button><button onclick="dmTheme()">主題色</button><button class="pri" onclick="dmExport()">匯出圖片</button></div><div class="acts"><button onclick="$('#dmp').close();openDump()">返回</button><button onclick="$('#dmp').close()">退出</button></div><input type="file" id="dmf" accept="image/*" hidden></dialog>
-<dialog id="dmc"><h2>背景（16:9）</h2><p class="sub">拖曳圖片調整位置</p><div id="dmcf"><img id="dmci" alt=""></div><label for="dmcz">縮放</label><input type="range" id="dmcz" min="1" max="4" step="0.01" value="1"><div class="acts"><button onclick="$('#dmf').click()">換圖片</button><button onclick="dmBgNone()">不使用背景</button></div><div class="acts end"><button class="pri" onclick="dmCropOk()">確定</button><button onclick="$('#dmc').close()">取消</button></div></dialog>
+<dialog id="dmc"><h2>背景（9:16）</h2><p class="sub">拖曳圖片調整位置</p><div id="dmcf"><img id="dmci" alt=""></div><label for="dmcz">縮放</label><input type="range" id="dmcz" min="1" max="4" step="0.01" value="1"><div class="acts"><button onclick="$('#dmf').click()">換圖片</button><button onclick="dmBgNone()">不使用背景</button></div><div class="acts end"><button class="pri" onclick="dmCropOk()">確定</button><button onclick="$('#dmc').close()">取消</button></div></dialog>
 <dialog id="dmi"><h2>選擇紀錄</h2><p class="sub">紀錄方塊與裡面的圖片、影片、音訊、檔案都可以分開選</p><div id="dmil"></div><div class="acts end"><button class="pri" onclick="dmPickOk()">確定</button><button onclick="$('#dmi').close()">取消</button></div></dialog>
 <dialog id="dmx"><h2>文字</h2><textarea id="dmxt" rows="3" placeholder="輸入文字"></textarea><div class="acts"><label class="r">顏色 <input type="color" id="dmxc" value="#ffffff"></label><label class="r"><input type="checkbox" id="dmxs" checked> 外框</label></div><div class="acts end"><button class="pri" onclick="dmTextOk()">確定</button><button onclick="$('#dmx').close()">取消</button></div></dialog>
 <dialog id="dmth"><h2>主題色</h2><p class="sub">視窗方塊使用的配色</p><div class="acts" id="dmthl"></div><div class="acts end"><button onclick="$('#dmth').close()">取消</button></div></dialog>
@@ -1687,9 +1687,9 @@ async function save(){
  const isNew=!edK&&!empty;dropDraft();$('#ed').close();renderKeep();if(isNew)bkNudge()}catch(e){toast('儲存失敗，可能是檔案太大或空間不足')}}
 
 
-/* ===== 月總結：選月份 → 製作 dump（16:9 拼貼圖：背景、紀錄視窗、文字；可拖曳、縮放、調順序，匯出 PNG）
-   畫面與匯出都用同一個 dmPaint 畫在 canvas 上，所以看到的就是匯出的樣子；座標一律用 1920×1080 的原始尺寸 ===== */
-const DW=1920,DH=1080,DTB=46,DFONT='"Cubic 11","BaDing",sans-serif';
+/* ===== 月總結：選月份 → 製作 dump（9:16 直式拼貼圖：背景、紀錄視窗、文字；可拖曳、縮放、調順序，匯出 PNG）
+   畫面與匯出都用同一個 dmPaint 畫在 canvas 上，所以看到的就是匯出的樣子；座標一律用 1080×1920 的原始尺寸 ===== */
+const DW=1080,DH=1920,DTB=46,DFONT='"Cubic 11","BaDing",sans-serif';
 const DPAL0={bg:'#C0C0C0',btnf:'#C0C0C0',card:'#FFFFFF',ink:'#000000',acc:'#000080',on:'#FFFFFF',bhi:'#FFFFFF',blo:'#808080'};
 const dPal=k=>{const t=k&&THEMES[k];return t?{...DPAL0,...t}:DPAL0};
 let DM=null,dmUrls=[],dmDrag=null,dmRaf=0,dmTap={id:null,t:0},dmTx=null,dmCr=null;const dmStore={};
@@ -1706,7 +1706,7 @@ async function openDumpEd(ym){const key=dmPids().join(',')+'|'+ym,c=people.find(
  $('#dmpt').textContent=`${+ym.slice(0,4)}年${+ym.slice(5)}月 dump`;$('#dmp').showModal();dmFit();dmSelBar()}
 $('#dmp').addEventListener('close',()=>{if(DM)DM.sel=null;dmDrag=null});
 function dmFit(){const w=$('#dmw'),cv=$('#dmcv');if(!DM||!$('#dmp').open)return;
- let W=w.clientWidth,H=W*9/16;if(H>w.clientHeight){H=w.clientHeight;W=H*16/9}
+ let W=w.clientWidth,H=W*16/9;if(H>w.clientHeight){H=w.clientHeight;W=H*9/16}
  const r=devicePixelRatio||1;cv.style.width=W+'px';cv.style.height=H+'px';cv.width=Math.round(W*r);cv.height=Math.round(H*r);DM.sc=W/DW;DM.r=r;dmDraw()}
 addEventListener('resize',()=>{if($('#dmp').open)dmFit()});
 function dmDraw(){const cv=$('#dmcv');if(!DM||!cv.width)return;const c=cv.getContext('2d');c.setTransform(DM.sc*DM.r,0,0,DM.sc*DM.r,0,0);dmPaint(c,true)}
@@ -1763,7 +1763,7 @@ $('#dmcv').addEventListener('pointermove',e=>{if(!dmDrag)return;const p=dmPt(e),
  dmLater()});
 ['pointerup','pointercancel'].forEach(t=>$('#dmcv').addEventListener(t,()=>{dmDrag=null}));
 function dmSelBar(){const it=DM&&DM.items.find(x=>x.id===DM.sel),b=$('#dmsb');
- if(!it){rc(b,h('span',{class:'sub'},(DM&&DM.items.length?'點選方塊可拖曳移動，選取後拖曳右下角可調整大小':'先選擇背景、紀錄或加入文字')+(innerHeight>innerWidth?'（手機橫放編輯區會比較大）':'')));return}
+ if(!it){rc(b,h('span',{class:'sub'},(DM&&DM.items.length?'點選方塊可拖曳移動，選取後拖曳右下角可調整大小':'先選擇背景、紀錄或加入文字')+(innerWidth>innerHeight?'（手機直放編輯區會比較大）':'')));return}
  rc(b,h('button',{class:'edit',onclick:()=>dmZ(it,9e9)},'最上層'),h('button',{class:'edit',onclick:()=>dmZ(it,1)},'往上'),h('button',{class:'edit',onclick:()=>dmZ(it,-1)},'往下'),h('button',{class:'edit',onclick:()=>dmZ(it,-9e9)},'最下層'),
   it.t==='text'&&h('button',{class:'edit',onclick:()=>dmTextEd(it)},'編輯'),h('button',{class:'edit',onclick:()=>{DM.items=DM.items.filter(x=>x!==it);DM.sel=null;dmSelBar();dmDraw()}},'移除'))}
 function dmZ(it,d){const a=DM.items,i=a.indexOf(it),j=Math.max(0,Math.min(a.length-1,i+d));a.splice(i,1);a.splice(j,0,it);dmDraw()}
@@ -1771,7 +1771,7 @@ function dmZ(it,d){const a=DM.items,i=a.indexOf(it),j=Math.max(0,Math.min(a.leng
 const dmImg=(b,max=1600)=>new Promise(res=>{const u=URL.createObjectURL(b),i=new Image();
  i.onload=()=>{const s=Math.min(1,max/Math.max(i.naturalWidth,i.naturalHeight));if(s>=1)return res(i);const c=document.createElement('canvas');c.width=Math.round(i.naturalWidth*s);c.height=Math.round(i.naturalHeight*s);c.getContext('2d').drawImage(i,0,0,c.width,c.height);URL.revokeObjectURL(u);res(c)};
  i.onerror=()=>{URL.revokeObjectURL(u);res(null)};i.src=u});
-/* 背景：選圖後裁切成 16:9 */
+/* 背景：選圖後裁切成 9:16 */
 function dmBg(){DM.bgSrc?dmCrop():$('#dmf').click()}
 $('#dmf').onchange=async()=>{const f=$('#dmf').files&&$('#dmf').files[0];$('#dmf').value='';if(!f)return;const img=await dmImg(f,4000);if(!img){toast('無法讀取這張圖片');return}
  const u=img.src||img.toDataURL('image/jpeg',.9),iw=img.naturalWidth||img.width,ih=img.naturalHeight||img.height;DM.bgSrc={img,u,z:1,cx:iw/2,cy:ih/2};dmCrop()};
@@ -1804,7 +1804,7 @@ async function dmPickOk(){const on=[...$('#dmil').querySelectorAll('input:checke
  DM.items=DM.items.filter(x=>x.t==='text'||ons.has(x.id));if(DM.sel&&!DM.items.some(x=>x.id===DM.sel))DM.sel=null;
  const have=new Set(DM.items.map(x=>x.id));let n=DM.items.filter(x=>x.t!=='text').length;
  for(const id of on){if(have.has(id))continue;const j=id.lastIndexOf('|'),e=byK[id.slice(0,j)],part=id.slice(j+1);if(!e)continue;
-  const title=fmtD(e.date)+(e.time?' '+e.time:''),pos={x:40+(n%4)*465+(Math.floor(n/8)%4)*30,y:40+(Math.floor(n/4)%2)*510+(Math.floor(n/8)%4)*30};n++;
+  const title=fmtD(e.date)+(e.time?' '+e.time:''),pos={x:40+(n%2)*520+(Math.floor(n/8)%4)*30,y:40+(Math.floor(n/2)%4)*460+(Math.floor(n/8)%4)*30};n++;
   if(part==='card'){DM.items.push({id,t:'card',title,text:e.text||cntStr(e)||'',...pos,w:440,h:340});continue}
   const m=(e.media||[])[+part.slice(1)];if(!m)continue;
   const it={id,t:m.t,title:m.t==='image'||m.t==='video'?title:(m.n||title),name:m.n||'',...pos,w:420,h:260};
@@ -1816,14 +1816,14 @@ async function dmPickOk(){const on=[...$('#dmil').querySelectorAll('input:checke
 /* 文字：新增或編輯（顏色、外框） */
 function dmTextEd(it){dmTx=it||null;$('#dmxt').value=it?it.text:'';$('#dmxc').value=it?it.color:'#ffffff';$('#dmxs').checked=it?!!it.st:true;$('#dmx').showModal();$('#dmxt').focus()}
 function dmTextOk(){const t=$('#dmxt').value.replace(/\s+$/,'');if(!t.trim()){toast('請輸入文字');return}
- const c=$('#dmcv').getContext('2d'),fs=dmTx?dmTx.fs:72;c.font=`${fs}px ${DFONT}`;const w=Math.min(1700,Math.max(...t.split('\n').map(l=>c.measureText(l).width))+8);
+ const c=$('#dmcv').getContext('2d'),fs=dmTx?dmTx.fs:72;c.font=`${fs}px ${DFONT}`;const w=Math.min(DW-80,Math.max(...t.split('\n').map(l=>c.measureText(l).width))+8);
  if(dmTx)Object.assign(dmTx,{text:t,w,color:$('#dmxc').value,st:$('#dmxs').checked});
  else{const it={id:'t'+(DM.nid++),t:'text',text:t,fs,w,color:$('#dmxc').value,st:$('#dmxs').checked,x:Math.max(20,(DW-w)/2),y:DH/2-60};DM.items.push(it);DM.sel=it.id}
  $('#dmx').close();dmSelBar();dmDraw()}
 /* 主題色：視窗方塊的配色 */
 function dmTheme(){const sw=(k,c,t)=>h('button',{class:'sw'+(DM.theme===k?' on':''),style:'background:'+c,title:t,'aria-label':t,onclick:()=>{DM.theme=k;$('#dmth').close();dmDraw()}});
  rc($('#dmthl'),sw(null,PRE[0],'主題1（預設）'),...Object.keys(THEMES).map(k=>sw(k,THEMES[k].acc,THEMES[k].n)));$('#dmth').showModal()}
-/* 匯出：1920×1080 PNG */
+/* 匯出：1080×1920 PNG */
 async function dmExport(){try{const c=document.createElement('canvas');c.width=DW;c.height=DH;dmPaint(c.getContext('2d'),false);
  const b=await new Promise(r=>c.toBlob(r,'image/png'));if(!b)throw 0;const f=new File([b],`dump-${DM.ym}.png`,{type:'image/png'});
  if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f]})}catch(e){if(e.name!=='AbortError')dl(f)}}else dl(f)}catch(_){toast('匯出失敗')}}
