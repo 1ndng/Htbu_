@@ -13,6 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon-192.png">
+<script>try{if(localStorage.getItem('nyear-ui')==='w7')document.documentElement.classList.add('w7')}catch(e){}</script>
 <style>
 @font-face{font-family:"Cubic 11";src:url("./Cubic_11.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
 @font-face{font-family:"BaDing";src:url("./BaDingShiWeiTi-16.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
@@ -183,7 +184,8 @@ video.dtm{background:#000}
 .dtf button{padding:6px 18px}
 
 #gd{width:min(320px,86vw)}#gd h2{text-align:center;margin:2px 0 14px}#gd .mb{display:flex;flex-direction:column;align-items:center;gap:12px}
-#ft,#dmh{width:min(320px,86vw)}#ft h2,#dmh h2{text-align:center;margin:2px 0 14px}#ft .mb,#dmh .mb{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:14px}#ft .edit,#dmh .edit{margin:0;width:100%;max-width:230px;padding:8px 12px;font-size:14px;text-align:center}
+#ft,
+#ui,#dmh{width:min(320px,86vw)}#ft h2,#ui h2,#dmh h2{text-align:center;margin:2px 0 14px}#ft .mb,#ui .mb,#dmh .mb{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:14px}#ft .edit,#ui .edit,#dmh .edit{margin:0;width:100%;max-width:230px;padding:8px 12px;font-size:14px;text-align:center}
 #gd .mb .edit{margin:0;width:100%;max-width:230px;padding:8px 12px;font-size:14px;text-align:center}
 #gd .gb{font-size:14px;line-height:1.8;white-space:pre-wrap;max-height:56vh;overflow:auto;margin:0 0 4px}
 #gd .acts{justify-content:center;margin:14px 0 2px}
@@ -309,7 +311,7 @@ dialog.tbd>.eth:is(:first-child,.sbw+.eth){position:absolute;left:8px;right:32px
 
 button,input:not([type=radio]):not([type=checkbox]):not([type=range]):not([type=color]):not([type=file]),textarea,select,#q,#qs2,.fl,.qhit,.qv,.qchip,.dtg,#tv,#mvtv{--bw:1px}
 /* ===== 字級統一：按鈕 14px／淺色提示字 11px（輸入欄提示字除外）／輸入欄與紀錄文字 16px ===== */
-button,.edit,.card .edit,.card button,.eth .edit,.rm>.cvb,#wred,.wrside,#wrb button,.tg,.dtg,.card .tg,.fl,.card .fl,#dtc .fl,.wc .fl,.qv,.qchip,#ft .edit,#gd .mb .edit,#dmh .edit{font-size:13px;letter-spacing:1.56px}
+button,.edit,.card .edit,.card button,.eth .edit,.rm>.cvb,#wred,.wrside,#wrb button,.tg,.dtg,.card .tg,.fl,.card .fl,#dtc .fl,.wc .fl,.qv,.qchip,#ft .edit,#ui .edit,#gd .mb .edit,#dmh .edit{font-size:13px;letter-spacing:1.56px}
 .tg,.dtg,.card .tg{letter-spacing:.04em}
 .xcl,.xbk{font-size:0}
 dialog.tbd>h2:is(:first-child,.sbw+h2),.eth h2{font-size:16px}
@@ -334,7 +336,8 @@ button{padding-top:3px;padding-bottom:3px;line-height:19.6px}
 #dtc .fl,.wc .fl{padding-top:7px;padding-bottom:7px}
 #cf .acts button{padding-top:4px;padding-bottom:4px}
 .dtf button{padding-top:3px;padding-bottom:3px}
-#ft .edit,#gd .mb .edit,#dmh .edit{padding-top:5px;padding-bottom:5px}
+#ft .edit,
+#ui .edit,#gd .mb .edit,#dmh .edit{padding-top:5px;padding-bottom:5px}
 .eth .edit,#wred{height:20px;line-height:16px}
 #wrb button{padding-top:2px;padding-bottom:2px}
 #qsb{padding-top:3px;padding-bottom:3px}
@@ -542,11 +545,17 @@ dialog.tbd>h2:is(:first-child,.sbw+h2),dialog.tbd>.eth:is(:first-child,.sbw+.eth
 #mv label:not(.r){display:block;margin:4px 0 4px}#mv #mvtw{margin-top:8px}
 dialog select{padding-top:2px;padding-bottom:2px;line-height:1.3}
 /* 清單型視窗：第一個按鈕與標題列／說明字的間隔 = 最下方按鈕與下框的間隔 */
-#ft,#gd,#dmh{padding:38px 12px 10px}
-#ft .sub,#gd .sub,#dmh .sub{margin:0 0 12px!important}
-#ft .mb,#gd .mb,#dmh .mb{margin:0 0 8px;gap:8px}
-#ft .acts,#gd .acts,#dmh .acts{margin:0!important}
-#ft .mb:has(+.acts.xe),#gd .mb:has(+.acts.xe),#dmh .mb:has(+.acts.xe){margin-bottom:0}
+#ft,
+/* 清單型視窗：第一個按鈕與標題列／說明字的間隔 = 最下方按鈕與下框的間隔 */
+#ui,#gd,#dmh{padding:38px 12px 10px}
+#ft .sub,
+#ui .sub,#gd .sub,#dmh .sub{margin:0 0 12px!important}
+#ft .mb,
+#ui .mb,#gd .mb,#dmh .mb{margin:0 0 8px;gap:8px}
+#ft .acts,
+#ui .acts,#gd .acts,#dmh .acts{margin:0!important}
+#ft .mb:has(+.acts.xe),
+#ui .mb:has(+.acts.xe),#gd .mb:has(+.acts.xe),#dmh .mb:has(+.acts.xe){margin-bottom:0}
 /* 輸入欄統一扁度：padding 4px、行高 1.3（比照新增對象／標籤） */
 #q,#qs2,#tv,#mvtv,#tn,#tx,#lk,#pn,#pen,#tmn,input[type=text],input[type=search],textarea{line-height:1.3}
 #q,#qs2,#tv,#mvtv,#tn,#tx,#lk,input[type=text],input[type=search],textarea{padding-top:4px;padding-bottom:4px}
@@ -717,6 +726,137 @@ input[type=range]::-moz-range-thumb{width:11px;height:21px;border:0;border-radiu
 input[type=range]:focus-visible::-webkit-slider-thumb{outline:1px dotted var(--ink);outline-offset:-4px}
 input[type=range]:disabled{cursor:default}
 </style>
+<style id="w7css">
+/* ===================== Windows 7 外觀（設定 › 外觀風格）：只換外型，功能與版面配置不變 =====================
+   參考 Win7 Aero：圓角玻璃視窗框、黑字白光暈標題、紅色關閉鈕；漸層按鈕；淡藍反白的選單；系統無襯線字。
+   主題1（預設）改用 Win7 的白底＋淡藍配色；其他主題照各自的色彩，套在 Win7 外型上 */
+html.w7:not([data-th]){--bg:#FFFFFF;--card:#FFFFFF;--ink:#1B1B1B;--mute:#6D6D6D;--line:#E8E8E8;--sep:#C9CED6;--acc:#3D7FCB;--acx:#1E3287;--soft:rgba(61,127,203,.12);--mark:rgba(61,127,203,.28);--onacc:#FFFFFF;--del:#C42B1C;--bhi:#FFFFFF;--blo:#A9B4C2;--btnf:#E3E3E3}
+html.w7 *{--stair:none;--dot8:circle(50%);--dot12:circle(50%);--dot16:circle(50%);--bw:1px;
+ --ar-l:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5 8'%3E%3Cpath d='M4 1L1.2 4L4 7' fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5'/%3E%3C/svg%3E");--ar-r:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5 8'%3E%3Cpath d='M1 1L3.8 4L1 7' fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5'/%3E%3C/svg%3E");--ar-u:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 4'%3E%3Cpath d='M1 3.4L6 .8L11 3.4' fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.3'/%3E%3C/svg%3E");--ar-d:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 4'%3E%3Cpath d='M1 .6L6 3.2L11 .6' fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.3'/%3E%3C/svg%3E");
+ --gl:color-mix(in srgb,var(--acc) 40%,#FFFFFF);--gld:color-mix(in srgb,var(--acc) 50%,#25364A);
+ --w7bd:color-mix(in srgb,var(--fill) 45%,#4A4A4A);
+ --pxbg:linear-gradient(var(--fill),var(--fill)) padding-box,linear-gradient(var(--w7bd),var(--w7bd)) border-box;
+ --shine:linear-gradient(to bottom,rgba(255,255,255,.62),rgba(255,255,255,.2) 50%,rgba(255,255,255,.04) 51%,rgba(255,255,255,.16));
+ --frm:linear-gradient(var(--pp),var(--pp)) 5px var(--tt)/calc(100% - 10px) calc(100% - var(--tt) - 5px) no-repeat border-box,
+  linear-gradient(var(--gld),var(--gld)) 4px calc(var(--tt) - 1px)/calc(100% - 8px) calc(100% - var(--tt) - 3px) no-repeat border-box,
+  linear-gradient(to bottom,rgba(255,255,255,.6),rgba(255,255,255,.22) 28px,rgba(255,255,255,0) 64px,rgba(255,255,255,.12)) border-box,
+  linear-gradient(105deg,transparent 22%,rgba(255,255,255,.14) 22% 26%,transparent 26% 58%,rgba(255,255,255,.12) 58% 61%,transparent 61%) border-box,
+  linear-gradient(var(--gl),var(--gl)) border-box}
+html.w7 *{font-family:"Segoe UI","Microsoft JhengHei UI","Microsoft JhengHei","PingFang TC","Noto Sans TC","Helvetica Neue",Arial,sans-serif!important;letter-spacing:.01em!important}
+html.w7 body{line-height:1.6}
+html.w7 ::selection{background:#3399FF;color:#FFFFFF}
+/* 按鈕：上半亮、下半深的漸層，圓角 3px；按下＝淡藍 */
+html.w7 button{--w7bd:color-mix(in srgb,var(--fill) 35%,#3B3B3B);--pxbg:linear-gradient(to bottom,color-mix(in srgb,var(--fill) 30%,#FFFFFF) 0,color-mix(in srgb,var(--fill) 58%,#FFFFFF) 49%,var(--fill) 50%,color-mix(in srgb,var(--fill) 90%,#000000) 100%) padding-box,linear-gradient(var(--w7bd),var(--w7bd)) border-box;border-radius:3px;text-indent:0!important}
+html.w7 button:active:not(:disabled):not(.pri):not(#fab):not(.tg):not(.mi):not(.mit){--fill:color-mix(in srgb,var(--acc) 30%,#FFFFFF);--w7bd:color-mix(in srgb,var(--acc) 60%,#1E3A5A)}
+html.w7 :is(.pri,#fab,.dmtg.on):active:not(:disabled){filter:brightness(.9)}
+@media (hover:hover){html.w7 button:hover:not(:disabled):not(.mi):not(.mit){--w7bd:color-mix(in srgb,var(--acc) 70%,#1E3A5A)}}
+html.w7 button:focus-visible:not(:disabled){outline:1px dotted var(--ink);outline-offset:-4px}
+html.w7 button.tapfx{filter:brightness(.94)}
+html.w7 #fab{border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+/* 輸入欄：白底、灰框，聚焦時框線變主題色 */
+html.w7 :is(input:not([type=radio]):not([type=checkbox]):not([type=range]):not([type=color]),textarea,select,.fl,.qhit,.qv,.qchip,.dtg){border-radius:3px}
+html.w7 :is(input,textarea,select):focus,html.w7 .fl:focus-visible{outline:none!important;--w7bd:var(--acc)}
+html.w7 input::placeholder,html.w7 textarea::placeholder{color:#8A8A8A;font-style:italic}
+html.w7 #hdr #q,html.w7 #qs2,html.w7 #dmis{padding-right:28px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Ccircle cx='6' cy='6' r='4.2' fill='none' stroke='%233F5F8F' stroke-width='1.5'/%3E%3Cpath d='M9.2 9.2L13.2 13.2' stroke='%233F5F8F' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") right 8px center/14px no-repeat,var(--pxbg)}
+html.w7 dialog select{background:linear-gradient(to top right,transparent 50%,#3A3A3A 50%) right 11px center/4px 4px no-repeat,linear-gradient(to top left,transparent 50%,#3A3A3A 50%) right 7px center/4px 4px no-repeat,var(--pxbg)}
+/* 單選鈕、核取方塊 */
+html.w7 input[type=radio]{width:13px;height:13px;clip-path:none;border-radius:50%;border:1px solid #8E8F8F;background:radial-gradient(circle at 50% 45%,#FFFFFF 0,#F1F1F1 45%,#D2D2D2 100%);vertical-align:-2px}
+html.w7 input[type=radio]::before{display:none}
+html.w7 input[type=radio]:checked::after{inset:2px;clip-path:none;border-radius:50%;background:radial-gradient(circle at 40% 35%,#A9E1FF 0,#3A8FD8 50%,#17508F 100%)}
+html.w7 .cbx{border:1px solid #8E8F8F;border-radius:2px;background:linear-gradient(135deg,#D6D6D6,#FFFFFF);box-shadow:inset 0 0 0 1px #F5F5F5}
+html.w7 .cbx.on::after{width:10px;height:10px;background:#3B4E86;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M1.6 5.2L4 7.6L8.6 2.2' fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.8'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M1.6 5.2L4 7.6L8.6 2.2' fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.8'/%3E%3C/svg%3E") center/contain no-repeat}
+/* 視窗：圓角玻璃框（Aero），內容放在框內的白色面板 */
+html.w7 dialog,html.w7 .wc{border:1px solid var(--gld);border-radius:7px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.45),0 8px 28px rgba(0,0,0,.38)}
+html.w7 dialog::backdrop{background:rgba(20,30,45,.45)}
+html.w7 dialog.tbd>h2:is(:first-child,.sbw+h2),html.w7 dialog.tbd>.eth:is(:first-child,.sbw+.eth) h2,html.w7 #dtt,html.w7 .wc>.dth,html.w7 #lbt{color:var(--ink)!important;font-weight:400;font-size:15px;text-shadow:0 0 6px #FFFFFF,0 0 10px #FFFFFF,0 0 2px #FFFFFF}
+html.w7 dialog.tbd>h2:is(:first-child,.sbw+h2),html.w7 #dtt{top:5px;right:84px}
+html.w7 dialog.tbd>.eth:is(:first-child,.sbw+.eth){top:5px;right:80px}
+html.w7 dialog h2{color:var(--acx);font-weight:400}
+html.w7 #dt{padding:36px 5px 5px}
+html.w7 :is(#dts,#hmc,.arl){box-shadow:0 0 0 1px var(--sep)!important}
+/* 標題列按鈕：右上角，紅色關閉＋玻璃「－」（返回） */
+html.w7 .xcl,html.w7 .xbk{top:-1px;height:20px;padding:0;border:1px solid var(--gld);box-shadow:inset 0 0 0 1px rgba(255,255,255,.35);font-size:0}
+html.w7 .xcl{right:6px;width:44px;border-radius:0 0 5px 0;border-color:#5E1A12;background:linear-gradient(to bottom,#E9A99B 0,#D7735F 49%,#C24A33 50%,#D9765F 100%)}
+html.w7 .xbk{right:49px;width:28px;border-radius:0 0 0 5px;border-right:0;background:var(--shine),var(--gl)}
+html.w7 .xcl::before,html.w7 .xbk::before{content:"";position:absolute;inset:0;margin:auto;width:13px;height:13px;background:rgba(25,25,25,.7);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2 2L8 8M8 2L2 8' fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='3.6'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2 2L8 8M8 2L2 8' fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='3.6'/%3E%3C/svg%3E") center/contain no-repeat}
+html.w7 .xbk::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2.2 7H7.8' fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='3.6'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2.2 7H7.8' fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='3.6'/%3E%3C/svg%3E")}
+html.w7 .xcl::after,html.w7 .xbk::after{width:13px;height:13px;background:#FFFFFF;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2 2L8 8M8 2L2 8' fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.9'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2 2L8 8M8 2L2 8' fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.9'/%3E%3C/svg%3E") center/contain no-repeat}
+html.w7 .xbk::after{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2.2 7H7.8' fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.9'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2.2 7H7.8' fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.9'/%3E%3C/svg%3E")}
+html.w7 .xcl:active{filter:brightness(.85)}html.w7 .xbk:active{background:var(--shine),color-mix(in srgb,var(--gl) 70%,#2A4A70)}
+html.w7 #wr .xcl{top:env(safe-area-inset-top,0px);right:12px}html.w7 #wr .xbk{top:env(safe-area-inset-top,0px);right:55px}
+/* 方塊裡的小叉叉（附件、引用）：灰色小按鈕 */
+html.w7 :is(.qchip,.rm)>.xcl{border-radius:3px;border:1px solid #9A9A9A;background:linear-gradient(#FFFFFF,#E3E3E3);height:19px;top:2px;right:2px}
+html.w7 .rm>.xcl{top:4px;right:4px;width:24px;height:22px}
+html.w7 :is(.qchip,.rm)>.xcl::before{display:none}html.w7 :is(.qchip,.rm)>.xcl::after{background:#555555}
+/* 頂列：玻璃標題列＋選單列（記事本）＋搜尋列 */
+html.w7 #hdr{border-bottom:1px solid color-mix(in srgb,var(--gld) 45%,#FFFFFF);background:var(--bg)}
+html.w7 #hdr .hb{background:var(--shine),var(--gl);border-bottom:1px solid var(--gld);box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+html.w7 #hdr h1{color:var(--ink);font-size:15px;font-weight:400;text-shadow:0 0 6px #FFFFFF,0 0 10px #FFFFFF}
+html.w7 :is(#mbar,#dmmb){background:linear-gradient(to bottom,color-mix(in srgb,var(--gl) 12%,#FFFFFF),color-mix(in srgb,var(--gl) 38%,#FFFFFF));border-top:0;border-bottom:1px solid color-mix(in srgb,var(--gld) 35%,#FFFFFF);padding:2px 5px}
+html.w7 .mi{height:24px;line-height:24px;padding:0 8px;border-radius:3px;border:1px solid transparent}
+html.w7 .mi.on,html.w7 .mi:active:not(:disabled){color:var(--ink);background:linear-gradient(to bottom,rgba(255,255,255,.75),rgba(255,255,255,.15)),color-mix(in srgb,var(--acc) 24%,#FFFFFF);border-color:color-mix(in srgb,var(--acc) 55%,#FFFFFF)}
+@media (hover:hover){html.w7 .mi:hover:not(:disabled){background:linear-gradient(to bottom,rgba(255,255,255,.75),rgba(255,255,255,.15)),color-mix(in srgb,var(--acc) 16%,#FFFFFF);border-color:color-mix(in srgb,var(--acc) 45%,#FFFFFF)}}
+html.w7 #srow{border-top:0;box-shadow:none;background:linear-gradient(to bottom,color-mix(in srgb,var(--gl) 20%,#FFFFFF),color-mix(in srgb,var(--gl) 6%,#FFFFFF));padding:6px 5px 7px}
+/* 下拉選單（右鍵選單風）：灰底、左側圖示欄、淡藍反白 */
+html.w7 :is(#mdd,#dmdd){background:linear-gradient(to right,transparent 27px,#E2E3E3 27px 28px,#FFFFFF 28px 29px,transparent 29px),#F0F0F0;border:1px solid #979797;box-shadow:2px 2px 4px rgba(0,0,0,.28);padding:2px}
+html.w7 .mit{position:relative;padding-left:34px;border-radius:3px;border:1px solid transparent;min-height:30px}
+html.w7 .mit:not(.dis):active,html.w7 .mit.sel{color:var(--ink);background:none}
+html.w7 .mit:not(.dis):active{background:linear-gradient(to bottom,rgba(255,255,255,.8),rgba(255,255,255,.2)),color-mix(in srgb,var(--acc) 22%,#FFFFFF);border-color:color-mix(in srgb,var(--acc) 50%,#FFFFFF)}
+@media (hover:hover){html.w7 .mit:not(.dis):hover{color:var(--ink);background:linear-gradient(to bottom,rgba(255,255,255,.8),rgba(255,255,255,.2)),color-mix(in srgb,var(--acc) 18%,#FFFFFF);border-color:color-mix(in srgb,var(--acc) 45%,#FFFFFF)}}
+html.w7 .mit.del,html.w7 .mit.del:active{color:var(--del)}
+html.w7 .mit.sel::before{content:"";position:absolute;left:10px;top:50%;width:7px;height:7px;margin-top:-3.5px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#7FB4E8,#1E3287)}
+html.w7 .msep{margin:3px 2px 3px 30px;border-top:1px solid #E0E0E0;border-bottom:1px solid #FFFFFF}
+/* 紀錄方塊：白底細框圓角，按下＝淡藍選取 */
+html.w7 .card:not(.empty){border:1px solid color-mix(in srgb,var(--acc) 22%,#CFCFCF);border-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+html.w7 .card[data-k]:not(.empty):active:not(:has(button:active)):not(:has(a:active)){--ca:color-mix(in srgb,var(--acc) 16%,#FFFFFF)!important;border-color:color-mix(in srgb,var(--acc) 55%,#FFFFFF)}
+html.w7 :is(.th,.dtm){border:1px solid var(--sep);border-radius:3px}
+html.w7 .tg,html.w7 .dtg,html.w7 .card .tg{border-radius:10px}
+html.w7 .tg.on{background:var(--shine),var(--acc)}
+html.w7 :is(.qv,.qchip) .rd{background:linear-gradient(to bottom,#FFFFFF,color-mix(in srgb,var(--gl) 30%,#FFFFFF));border-bottom-color:color-mix(in srgb,var(--gld) 30%,#FFFFFF);border-radius:3px 3px 0 0}
+html.w7 .day,html.w7 .otl{font-weight:300;color:var(--acx)}
+html.w7 .hcell{border-radius:2px}
+html.w7 :is(.sw,input[type=color]){border:1px solid #707070;border-radius:3px}
+html.w7 .av{box-shadow:0 0 0 1px var(--sep),0 1px 3px rgba(0,0,0,.2)}
+html.w7 .note{border-radius:3px}
+html.w7 #toast{background:linear-gradient(#FFFFFF,#E4E5F0);color:#4C4C4C;border:1px solid #767676;border-radius:3px;box-shadow:2px 2px 4px rgba(0,0,0,.25)}
+html.w7 #lbc,html.w7 #dmvwc,html.w7 #dmvf,html.w7 #dmcf{border:1px solid var(--gld);box-shadow:none}
+html.w7 #dmvwc::after,html.w7 #dmvf::after{display:none}
+html.w7 #dmcv{box-shadow:0 0 0 1px var(--gld)}
+html.w7 #dmvn,html.w7 #dmvp{box-shadow:none}
+/* 捲軸（Win7）：淺灰軌道、圓角漸層滑塊（中間三條紋）、扁平箭頭 */
+html.w7 .jsb-bar{background:#F0F0F0;box-shadow:inset 0 0 0 1px #E2E2E2}
+html.w7 .jsb-bar .trk{background:linear-gradient(to right,#E6E6E6,#F4F4F4 35%,#EFEFEF)}
+html.w7 .jsb-bar.h .trk{background:linear-gradient(to bottom,#E6E6E6,#F4F4F4 35%,#EFEFEF)}
+html.w7 .jsb-bar .thm{border-radius:3px;background:linear-gradient(to right,#F6F6F6,#E9E9E9 50%,#DADADA 51%,#D0D0D0);box-shadow:inset 0 0 0 1px #8B8B8B,inset 0 0 0 2px rgba(255,255,255,.55)}
+html.w7 .jsb-bar.h .thm{background:linear-gradient(to bottom,#F6F6F6,#E9E9E9 50%,#DADADA 51%,#D0D0D0)}
+html.w7 .jsb-bar .thm::after{content:"";position:absolute;left:50%;top:50%;width:7px;height:7px;transform:translate(-50%,-50%);background:repeating-linear-gradient(to bottom,#808080 0 1px,#FFFFFF 1px 2px,transparent 2px 3px)}
+html.w7 .jsb-bar.h .thm::after{background:repeating-linear-gradient(to right,#808080 0 1px,#FFFFFF 1px 2px,transparent 2px 3px)}
+html.w7 .jsb-bar .thm.act{background:linear-gradient(to right,#E5F4FC,#C4E5F6 50%,#98D1EF 51%,#68B3DB);box-shadow:inset 0 0 0 1px #3C7FB1,inset 0 0 0 2px rgba(255,255,255,.5)}
+html.w7 .jsb-bar.h .thm.act{background:linear-gradient(to bottom,#E5F4FC,#C4E5F6 50%,#98D1EF 51%,#68B3DB)}
+html.w7 .jsb-bar .arw{background:transparent;box-shadow:none}
+html.w7 .jsb-bar .arw:active{background:color-mix(in srgb,var(--acc) 25%,#FFFFFF);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--acc) 55%,#FFFFFF);border-radius:2px}
+html.w7 .jsb-bar .arw.up::after{border-bottom-color:#606060}html.w7 .jsb-bar .arw.dn::after{border-top-color:#606060}html.w7 .jsb-bar .arw.lf::after{border-right-color:#606060}html.w7 .jsb-bar .arw.rt::after{border-left-color:#606060}
+/* 拉桿（Win7 軌道列）：細凹槽＋長方形滑塊 */
+html.w7 input[type=range]::-webkit-slider-runnable-track{background:#E7EAEA;box-shadow:inset 0 0 0 1px #B0B0B0;border-radius:2px}
+html.w7 input[type=range]::-moz-range-track{background:#E7EAEA;box-shadow:inset 0 0 0 1px #B0B0B0;border-radius:2px}
+html.w7 input[type=range]::-webkit-slider-thumb{border-radius:2px;background:linear-gradient(to right,#F4F4F4,#E3E3E3 50%,#D2D2D2);box-shadow:inset 0 0 0 1px #707070,inset 0 0 0 2px rgba(255,255,255,.6)}
+html.w7 input[type=range]::-moz-range-thumb{border-radius:2px;background:linear-gradient(to right,#F4F4F4,#E3E3E3 50%,#D2D2D2);box-shadow:inset 0 0 0 1px #707070,inset 0 0 0 2px rgba(255,255,255,.6)}
+/* 音訊播放器（Win7 媒體播放器風） */
+html.w7 .ap{background:linear-gradient(to bottom,#FAFAFA,color-mix(in srgb,var(--btnf) 60%,#FFFFFF));box-shadow:inset 0 0 0 1px #A6A6A6;border-radius:4px}
+html.w7 .ap .pn{border:1px solid #A6A6A6;border-radius:3px}
+html.w7 .ap .wf{border:1px solid #2B2B2B;border-radius:3px}
+html.w7 .ap .sl{box-shadow:none;height:18px;align-items:center}
+html.w7 .ap .sl .trk{height:6px;background:#E7EAEA;box-shadow:inset 0 0 0 1px #B0B0B0;border-radius:3px;overflow:visible}
+html.w7 .ap .sl .thm{top:-6px;bottom:-6px;border-radius:3px;background:linear-gradient(to bottom,#F4F4F4,#E3E3E3 50%,#D2D2D2 51%,#C9C9C9);box-shadow:inset 0 0 0 1px #707070,inset 0 0 0 2px rgba(255,255,255,.55)}
+html.w7 .ap .sl .arw{background:transparent;box-shadow:none}html.w7 .ap .sl .arw:active{background:color-mix(in srgb,var(--acc) 25%,#FFFFFF);border-radius:2px}
+html.w7 .ap .ic.rw{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 11'%3E%3Cpath d='M6.5 1.5L1 5.5L6.5 9.5ZM13 1.5L7.5 5.5L13 9.5Z'/%3E%3C/svg%3E")}html.w7 .ap .ic.ff{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 11'%3E%3Cpath d='M1 1.5L6.5 5.5L1 9.5ZM7.5 1.5L13 5.5L7.5 9.5Z'/%3E%3C/svg%3E")}html.w7 .ap .ic.ipl{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 11'%3E%3Cpath d='M1 1L7.5 5.5L1 10Z'/%3E%3C/svg%3E")}html.w7 .ap .ic.ipa{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 11'%3E%3Crect x='.5' y='.5' width='3.4' height='10' rx='.8'/%3E%3Crect x='6.1' y='.5' width='3.4' height='10' rx='.8'/%3E%3C/svg%3E")}html.w7 .ap .ic.st{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9'%3E%3Crect x='.5' y='.5' width='8' height='8' rx='1'/%3E%3C/svg%3E")}
+html.w7 .pl .pli{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 11'%3E%3Cpath d='M1 1L7.5 5.5L1 10Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 11'%3E%3Cpath d='M1 1L7.5 5.5L1 10Z'/%3E%3C/svg%3E") center/contain no-repeat}
+html.w7 .dtv .pl,html.w7 .dmvt2 .dmvp{border-radius:50%;background:rgba(0,0,0,.55);color:#FFFFFF}
+/* 左右滑動換日：平滑移動（Win95 是逐格） */
+html.w7 #app.swl{animation:swl .18s ease-out}html.w7 #app.swr{animation:swr .18s ease-out}
+/* 週總結編輯器（全螢幕）：沒有外框 */
+html.w7 #dmp,html.w7 #wr{border:0;border-radius:0;box-shadow:none;background:var(--bg)}
+</style>
 </head>
 <body>
 <main>
@@ -809,6 +949,12 @@ input[type=range]:disabled{cursor:default}
 <div class="acts" id="swt"></div>
 <div class="acts"><label class="r">自訂 <input type="color" id="tc"></label><button onclick="setTheme(null)">恢復預設</button></div>
 <div class="acts" style="justify-content:center"><button onclick="$('#th').close();openMenu('set')">返回</button><button onclick="$('#th').close()">退出</button></div>
+</dialog>
+<dialog id="ui">
+<h2>外觀風格</h2>
+<p class="sub" style="text-align:center;margin:-6px 0 12px">整個 App 的外型（配色照各對象的色彩設定）</p>
+<div class="mb" id="uic"></div>
+<div class="acts" style="justify-content:center"><button onclick="$('#ui').close();openMenu('set')">返回</button><button onclick="$('#ui').close()">退出</button></div>
 </dialog>
 <dialog id="ft">
 <h2>功能設定</h2>
@@ -918,7 +1064,7 @@ function openPe(mode){if(!people.some(p=>p.id===cur)){toast('目前沒有對象'
  pe.showModal();if(peMode==='edit'){$('#pen').focus();$('#pen').select()}}
 /* 頭貼編輯：選圖後在圓框裡拖曳、縮放；儲存時裁成 256×256 */
 let peAv=null;
-const avAcc=P=>colInfo(P&&P.color)?.acc||PRE[0];
+const avAcc=P=>colInfo(P&&P.color)?.acc||defAcc();
 function avEl(P,size,cls){const d=h('div',{class:'av'+(cls?' '+cls:''),style:`width:${size}px;height:${size}px;background:${P&&P.avc||avAcc(P)}`});if(P&&P.av)d.append(h('img',{src:P.av,alt:''}));return d}
 function peAvLoad(id){const P=pById(id);peAv={P,mode:P&&P.av?'img':P&&P.avc?'color':null,color:P&&P.avc||avAcc(P),img:null,z:1,cx:0,cy:0,dirty:false};
  if(peAv.mode==='img'){const i=new Image();i.onload=()=>{peAv.img=i;peAv.cx=i.naturalWidth/2;peAv.cy=i.naturalHeight/2;peAvDraw()};i.src=P.av}
@@ -1094,7 +1240,7 @@ let mOpen=null;
 const mBtn=k=>document.querySelector(`#mbar [data-m="${k}"]`);
 function menuGroups(k){
  const act=(t,f,o)=>({t,f:()=>{closeMenu();f()},...o}),keep=(t,f,o)=>({t,f,...o}),info=t=>({t,dis:1});
- if(k==='set')return [[act('年份設定',openMinYear),act('色彩設定',openColorList),act('功能設定',openFeat)]];
+ if(k==='set')return [[act('年份設定',openMinYear),act('色彩設定',openColorList),act('外觀風格',openUi),act('功能設定',openFeat)]];
  if(k==='rev')return [[
   act('日回顧',()=>{if(people.length<1){toast('目前沒有可回顧的日記');openMenu('rev');return}toggleMulti()}),
   act('週總結',openDumpHome),act('熱力圖',openHp)]];
@@ -1141,7 +1287,9 @@ $('#mbar').addEventListener('scroll',()=>closeMenu(),{passive:true});
 $('#q').addEventListener('focus',closeMenu);
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
 /* 主題色（每位對象各自設定） */
-const TK='nyear-theme',PRE=['#000080'];
+const TK='nyear-theme';
+/* 主題1（預設）的主題色②：Win95＝深藍、Win7＝淡藍 */
+const defAcc=()=>document.documentElement.classList.contains('w7')?'#3D7FCB':'#000080';
 /* 配色主題：主題1（預設，Windows 95）寫在 CSS :root；主題2～6 在這裡（t4 參考秋季烘焙色票、t5 參考痛車色票、t6 參考「春風のクロス」色票）。儲存時記成 "T:代號"
    bg＝主題色①（也是按鈕面 btnf）、acc＝主題色②、ink＝功能色（深）、card＝功能色（淺）、del＝功能色（對比，已調深到看得清楚）、press＝主題色②按鈕按下瞬間的顏色
    acx＝②調深後的文字／線條色、mute／line／sep＝由深色與①調出的次要文字／分隔線、on＝②上的文字色 */
@@ -1152,7 +1300,7 @@ const THEMES={/* 顯示順序＝這裡的順序（代號 t2～t6 是存檔用的
  t5:{n:'主題5',bg:'#C1ECFD',btnf:'#C1ECFD',card:'#FFF6B7',ink:'#283F76',mute:'#4E6A98',line:'#DCF4FE',sep:'#8DB1CF',bhi:'#F1FBFF',blo:'#88ACCB',acc:'#C1121F',acx:'#C1121F',press:'#5591D1',del:'#2D68A7',hotx:'#2D68A7',hotbg:'rgba(45,104,167,.16)',soft:'rgba(193,18,31,.16)',mark:'rgba(45,104,167,.28)',on:'#FFFFFF'},
  t2:{n:'主題6',bg:'#F0EEF3',btnf:'#F0EEF3',card:'#DDEAE8',ink:'#2A2A2A',mute:'#5C5B5C',line:'#F8F6F9',sep:'#AFADB1',bhi:'#FCFCFD',blo:'#B2B0B4',acc:'#CD5782',acx:'#BE3869',press:'#81BFB7',del:'#397069',hotx:'#397069',hotbg:'rgba(57,112,105,.16)',soft:'rgba(205,87,130,.16)',mark:'rgba(57,112,105,.28)',on:'#FFFFFF'}};
 const isTh=x=>typeof x==='string'&&x.startsWith('T:')&&!!THEMES[x.slice(2)];
-const tcVal=x=>isTh(x)?THEMES[x.slice(2)].acc:(x||PRE[0]);
+const tcVal=x=>isTh(x)?THEMES[x.slice(2)].acc:(x||defAcc());
 const THV=['--card','--ink','--mute','--line','--sep','--del','--btnf','--hotx','--hotbg','--bhi','--blo','--press'];
 /* 日回顧的主題色固定（不能改）：參考線框稿的黑白灰淡色配色 */
 const RVTH={n:'日回顧',bg:'#EEEEEE',btnf:'#EEEEEE',card:'#FFFFFF',ink:'#1C1C1C',mute:'#6E6E6E',line:'#F6F6F6',sep:'#C4C4C4',bhi:'#FFFFFF',blo:'#B8B8B8',acc:'#747474',acx:'#555555',press:'#D6D6D6',del:'#3A3A3A',hotx:'#3A3A3A',hotbg:'rgba(0,0,0,.07)',soft:'rgba(0,0,0,.07)',mark:'rgba(0,0,0,.16)',on:'#FFFFFF'};
@@ -1168,7 +1316,7 @@ function colInfo(x){if(x===REVCOL)return RVTH;if(isTh(x))return THEMES[x.slice(2
  const bs=dark?[18,23,28]:[244,246,248],f=dark?.1:.11,mx=(v,i)=>Math.round(bs[i]+(v-bs[i])*f);
  return{acc:`rgb(${R},${G},${B})`,acx:dark?`rgb(${R},${G},${B})`:txc(R,G,B),soft:`rgba(${R},${G},${B},.16)`,mark:`rgba(${R},${G},${B},.32)`,on:lum()>.62?'#111':'#fff'}}
 function applyTheme(x){const r=document.documentElement.style,mt=document.querySelector('meta[name=theme-color]'),c=colInfo(x);
- if(!c){['--acc','--acx','--soft','--mark','--onacc','--bg',...THV].forEach(k=>r.removeProperty(k));delete document.documentElement.dataset.th;mt.content='#000080';return}
+ if(!c){['--acc','--acx','--soft','--mark','--onacc','--bg',...THV].forEach(k=>r.removeProperty(k));delete document.documentElement.dataset.th;mt.content=document.documentElement.classList.contains('w7')?'#C3D6EE':'#000080';return}
  THV.forEach(k=>c.card?r.setProperty(k,c[k.slice(2)]):r.removeProperty(k));c.card?document.documentElement.dataset.th=x.slice(2):delete document.documentElement.dataset.th;
  r.setProperty('--acc',c.acc);r.setProperty('--acx',c.acx);r.setProperty('--soft',c.soft);r.setProperty('--mark',c.mark);r.setProperty('--onacc',c.on);c.bg?r.setProperty('--bg',c.bg):r.removeProperty('--bg');mt.content=c.card?c.acc:x}
 async function setTheme(x){
@@ -1186,7 +1334,8 @@ function saveMinY(){const v=+$('#myv').value,cy=now.getFullYear();if(!v||v<1900|
 function clearMinY(){MINY=null;localStorage.removeItem('nyear-miny');$('#my').close();render()}
 $('#my').onclose=()=>openMenu('set');
 
-$('#swt').replaceChildren(h('button',{class:'sw',style:'background:'+PRE[0],'aria-label':'主題1（預設）',title:'主題1（預設）',onclick:()=>setTheme(null)}),...Object.keys(THEMES).map(k=>{const t=THEMES[k];return h('button',{class:'sw',style:`background:${t.acc}`,'aria-label':t.n,title:t.n,onclick:()=>setTheme('T:'+k)})}));
+function drawSwt(){$('#swt').replaceChildren(h('button',{class:'sw',style:'background:'+defAcc(),'aria-label':'主題1（預設）',title:'主題1（預設）',onclick:()=>setTheme(null)}),...Object.keys(THEMES).map(k=>{const t=THEMES[k];return h('button',{class:'sw',style:`background:${t.acc}`,'aria-label':t.n,title:t.n,onclick:()=>setTheme('T:'+k)})}));}
+drawSwt();
 $('#tc').oninput=e=>setTheme(e.target.value);
 
 const nowStr=()=>{const d=new Date();return pad(d.getHours())+':'+pad(d.getMinutes())};
@@ -1200,7 +1349,7 @@ const pname=id=>pById(id)?.name||'';
 /* 視窗標題：對象名稱的＋功能名稱（日回顧多人時只顯示功能名稱） */
 const pT=(t,id)=>{const n=(id||!multi)&&pname(id||cur);return n?`${n}的${t}`:t};
 /* 日回顧：方塊與點開後都用日回顧固定的黑白灰，只有對象名稱用各自的主題色區分 */
-const whoCol=id=>colInfo(pById(id)?.color||PRE[0])?.acx||'';
+const whoCol=id=>colInfo(pById(id)?.color||defAcc())?.acx||'';
 /* 附件數量：各類型的數量與文字（「3張圖」…），方塊、引用、匯出共用 */
 const MUNIT=[['image','張圖'],['video','部影片'],['audio','個音訊'],['file','個檔案']];
 const mCnt=M=>Object.fromEntries(MUNIT.map(([t])=>[t,(M||[]).filter(x=>x.t===t).length]));
@@ -1558,6 +1707,10 @@ function applyFeat(){const d=(el,on)=>{if(el)el.style.display=on?'':'none'};
  document.querySelectorAll('.mdb').forEach(b=>d(b,FEAT.md));d($('#txl'),FEAT.md);d($('#txb'),FEAT.md);d($('#txh'),!FEAT.md);
  d($('#tgbtn'),FEAT.tags);d($('#tgd'),FEAT.tags);d($('#qbtn'),FEAT.quote);d($('#qpv'),FEAT.quote);d($('#tqrow'),FEAT.tags||FEAT.quote);d($('#mvtw'),FEAT.time);
  if(!FEAT.tags)$('#tgi').hidden=true}
+/* 外觀風格：Windows 95（預設）／Windows 7，整個 App 一起換；存在這台裝置 */
+const UIS=[['95','Windows 95'],['w7','Windows 7']];let UI=document.documentElement.classList.contains('w7')?'w7':'95';
+function setUi(v){UI=v;try{localStorage.setItem('nyear-ui',v)}catch(e){}document.documentElement.classList.toggle('w7',v==='w7');drawSwt();applyTheme(multi?REVCOL:pById(cur)?.color);openUi();if(typeof sbRefresh==='function')sbRefresh()}
+function openUi(){rc($('#uic'),...UIS.map(([k,t])=>h('button',{class:'edit','aria-pressed':String(UI===k),onclick:()=>setUi(k)},(UI===k?'● ':'')+t)));if(!$('#ui').open)$('#ui').showModal()}
 function openFeat(){rc($('#ftc'),...FEATS.map(([k,t])=>h('button',{class:'edit','aria-pressed':String(FEAT[k]),onclick:()=>setFeat(k,!FEAT[k])},`${t}：${FEAT[k]?'開啟':'關閉'}`)));if(!$('#ft').open)$('#ft').showModal()}
 async function setFeat(k,v){let made=false;
  if(k==='sound'){FEAT.sound=v;saveFeat();openFeat();if(v)sfx('tap');return}
@@ -1754,7 +1907,20 @@ async function save(){
    畫面與匯出都用同一個 dmPaint 畫在 canvas 上，所以看到的就是匯出的樣子；座標一律用 1080×1920 的原始尺寸 ===== */
 const DW=1080,DH=1920,DTB=46,DFONT='"Cubic 11","BaDing",sans-serif';
 const DPAL0={bg:'#C0C0C0',btnf:'#C0C0C0',card:'#FFFFFF',ink:'#000000',acc:'#000080',on:'#FFFFFF',bhi:'#FFFFFF',blo:'#808080',del:'#A30000'};
-const dPal=k=>{const t=k&&THEMES[k];return t?{...DPAL0,...t}:DPAL0};
+/* Windows 7 視窗（每份週總結可選）：預設配色參考 Win7（白底內容、淡藍玻璃框） */
+const DPAL7={bg:'#BFD4EE',btnf:'#E3E3E3',card:'#FFFFFF',ink:'#000000',acc:'#3D7FCB',on:'#000000',bhi:'#FFFFFF',blo:'#A0A0A0',del:'#C42B1C',line:'#F0F0F0',mute:'#6D6D6D'};
+const W7F='"Segoe UI","Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif';
+const dmW7=()=>!!DM&&DM.ui==='w7',dmF=()=>dmW7()?W7F:DFONT;
+const dPal=k=>{const t=k&&THEMES[k];return t?{...DPAL0,...t}:dmW7()?DPAL7:DPAL0};
+/* 畫布用：混色（a→b 的比例 t）、圓角矩形路徑（r 可為 [左上,右上,右下,左下]） */
+const hxRgb=x=>{x=String(x||'#000').replace('#','');if(x.length===3)x=x.replace(/./g,'$&$&');const n=parseInt(x.slice(0,6),16)||0;return[n>>16,n>>8&255,n&255]};
+const cmix=(a,b,t)=>{const A=hxRgb(a),B=hxRgb(b);return'#'+A.map((v,i)=>Math.round(v+(B[i]-v)*t).toString(16).padStart(2,'0')).join('')};
+function dmRR(c,x,y,w,h,r){const [a,b,d,e]=Array.isArray(r)?r:[r,r,r,r];c.beginPath();c.moveTo(x+a,y);c.lineTo(x+w-b,y);c.arcTo(x+w,y,x+w,y+b,b);c.lineTo(x+w,y+h-d);c.arcTo(x+w,y+h,x+w-d,y+h,d);c.lineTo(x+e,y+h);c.arcTo(x,y+h,x,y+h-e,e);c.lineTo(x,y+a);c.arcTo(x,y,x+a,y,a);c.closePath()}
+/* Win7 按鈕面：上半亮、下半略深（顏色跟著按鈕色） */
+function dmBtn7(c,x,y,w,h,f,r,down){const g=c.createLinearGradient(0,y,0,y+h);
+ if(down){g.addColorStop(0,'#E5F4FC');g.addColorStop(.49,'#C4E5F6');g.addColorStop(.5,'#98D1EF');g.addColorStop(1,'#68B3DB')}
+ else{g.addColorStop(0,cmix(f,'#FFFFFF',.7));g.addColorStop(.49,cmix(f,'#FFFFFF',.45));g.addColorStop(.5,f);g.addColorStop(1,cmix(f,'#000000',.1))}
+ dmRR(c,x,y,w,h,r);c.fillStyle=g;c.fill();c.lineWidth=Math.max(1,r/3);c.strokeStyle=down?'#2C628B':cmix(f,'#000000',.55);c.stroke()}
 let DM=null,dmUrls=[],dmDrag=null,dmRaf=0,dmTx=null,dmCr=null;const dmStore={};
 const dmPids=()=>cur?[cur]:[];
 async function dmEntries(){const out=[];for(const id of dmPids())out.push(...await dbByP(id));return out.filter(e=>e.date!==NODATE)}
@@ -1772,7 +1938,7 @@ const dmYm=k=>`${dmD(k).getFullYear()}年 ${dmWs(k)}`;
 let dmvUrls=[],dmvCur=null;
 /* 每個對象每週只有一份：k＝對象|該週週一日期。存預覽圖（b）與版面（lay），之後再製作同一週＝編輯這份 */
 const DMF=['ca','ct','cf','cb','cn','cw','sx','sy','cs','ff','tv','id','src','t','title','text','fs','x','y','w','h','color','st','sc','name','dur','b','lb','lk'];
-const dmLay=()=>({theme:DM.theme,nid:DM.nid,bgMode:DM.bgMode,bgColor:DM.bgColor||null,bg:DM.bgSrc&&DM.bgSrc.b?{b:DM.bgSrc.b,z:DM.bgSrc.z,cx:DM.bgSrc.cx,cy:DM.bgSrc.cy}:null,
+const dmLay=()=>({ui:DM.ui||'95',theme:DM.theme,nid:DM.nid,bgMode:DM.bgMode,bgColor:DM.bgColor||null,bg:DM.bgSrc&&DM.bgSrc.b?{b:DM.bgSrc.b,z:DM.bgSrc.z,cx:DM.bgSrc.cx,cy:DM.bgSrc.cy}:null,
  items:DM.items.map(it=>{const o={};DMF.forEach(k=>{if(it[k]!==undefined&&!(k==='b'&&it.t!=='pic'))o[k]=it[k]});return o})});
 const dmGetRec=async k=>(await dbAll('dumps')).find(d=>d.k===k)||null;
 async function dmPutRec(extra){const k=dmPk()+'|'+DM.ym,old=await dmGetRec(k);await dbPut('dumps',{...(old||{}),k,pk:dmPk(),ym:DM.ym,lay:dmLay(),...extra})}
@@ -1783,7 +1949,7 @@ async function dmSaveBtn(){if(!DM)return;try{const b=await dmPng();if(!b)throw 0
 async function dmSaveLay(){if(!DM||!DM.ym)return;try{const k=dmPk()+'|'+DM.ym,rec=await dmGetRec(k);if(!DM.items.length&&!DM.bgSrc&&!DM.bgColor&&!rec)return;
  await dmPutRec(rec&&rec.b?{b:await dmPng(),type:'image',ext:'png',at:Date.now()}:{})}catch(_){}}
 /* 由存檔還原版面：紀錄裡的圖片／影片／音訊重新從紀錄讀取 */
-async function dmRestore(lay,ym){const D={ym,bg:null,bgSrc:null,bgMode:lay.bgMode,bgColor:lay.bgColor||null,theme:lay.theme??null,items:[],sel:null,nid:lay.nid||1,sc:1,r:1};
+async function dmRestore(lay,ym){const D={ym,ui:lay.ui||'95',bg:null,bgSrc:null,bgMode:lay.bgMode,bgColor:lay.bgColor||null,theme:lay.theme??null,items:[],sel:null,nid:lay.nid||1,sc:1,r:1};
  if(lay.bg&&lay.bg.b){const img=await dmImg(lay.bg.b,4000);if(img){D.bgSrc={img,u:img.src||img.toDataURL('image/jpeg',.9),b:lay.bg.b,z:lay.bg.z,cx:lay.bg.cx,cy:lay.bg.cy};D.bg=dmBgRender(D.bgSrc)}}
  const byK=Object.fromEntries((await dmEntries()).map(e=>[e.k,e]));
  for(const o of lay.items||[]){const it={...o};
@@ -1835,7 +2001,7 @@ function dmmDraw(){const {cnt,mon,recs}=dmmD,l=$('#dmml');
  l.scrollTop=0}
 function dmmBack(){if(dmmMon){dmmMon=null;dmmDraw()}else{$('#dmm').close();openDumpHome()}}
 async function openDumpEd(ym){const key=dmPk()+'|'+ym,c=pById(cur)?.color;
- if(!dmStore[key]){const rec=await dmGetRec(key);dmStore[key]=rec&&rec.lay?await dmRestore(rec.lay,ym):{ym,bg:null,bgSrc:null,theme:isTh(c)?c.slice(2):null,items:[],sel:null,nid:1,sc:1,r:1}}
+ if(!dmStore[key]){const rec=await dmGetRec(key);dmStore[key]=rec&&rec.lay?await dmRestore(rec.lay,ym):{ym,ui:UI,bg:null,bgSrc:null,theme:isTh(c)?c.slice(2):null,items:[],sel:null,nid:1,sc:1,r:1}}
  DM=dmStore[key];
  try{await Promise.all([document.fonts.load('30px "Cubic 11"'),document.fonts.load('30px "BaDing"')])}catch(_){}
  $('#dmpt').textContent=dmYm(ym);$('#dmp').showModal();dmFit();dmSelBar()}
@@ -1853,7 +2019,7 @@ function dmWrap(c,it,t,maxW){const k=maxW+'|'+c.font+'|'+t;if(it._wk===k)return 
  it._wk=k;it._wl=out;return out}
 const dmBox=it=>({x:it.x,y:it.y,w:it.w,h:it.t==='text'?(it.h||it.fs*1.3):it.h});
 /* 紀錄方塊視窗：要完整放下全部文字所需的最小高度（依目前寬度與字級換行） */
-function dmCardMinH(it){const c=$('#dmcv').getContext('2d'),fs=it.fs||32;c.save();c.font=`${fs}px ${DFONT}`;const n=Math.max(1,dmWrap(c,it,it.text,it.w-20-fs).length);c.restore();
+function dmCardMinH(it){const c=$('#dmcv').getContext('2d'),fs=it.fs||32;c.save();c.font=`${fs}px ${dmF()}`;const n=Math.max(1,dmWrap(c,it,it.text,it.w-20-fs).length);c.restore();
  return Math.ceil(fs*.5+(n-1)*fs*1.44+fs*1.05+4+DTB+24)}
 /* 放不下時先加寬（最多到畫布寬），再加高；寬度改變後換行跟著變 */
 const dmFitCard=it=>{if(it.t!=='card')return;const lim=DH-40;while(dmCardMinH(it)>lim&&it.w<DW-40){it.w=Math.min(DW-40,it.w+40);it._wk=null}
@@ -1886,8 +2052,8 @@ const dmFitW=(it,VW,VH)=>{const {iw,ih}=dmMedia(it);return Math.max(1,Math.min(V
 function dmGeo(it){const VW=it.w-20,VH=it.h-DTB-28,vx=it.x+10,vy=it.y+DTB+18;
  if(it.t==='audio')return{vx,vy,vw:VW,vh:VH,cw:VW,ch:VH,hasV:false,hasH:false};
  const c=$('#dmcv').getContext('2d');let cw=0,ch=0,L=null,fs=0,s=0,nf=0;
- const size=vw=>{if(it.t==='card'){fs=it.fs||32;c.save();c.font=`${fs}px ${DFONT}`;L=dmWrap(c,it,it.text,Math.max(fs,vw-fs));c.restore();cw=vw;ch=fs*.5+(L.length-1)*fs*1.44+fs*1.05}
-  else if(it.t==='file'){s=it.cs||Math.max(30,Math.min(110,VH*.42,VW*.35));nf=Math.max(14,s*.26);c.save();c.font=`${nf}px ${DFONT}`;L=dmWrap(c,it,it.name||'',Math.max(VW-24,s*1.6)).slice(0,3);cw=Math.max(s,...L.map(l=>c.measureText(l).width))+24;c.restore();ch=s+nf*.6+L.length*nf*1.3+30}
+ const size=vw=>{if(it.t==='card'){fs=it.fs||32;c.save();c.font=`${fs}px ${dmF()}`;L=dmWrap(c,it,it.text,Math.max(fs,vw-fs));c.restore();cw=vw;ch=fs*.5+(L.length-1)*fs*1.44+fs*1.05}
+  else if(it.t==='file'){s=it.cs||Math.max(30,Math.min(110,VH*.42,VW*.35));nf=Math.max(14,s*.26);c.save();c.font=`${nf}px ${dmF()}`;L=dmWrap(c,it,it.name||'',Math.max(VW-24,s*1.6)).slice(0,3);cw=Math.max(s,...L.map(l=>c.measureText(l).width))+24;c.restore();ch=s+nf*.6+L.length*nf*1.3+30}
   else{const {iw,ih}=dmMedia(it);cw=it.cw??dmFitW(it,VW,VH);ch=cw*ih/iw}};
  size(VW);let hasV=ch>VH+.5,hasH=it.t!=='card'&&cw>VW-(hasV?DSB:0)+.5;if(hasH&&!hasV)hasV=ch>VH-DSB+.5;
  if(hasV&&it.t==='card')size(VW-DSB);
@@ -1901,14 +2067,14 @@ function dmSbar(c,P,x,y,w,h,vert,pos,content,view){c.fillStyle=P.line||'#DFDFDF'
  const L=vert?h:w,{len,off}=dmThumb(L,view,content,pos);c.fillStyle=P.ink;
  if(vert){dmBtn(c,P,x,y,DSB,DSB);dmBtn(c,P,x,y+h-DSB,DSB,DSB);c.fillStyle=P.ink;dmTri(c,x+DSB/2,y+DSB/2,0,-1,7);dmTri(c,x+DSB/2,y+h-DSB/2,0,1,7);dmBtn(c,P,x,y+DSB+off,DSB,len)}
  else{dmBtn(c,P,x,y,DSB,DSB);dmBtn(c,P,x+w-DSB,y,DSB,DSB);c.fillStyle=P.ink;dmTri(c,x+DSB/2,y+DSB/2,-1,0,7);dmTri(c,x+w-DSB/2,y+DSB/2,1,0,7);dmBtn(c,P,x+DSB+off,y,len,DSB)}}
-function dmWin(c,it,P0){if(it.t==='audio')it.h=Math.round((it.w-20)*DAR)+DTB+28;const {x,y,w,h}=it,FR=it.cf||P0.btnf,BD=it.cb||P0.ink,P={...P0,acc:it.ca||P0.acc,on:it.ct||P0.on},PB={...P,btnf:it.cn||P0.btnf,ink:P0.ink};c.save();
+function dmWin(c,it,P0){if(dmW7())return dmWin7(c,it,P0);if(it.t==='audio')it.h=Math.round((it.w-20)*DAR)+DTB+28;const {x,y,w,h}=it,FR=it.cf||P0.btnf,BD=it.cb||P0.ink,P={...P0,acc:it.ca||P0.acc,on:it.ct||P0.on},PB={...P,btnf:it.cn||P0.btnf,ink:P0.ink};c.save();
  c.fillStyle=FR;c.fillRect(x,y,w,h);dmBev(c,x,y,w,h,P.bhi,BD,3);dmBev(c,x+3,y+3,w-6,h-6,FR,P.blo,3);
  const tx=x+8,ty=y+8,tw=w-16,bs=DTB-12;c.fillStyle=P.acc;c.fillRect(tx,ty,tw,DTB);
  let bx=tx+tw-6-bs;const by=ty+6;
  for(const g of ['x','_']){c.fillStyle=PB.btnf;c.fillRect(bx,by,bs,bs);dmBev(c,bx,by,bs,bs,P.bhi,BD,2);c.fillStyle=c.strokeStyle=P.ink;
   if(g==='x'){c.lineWidth=4;c.beginPath();c.moveTo(bx+10,by+10);c.lineTo(bx+bs-10,by+bs-10);c.moveTo(bx+bs-10,by+10);c.lineTo(bx+10,by+bs-10);c.stroke()}else c.fillRect(bx+9,by+bs-14,bs-18,5);
   bx-=bs+6}
- c.save();c.beginPath();c.rect(tx,ty,bx+bs-tx,DTB);c.clip();c.fillStyle=P.on;c.font=`28px ${DFONT}`;c.textBaseline='middle';c.fillText(it.title||'',tx+12,ty+DTB/2+1);c.restore();
+ c.save();c.beginPath();c.rect(tx,ty,bx+bs-tx,DTB);c.clip();c.fillStyle=P.on;c.font=`28px ${dmF()}`;c.textBaseline='middle';c.fillText(it.title||'',tx+12,ty+DTB/2+1);c.restore();
  const cx=x+8,cy=ty+DTB+8,cw=w-16,ch=h-DTB-24;
  if(ch>6&&cw>6){const g=dmGeo(it),md=it.t==='image'||it.t==='video';c.fillStyle=md?(it.lb||P.bg):it.t==='audio'?PB.btnf:P.card;c.fillRect(cx,cy,cw,ch);
   c.save();c.beginPath();c.rect(g.vx,g.vy,g.vw,g.vh);c.clip();dmBody(c,it,it.t==='audio'?PB:P,g);c.restore();
@@ -1917,29 +2083,66 @@ function dmWin(c,it,P0){if(it.t==='audio')it.h=Math.round((it.w-20)*DAR)+DTB+28;
   if(g.hasV&&g.hasH){c.fillStyle=FR;c.fillRect(g.vx+g.vw,g.vy+g.vh,DSB,DSB)}
   dmBev(c,cx,cy,cw,ch,P.blo,P.bhi,2)}
  c.restore()}
+/* Windows 7 視窗：圓角玻璃框（Aero）、黑字標題帶白光暈、紅色關閉鈕；版面尺寸與 Win95 版相同 */
+function dmSbar7(c,P,x,y,w,h,vert,pos,content,view){const L=vert?h:w,{len,off}=dmThumb(L,view,content,pos);
+ const tg=vert?c.createLinearGradient(x,0,x+w,0):c.createLinearGradient(0,y,0,y+h);tg.addColorStop(0,'#E3E3E3');tg.addColorStop(.25,'#F2F2F2');tg.addColorStop(1,'#EDEDED');c.fillStyle=tg;c.fillRect(x,y,w,h);
+ c.fillStyle='#606060';if(vert){dmTri(c,x+DSB/2,y+DSB/2,0,-1,6);dmTri(c,x+DSB/2,y+h-DSB/2,0,1,6)}else{dmTri(c,x+DSB/2,y+DSB/2,-1,0,6);dmTri(c,x+w-DSB/2,y+DSB/2,1,0,6)}
+ const tx=vert?x+3:x+DSB+off,ty=vert?y+DSB+off:y+3,tw=vert?w-6:len,th=vert?len:h-6,gg=vert?c.createLinearGradient(tx,0,tx+tw,0):c.createLinearGradient(0,ty,0,ty+th);
+ gg.addColorStop(0,'#F7F7F7');gg.addColorStop(.5,'#E6E6E6');gg.addColorStop(.51,'#D9D9D9');gg.addColorStop(1,'#CFCFCF');dmRR(c,tx,ty,tw,th,5);c.fillStyle=gg;c.fill();c.lineWidth=2;c.strokeStyle='#8B8B8B';c.stroke();
+ const mx=tx+tw/2,my=ty+th/2;c.fillStyle='#7A7A7A';for(let i=-1;i<=1;i++){if(vert)c.fillRect(mx-6,my+i*5-1,12,2);else c.fillRect(mx+i*5-1,my-6,2,12)}}
+function dmWin7(c,it,P0){if(it.t==='audio')it.h=Math.round((it.w-20)*DAR)+DTB+28;const {x,y,w,h}=it,
+  gl=it.cf||cmix(P0.acc,'#FFFFFF',.55),bd=it.cb||cmix(gl,'#000000',.6),P={...P0},PB={...P0,btnf:it.cn||P0.btnf};c.save();
+ const R=12,shine=(yy,hh)=>{const g=c.createLinearGradient(0,yy,0,yy+hh);g.addColorStop(0,'rgba(255,255,255,.6)');g.addColorStop(.5,'rgba(255,255,255,.18)');g.addColorStop(.51,'rgba(255,255,255,.04)');g.addColorStop(1,'rgba(255,255,255,.12)');return g};
+ c.shadowColor='rgba(0,0,0,.35)';c.shadowBlur=18;c.shadowOffsetY=4;dmRR(c,x,y,w,h,R);c.fillStyle=gl;c.fill();c.shadowColor='transparent';
+ c.save();dmRR(c,x,y,w,h,R);c.clip();
+ if(it.ca){c.fillStyle=cmix(it.ca,'#FFFFFF',.35);c.fillRect(x,y,w,DTB+16)}
+ c.fillStyle=shine(y,DTB+16);c.fillRect(x,y,w,DTB+16);
+ c.globalAlpha=.13;c.fillStyle='#FFFFFF';for(let i=0;i<3;i++){const sx=x+w*(.18+i*.3);c.beginPath();c.moveTo(sx,y);c.lineTo(sx+46,y);c.lineTo(sx-30,y+h);c.lineTo(sx-76,y+h);c.closePath();c.fill()}c.globalAlpha=1;c.restore();
+ c.lineWidth=2;c.strokeStyle=bd;dmRR(c,x+1,y+1,w-2,h-2,R);c.stroke();c.strokeStyle='rgba(255,255,255,.6)';dmRR(c,x+3,y+3,w-6,h-6,R-2);c.stroke();
+ const bs=DTB-12,cw0=Math.round(bs*1.6),ch0=Math.round(bs*.72),cbx=x+w-12-cw0,mbx=cbx-Math.round(bs*.95),by=y+2;
+ const cg=c.createLinearGradient(0,by,0,by+ch0);cg.addColorStop(0,'#E9A99B');cg.addColorStop(.49,'#D7735F');cg.addColorStop(.5,'#C24A33');cg.addColorStop(1,'#D9765F');
+ dmRR(c,cbx,by,cw0,ch0,[0,0,7,0]);c.fillStyle=cg;c.fill();c.lineWidth=2;c.strokeStyle='#5E1A12';c.stroke();
+ const mg=c.createLinearGradient(0,by,0,by+ch0),mf=it.cn||cmix(gl,'#FFFFFF',.25);mg.addColorStop(0,cmix(mf,'#FFFFFF',.6));mg.addColorStop(.49,cmix(mf,'#FFFFFF',.3));mg.addColorStop(.5,mf);mg.addColorStop(1,cmix(mf,'#FFFFFF',.4));
+ dmRR(c,mbx,by,cbx-mbx,ch0,[0,0,0,7]);c.fillStyle=mg;c.fill();c.strokeStyle=bd;c.stroke();
+ const glyph=f=>{c.lineCap='round';c.strokeStyle='rgba(30,30,30,.85)';c.lineWidth=7;f();c.stroke();c.strokeStyle='#FFFFFF';c.lineWidth=3.5;f();c.stroke()};
+ const xm=cbx+cw0/2,ym=by+ch0/2;glyph(()=>{c.beginPath();c.moveTo(xm-7,ym-6);c.lineTo(xm+7,ym+6);c.moveTo(xm+7,ym-6);c.lineTo(xm-7,ym+6)});
+ const mm=mbx+(cbx-mbx)/2;glyph(()=>{c.beginPath();c.moveTo(mm-6,ym+4);c.lineTo(mm+6,ym+4)});
+ const tx=x+8,ty=y+8;c.save();c.beginPath();c.rect(tx,ty,mbx-tx-6,DTB);c.clip();c.fillStyle=it.ct||'#000000';c.font=`28px ${W7F}`;c.textBaseline='middle';c.shadowColor='rgba(255,255,255,.95)';c.shadowBlur=12;
+ c.fillText(it.title||'',tx+12,ty+DTB/2+1);c.fillText(it.title||'',tx+12,ty+DTB/2+1);c.restore();
+ const cx=x+8,cy=ty+DTB+8,cw=w-16,ch=h-DTB-24;
+ if(ch>6&&cw>6){const g=dmGeo(it),md=it.t==='image'||it.t==='video';
+  if(it.t==='audio'){const pg=c.createLinearGradient(0,cy,0,cy+ch);pg.addColorStop(0,'#FAFAFA');pg.addColorStop(1,cmix(PB.btnf,'#FFFFFF',.2));c.fillStyle=pg}else c.fillStyle=md?(it.lb||P.bg):P.card;c.fillRect(cx,cy,cw,ch);
+  c.save();c.beginPath();c.rect(g.vx,g.vy,g.vw,g.vh);c.clip();dmBody(c,it,it.t==='audio'?PB:P,g);c.restore();
+  if(g.hasV)dmSbar7(c,PB,g.vx+g.vw,g.vy,DSB,g.vh,true,it.sy,g.ch,g.vh);
+  if(g.hasH)dmSbar7(c,PB,g.vx,g.vy+g.vh,g.vw,DSB,false,it.sx,g.cw,g.vw);
+  if(g.hasV&&g.hasH){c.fillStyle='#F0F0F0';c.fillRect(g.vx+g.vw,g.vy+g.vh,DSB,DSB)}
+  c.lineWidth=2;c.strokeStyle=cmix(bd,'#FFFFFF',.15);c.strokeRect(cx+1,cy+1,cw-2,ch-2)}
+ c.restore()}
 function dmBody(c,it,P,g){const {pl,im,iw,ih}=dmMedia(it),ox=g.vx+(g.cw<g.vw?(g.vw-g.cw)/2:-it.sx),oy=g.vy+(g.ch<g.vh?(g.vh-g.ch)/2:-it.sy);
  if(it.t==='image'||it.t==='video'){if(im)c.drawImage(im,ox,oy,g.cw,g.ch);
   if(it.t==='video'&&!pl){const r=Math.min(56,Math.min(g.vw,g.vh)/4),mx=g.vx+g.vw/2,my=g.vy+g.vh/2;c.fillStyle='rgba(0,0,0,.55)';c.beginPath();c.arc(mx,my,r,0,7);c.fill();c.fillStyle='#FFFFFF';c.beginPath();c.moveTo(mx-r*.35,my-r*.5);c.lineTo(mx+r*.55,my);c.lineTo(mx-r*.35,my+r*.5);c.closePath();c.fill()}
   return}
- if(it.t==='card'){const fs=g.fs;c.fillStyle=P.ink;c.font=`${fs}px ${DFONT}`;c.textBaseline='top';let yy=g.vy+fs*.5-it.sy;for(const l of g.L){if(yy>g.vy+g.vh)break;if(yy+fs*1.5>g.vy)c.fillText(l,g.vx+fs/2,yy);yy+=fs*1.44}return}
+ if(it.t==='card'){const fs=g.fs;c.fillStyle=P.ink;c.font=`${fs}px ${dmF()}`;c.textBaseline='top';let yy=g.vy+fs*.5-it.sy;for(const l of g.L){if(yy>g.vy+g.vh)break;if(yy+fs*1.5>g.vy)c.fillText(l,g.vx+fs/2,yy);yy+=fs*1.44}return}
  if(it.t==='audio'){dmPlayer(c,it,P,g.vx,g.vy,g.vw,g.vh,pl);return}
  if(it.t==='file'){const s=g.s,ix=ox+g.cw/2,iy=oy+12,pw=s*.72,px=ix-pw/2,f=s*.24;c.fillStyle=P.card;c.strokeStyle=P.ink;c.lineWidth=Math.max(2,s/28);c.beginPath();c.moveTo(px,iy);c.lineTo(px+pw-f,iy);c.lineTo(px+pw,iy+f);c.lineTo(px+pw,iy+s);c.lineTo(px,iy+s);c.closePath();c.fill();c.stroke();c.beginPath();c.moveTo(px+pw-f,iy);c.lineTo(px+pw-f,iy+f);c.lineTo(px+pw,iy+f);c.stroke();
   c.fillStyle=P.ink;for(let i=1;i<4;i++)c.fillRect(px+pw*.18,iy+s*(.3+i*.15),pw*.6,Math.max(2,s/28));
-  c.font=`${g.nf}px ${DFONT}`;c.textBaseline='top';c.textAlign='center';g.L.forEach((l,i)=>c.fillText(l,ix,iy+s+g.nf*.6+i*g.nf*1.3));c.textAlign='left'}}
+  c.font=`${g.nf}px ${dmF()}`;c.textBaseline='top';c.textAlign='center';g.L.forEach((l,i)=>c.fillText(l,ix,iy+s+g.nf*.6+i*g.nf*1.3));c.textAlign='left'}}
 /* 音訊視窗：照紀錄方塊裡的播放器畫（時間、波形、捲軸、四個按鈕）；錄影時跟著播放進度動 */
 const DMWF=[4,8,14,9,18,11,7,12,5],DMWK=[.35,1,.55,.85];
-function dmPlayer(c,it,P,x,y,w,h,pl){c.fillStyle=P.btnf;c.fillRect(x,y,w,h);
+function dmPlayer(c,it,P,x,y,w,h,pl){const w7=dmW7();if(!w7){c.fillStyle=P.btnf;c.fillRect(x,y,w,h)}
  const k=Math.min(w/300,h/92),W=300*k,ox=x+(w-W)/2,oy=y+(h-92*k)/2,u=v=>v*k,line=P.line||'#DFDFDF',mute=P.mute||'#808080';
- const sunk=(bx,by,bw,bh,fill)=>{c.fillStyle=fill;c.fillRect(bx,by,bw,bh);dmBev(c,bx,by,bw,bh,P.blo,P.bhi,u(2))};
- const btn=(bx,by,bw,bh,down)=>{c.fillStyle=P.btnf;c.fillRect(bx,by,bw,bh);c.fillStyle=mute;dmBev(c,bx,by,bw,bh,mute,mute,u(1));dmBev(c,bx+u(1),by+u(1),bw-u(2),bh-u(2),down?P.blo:P.bhi,down?P.bhi:P.blo,u(2))};
+ const sunk=w7?(bx,by,bw,bh,fill)=>{dmRR(c,bx,by,bw,bh,u(3));c.fillStyle=fill;c.fill();c.lineWidth=u(1);c.strokeStyle='#A6A6A6';c.stroke()}
+  :(bx,by,bw,bh,fill)=>{c.fillStyle=fill;c.fillRect(bx,by,bw,bh);dmBev(c,bx,by,bw,bh,P.blo,P.bhi,u(2))};
+ const btn=w7?(bx,by,bw,bh,down)=>dmBtn7(c,bx,by,bw,bh,P.btnf,u(3),down)
+  :(bx,by,bw,bh,down)=>{c.fillStyle=P.btnf;c.fillRect(bx,by,bw,bh);c.fillStyle=mute;dmBev(c,bx,by,bw,bh,mute,mute,u(1));dmBev(c,bx+u(1),by+u(1),bw-u(2),bh-u(2),down?P.blo:P.bhi,down?P.bhi:P.blo,u(2))};
  const t=pl?pl.currentTime:0,d=pl?pl.duration:it.dur,f=d>0?Math.min(1,t/d):0;
  let yy=oy+u(6);const rh=u(22),pw=u(50),wx=ox+u(6)+pw+u(6),ww=W-u(12)-pw*2-u(12);
  sunk(ox+u(6),yy,pw,rh,P.card);sunk(wx,yy,ww,rh,P.ink);sunk(ox+W-u(6)-pw,yy,pw,rh,P.card);
- c.fillStyle=P.ink;c.font=`${u(13)}px ${DFONT}`;c.textBaseline='middle';c.textAlign='center';c.fillText(fmtT(t),ox+u(6)+pw/2,yy+rh/2+u(1));c.fillText(fmtT(d),ox+W-u(6)-pw/2,yy+rh/2+u(1));c.textAlign='left';
+ c.fillStyle=P.ink;c.font=`${u(13)}px ${dmF()}`;c.textBaseline='middle';c.textAlign='center';c.fillText(fmtT(t),ox+u(6)+pw/2,yy+rh/2+u(1));c.fillText(fmtT(d),ox+W-u(6)-pw/2,yy+rh/2+u(1));c.textAlign='left';
  c.fillStyle=P.card;const bw=u(3),gap=u(2),tot=9*bw+8*gap;let bx=wx+(ww-tot)/2;const ph=pl&&!pl.paused?Math.floor(pl.currentTime*5):-1;
  DMWF.forEach((bh,i)=>{const sc=ph<0?1:DMWK[(ph+i*3)%4],hh=u(bh*.7)*sc;c.fillRect(bx,yy+rh/2-hh/2,bw,hh);bx+=bw+gap});
  yy+=rh+u(6);const sh=u(18),tx=ox+u(6)+sh,tw=W-u(12)-sh*2;
- c.fillStyle=mute;c.fillRect(ox+u(5),yy-u(1),W-u(10),sh+u(2));c.fillStyle=line;c.fillRect(tx,yy,tw,sh);
+ if(w7){dmRR(c,ox+u(6),yy+sh/2-u(3),W-u(12),u(6),u(3));c.fillStyle='#E7EAEA';c.fill();c.lineWidth=u(1);c.strokeStyle='#B0B0B0';c.stroke()}else{c.fillStyle=mute;c.fillRect(ox+u(5),yy-u(1),W-u(10),sh+u(2));c.fillStyle=line;c.fillRect(tx,yy,tw,sh)}
  btn(ox+u(6),yy,sh,sh);btn(ox+W-u(6)-sh,yy,sh,sh);btn(tx+(tw-sh)*f,yy,sh,sh);
  c.fillStyle=P.ink;const tri=(cx,cy,dir,s)=>{c.beginPath();c.moveTo(cx+dir*s,cy);c.lineTo(cx-dir*s,cy-s);c.lineTo(cx-dir*s,cy+s);c.closePath();c.fill()};
  tri(ox+u(6)+sh/2-u(1),yy+sh/2,-1,u(4));tri(ox+W-u(6)-sh/2+u(1),yy+sh/2,1,u(4));
@@ -1954,7 +2157,9 @@ const DFF={c:'"Cubic 11",sans-serif',b:'"BaDing",sans-serif',d:'sans-serif'};
 const dmTFont=it=>`${it.fs}px ${DFF[it.ff||'c']||DFF.c}`,dmTPad=it=>(it.tv||'plain')==='plain'?0:Math.round(it.fs*.45);
 function dmText(c,it){c.save();c.font=dmTFont(it);c.textBaseline='top';const tv=it.tv||'plain',pad=dmTPad(it),L=dmWrap(c,it,it.text,Math.max(it.fs,it.w-2*pad)),lh=it.fs*1.3;it.h=L.length*lh+2*pad;
  const P=dPal(DM.theme),{x,y,w,h}=it;
- if(tv==='menu'){c.fillStyle=P.bg;c.fillRect(x,y,w,h);dmBev(c,x,y,w,h,P.ink,P.ink,2);dmBev(c,x+2,y+2,w-4,h-4,P.bhi,P.blo,2)}
+ if(dmW7()){if(tv==='menu'){c.save();c.shadowColor='rgba(0,0,0,.3)';c.shadowBlur=8;c.shadowOffsetX=c.shadowOffsetY=3;c.fillStyle=cmix(P.btnf,'#FFFFFF',.55);c.fillRect(x,y,w,h);c.restore();c.lineWidth=2;c.strokeStyle='#979797';c.strokeRect(x+1,y+1,w-2,h-2)}
+  else if(tv==='btn')dmBtn7(c,x,y,w,h,P.btnf,Math.min(10,h/4))}
+ else if(tv==='menu'){c.fillStyle=P.bg;c.fillRect(x,y,w,h);dmBev(c,x,y,w,h,P.ink,P.ink,2);dmBev(c,x+2,y+2,w-4,h-4,P.bhi,P.blo,2)}
  else if(tv==='btn'){c.fillStyle=P.btnf;c.fillRect(x,y,w,h);dmBev(c,x,y,w,h,P.bhi,P.ink,3);dmBev(c,x+3,y+3,w-6,h-6,P.btnf,P.blo,3)}
  if(tv==='btn')c.textAlign='center';
  L.forEach((l,i)=>{const xx=tv==='btn'?x+w/2:x+pad,yy=y+pad+i*lh+it.fs*.15;if(it.st){c.lineJoin='round';c.lineWidth=Math.max(3,it.fs*.18);c.strokeStyle=it.sc||dmContra(it.color);c.strokeText(l,xx,yy)}c.fillStyle=it.color;c.fillText(l,xx,yy)});c.restore()}
@@ -1993,11 +2198,11 @@ $('#dmcv').addEventListener('pointermove',e=>{if(!dmDrag)return;const p=dmPt(e),
  dmLater()});
 ['pointerup','pointercancel'].forEach(t=>$('#dmcv').addEventListener(t,()=>{if(dmDrag&&dmDrag.rep)clearInterval(dmDrag.rep);if(dmDrag)dmSelBar();dmDrag=null}));
 /* 上一步：每次動作開始前（拖曳、選單、下方按鈕）記下版面；最多 50 步，內容沒變的不重複記 */
-const DMSK=['img','blob','b','_wl','_wk'],dmKey=()=>JSON.stringify({i:DM.items,t:DM.theme,m:DM.bgMode,c:DM.bgColor,g:!!DM.bg},(k,v)=>DMSK.includes(k)?undefined:v);
+const DMSK=['img','blob','b','_wl','_wk'],dmKey=()=>JSON.stringify({u:DM.ui,i:DM.items,t:DM.theme,m:DM.bgMode,c:DM.bgColor,g:!!DM.bg},(k,v)=>DMSK.includes(k)?undefined:v);
 function dmPush(){if(!DM)return;const H=DM.hist||(DM.hist=[]),k=dmKey();if(H.length&&H[H.length-1].k===k)return;
- H.push({k,items:DM.items.map(o=>({...o})),theme:DM.theme,bgMode:DM.bgMode,bgColor:DM.bgColor,bg:DM.bg,bgSrc:DM.bgSrc,sel:DM.sel});if(H.length>50)H.shift()}
+ H.push({k,ui:DM.ui,items:DM.items.map(o=>({...o})),theme:DM.theme,bgMode:DM.bgMode,bgColor:DM.bgColor,bg:DM.bg,bgSrc:DM.bgSrc,sel:DM.sel});if(H.length>50)H.shift()}
 function dmUndo(){const H=DM&&DM.hist;if(!H)return;const k=dmKey();while(H.length&&H[H.length-1].k===k)H.pop();const st=H.pop();if(!st){toast('沒有可以回復的步驟');dmSelBar();return}
- Object.assign(DM,{items:st.items.map(o=>({...o,_wk:null})),theme:st.theme,bgMode:st.bgMode,bgColor:st.bgColor,bg:st.bg,bgSrc:st.bgSrc});DM.sel=DM.items.some(x=>x.id===st.sel)?st.sel:null;dmSelBar();dmDraw()}
+ Object.assign(DM,{ui:st.ui,items:st.items.map(o=>({...o,_wk:null})),theme:st.theme,bgMode:st.bgMode,bgColor:st.bgColor,bg:st.bg,bgSrc:st.bgSrc});DM.sel=DM.items.some(x=>x.id===st.sel)?st.sel:null;dmSelBar();dmDraw()}
 /* 編輯頁選單：檔案／新增／方塊／排列／版面 */
 let dmMo=null;
 const dmAfter=()=>{dmSelBar();dmDraw()};
@@ -2011,7 +2216,7 @@ function dmMenuGroups(k){const it=DM&&DM.items.find(x=>x.id===DM.sel),A=(t,f,o)=
   const g=[[it.t!=='pic'&&A(it.t==='text'?'編輯文字…':'編輯…',()=>it.t==='text'?dmTextEd(it):dmWinEd(it))].filter(Boolean),
    md&&it.img?[A('視窗貼合圖片',()=>dmFitImg(it)),A('圖片貼合視窗',()=>{it.cw=dmFitW(it,it.w-20,it.h-DTB-28);it.sx=it.sy=0;dmDraw()})]:[]];
   return g.some(x=>x.length)?g:[[I('這個方塊沒有其他設定')]]}
- if(k==='look')return[[A(DM.bgSrc?'背景圖片（調整或更換）…':'背景圖片…',()=>DM.bgSrc?dmCrop():$('#dmf').click(),{mark:bm==='img'}),A('背景純色…',dmBg,{mark:bm==='color'}),A('不使用背景（主題底色）',()=>{dmBgNone()},{mark:!bm})],[A('主題色…',dmTheme)]];
+ if(k==='look')return[[A(DM.bgSrc?'背景圖片（調整或更換）…':'背景圖片…',()=>DM.bgSrc?dmCrop():$('#dmf').click(),{mark:bm==='img'}),A('背景純色…',dmBg,{mark:bm==='color'}),A('不使用背景（主題底色）',()=>{dmBgNone()},{mark:!bm})],[A('主題色…',dmTheme)],[A('視窗：Windows 95',()=>{DM.ui='95';dmDraw()},{mark:DM.ui!=='w7'}),A('視窗：Windows 7',()=>{DM.ui='w7';dmDraw()},{mark:DM.ui==='w7'})]];
  return[]}
 function dmMenu(k){if(dmMo===k){dmMenuClose();return}const m=$('#dmdd'),b=document.querySelector(`#dmmb [data-m="${k}"]`),d=$('#dmp');
  rc(m,dmMenuGroups(k).filter(g=>g.length).flatMap((g,i)=>[i>0&&h('div',{class:'msep'}),...g.map(it=>it.dis?h('div',{class:'mit dis'},h('span',{class:'tx'},it.t))
@@ -2124,7 +2329,7 @@ function dmTextOk(){const t=$('#dmxt').value.replace(/\s+$/,'');if(!t.trim()){to
  $('#dmx').close();dmSelBar();dmDraw()}
 /* 主題色：視窗方塊的配色 */
 function dmTheme(){const sw=(k,c,t)=>h('button',{class:'sw'+(DM.theme===k?' on':''),style:'background:'+c,title:t,'aria-label':t,onclick:()=>{DM.theme=k;$('#dmth').close();dmDraw()}});
- rc($('#dmthl'),sw(null,PRE[0],'主題1（預設）'),...Object.keys(THEMES).map(k=>sw(k,THEMES[k].acc,THEMES[k].n)));$('#dmth').showModal()}
+ rc($('#dmthl'),sw(null,dmW7()?DPAL7.acc:DPAL0.acc,'主題1（預設）'),...Object.keys(THEMES).map(k=>sw(k,THEMES[k].acc,THEMES[k].n)));$('#dmth').showModal()}
 /* 匯出：沒有影片／音訊 → 1080×1920 PNG；有的話錄成影片：由上到下依序播放影片，接著由上到下播放音訊，播完為止 */
 let dmStop=false;
 const dmSave=f=>shareOrDl([f]);
