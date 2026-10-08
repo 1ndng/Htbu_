@@ -701,8 +701,7 @@ html.jsb #dmvl,html.jsb #dmvl.sbon{padding:0 15px 0 0}
 .dmim{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 #dmil .dmim .dmck.th{position:relative;display:block}
 .dmim .dmck.th img{width:64px;height:64px;object-fit:cover;display:block;clip-path:none;border:1px solid var(--ink)}
-.dmim .dmck.th input{position:absolute;left:3px;top:3px;margin:0}
-.dmvt{position:absolute;right:4px;bottom:2px;color:#fff;font-size:13px;text-shadow:0 0 2px #000}
+.dmim .dmck.th input{position:absolute;left:3px;top:3px;margin:0;z-index:1}
 #dmxt{width:100%;box-sizing:border-box;margin-bottom:8px}
 #dmthl .sw.on{outline:2px solid var(--ink);outline-offset:2px}
 #dmr{width:min(300px,86vw);text-align:center}#dmr p{margin:0 0 12px;font-size:15px;line-height:1.6;white-space:pre-line}#dmr .acts{margin:0}
@@ -1992,7 +1991,7 @@ async function dmPick(){const es=(await dmEntries()).filter(e=>e.date.startsWith
   return h('div',{class:'dmir'},h('div',{class:'rd'},(many?pname(e.pid)+'・':'')+fmtD(e.date)+(e.time?'　'+e.time:'')),
    ck(e.k+'|card','',h('span',{class:'dmct'},'紀錄方塊：'+((e.text||'').replace(/\s+/g,' ').trim().slice(0,40)||cntStr(e)||'（沒有文字）'))),
    M.length>0&&h('div',{class:'dmim'},...M.map((m,i)=>{const id=e.k+'|m'+i,src=m.t==='image'?m.b:m.t==='video'?m.p:null;
-    if(src){const u=URL.createObjectURL(src);dmUrls.push(u);return ck(id,'th',h('img',{src:u,alt:''}),m.t==='video'&&h('span',{class:'dmvt'},'▶'))}
+    if(src){const u=URL.createObjectURL(src);dmUrls.push(u);return ck(id,'th',h('img',{src:u,alt:''}),m.t==='video'&&h('span',{class:'pl'},h('i',{class:'pli'})))}
     return ck(id,'',h('span',{class:'dmct'},({image:'圖片',video:'影片',audio:'音訊',file:'檔案'})[m.t]+'：'+(m.n||'')))})))}):[h('p',{class:'sub'},'這個月沒有紀錄')]));
  $('#dmi').showModal()}
 $('#dmi').addEventListener('close',()=>{dmUrls.forEach(URL.revokeObjectURL);dmUrls=[]});
