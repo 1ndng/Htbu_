@@ -17,6 +17,9 @@
 <style>
 @font-face{font-family:"Cubic 11";src:url("./Cubic_11.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
 @font-face{font-family:"BaDing";src:url("./BaDingShiWeiTi-16.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+/* Windows 7 外觀用：Satsuki＝Win95 的 Cubic 11（內文）、Kaisei＝Win95 的 BaDing（大標題）；只有用到時才會下載 */
+@font-face{font-family:"Satsuki";src:url("./SatsukiGendaiMincho-M.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Kaisei";src:url("./KaiseiDecol-Regular.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
 html{font-synthesis:none}
 :root{color-scheme:only light;--hdr:0px;--bg:#C0C0C0;--card:#FFFFFF;--ink:#000000;--mute:#404040;--line:#DFDFDF;--sep:#808080;--acc:#000080;--acx:#000080;--soft:rgba(0,0,128,.12);--mark:rgba(0,0,128,.25);--onacc:#FFFFFF;--del:#A30000;--bhi:#fff;--blo:#8f8f8f;--btnf:#C0C0C0;
 box-sizing:border-box;padding-top:0;padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -742,7 +745,10 @@ html.w7 *{--stair:none;--dot8:circle(50%);--dot12:circle(50%);--dot16:circle(50%
   linear-gradient(to bottom,rgba(255,255,255,.6),rgba(255,255,255,.22) 28px,rgba(255,255,255,0) 64px,rgba(255,255,255,.12)) border-box,
   linear-gradient(105deg,transparent 22%,rgba(255,255,255,.14) 22% 26%,transparent 26% 58%,rgba(255,255,255,.12) 58% 61%,transparent 61%) border-box,
   linear-gradient(var(--gl),var(--gl)) border-box}
-html.w7 *{font-family:"Segoe UI","Microsoft JhengHei UI","Microsoft JhengHei","PingFang TC","Noto Sans TC","Helvetica Neue",Arial,sans-serif!important;letter-spacing:.01em!important}
+html.w7 *{font-family:"Satsuki","Segoe UI","Microsoft JhengHei UI","Microsoft JhengHei","PingFang TC","Noto Sans TC","Helvetica Neue",Arial,sans-serif!important;letter-spacing:.01em!important}
+/* 字體對應：Win95 用 BaDing 的大標題 → Kaisei；用 Cubic 11 的（含標題列）→ Satsuki */
+html.w7 :is(h1,dialog h2,.wbd){font-family:"Kaisei","Satsuki","Segoe UI","Microsoft JhengHei UI","Microsoft JhengHei","PingFang TC","Noto Sans TC","Helvetica Neue",Arial,sans-serif!important}
+html.w7 :is(dialog.tbd>h2:is(:first-child,.sbw+h2),dialog.tbd>.eth:is(:first-child,.sbw+.eth) h2){font-family:"Satsuki","Segoe UI","Microsoft JhengHei UI","Microsoft JhengHei","PingFang TC","Noto Sans TC","Helvetica Neue",Arial,sans-serif!important}
 html.w7 body{line-height:1.6}
 html.w7 ::selection{background:#3399FF;color:#FFFFFF}
 /* 按鈕：上半亮、下半深的漸層，圓角 3px；按下＝淡藍 */
@@ -1952,7 +1958,7 @@ const DW=1080,DH=1920,DTB=46,DFONT='"Cubic 11","BaDing",sans-serif';
 const DPAL0={bg:'#C0C0C0',btnf:'#C0C0C0',card:'#FFFFFF',ink:'#000000',acc:'#000080',on:'#FFFFFF',bhi:'#FFFFFF',blo:'#808080',del:'#A30000'};
 /* Windows 7 視窗（每份週總結可選）：預設配色參考 Win7（白底內容、淡藍玻璃框） */
 const DPAL7={bg:'#BFD4EE',btnf:'#E3E3E3',card:'#FFFFFF',ink:'#000000',acc:'#3D7FCB',on:'#000000',bhi:'#FFFFFF',blo:'#A0A0A0',del:'#C42B1C',line:'#F0F0F0',mute:'#6D6D6D'};
-const W7F='"Segoe UI","Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif';
+const W7F='"Satsuki","Segoe UI","Microsoft JhengHei","PingFang TC","Noto Sans TC",serif';
 const dmW7=()=>!!DM&&DM.ui==='w7',dmF=()=>dmW7()?W7F:DFONT;
 const dPal=k=>{const t=k&&THEMES[k];return t?{...DPAL0,...t}:dmW7()?DPAL7:DPAL0};
 /* 畫布用：混色（a→b 的比例 t）、圓角矩形路徑（r 可為 [左上,右上,右下,左下]） */
@@ -2046,7 +2052,7 @@ function dmmBack(){if(dmmMon){dmmMon=null;dmmDraw()}else{$('#dmm').close();openD
 async function openDumpEd(ym){const key=dmPk()+'|'+ym,c=pById(cur)?.color;
  if(!dmStore[key]){const rec=await dmGetRec(key);dmStore[key]=rec&&rec.lay?await dmRestore(rec.lay,ym):{ym,ui:UI,bg:null,bgSrc:null,theme:isTh(c)?c.slice(2):null,items:[],sel:null,nid:1,sc:1,r:1}}
  DM=dmStore[key];
- try{await Promise.all([document.fonts.load('30px "Cubic 11"'),document.fonts.load('30px "BaDing"')])}catch(_){}
+ try{await Promise.all([document.fonts.load('30px "Cubic 11"'),document.fonts.load('30px "BaDing"'),...(dmW7()?[document.fonts.load('30px "Satsuki"'),document.fonts.load('30px "Kaisei"')]:[])])}catch(_){}
  $('#dmpt').textContent=dmYm(ym);$('#dmp').showModal();dmFit();dmSelBar()}
 $('#dmp').addEventListener('close',()=>{if(DM)DM.sel=null;dmDrag=null;dmSaveLay()});
 function dmFit(){const w=$('#dmw'),cv=$('#dmcv');if(!DM||!$('#dmp').open)return;
@@ -2196,8 +2202,8 @@ function dmPlayer(c,it,P,x,y,w,h,pl){const w7=dmW7();if(!w7){c.fillStyle=P.btnf;
   else if(i===1){if(pl&&!pl.paused){c.fillRect(cx-u(5),cy-u(5),u(4),u(10));c.fillRect(cx+u(1),cy-u(5),u(4),u(10))}else tri(cx,cy,1,u(5))}
   else c.fillRect(cx-u(4.5),cy-u(4.5),u(9),u(9))}}
 /* 自由文字：字體（Cubic 11／BaDing／預設字體）、樣式（文字／選單／按鈕，比照 App 的選單與按鈕）、外框 */
-const DFF={c:'"Cubic 11",sans-serif',b:'"BaDing",sans-serif',d:'sans-serif'};
-const dmTFont=it=>`${it.fs}px ${DFF[it.ff||'c']||DFF.c}`,dmTPad=it=>(it.tv||'plain')==='plain'?0:Math.round(it.fs*.45);
+const DFF={c:'"Cubic 11",sans-serif',b:'"BaDing",sans-serif',d:'sans-serif'},DFF7={c:'"Satsuki",serif',b:'"Kaisei","Satsuki",serif',d:'sans-serif'};
+const dmTFont=it=>{const F=dmW7()?DFF7:DFF;return`${it.fs}px ${F[it.ff||'c']||F.c}`},dmTPad=it=>(it.tv||'plain')==='plain'?0:Math.round(it.fs*.45);
 function dmText(c,it){c.save();c.font=dmTFont(it);c.textBaseline='top';const tv=it.tv||'plain',pad=dmTPad(it),L=dmWrap(c,it,it.text,Math.max(it.fs,it.w-2*pad)),lh=it.fs*1.3;it.h=L.length*lh+2*pad;
  const P=dPal(DM.theme),{x,y,w,h}=it;
  if(dmW7()){if(tv==='menu'){c.save();c.shadowColor='rgba(0,0,0,.3)';c.shadowBlur=8;c.shadowOffsetX=c.shadowOffsetY=3;c.fillStyle=cmix(P.btnf,'#FFFFFF',.55);c.fillRect(x,y,w,h);c.restore();c.lineWidth=2;c.strokeStyle='#979797';c.strokeRect(x+1,y+1,w-2,h-2)}
@@ -2361,7 +2367,7 @@ $('#dmf2').onchange=async()=>{const f=$('#dmf2').files&&$('#dmf2').files[0];$('#
 /* 文字：新增或編輯（純色字或有外框的字，文字與外框顏色分開選） */
 const dmXm=()=>{$('#dmxsw').hidden=document.querySelector('input[name=dmxm]:checked').value!=='1'};
 document.querySelectorAll('input[name=dmxm]').forEach(r=>r.onchange=dmXm);
-function dmTextEd(it){dmTx=it||null;$('#dmxt').value=it?it.text:'';$('#dmxf').value=it&&it.ff||'c';$('#dmxv').value=it&&it.tv||'plain';$('#dmxc').value=it?it.color:'#ffffff';$('#dmxs').value=it?(it.sc||dmContra(it.color)):'#000000';
+function dmTextEd(it){dmTx=it||null;const fo=$('#dmxf').options;fo[0].text=dmW7()?'Satsuki':'Cubic 11';fo[1].text=dmW7()?'Kaisei':'BaDing';$('#dmxt').value=it?it.text:'';$('#dmxf').value=it&&it.ff||'c';$('#dmxv').value=it&&it.tv||'plain';$('#dmxc').value=it?it.color:'#ffffff';$('#dmxs').value=it?(it.sc||dmContra(it.color)):'#000000';
  document.querySelector(`input[name=dmxm][value="${it&&!it.st?0:1}"]`).checked=true;dmXm();dmSwFor($('#dmxc'));dmSwFor($('#dmxs'));$('#dmx').showModal();$('#dmxt').focus()}
 function dmTextOk(){const t=$('#dmxt').value.replace(/\s+$/,'');if(!t.trim()){toast('請輸入文字');return}
  const fs=dmTx?dmTx.fs:72,ff=$('#dmxf').value,tv=$('#dmxv').value,o={fs,ff,tv},c=$('#dmcv').getContext('2d');c.font=dmTFont(o);
