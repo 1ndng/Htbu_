@@ -802,7 +802,7 @@ html.w7 button:focus-visible:not(:disabled):not(.mi):not(.mit){outline:none;box-
 /* 單選鈕、核取方塊 */
 html.w7 input[type=radio]{width:13px;height:13px;clip-path:none;border-radius:50%;border:1px solid #8E8F8F;background:radial-gradient(circle at 50% 45%,#FFFFFF 0,#F1F1F1 45%,#D2D2D2 100%);vertical-align:-2px}
 html.w7 input[type=radio]::before{display:none}
-html.w7 input[type=radio]:checked::after{inset:2px;clip-path:none;border-radius:50%;background:radial-gradient(circle at 40% 35%,#A9E1FF 0,#3A8FD8 50%,#17508F 100%)}
+html.w7 input[type=radio]:checked::after{inset:2px;clip-path:none;border-radius:50%;background:radial-gradient(circle at 40% 35%,color-mix(in srgb,var(--acc) 30%,#FFFFFF) 0,var(--acc) 50%,color-mix(in srgb,var(--acc) 70%,#000000) 100%)}
 html.w7 .cbx{border:1px solid #8E8F8F;border-radius:2px;background:linear-gradient(135deg,#D6D6D6,#FFFFFF);box-shadow:inset 0 0 0 1px #F5F5F5}
 html.w7 .cbx.on::after{width:10px;height:10px;background:#3B4E86;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M1.6 5.2L4 7.6L8.6 2.2' fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.8'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M1.6 5.2L4 7.6L8.6 2.2' fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.8'/%3E%3C/svg%3E") center/contain no-repeat}
 /* 視窗：圓角玻璃框（Aero），內容放在框內的白色面板 */
