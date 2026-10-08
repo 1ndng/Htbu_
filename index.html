@@ -572,8 +572,8 @@ dialog select{padding-top:2px;padding-bottom:2px;line-height:1.3}
 #ar>.acts:not(.xe){margin:0!important}
 #tm #tmsw{margin-bottom:8px}#tm #tmsw[hidden]{margin:0}
 
-/* 頭貼：圓形（圖片／純色／預設＝主題色②） */
-.av{position:relative;flex:none;border-radius:50%;overflow:hidden;background:var(--acc);box-shadow:0 0 0 1px var(--ink)}
+/* 頭貼：方形內凹框（比照圖片；圖片／純色／預設＝主題色②） */
+.av{position:relative;flex:none;border-radius:0;overflow:hidden;background:var(--acc);border:2px solid;border-color:var(--blo) var(--bhi) var(--bhi) var(--blo)}
 .av img{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;max-width:none;clip-path:none;border:0;pointer-events:none}
 #peaw{margin-top:10px}#peaw[hidden],#peaz[hidden]{display:none}#peaw>label{display:block;margin-bottom:6px}
 #pear{display:flex;align-items:stretch;gap:12px}#peaf{width:96px;height:96px;touch-action:none}#peaf img{width:auto;height:auto}
@@ -860,7 +860,7 @@ html.w7 .ap .ic.rw{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2
 html.w7 .pl .pli{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 11'%3E%3Cpath d='M1 1L7.5 5.5L1 10Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 11'%3E%3Cpath d='M1 1L7.5 5.5L1 10Z'/%3E%3C/svg%3E") center/contain no-repeat}
 html.w7 .dtv .pl,html.w7 .dmvt2 .dmvp{border-radius:50%;background:rgba(0,0,0,.55);color:#FFFFFF}
 /* 頭貼（參考 Win7 登入畫面）：圓角方形、半透明亮框＋陰影 */
-html.w7 .av{border-radius:16%;box-shadow:0 0 0 1px rgba(40,60,90,.55),0 3px 8px rgba(0,0,0,.3)}
+html.w7 .av{border:0;border-radius:16%;box-shadow:0 0 0 1px rgba(40,60,90,.55),0 3px 8px rgba(0,0,0,.3)}
 html.w7 .av::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(to bottom,rgba(255,255,255,.32),rgba(255,255,255,.06) 42%,transparent 43%);box-shadow:inset 0 0 0 4px rgba(255,255,255,.62),inset 0 0 0 5px rgba(30,50,80,.25)}
 /* 色塊（參考 Win7 個人化色彩）：圓角玻璃方塊，選取時淡藍框 */
 html.w7 .sw{position:relative;border:1px solid rgba(0,0,0,.35);border-radius:4px;overflow:hidden}
