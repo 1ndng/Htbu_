@@ -1787,7 +1787,7 @@ async function openDumpHome(){if(!dmPids().length){toast('請先新增對象');o
 const dmPk=()=>dmPids().join(','),dmYm=m=>`${+m.slice(0,4)}年${+m.slice(5)}月`;
 let dmvUrls=[],dmvCur=null;
 /* 每個對象每個月只有一份：k＝對象|月份。存匯出的檔案（b）與版面（lay），之後再製作同一個月＝編輯這份 */
-const DMF=['id','t','title','text','fs','x','y','w','h','color','st','sc','name','dur','b','lb','lk'];
+const DMF=['id','src','t','title','text','fs','x','y','w','h','color','st','sc','name','dur','b','lb','lk'];
 const dmLay=()=>({theme:DM.theme,nid:DM.nid,bgMode:DM.bgMode,bgColor:DM.bgColor||null,bg:DM.bgSrc&&DM.bgSrc.b?{b:DM.bgSrc.b,z:DM.bgSrc.z,cx:DM.bgSrc.cx,cy:DM.bgSrc.cy}:null,
  items:DM.items.map(it=>{const o={};DMF.forEach(k=>{if(it[k]!==undefined&&!(k==='b'&&it.t!=='pic'))o[k]=it[k]});return o})});
 const dmGetRec=async k=>(await dbAll('dumps')).find(d=>d.k===k)||null;
@@ -1804,7 +1804,7 @@ async function dmRestore(lay,ym){const D={ym,bg:null,bgSrc:null,bgMode:lay.bgMod
  const byK=Object.fromEntries((await dmEntries()).map(e=>[e.k,e]));
  for(const o of lay.items||[]){const it={...o};
   if(it.t==='pic'){it.img=it.b?await dmImg(it.b):null;if(!it.img)continue}
-  else if(it.t==='image'||it.t==='video'||it.t==='audio'){const j=it.id.lastIndexOf('|'),e=byK[it.id.slice(0,j)],m=e&&(e.media||[])[+it.id.slice(j+2)];if(!m)continue;
+  else if(it.t==='image'||it.t==='video'||it.t==='audio'){const sr=it.src||it.id,j=sr.lastIndexOf('|'),e=byK[sr.slice(0,j)],m=e&&(e.media||[])[+sr.slice(j+2)];if(!m)continue;
    if(it.t==='audio')it.blob=m.b;else{if(it.t==='video')it.blob=m.b;let b=it.t==='image'?m.b:m.p;if(!b&&it.t==='video')b=await mkPoster(m.b).catch(()=>null);it.img=b?await dmImg(b):null}}
   D.items.push(it)}
  return D}
@@ -2003,7 +2003,7 @@ function dmBgNone(){DM.bg=null;DM.bgSrc=null;DM.bgMode=null;$('#dmc').close();dm
 /* 選擇紀錄：依日期分組（同一天只顯示一次日期）、可搜尋、勾選框比照標籤選單；紀錄方塊文字可展開全文 */
 let dmPickSel=new Set(),dmPickEs=[];
 async function dmPick(){dmPickEs=(await dmEntries()).filter(e=>e.date.startsWith(DM.ym)).sort((a,b)=>a.date!==b.date?(a.date<b.date?-1:1):!!a.time!==!!b.time?(a.time?-1:1):a.time?a.time.localeCompare(b.time):tsOf(a)-tsOf(b));/* 同一天：有時間的先（依時間），再來沒時間的（依建立順序） */
- dmPickSel=new Set(DM.items.filter(x=>x.t!=='text'&&x.t!=='pic').map(x=>x.id));$('#dmis').value='';dmPickList();$('#dmi').showModal();$('#dmil').scrollTop=0}
+ dmPickSel=new Set();/* 每次都從沒勾選開始：勾了就新增視窗（同一則可以重複加入） */$('#dmis').value='';dmPickList();$('#dmi').showModal();$('#dmil').scrollTop=0}
 function dmPickList(){dmUrls.forEach(URL.revokeObjectURL);dmUrls=[];const many=dmPids().length>1,k=$('#dmis').value.trim().toLowerCase(),es=dmPickEs.filter(e=>!k||hay(e).includes(k));
  const ck=(id,cls,...c)=>{const on=dmPickSel.has(id),bx=h('i',{class:'cbx'+(on?' on':'')});
   return h('div',{class:'dmck'+(cls?' '+cls:''),role:'checkbox','aria-checked':String(on),tabindex:'0',onclick:e=>{const t=e.currentTarget,v=!dmPickSel.has(id);v?dmPickSel.add(id):dmPickSel.delete(id);bx.classList.toggle('on',v);t.setAttribute('aria-checked',String(v))}},bx,...c)};
@@ -2012,31 +2012,32 @@ function dmPickList(){dmUrls.forEach(URL.revokeObjectURL);dmUrls=[];const many=d
   const M=e.media||[],txt=(e.text||'').trim(),tx=h('div',{class:'dmtx'},many?pname(e.pid)+'・':'',e.time&&h('span',{class:'dmtm'},e.time),txt||cntStr(e)||'（沒有文字）');
   out.push(h('div',{class:'dmie'+(split?' dmsplit':'')},
    ck(e.k+'|card','dmc',tx),
-   h('button',{class:'edit dmmore',hidden:'',onclick:ev=>{const o=tx.classList.toggle('open');ev.currentTarget.textContent=o?'收合':'展開全文'}},'展開全文'),
+   h('button',{class:'edit dmmore',hidden:'',onclick:ev=>{const o=tx.classList.toggle('open');ev.currentTarget.textContent=o?'收合':'展開'}},'展開'),
    ...(()=>{const th=[],rows=[];M.forEach((m,i)=>{const id=e.k+'|m'+i,src=m.t==='image'?m.b:m.t==='video'?m.p:null;
     if(src){const u=URL.createObjectURL(src);dmUrls.push(u);th.push(ck(id,'dmth',h('span',{class:'dmthi'},h('img',{src:u,alt:''}),m.t==='video'&&h('span',{class:'pl'},h('i',{class:'pli'})))))}
     else rows.push(ck(id,'',h('span',{class:'dmct'},({image:'圖片',video:'影片',audio:'音訊',file:'檔案'})[m.t]+'：'+(m.n||''))))});
     /* 照片／影片縮圖排一列（勾選框疊在圖上、第一張與文字對齊）；音訊／檔案各自一行 */
     return[th.length>0&&h('div',{class:'dmim'},...th),...rows]})()))}
  rc($('#dmil'),...(out.length?out:[h('p',{class:'sub'},k?'沒有符合的紀錄':'這個月沒有紀錄')]));
- /* 文字超過兩行才顯示「展開全文」 */
+ /* 文字超過兩行才顯示「展開」 */
  requestAnimationFrame(()=>$('#dmil').querySelectorAll('.dmtx').forEach(t=>{const b=t.closest('.dmie').querySelector('.dmmore');if(b)b.hidden=t.scrollHeight<=t.clientHeight+1}))}
 {let t=0;$('#dmis').addEventListener('input',()=>{clearTimeout(t);t=setTimeout(dmPickList,200)});$('#dmis').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();dmPickList();$('#dmis').blur()}})}
 $('#dmi').addEventListener('close',()=>{dmUrls.forEach(URL.revokeObjectURL);dmUrls=[]});
 async function dmPickOk(){const on=[...dmPickSel],ons=new Set(on);
  const byK=Object.fromEntries((await dmEntries()).map(e=>[e.k,e]));
- DM.items=DM.items.filter(x=>x.t==='text'||ons.has(x.id));if(DM.sel&&!DM.items.some(x=>x.id===DM.sel))DM.sel=null;
- const have=new Set(DM.items.map(x=>x.id));let n=DM.items.filter(x=>x.t!=='text').length;
- for(const id of on){if(have.has(id))continue;const j=id.lastIndexOf('|'),e=byK[id.slice(0,j)],part=id.slice(j+1);if(!e)continue;
+ const add=[];let n=DM.items.filter(x=>x.t!=='text'&&x.t!=='pic').length;
+ /* 視窗自己的 id（w…）與來源（src＝紀錄|card 或 紀錄|m序號）分開，同一則可以加很多次 */
+ for(const src of on){const id='w'+(DM.nid++),j=src.lastIndexOf('|'),e=byK[src.slice(0,j)],part=src.slice(j+1);if(!e)continue;
   const title=fmtD(e.date)+(e.time?' '+e.time:''),pos={x:40+(n%2)*520+(Math.floor(n/8)%4)*30,y:40+(Math.floor(n/2)%4)*460+(Math.floor(n/8)%4)*30};n++;
-  if(part==='card'){const it={id,t:'card',title,text:e.text||cntStr(e)||'',...pos,w:440,h:340};dmFitCard(it);DM.items.push(it);continue}
+  if(part==='card'){const it={id,src,t:'card',title,text:e.text||cntStr(e)||'',...pos,w:440,h:340};dmFitCard(it);add.push(it);continue}
   const m=(e.media||[])[+part.slice(1)];if(!m)continue;
-  const it={id,t:m.t,title:m.t==='image'||m.t==='video'?title:(m.n||title),name:m.n||'',...pos,w:420,h:260};
+  const it={id,src,t:m.t,title:m.t==='image'||m.t==='video'?title:(m.n||title),name:m.n||'',...pos,w:420,h:260};
   if(m.t==='audio'||m.t==='video')it.blob=m.b;if(m.t==='audio'){it.w=520;it.h=Math.round(504*92/300)+DTB+24;it.dur=await dmDur(m.b)}
   if(m.t==='image'||m.t==='video'){let b=m.t==='image'?m.b:m.p;if(!b&&m.t==='video')b=await mkPoster(m.b).catch(()=>null);it.img=b?await dmImg(b):null;
    const iw=it.img&&(it.img.naturalWidth||it.img.width),r=iw?(it.img.naturalHeight||it.img.height)/iw:.75;it.w=440;it.h=Math.min(620,Math.round(408*r)+DTB+24)}
-  DM.items.push(it)}
- for(const it of DM.items)if(it.t!=='text'){it.x=Math.max(0,Math.min(it.x,DW-it.w-20));it.y=Math.max(0,Math.min(it.y,DH-it.h-20))}
+  add.push(it)}
+ DM.items.push(...add);if(add.length)DM.sel=add[add.length-1].id;
+ for(const it of add){it.x=Math.max(0,Math.min(it.x,DW-it.w-20));it.y=Math.max(0,Math.min(it.y,DH-it.h-20))}
  $('#dmi').close();dmSelBar();dmDraw()}
 const dmDur=b=>new Promise(res=>{const u=URL.createObjectURL(b),a=document.createElement('audio');const fin=v=>{URL.revokeObjectURL(u);res(v)};a.preload='metadata';a.onloadedmetadata=()=>fin(a.duration);a.onerror=()=>fin(NaN);setTimeout(()=>fin(NaN),4000);a.src=u});
 /* 視窗：標題列文字、內文大小 */
