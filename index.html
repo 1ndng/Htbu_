@@ -736,12 +736,11 @@ input[type=range]:disabled{cursor:default}
 #hdr #q,#qs2,#dmis{padding-right:28px;background:var(--magi,none) right 8px center/12px 12px no-repeat,var(--pxbg)}
 .day,.otl,.yr{text-shadow:1px 1px 0 var(--card)}
 .dhead .arrow{filter:drop-shadow(1px 1px 0 var(--card))}
-/* Win95 時間軸：線 1px，圓點改成選取框邊角的小方框（9×9；沒紀錄＝空心、有紀錄＝實心；時間點＝實心），顏色不變 */
-html:not(.w7) .tl{border-left-width:1px}
-html:not(.w7) .row::before{left:-5px;top:13px;width:9px;height:9px;clip-path:none;transform:none}
-html:not(.w7) .row::after{left:-4px;top:14px;width:7px;height:7px;clip-path:none;transform:none}
-html:not(.w7) .row.has::after{background:var(--acc)}
-html:not(.w7) .htm::after{top:20px;width:9px;height:9px;clip-path:none}
+/* 時間軸（兩種風格）：圓點改成選取框邊角的小方框（9×9；沒紀錄＝空心、有紀錄＝實心；時間點＝實心），顏色不變 */
+html .row::before{left:-.75px;top:13px;width:9px;height:9px;clip-path:none;transform:translateX(-50%)}
+html .row::after{left:-.75px;top:14px;width:7px;height:7px;clip-path:none;transform:translateX(-50%)}
+html .row.has::after{background:var(--acc)}
+html .htm::after{top:20px;width:9px;height:9px;clip-path:none}
 </style>
 <style id="w7css">
 /* ===================== Windows 7 外觀（設定 › 風格設定）：只換外型，功能與版面配置不變 =====================
