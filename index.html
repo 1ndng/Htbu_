@@ -683,7 +683,7 @@ html.jsb #dmvl,html.jsb #dmvl.sbon{padding:0 15px 0 0}
 #dmw{flex:1 1 0;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center}
 #dmcv{display:block;touch-action:none;box-shadow:0 0 0 1px var(--ink)}
 #dmsb,#dmtb{flex:none;display:flex;gap:6px;justify-content:safe center;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;align-items:center;min-height:28px}#dmsb::-webkit-scrollbar,#dmtb::-webkit-scrollbar{display:none}
-#dmsb>button,#dmtb>button{flex:none;padding-left:9px;padding-right:9px;margin:0}
+#dmsb>button,#dmtb>button{flex:none;padding-left:7px;padding-right:7px;margin:0}
 #dmsb .edit{margin:0}#dmsb .sub{margin:0;text-align:center}
 /* 編輯頁選單：比照首頁的選單列與下拉選單 */
 #dmp{padding-top:env(safe-area-inset-top,0px)}
@@ -693,7 +693,8 @@ html.jsb #dmvl,html.jsb #dmvl.sbon{padding:0 15px 0 0}
 #dmdd[hidden],#dmbk[hidden]{display:none}#dmbk{position:absolute;inset:0;z-index:2;touch-action:none}
 #dmmb .mi:active,#dmdd .mit:active,#dmdd .mit:active *{text-indent:0}
 #dmsb{min-height:28px}
-#dmsb .dmtg.on{--fill:var(--acc);--bd:var(--ink);color:var(--onacc)}#dmsb .dmtg+.dmtg{margin-left:-4px}#dmsb .dmtg:not(.dmtg+.dmtg)+*:not(.dmtg){margin-left:8px}
+#dmsb .dmdel{color:var(--del)}#dmsb .dmundo{margin-right:6px}#dmsb .dmundo[disabled]{opacity:.45}
+#dmsb .dmtg.on{--fill:var(--acc);--bd:var(--ink);color:var(--onacc)}
 #dmp>.acts.xe{margin:0!important;height:0}
 #dmcf{position:relative;width:min(100%,calc(55vh * 9 / 16));aspect-ratio:9/16;margin-left:auto!important;margin-right:auto!important;overflow:hidden;background:#000;touch-action:none;margin:0 0 8px;box-shadow:0 0 0 1px var(--ink)}
 #dmci{position:absolute;left:0;top:0;max-width:none;max-height:none;border:0;clip-path:none;pointer-events:none;-webkit-user-select:none;user-select:none}
@@ -1984,19 +1985,19 @@ function dmSbHit(it,p){if(!['card','image','video','file'].includes(it.t))return
  return null}
 const dmPt=e=>{const r=$('#dmcv').getBoundingClientRect();return{x:(e.clientX-r.left)/DM.sc,y:(e.clientY-r.top)/DM.sc}};
 $('#dmcv').addEventListener('pointerdown',e=>{if(!DM)return;const cv=e.currentTarget,p=dmPt(e),hs=24/DM.sc,s=DM.items.find(x=>x.id===DM.sel);
- if(s&&!s.lk){const b=dmBox(s);if(Math.abs(p.x-(b.x+b.w))<hs&&Math.abs(p.y-(b.y+b.h))<hs){if(dmContMode(s)){const g=dmGeo(s);dmDrag={m:'c',it:s,p0:p,b0:{...b},fs0:g.fs||s.fs||32,cw0:g.cw,cs0:g.s}}else dmDrag={m:'r',it:s,p0:p,b0:{...b},fs0:s.fs};cv.setPointerCapture(e.pointerId);return}}
+ if(s&&!s.lk){const b=dmBox(s);if(Math.abs(p.x-(b.x+b.w))<hs&&Math.abs(p.y-(b.y+b.h))<hs){dmPush();if(dmContMode(s)){const g=dmGeo(s);dmDrag={m:'c',it:s,p0:p,b0:{...b},fs0:g.fs||s.fs||32,cw0:g.cw,cs0:g.s}}else dmDrag={m:'r',it:s,p0:p,b0:{...b},fs0:s.fs};cv.setPointerCapture(e.pointerId);return}}
  /* 鎖定的方塊點得到（才能解鎖），但同一處有沒鎖定的方塊時優先選沒鎖定的 */
  const hits=[...DM.items].reverse().filter(x=>{const b=dmBox(x);return p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h}),it=hits.find(x=>!x.lk)||hits[0];
  /* 視窗的捲軸：箭頭、軌道、拖曳滑塊都能捲動內容 */
  const top=hits[0],sb=top&&!top.lk&&dmSbHit(top,p);
- if(sb){DM.sel=top.id;const key=sb.ax==='y'?'sy':'sx';
+ if(sb){dmPush();DM.sel=top.id;const key=sb.ax==='y'?'sy':'sx';
   if(sb.z==='thumb'){const t=dmThumb(sb.L,sb.view,sb.content,top[key]||0);dmDrag={m:'s',it:top,key,ax:sb.ax,p0:p,s0:top[key]||0,k:(sb.content-sb.view)/Math.max(1,t.tl-t.len)}}
   else{const st=sb.z==='dec'?-60:sb.z==='inc'?60:sb.z==='pdec'?-sb.view*.9:sb.view*.9,go=()=>{top[key]=(top[key]||0)+st;dmDraw()};go();dmDrag={m:'rep',rep:setInterval(go,140)}}
   cv.setPointerCapture(e.pointerId);dmSelBar();dmDraw();return}
  if((it?it.id:null)!==DM.sel)DM.rmode='win';DM.sel=it?it.id:null;
  if(it&&it.lk){dmSelBar();dmDraw();return}
  if(it){
-  dmDrag={m:'m',it,p0:p,b0:{x:it.x,y:it.y}};cv.setPointerCapture(e.pointerId)}
+  dmPush();dmDrag={m:'m',it,p0:p,b0:{x:it.x,y:it.y}};cv.setPointerCapture(e.pointerId)}
  dmSelBar();dmDraw()});
 $('#dmcv').addEventListener('pointermove',e=>{if(!dmDrag)return;const p=dmPt(e),d=dmDrag,it=d.it,dx=p.x-d.p0.x,dy=p.y-d.p0.y,b=dmBox(it);
  if(d.m==='rep')return;
@@ -2009,24 +2010,31 @@ $('#dmcv').addEventListener('pointermove',e=>{if(!dmDrag)return;const p=dmPt(e),
  else{const w0=it.w;it.w=Math.max(240,d.b0.w+dx);
   it.h=it.t==='audio'?Math.round((it.w-20)*DAR)+DTB+28:Math.max(DTB+90,d.b0.h+dy)}
  dmLater()});
-['pointerup','pointercancel'].forEach(t=>$('#dmcv').addEventListener(t,()=>{if(dmDrag&&dmDrag.rep)clearInterval(dmDrag.rep);dmDrag=null}));
-/* 編輯頁選單：檔案／新增／方塊／版面 */
+['pointerup','pointercancel'].forEach(t=>$('#dmcv').addEventListener(t,()=>{if(dmDrag&&dmDrag.rep)clearInterval(dmDrag.rep);if(dmDrag)dmSelBar();dmDrag=null}));
+/* 上一步：每次動作開始前（拖曳、選單、下方按鈕）記下版面；最多 50 步，內容沒變的不重複記 */
+const DMSK=['img','blob','b','_wl','_wk'],dmKey=()=>JSON.stringify({i:DM.items,t:DM.theme,m:DM.bgMode,c:DM.bgColor,g:!!DM.bg},(k,v)=>DMSK.includes(k)?undefined:v);
+function dmPush(){if(!DM)return;const H=DM.hist||(DM.hist=[]),k=dmKey();if(H.length&&H[H.length-1].k===k)return;
+ H.push({k,items:DM.items.map(o=>({...o})),theme:DM.theme,bgMode:DM.bgMode,bgColor:DM.bgColor,bg:DM.bg,bgSrc:DM.bgSrc,sel:DM.sel});if(H.length>50)H.shift()}
+function dmUndo(){const H=DM&&DM.hist;if(!H)return;const k=dmKey();while(H.length&&H[H.length-1].k===k)H.pop();const st=H.pop();if(!st){toast('沒有可以回復的步驟');dmSelBar();return}
+ Object.assign(DM,{items:st.items.map(o=>({...o,_wk:null})),theme:st.theme,bgMode:st.bgMode,bgColor:st.bgColor,bg:st.bg,bgSrc:st.bgSrc});DM.sel=DM.items.some(x=>x.id===st.sel)?st.sel:null;dmSelBar();dmDraw()}
+/* 編輯頁選單：檔案／新增／方塊／排列／版面 */
 let dmMo=null;
 const dmAfter=()=>{dmSelBar();dmDraw()};
 function dmMenuGroups(k){const it=DM&&DM.items.find(x=>x.id===DM.sel),A=(t,f,o)=>({t,f,...o}),I=t=>({t,dis:1}),bm=DM.bgMode===undefined?(DM.bg?'img':null):DM.bgMode;
  if(k==='file')return[[A('儲存',dmSaveBtn),A('儲存並前往瀏覽',async()=>{await dmSaveBtn();$('#dmp').close();openDumpBrowse()})],[A('回到月份選擇',()=>{$('#dmp').close();openDump()}),A('離開編輯',()=>$('#dmp').close())]];
  if(k==='add')return[[A('紀錄…',dmPick),A('文字…',()=>dmTextEd()),A('圖片…',()=>$('#dmf2').click())]];
  if(k==='box'||k==='ord'){if(!it)return[[I('先點選畫面上的一個方塊')]];
-  if(it.lk)return[[I('這個方塊已鎖定'),A('解鎖',()=>{it.lk=false;dmAfter()})]];
+  if(it.lk)return[[I('這個方塊已鎖定（在下方解鎖）')]];
   if(k==='ord')return[[A('移到最上層',()=>dmZ(it,9e9)),A('往上一層',()=>dmZ(it,1))],[A('往下一層',()=>dmZ(it,-1)),A('移到最下層',()=>dmZ(it,-9e9))]];
   const win=!['text','pic'].includes(it.t),md=it.t==='image'||it.t==='video';
-  return[[it.t!=='pic'&&A(it.t==='text'?'編輯文字…':'編輯…',()=>it.t==='text'?dmTextEd(it):dmWinEd(it))].filter(Boolean),
-   [A('鎖定',()=>{it.lk=true;dmAfter()}),A('移除',()=>{DM.items=DM.items.filter(x=>x!==it);DM.sel=null;dmAfter()},{del:1})]]}
+  const g=[[it.t!=='pic'&&A(it.t==='text'?'編輯文字…':'編輯…',()=>it.t==='text'?dmTextEd(it):dmWinEd(it))].filter(Boolean),
+   md&&it.img?[A('視窗貼合圖片',()=>dmFitImg(it)),A('圖片貼合視窗',()=>{it.cw=dmFitW(it,it.w-20,it.h-DTB-28);it.sx=it.sy=0;dmDraw()})]:[]];
+  return g.some(x=>x.length)?g:[[I('這個方塊沒有其他設定')]]}
  if(k==='look')return[[A(DM.bgSrc?'背景圖片（調整或更換）…':'背景圖片…',()=>DM.bgSrc?dmCrop():$('#dmf').click(),{mark:bm==='img'}),A('背景純色…',dmBg,{mark:bm==='color'}),A('不使用背景（主題底色）',()=>{dmBgNone()},{mark:!bm})],[A('主題色…',dmTheme)]];
  return[]}
 function dmMenu(k){if(dmMo===k){dmMenuClose();return}const m=$('#dmdd'),b=document.querySelector(`#dmmb [data-m="${k}"]`),d=$('#dmp');
  rc(m,dmMenuGroups(k).filter(g=>g.length).flatMap((g,i)=>[i>0&&h('div',{class:'msep'}),...g.map(it=>it.dis?h('div',{class:'mit dis'},h('span',{class:'tx'},it.t))
-  :h('button',{class:'mit'+(it.del?' del':'')+(it.mark?' sel':''),role:'menuitem',onclick:()=>{dmMenuClose();it.f()}},h('span',{class:'tx'},it.t)))]));
+  :h('button',{class:'mit'+(it.del?' del':'')+(it.mark?' sel':''),role:'menuitem',onclick:()=>{dmMenuClose();dmPush();it.f()}},h('span',{class:'tx'},it.t)))]));
  document.querySelectorAll('#dmmb .mi').forEach(x=>x.classList.toggle('on',x===b));m.hidden=false;$('#dmbk').hidden=false;dmMo=k;
  const nb=$('#dmmb').getBoundingClientRect(),dr=d.getBoundingClientRect(),br=b.getBoundingClientRect();
  m.style.top=(nb.bottom-dr.top-d.clientTop)+'px';m.style.left=Math.max(4,Math.min(br.left-dr.left,d.clientWidth-m.offsetWidth-4))+'px';m.style.maxHeight=Math.max(120,dr.bottom-nb.bottom-14)+'px'}
@@ -2034,11 +2042,14 @@ function dmMenuClose(){dmMo=null;$('#dmdd').hidden=true;$('#dmbk').hidden=true;d
 $('#dmbk').addEventListener('click',dmMenuClose);$('#dmp').addEventListener('close',dmMenuClose);
 const DMTN={card:'紀錄方塊',image:'照片',video:'影片',audio:'音訊',file:'檔案',text:'文字',pic:'圖片'};
 /* 下方工具列（取代提示字）：選取視窗時可直接調顏色；照片／影片另有兩種貼合 */
-function dmSelBar(){const it=DM&&DM.items.find(x=>x.id===DM.sel),b=$('#dmsb');
- if(!it||it.lk||['text','pic'].includes(it.t)){rc(b);return}
- const md=(it.t==='image'||it.t==='video')&&it.img,B=(t,f)=>h('button',{class:'edit',onclick:f},t);
- const T=(t,v)=>h('button',{class:'edit dmtg'+(DM.rmode===v||(!DM.rmode&&v==='win')?' on':''),onclick:()=>{DM.rmode=v;dmSelBar();dmDraw()}},t);
- rc(b,dmHasCont(it)&&T('縮放視窗','win'),dmHasCont(it)&&T('縮放內容','cont'),B('顏色…',()=>dmColorEd(it)),md&&B('視窗貼合圖片',()=>dmFitImg(it)),md&&B('圖片貼合視窗',()=>{it.cw=dmFitW(it,it.w-20,it.h-DTB-28);it.sx=it.sy=0;dmDraw()}))}
+/* 下方工具列：上一步（一直在）；選取時：縮放視窗／內容、顏色…、鎖定（或解鎖）、移除 */
+function dmSelBar(){const it=DM&&DM.items.find(x=>x.id===DM.sel),b=$('#dmsb'),B=(t,f,cls)=>h('button',{class:'edit'+(cls?' '+cls:''),onclick:()=>{dmPush();f()}},t);
+ const U=h('button',{class:'edit dmundo',onclick:dmUndo,...(DM&&DM.hist&&DM.hist.length?{}:{disabled:''})},'上一步');
+ if(!it){rc(b,U);return}
+ if(it.lk){rc(b,U,B('解鎖',()=>{it.lk=false;dmAfter()}));return}
+ /* 「縮放內容」開關：亮起＝拖曳角落縮放內容，關掉＝縮放視窗 */
+ const T=h('button',{class:'edit dmtg'+(DM.rmode==='cont'?' on':''),'aria-pressed':String(DM.rmode==='cont'),onclick:()=>{DM.rmode=DM.rmode==='cont'?'win':'cont';dmSelBar();dmDraw()}},'縮放內容'),win=!['text','pic'].includes(it.t);
+ rc(b,U,dmHasCont(it)&&T,win&&B('顏色…',()=>dmColorEd(it)),B('鎖定',()=>{it.lk=true;dmAfter()}),B('移除',()=>{DM.items=DM.items.filter(x=>x!==it);DM.sel=null;dmAfter()},'dmdel'))}
 function dmZ(it,d){const a=DM.items,i=a.indexOf(it),j=Math.max(0,Math.min(a.length-1,i+d));a.splice(i,1);a.splice(j,0,it);dmDraw();toast(j===i?(d>0?'已經在最上層':'已經在最下層'):'已調整順序')}
 /* 圖片載入（太大的先縮小，拖曳時才不會卡） */
 const dmImg=(b,max=1600)=>new Promise(res=>{const u=URL.createObjectURL(b),i=new Image();
