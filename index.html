@@ -921,8 +921,8 @@ html.w7 .dtv .pl .pli{color:#FFFFFF}
 /* 音訊／影片播放器（參考 Media Player）：玻璃面板、進度與按鈕顏色跟著主題色；下排膠囊列＝大顆圓形播放鈕、暫停、停止、音量 */
 html.w7 .ap{background:linear-gradient(to bottom,color-mix(in srgb,var(--gl) 8%,#FFFFFF),color-mix(in srgb,var(--gl) 42%,#FFFFFF));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--gld) 45%,#FFFFFF);border-radius:6px;padding:7px}
 html.w7 .ap .pn{background:linear-gradient(#FFFFFF,color-mix(in srgb,var(--gl) 12%,#FFFFFF));border-color:color-mix(in srgb,var(--gld) 40%,#FFFFFF)}
-html.w7 .ap .wf{background:linear-gradient(to bottom,#3A3F47,#0B0D10);border-color:#4A5260}
-html.w7 .ap .wf i{background:linear-gradient(to bottom,color-mix(in srgb,var(--acc) 25%,#FFFFFF),color-mix(in srgb,var(--acc) 70%,#FFFFFF))}
+html.w7 .ap .wf{background:linear-gradient(#FFFFFF,color-mix(in srgb,var(--gl) 12%,#FFFFFF));border-color:color-mix(in srgb,var(--gld) 40%,#FFFFFF)}
+html.w7 .ap .wf i{background:linear-gradient(to bottom,color-mix(in srgb,var(--acc) 55%,#FFFFFF),var(--acc))}
 html.w7 .ap .sl .trk{background:linear-gradient(to right,var(--acc) calc(var(--f)*100%),#E3E8EE calc(var(--f)*100%));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--gld) 40%,#FFFFFF)}
 html.w7 .ap .sl .thm{top:-5px;bottom:-5px;width:16px;left:calc((100% - 16px)*var(--f));border-radius:50%;background:radial-gradient(circle at 50% 30%,#FFFFFF 0,color-mix(in srgb,var(--acc) 22%,#FFFFFF) 45%,color-mix(in srgb,var(--acc) 70%,#FFFFFF) 100%);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--acc) 75%,#000000),0 1px 2px rgba(0,0,0,.3)}
 html.w7 .ap .sl .arw.lf::after{border-right-color:var(--acc)}html.w7 .ap .sl .arw.rt::after{border-left-color:var(--acc)}
@@ -2242,9 +2242,9 @@ function dmPlayer(c,it,P,x,y,w,h,pl){const w7=dmW7();if(!w7){c.fillStyle=P.btnf;
   :(bx,by,bw,bh,down)=>{c.fillStyle=P.btnf;c.fillRect(bx,by,bw,bh);c.fillStyle=mute;dmBev(c,bx,by,bw,bh,mute,mute,u(1));dmBev(c,bx+u(1),by+u(1),bw-u(2),bh-u(2),down?P.blo:P.bhi,down?P.bhi:P.blo,u(2))};
  const t=pl?pl.currentTime:0,d=pl?pl.duration:it.dur,f=d>0?Math.min(1,t/d):0;
  let yy=oy+u(6);const rh=u(22),pw=u(50),wx=ox+u(6)+pw+u(6),ww=W-u(12)-pw*2-u(12);
- sunk(ox+u(6),yy,pw,rh,P.card);sunk(wx,yy,ww,rh,P.ink);sunk(ox+W-u(6)-pw,yy,pw,rh,P.card);
+ sunk(ox+u(6),yy,pw,rh,P.card);sunk(wx,yy,ww,rh,w7?P.card:P.ink);sunk(ox+W-u(6)-pw,yy,pw,rh,P.card);
  c.fillStyle=P.ink;c.font=`${u(13)}px ${dmF()}`;c.textBaseline='middle';c.textAlign='center';c.fillText(fmtT(t),ox+u(6)+pw/2,yy+rh/2+u(1));c.fillText(fmtT(d),ox+W-u(6)-pw/2,yy+rh/2+u(1));c.textAlign='left';
- c.fillStyle=P.card;const bw=u(3),gap=u(2),tot=9*bw+8*gap;let bx=wx+(ww-tot)/2;const ph=pl&&!pl.paused?Math.floor(pl.currentTime*5):-1;
+ c.fillStyle=w7?P.acc:P.card;const bw=u(3),gap=u(2),tot=9*bw+8*gap;let bx=wx+(ww-tot)/2;const ph=pl&&!pl.paused?Math.floor(pl.currentTime*5):-1;
  DMWF.forEach((bh,i)=>{const sc=ph<0?1:DMWK[(ph+i*3)%4],hh=u(bh*.7)*sc;c.fillRect(bx,yy+rh/2-hh/2,bw,hh);bx+=bw+gap});
  yy+=rh+u(6);const sh=u(18),tx=ox+u(6)+sh,tw=W-u(12)-sh*2;
  if(w7){dmRR(c,ox+u(6),yy+sh/2-u(3),W-u(12),u(6),u(3));c.fillStyle='#E7EAEA';c.fill();c.lineWidth=u(1);c.strokeStyle='#B0B0B0';c.stroke()}else{c.fillStyle=mute;c.fillRect(ox+u(5),yy-u(1),W-u(10),sh+u(2));c.fillStyle=line;c.fillRect(tx,yy,tw,sh)}
