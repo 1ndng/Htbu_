@@ -579,6 +579,7 @@ dialog select{padding-top:2px;padding-bottom:2px;line-height:1.3}
 #ar>.sub{margin:0 0 10px!important}#ar .arl{margin-bottom:8px;padding-top:0;padding-bottom:0}#ar .arl:has(+.acts.xe){margin-bottom:0}#ar .arl>p.sub{margin:0!important;padding:4px 0}
 #ar>.acts:not(.xe){margin:0!important}
 #tm #tmsw{margin-bottom:8px}#tm #tmsw[hidden]{margin:0}
+#pe #pesw{margin-bottom:8px}#pe #pes{margin:4px 0 0!important}#pe label{display:block}#pe #penw{margin:0}#pe #penw[hidden]{display:none}
 /* 視窗統一：留白、寬度、標題字、周復盤編輯鈕 */
 #ed,#qd,#cv,#mv{padding:38px 12px 10px}
 #ed[open]{display:flex;flex-direction:column;overflow:hidden;background-attachment:scroll}
@@ -656,9 +657,10 @@ input.tmx:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink)
 <dialog id="hm"><h2 style="text-align:center">年視圖</h2><div id="hmc"></div><div class="acts end"><button onclick="$('#hm').close();heatBack()">返回</button><button onclick="$('#hm').close()">退出</button></div></dialog>
 <dialog id="gd"></dialog>
 <dialog id="pe">
-<h2>編輯對象</h2>
-<input type="text" id="pen" placeholder="對象名稱" maxlength="30">
-<div class="acts end"><button class="pri" onclick="renameP()">儲存</button><button onclick="pe.close()">取消</button></div>
+<h2 id="pet">編輯對象</h2>
+<div id="pesw"><label for="pes">選擇對象</label><select id="pes"></select></div>
+<div id="penw"><input type="text" id="pen" placeholder="對象名稱" maxlength="30"></div>
+<div class="acts end"><button class="pri" id="peo" onclick="peOk()">儲存</button><button onclick="pe.close()">取消</button></div>
 </dialog>
 <dialog id="tm">
 <h2 id="tmt"></h2>
@@ -827,12 +829,22 @@ async function toggleOther(){
  applyTheme(people.find(p=>p.id===cur)?.color);await loadView();render()}
 async function tog(id){msel.has(id)?msel.delete(id):msel.add(id);ftags=ftags.filter(x=>msel.has(x.pid));await loadView();render()}
 async function addP(){const n=$('#pn').value.trim();if(!n)return;const p={id:'p'+Date.now(),name:n};await dbPut('people',p);people.push(p);$('#pn').value='';pd.close();sel(p.id)}
-function openPe(){const P=people.find(p=>p.id===cur);if(!P)return;$('#pen').value=P.name;pe.showModal();$('#pen').focus();$('#pen').select()}
-async function renameP(){const P=people.find(p=>p.id===cur),n=$('#pen').value.trim();if(!P||!n)return;
+/* 編輯／刪除對象：比照標籤，在視窗內先選擇對象（預設為目前的對象） */
+let peMode='edit';
+function openPe(mode){if(!people.length){toast('目前沒有對象');return}peMode=mode==='del'?'del':'edit';
+ $('#pet').textContent=peMode==='del'?'刪除對象':'編輯對象';$('#peo').textContent=peMode==='del'?'刪除':'儲存';
+ rc($('#pes'),...people.map(p=>h('option',{value:p.id},p.name)));$('#pes').value=people.some(p=>p.id===cur)?cur:people[0].id;
+ $('#penw').hidden=peMode==='del';$('#pen').value=pname($('#pes').value);
+ pe.showModal();if(peMode==='edit'){$('#pen').focus();$('#pen').select()}}
+$('#pes').onchange=()=>{if(peMode==='edit')$('#pen').value=pname($('#pes').value)};
+function peOk(){peMode==='del'?delP($('#pes').value):renameP($('#pes').value)}
+async function renameP(id){const P=people.find(p=>p.id===id),n=$('#pen').value.trim();if(!P)return;if(!n){toast('請輸入對象名稱');return}
  if(n!==P.name){P.name=n;try{await dbPut('people',P)}catch(e){toast('儲存失敗');return}}pe.close();render()}
-$('#pen').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();renameP()}};
-async function delP(){const P=people.find(p=>p.id===cur);if(!P||!await ask(`「${P.name}」與全部紀錄都會被刪除`))return;
-for(const e of await dbByPAll(cur))await dbDel('entries',e.k);await dbDel('people',cur);people=people.filter(p=>p.id!==cur);await sel(people[0]?.id||null)}
+$('#pen').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();peOk()}};
+async function delP(id){const P=people.find(p=>p.id===id);if(!P)return;pe.close();if(!await ask(`「${P.name}」與全部紀錄都會被刪除`))return;
+ try{for(const e of await dbByPAll(id))await dbDel('entries',e.k);await dbDel('people',id)}catch(e){toast('刪除失敗');return}
+ people=people.filter(p=>p.id!==id);msel.delete(id);
+ if(id===cur)await sel(people[0]?.id||null);else render()}
 
 const mu=(m,l=urls)=>{const u=URL.createObjectURL(m.b);l.push(u);return u};
 function shot(v){const W=480,vw=v.videoWidth||W,vh=v.videoHeight||W,r=Math.min(1,W/vw),c=document.createElement('canvas');c.width=Math.max(1,Math.round(vw*r));c.height=Math.max(1,Math.round(vh*r));
@@ -983,7 +995,7 @@ function menuGroups(k){
   const g1=people.length?people.map(p=>keep(p.name,()=>{if(multi)tog(p.id);else{closeMenu();sel(p.id)}},{mark:multi?msel.has(p.id):p.id===cur})):[info('（尚未有對象）')],g2=[];
   if(!multi){g2.push(act('新增對象',()=>{pd.showModal();$('#pn').focus()}));
    const P=people.find(p=>p.id===cur);
-   if(P){g2.push(act('編輯對象',openPe));g2.push(act('刪除對象',delP,{del:1}))}}
+   if(people.length){g2.push(act('編輯對象',()=>openPe('edit')));g2.push(act('刪除對象',()=>openPe('del'),{del:1}))}}
   return [g1,g2]}
  if(k==='tag'){
   const ids=multi?[...msel]:cur?[cur]:[],items=[];
