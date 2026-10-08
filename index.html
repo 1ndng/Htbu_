@@ -455,6 +455,8 @@ dialog select{-webkit-appearance:none;appearance:none;padding-right:30px;backgro
 .emp{display:flex;flex-direction:column;align-items:center;gap:4px}.emp .note{align-self:stretch}
 .emp button{font-size:14px;letter-spacing:.04em;padding:8px 28px;min-width:160px}
 button:active:not(:disabled){text-indent:1px}
+/* 頂端選單列與下拉選單：按下時只變色，文字與按鈕都不位移 */
+#mbar .mi:active,#mdd .mit:active,#mdd .mit:active *{text-indent:0}
 button.tapfx{--hi:var(--blo);--lo:var(--bhi);text-indent:1px}
 html.kb #wr[open]{height:var(--vvh);max-height:var(--vvh);top:var(--vvt,0px);bottom:auto}
 html.kb dialog[open]:not(#wr){max-height:calc(var(--vvh) - 16px);top:calc(var(--vvt,0px) + 8px);bottom:auto;margin-top:0;margin-bottom:0}
