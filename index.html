@@ -512,8 +512,6 @@ html.jsb :is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,#edb,#dmvl,textarea){sc
 html.jsb #dtc{padding-left:20px;padding-right:20px}
 html.jsb .wcs{padding-left:20px!important;padding-right:20px!important}
 /* 內框：捲軸貼在內框外緣、長在內框裡；內框本身左右對稱，不把捲軸算進體積 */
-html.jsb #dmvl{background:var(--card);box-shadow:inset 1px 1px 0 var(--blo),inset -1px -1px 0 var(--bhi),0 0 0 1px var(--ink)}
-html.jsb #dmvl.sbon{padding-right:18px}
 html.jsb :is(#hmc,.arl){background:var(--card);box-shadow:inset 1px 1px 0 var(--blo),inset -1px -1px 0 var(--bhi),0 0 0 1px var(--ink);padding-left:20px;padding-right:max(0px,calc(20px - var(--nsb,0px)))}
 html.jsb #hmc{padding-top:12px;padding-bottom:4px}
 html.jsb .arl{padding-top:10px;padding-bottom:0;background:var(--bg)!important;background:color-mix(in srgb,var(--bg) 55%,var(--card))!important}
@@ -662,7 +660,11 @@ input.tmx:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink)
 #dmvn{margin:-6px -12px 0;padding:8px 12px;text-align:center;font:400 17px/1.4 "Cubic 11","BaDing",serif;letter-spacing:.08em;border-bottom:1px solid var(--sep);box-shadow:0 1px 0 var(--bhi);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #dmvp{display:flex;align-items:center;gap:16px;padding:12px 4px;margin:0 0 10px;border-bottom:1px solid var(--sep);box-shadow:0 1px 0 var(--bhi)}
 #dmvs{flex:1;display:flex;flex-direction:column;align-items:center;line-height:1.4}#dmvs b{font-weight:400;font-size:20px}#dmvs span{font-size:13px;color:var(--mute)}
-#dmvl{max-height:52vh;max-height:52dvh;overflow-y:auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px;align-content:start;margin-bottom:8px;padding:3px}
+/* 瀏覽的內框：dump 貼齊內框（內凹邊框疊在 dump 上），右側固定留捲軸寬，三篇＋捲軸＝內框寬 */
+#dmvf{position:relative;margin-bottom:8px;background:var(--card);box-shadow:0 0 0 1px var(--ink)}
+#dmvf::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;box-shadow:inset 1px 1px 0 var(--blo),inset -1px -1px 0 var(--bhi)}
+#dmvl{max-height:52vh;max-height:52dvh;overflow-y:auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px;align-content:start;padding:0 15px 0 0;box-sizing:border-box}
+html.jsb #dmvl,html.jsb #dmvl.sbon{padding:0 15px 0 0}
 #dmvl>p.sub{grid-column:1/-1;margin:16px 0!important;text-align:center}
 .dmvg{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
 .dmvt2{position:relative;padding:0;border:1px solid var(--ink);background:#000;aspect-ratio:9/16;overflow:hidden;clip-path:none;min-width:0}
@@ -702,7 +704,7 @@ input.tmx:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink)
 #dmxt{width:100%;box-sizing:border-box;margin-bottom:8px}
 #dmthl .sw.on{outline:2px solid var(--ink);outline-offset:2px}
 #dmr{width:min(300px,86vw);text-align:center}#dmr p{margin:0 0 12px;font-size:15px;line-height:1.6;white-space:pre-line}#dmr .acts{margin:0}
-#dmvwb{justify-content:center;flex-wrap:wrap}#dmvwb button[hidden]{display:none}
+.dmvwb{justify-content:center;flex-wrap:wrap}.dmvwb button[hidden]{display:none}
 #dmwe input[type=text]{width:100%;box-sizing:border-box;margin:4px 0 10px}#dmwef{width:100%;margin:4px 0 8px}#dmwfw[hidden],#dmwlw[hidden]{display:none}#dmwlw{margin:0 0 8px}
 #dmx .acts{margin:0 0 8px}#dmxsw[hidden]{display:none}
 </style>
@@ -853,8 +855,8 @@ input.tmx:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink)
 <dialog id="cf"><p id="cft">是否刪除？</p><p class="sm" id="cfs" hidden></p><div class="acts"><button id="cfy" class="pri">確定</button><button id="cfn">取消</button></div></dialog>
 <dialog id="dt"><div id="dtt"></div><div id="dts"><div id="dtc"></div></div><div class="dtf"><button id="dtb" hidden onclick="dtBack()">返回</button><button onclick="$('#dt').close()">退出</button></div></dialog>
 <dialog id="dmh"><h2>月總結</h2><div class="mb"><button class="edit" onclick="$('#dmh').close();openDump()">製作</button><button class="edit" onclick="$('#dmh').close();openDumpBrowse()">瀏覽</button></div><div class="acts end"><button onclick="$('#dmh').close();openMenu('rev')">返回</button><button onclick="$('#dmh').close()">退出</button></div></dialog>
-<dialog id="dmv"><h2>月總結・瀏覽</h2><div id="dmvn"></div><div id="dmvp"><div id="dmva"></div><div id="dmvs"><b id="dmvc">0</b><span>篇 dump</span></div></div><div id="dmvl"></div><div class="acts end"><button onclick="$('#dmv').close();openDumpHome()">返回</button><button onclick="$('#dmv').close()">退出</button></div></dialog>
-<dialog id="dmvw"><h2 id="dmvwt">dump</h2><div id="dmvwc"></div><p class="sub" id="dmvws"></p><div class="acts" id="dmvwb"><button class="pri" id="dmvi" onclick="dmvImg()">匯出圖片</button><button class="pri" id="dmvv" onclick="dmvVid()">匯出影片</button><button onclick="dmvEdit()">編輯</button><button onclick="dmvDel()">刪除</button></div><div class="acts end"><button onclick="$('#dmvw').close();openDumpBrowse()">返回</button><button onclick="$('#dmvw').close()">退出</button></div></dialog>
+<dialog id="dmv"><h2>月總結・瀏覽</h2><div id="dmvn"></div><div id="dmvp"><div id="dmva"></div><div id="dmvs"><b id="dmvc">0</b><span>篇 dump</span></div></div><div id="dmvf"><div id="dmvl"></div></div><div class="acts end"><button onclick="$('#dmv').close();openDumpHome()">返回</button><button onclick="$('#dmv').close()">退出</button></div></dialog>
+<dialog id="dmvw"><h2 id="dmvwt">dump</h2><div id="dmvwc"></div><p class="sub" id="dmvws"></p><div class="acts dmvwb"><button class="pri" id="dmvi" onclick="dmvImg()">匯出圖片</button><button class="pri" id="dmvv" onclick="dmvVid()">匯出影片</button></div><div class="acts dmvwb"><button onclick="dmvEdit()">編輯</button><button onclick="dmvDel()">刪除</button></div><div class="acts end"><button onclick="$('#dmvw').close();openDumpBrowse()">返回</button><button onclick="$('#dmvw').close()">退出</button></div></dialog>
 <dialog id="dmm"><h2>月總結</h2><p class="sub">選擇要製作 dump 的月份</p><div id="dmml"></div><div class="acts end"><button onclick="$('#dmm').close();openDumpHome()">返回</button><button onclick="$('#dmm').close()">退出</button></div></dialog>
 <dialog id="dmp"><h2 id="dmpt">月總結</h2><nav id="dmmb" aria-label="編輯選單"><button class="mi" data-m="file" onclick="dmMenu('file')">檔案</button><button class="mi" data-m="add" onclick="dmMenu('add')">新增</button><button class="mi" data-m="box" onclick="dmMenu('box')">方塊</button><button class="mi" data-m="look" onclick="dmMenu('look')">版面</button></nav><div id="dmbk" hidden></div><div id="dmdd" role="menu" hidden></div><div id="dmw"><canvas id="dmcv"></canvas></div><div id="dmsb"></div><div class="acts"><button onclick="$('#dmp').close();openDump()">返回</button><button onclick="$('#dmp').close()">退出</button></div><input type="file" id="dmf" accept="image/*" hidden><input type="file" id="dmf2" accept="image/*" hidden></dialog>
 <dialog id="dmr"><p id="dmot">匯出中…</p><div class="acts" style="justify-content:center"><button id="dmos" onclick="dmStop=true">停止</button></div></dialog>
@@ -1490,7 +1492,7 @@ function sbPlace(el,ax){
   bar.classList.add('inl');if(el.nextElementSibling!==bar)el.after(bar);
   const on=g.sh>g.ch+1;bar.classList.toggle('on',on);if(on)sbThumb(b,el);return}
  const off=()=>{if(el.tagName!=='DIALOG')el.classList.remove('sbon');bar.classList.remove('on');if(o.wrap&&o.wrap.parentNode)o.wrap.remove()};
- if(!el.isConnected||g.sh<=g.ch+1||(el.tagName==='DIALOG'&&sbInner(el))){off();return}
+ if(!el.isConnected||(g.sh<=g.ch+1&&!el.matches('#dmvl'))||(el.tagName==='DIALOG'&&sbInner(el))){off();return}/* 瀏覽的內框：捲軸一直顯示 */
  const G=sbGeom(el);if(!G||G.h<30){off();return}
  let par=G.host;
  if(G.wrap){const w=o.wrap||(o.wrap=Object.assign(document.createElement('div'),{className:'sbw'}));
@@ -1802,10 +1804,10 @@ async function openDumpBrowse(){dmvUrls.forEach(URL.revokeObjectURL);dmvUrls=[];
 $('#dmv').addEventListener('close',()=>{if(!$('#dmvw').open){dmvUrls.forEach(URL.revokeObjectURL);dmvUrls=[]}});
 let dmvD=null;
 async function dmvOpen(d){dmvCur=d;dmvD=null;const u=URL.createObjectURL(d.b);dmvUrls.push(u);$('#dmv').close();
- $('#dmvi').hidden=true;$('#dmvv').hidden=true;
+ $('#dmvi').hidden=false;$('#dmvi').disabled=true;$('#dmvv').hidden=true;/* 讀取中先停用（不整列隱藏，否則會被當成空的按鈕列） */
  /* 先把版面讀好：匯出影片時要在按下的當下就有影音可以播（iPhone 的限制） */
  (async()=>{if(d.lay){dmvD=dmStore[d.k]||(dmStore[d.k]=await dmRestore(d.lay,d.ym))}if(dmvCur!==d)return;
-  const av=dmvD&&dmvD.items.some(x=>(x.t==='video'||x.t==='audio')&&x.blob);$('#dmvi').hidden=!(dmvD||d.type==='image');$('#dmvv').hidden=!(av||(!dmvD&&d.type==='video'))})();
+  const av=dmvD&&dmvD.items.some(x=>(x.t==='video'||x.t==='audio')&&x.blob);$('#dmvi').disabled=false;$('#dmvi').hidden=!(dmvD||d.type==='image');$('#dmvv').hidden=!(av||(!dmvD&&d.type==='video'))})();
  $('#dmvwt').textContent=dmYm(d.ym)+' dump';rc($('#dmvwc'),d.type==='video'?h('video',{src:u,controls:'',playsinline:'',preload:'metadata'}):h('img',{src:u,alt:''}));
  $('#dmvws').textContent='製作於 '+new Date(d.at).toLocaleString('zh-TW');$('#dmvw').showModal()}
 $('#dmvw').addEventListener('close',()=>{const v=$('#dmvwc video');if(v)v.pause()});
