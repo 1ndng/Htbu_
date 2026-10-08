@@ -1760,7 +1760,7 @@ async function save(){
 const DW=1080,DH=1920,DTB=46,DFONT='"Cubic 11","BaDing",sans-serif';
 const DPAL0={bg:'#C0C0C0',btnf:'#C0C0C0',card:'#FFFFFF',ink:'#000000',acc:'#000080',on:'#FFFFFF',bhi:'#FFFFFF',blo:'#808080'};
 const dPal=k=>{const t=k&&THEMES[k];return t?{...DPAL0,...t}:DPAL0};
-let DM=null,dmUrls=[],dmDrag=null,dmRaf=0,dmTap={id:null,t:0},dmTx=null,dmCr=null;const dmStore={};
+let DM=null,dmUrls=[],dmDrag=null,dmRaf=0,dmTx=null,dmCr=null;const dmStore={};
 const dmPids=()=>multi?[...msel]:cur?[cur]:[];
 async function dmEntries(){const out=[];for(const id of dmPids())out.push(...await dbByP(id));return out.filter(e=>e.date!==NODATE)}
 /* 月總結首頁：製作或瀏覽；匯出成功的 dump 會存在 dumps（依對象、月份） */
@@ -1909,7 +1909,7 @@ function dmPlayer(c,it,P,x,y,w,h,pl){c.fillStyle=P.btnf;c.fillRect(x,y,w,h);
   else c.fillRect(cx-u(4.5),cy-u(4.5),u(9),u(9))}}
 function dmText(c,it){c.save();c.font=`${it.fs}px ${DFONT}`;c.textBaseline='top';const L=dmWrap(c,it,it.text,it.w),lh=it.fs*1.3;it.h=L.length*lh;
  L.forEach((l,i)=>{const yy=it.y+i*lh+it.fs*.15;if(it.st){c.lineJoin='round';c.lineWidth=Math.max(3,it.fs*.18);c.strokeStyle=it.sc||dmContra(it.color);c.strokeText(l,it.x,yy)}c.fillStyle=it.color;c.fillText(l,it.x,yy)});c.restore()}
-/* 拖曳：點方塊可移動；選取後拖曳右下角可縮放（文字會等比放大縮小）；連點兩下文字可編輯 */
+/* 畫面上只能直接調整位置與大小：點方塊可移動；選取後拖曳右下角可縮放（文字會等比放大縮小）。標題、顏色等其他設定都在「方塊」選單 */
 const dmPt=e=>{const r=$('#dmcv').getBoundingClientRect();return{x:(e.clientX-r.left)/DM.sc,y:(e.clientY-r.top)/DM.sc}};
 $('#dmcv').addEventListener('pointerdown',e=>{if(!DM)return;const cv=e.currentTarget,p=dmPt(e),hs=24/DM.sc,s=DM.items.find(x=>x.id===DM.sel);
  if(s&&!s.lk){const b=dmBox(s);if(Math.abs(p.x-(b.x+b.w))<hs&&Math.abs(p.y-(b.y+b.h))<hs){dmDrag={m:'r',it:s,p0:p,b0:{...b},fs0:s.fs};cv.setPointerCapture(e.pointerId);return}}
@@ -1917,7 +1917,7 @@ $('#dmcv').addEventListener('pointerdown',e=>{if(!DM)return;const cv=e.currentTa
  const hits=[...DM.items].reverse().filter(x=>{const b=dmBox(x);return p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h}),it=hits.find(x=>!x.lk)||hits[0];
  DM.sel=it?it.id:null;
  if(it&&it.lk){dmSelBar();dmDraw();return}
- if(it){const n=Date.now();if(it.t!=='pic'&&dmTap.id===it.id&&n-dmTap.t<350){dmTap={id:null,t:0};it.t==='text'?dmTextEd(it):dmWinEd(it);return}dmTap={id:it.id,t:n};
+ if(it){
   dmDrag={m:'m',it,p0:p,b0:{x:it.x,y:it.y}};cv.setPointerCapture(e.pointerId)}
  dmSelBar();dmDraw()});
 $('#dmcv').addEventListener('pointermove',e=>{if(!dmDrag)return;const p=dmPt(e),d=dmDrag,it=d.it,dx=p.x-d.p0.x,dy=p.y-d.p0.y,b=dmBox(it);
