@@ -707,13 +707,15 @@ html.jsb #dmvl,html.jsb #dmvl.sbon{padding:0 15px 0 0}
 .dmtx{font-size:13px;line-height:1.55;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;margin:2px 0 0 19px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden}
 .dmtx.open{display:block}
 #dmil .dmmore{margin:4px 0 0 19px;padding:0 8px;font-size:11px;line-height:20px;height:auto}
-/* 照片／影片：勾選框在縮圖左邊（不疊在圖上），第一張縮圖與文字對齊 */
-#dmil .dmim .dmck.dmth{align-items:center;padding:0}
+/* 照片／影片：勾選框疊在縮圖左上，縮圖列整體內縮，第一張與文字左對齊 */
+#dmil .dmim{margin-left:19px}
+#dmil .dmim .dmck.dmth{position:relative;display:block;padding:0}
+#dmil .dmim .dmck.dmth .cbx{position:absolute;left:4px;top:4px;z-index:1;margin:0}
 .dmthi{position:relative;display:block;width:64px;height:64px;flex:none;border:1px solid var(--ink);background:#0004;overflow:hidden}
 .dmthi img{width:100%;height:100%;object-fit:cover;display:block;clip-path:none;border:0}
 #dmil .dmck{display:flex;align-items:center;gap:6px;font-size:13px;min-width:0}
 #dmil .dmct{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;min-width:0}
-.dmim{display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:6px}
+.dmim{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 4px}
 #dmxt{width:100%;box-sizing:border-box;margin-bottom:8px}
 #dmthl .sw.on{outline:2px solid var(--ink);outline-offset:2px}
 #dmr{width:min(300px,86vw);text-align:center}#dmr p{margin:0 0 12px;font-size:15px;line-height:1.6;white-space:pre-line}#dmr .acts{margin:0}
@@ -2009,9 +2011,11 @@ function dmPickList(){dmUrls.forEach(URL.revokeObjectURL);dmUrls=[];const many=d
   out.push(h('div',{class:'dmie'+(e.time?' dmhas':'')},
    ck(e.k+'|card','dmc',tx),
    h('button',{class:'edit dmmore',hidden:'',onclick:ev=>{const o=tx.classList.toggle('open');ev.currentTarget.textContent=o?'收合':'展開全文'}},'展開全文'),
-   M.length>0&&h('div',{class:'dmim'},...M.map((m,i)=>{const id=e.k+'|m'+i,src=m.t==='image'?m.b:m.t==='video'?m.p:null;
-    if(src){const u=URL.createObjectURL(src);dmUrls.push(u);return ck(id,'dmth',h('span',{class:'dmthi'},h('img',{src:u,alt:''}),m.t==='video'&&h('span',{class:'pl'},h('i',{class:'pli'}))))}
-    return ck(id,'',h('span',{class:'dmct'},({image:'圖片',video:'影片',audio:'音訊',file:'檔案'})[m.t]+'：'+(m.n||'')))}))))}
+   ...(()=>{const th=[],rows=[];M.forEach((m,i)=>{const id=e.k+'|m'+i,src=m.t==='image'?m.b:m.t==='video'?m.p:null;
+    if(src){const u=URL.createObjectURL(src);dmUrls.push(u);th.push(ck(id,'dmth',h('span',{class:'dmthi'},h('img',{src:u,alt:''}),m.t==='video'&&h('span',{class:'pl'},h('i',{class:'pli'})))))}
+    else rows.push(ck(id,'',h('span',{class:'dmct'},({image:'圖片',video:'影片',audio:'音訊',file:'檔案'})[m.t]+'：'+(m.n||''))))});
+    /* 照片／影片縮圖排一列（勾選框疊在圖上、第一張與文字對齊）；音訊／檔案各自一行 */
+    return[th.length>0&&h('div',{class:'dmim'},...th),...rows]})()))}
  rc($('#dmil'),...(out.length?out:[h('p',{class:'sub'},k?'沒有符合的紀錄':'這個月沒有紀錄')]));
  /* 文字超過兩行才顯示「展開全文」 */
  requestAnimationFrame(()=>$('#dmil').querySelectorAll('.dmtx').forEach(t=>{const b=t.closest('.dmie').querySelector('.dmmore');if(b)b.hidden=t.scrollHeight<=t.clientHeight+1}))}
