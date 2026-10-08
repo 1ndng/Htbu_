@@ -707,6 +707,7 @@ html.jsb #dmvl,html.jsb #dmvl.sbon{padding:0 15px 0 0}
 #dmil .dmck{display:flex;align-items:center;gap:6px;font-size:13px;min-width:0;cursor:pointer;-webkit-user-select:none;user-select:none;padding:2px 0}
 #dmil .dmck .cbx{margin:0;flex:none}#dmil .dmck.dmc{align-items:flex-start}#dmil .dmck.dmc .cbx{margin-top:4px}#dmil .dmck.dmc .dmtx{flex:1;margin:0}
 .dmtm{color:var(--hotx,var(--acx));margin-right:.6em}
+#dmil .dmlab{font-size:13px;margin:2px 0 0 19px}
 .dmtx{font-size:13px;line-height:1.55;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;margin:2px 0 0 19px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden}
 .dmtx.open{display:block}
 #dmil .dmmore{margin:4px 0 0 19px;padding:0 8px;font-size:11px;line-height:20px;height:auto}
@@ -2055,10 +2056,11 @@ function dmPickList(){dmUrls.forEach(URL.revokeObjectURL);dmUrls=[];const many=d
   return h('div',{class:'dmck'+(cls?' '+cls:''),role:'checkbox','aria-checked':String(on),tabindex:'0',onclick:e=>{const t=e.currentTarget,v=!dmPickSel.has(id);v?dmPickSel.add(id):dmPickSel.delete(id);bx.classList.toggle('on',v);t.setAttribute('aria-checked',String(v))}},bx,...c)};
  const out=[];let last='',lastT=null;
  for(const e of es){let split=false;if(e.date!==last){last=e.date;lastT=null;out.push(h('div',{class:'rd dmday'},fmtD(e.date)))}else split=lastT===true&&!e.time;lastT=!!e.time;
-  const M=e.media||[],txt=(e.text||'').trim(),tx=h('div',{class:'dmtx'},many?pname(e.pid)+'・':'',e.time&&h('span',{class:'dmtm'},e.time),txt||cntStr(e)||'（沒有文字）');
+  /* 沒有文字的紀錄：不顯示紀錄方塊那一行，只列出圖片／影片／音訊／檔案（有時間或多位對象時只標示，不能勾） */
+  const M=e.media||[],txt=(e.text||'').trim(),tx=txt&&h('div',{class:'dmtx'},many?pname(e.pid)+'・':'',e.time&&h('span',{class:'dmtm'},e.time),txt);
   out.push(h('div',{class:'dmie'+(split?' dmsplit':'')},
-   ck(e.k+'|card','dmc',tx),
-   h('button',{class:'edit dmmore',hidden:'',onclick:ev=>{const o=tx.classList.toggle('open');ev.currentTarget.textContent=o?'收合':'展開'}},'展開'),
+   tx?ck(e.k+'|card','dmc',tx):(e.time||many)&&h('div',{class:'dmlab'},many?pname(e.pid)+'・':'',e.time&&h('span',{class:'dmtm'},e.time)),
+   tx&&h('button',{class:'edit dmmore',hidden:'',onclick:ev=>{const o=tx.classList.toggle('open');ev.currentTarget.textContent=o?'收合':'展開'}},'展開'),
    ...(()=>{const th=[],rows=[];M.forEach((m,i)=>{const id=e.k+'|m'+i,src=m.t==='image'?m.b:m.t==='video'?m.p:null;
     if(src){const u=URL.createObjectURL(src);dmUrls.push(u);th.push(ck(id,'dmth',h('span',{class:'dmthi'},h('img',{src:u,alt:''}),m.t==='video'&&h('span',{class:'pl'},h('i',{class:'pli'})))))}
     else rows.push(ck(id,'',h('span',{class:'dmct'},({image:'圖片',video:'影片',audio:'音訊',file:'檔案'})[m.t]+'：'+(m.n||''))))});
