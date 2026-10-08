@@ -116,8 +116,9 @@ input[type=radio],input[type=checkbox]{accent-color:var(--acc)}
 #lb img,#lb video{clip-path:none;display:block;max-width:calc(96vw - 32px);max-height:calc(100vh - 120px);max-height:calc(100dvh - 120px);border-radius:0;margin:auto}
 .tb{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;align-items:center;margin:4px 0 8px}.tb::-webkit-scrollbar{display:none}.tb button{padding:2px 9px;flex:none;white-space:nowrap}
 .sw{flex:none;width:30px;height:30px;border-radius:0;padding:0;border:var(--bw) solid var(--ink)}
-#tc{--pxc:3px;clip-path:var(--cut);-webkit-appearance:none;appearance:none;width:30px;height:30px;padding:0;border:var(--bw) solid var(--ink);border-radius:0;overflow:hidden;background:none;flex:none;cursor:pointer}
-#tc::-webkit-color-swatch-wrapper{padding:0}#tc::-webkit-color-swatch{border:0;border-radius:0}#tc::-moz-color-swatch{border:0;border-radius:0}
+/* 所有選顏色的方框：比照主題色設定（30×30、內凹框），方框裡一律顯示彩虹 */
+input[type=color]{--pxc:3px;clip-path:var(--cut);-webkit-appearance:none;appearance:none;width:30px;height:30px;min-height:0;padding:0;margin:0;border:var(--bw) solid var(--ink);border-radius:0;overflow:hidden;background:conic-gradient(from 0deg,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff,#ff0000);flex:none;cursor:pointer;vertical-align:middle;box-sizing:border-box}
+input[type=color]::-webkit-color-swatch-wrapper{padding:0}input[type=color]::-webkit-color-swatch{border:0;border-radius:0;opacity:0}input[type=color]::-moz-color-swatch{border:0;border-radius:0;opacity:0}
 .top .acts{margin:0}
 @supports (-webkit-touch-callout:none){textarea,input,select{font-size:16px}}
 .rm{position:relative}.rm>button{position:absolute;top:4px;right:4px;padding:0 8px}.rm>.xcl{padding:0}
@@ -363,7 +364,7 @@ button{padding-top:3px;padding-bottom:3px;line-height:19.6px}
 #qsb{padding-top:3px;padding-bottom:3px}
 .tb button{padding-top:1px;padding-bottom:1px}
 .ya{display:flex;align-items:baseline;min-width:0}
-.sw,#tc{border:2px solid;border-color:var(--blo) var(--bhi) var(--bhi) var(--blo)}
+.sw,input[type=color]{border:2px solid;border-color:var(--blo) var(--bhi) var(--bhi) var(--blo)}
 /* ===== 引用方塊：上日期（標題列）、下內文（短、單行折疊） ===== */
 .qv,.qchip{display:flex;align-items:stretch;padding:0;gap:0}
 .qv{flex-direction:column}
@@ -591,7 +592,7 @@ dialog select{padding-top:2px;padding-bottom:2px;line-height:1.3}
 #peaw{margin-top:10px}#peaw[hidden],#peaz[hidden],#peah[hidden]{display:none}#peaw>label{display:block;margin-bottom:6px}
 #pear{display:flex;align-items:center;gap:12px}#peaf{width:96px;height:96px;touch-action:none}#peaf img{width:auto;height:auto}
 #peab{display:flex;flex-direction:column;gap:6px;flex:1;min-width:0}#peab .edit{margin:0;justify-content:center}
-#peacw{display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;min-height:24px;padding:1px 9px;font-size:13px;letter-spacing:1.56px;background:var(--btnf);color:var(--ink);box-shadow:inset 1px 1px 0 var(--bhi),inset -1px -1px 0 var(--blo),0 0 0 1px var(--ink)}#peacw input{width:36px;height:20px;padding:0}
+#peacw{display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;font-size:13px;letter-spacing:1.56px;color:var(--ink)}
 #peaz{width:100%;margin:8px 0 2px}#peah{margin:0!important}#pe #pes{margin:4px 0 0!important}#pe label{display:block}#pe #penw{margin:0}#pe #penw[hidden]{display:none}
 /* 視窗統一：留白、寬度、標題字、紀錄整理編輯鈕 */
 #ed,#qd,#cv,#mv{padding:38px 12px 10px}
@@ -655,7 +656,7 @@ input.tmx:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink)
 .acts label.r{letter-spacing:1.56px;font-size:13px}
 /* ===== 月總結 dump 編輯器 ===== */
 #dmml{display:flex;flex-direction:column;gap:8px;max-height:55vh;overflow-y:auto;margin-bottom:8px}
-#dmbg .mb{align-items:center;width:100%}#dmbg .mb .edit{min-width:200px;justify-content:center}#dmbgcw{display:inline-flex;align-items:center;gap:8px;cursor:pointer;box-sizing:border-box;min-height:26px;padding:2px 9px;font-size:13px;letter-spacing:1.56px;background:var(--btnf);color:var(--ink);box-shadow:inset 1px 1px 0 var(--bhi),inset -1px -1px 0 var(--blo),0 0 0 1px var(--ink)}#dmbgcw input{width:40px;height:24px;padding:0}#dmbg .mb .edit.on{outline:2px solid var(--ink);outline-offset:2px}
+#dmbg .mb{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%}#dmbg .mb .edit{min-width:200px;justify-content:center}#dmbgcw{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;letter-spacing:1.56px;color:var(--ink)}#dmbg .mb .edit.on,#dmbgcw.on{outline:2px solid var(--ink);outline-offset:2px}
 #dmvn{margin:-6px -12px 0;padding:8px 12px;text-align:center;font:400 17px/1.4 "Cubic 11","BaDing",serif;letter-spacing:.08em;border-bottom:1px solid var(--sep);box-shadow:0 1px 0 var(--bhi);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #dmvp{display:flex;align-items:center;gap:16px;padding:12px 4px;margin:0 0 10px;border-bottom:1px solid var(--sep);box-shadow:0 1px 0 var(--bhi)}
 #dmvs{flex:1;display:flex;flex-direction:column;align-items:center;line-height:1.4}#dmvs b{font-weight:400;font-size:20px}#dmvs span{font-size:13px;color:var(--mute)}
@@ -744,7 +745,7 @@ html.jsb #dmvl,html.jsb #dmvl.sbon{padding:0 15px 0 0}
 <h2 id="pet">編輯對象</h2>
 <div id="pesw"><label for="pes">選擇對象</label><select id="pes"></select></div>
 <div id="penw"><input type="text" id="pen" placeholder="對象名稱" maxlength="30"></div>
-<div id="peaw"><label>頭貼</label><div id="pear"><div id="peaf" class="av"><img id="peai" alt=""></div><div id="peab"><button class="edit" onclick="$('#peaf2').click()">選擇圖片</button><label class="r edit" id="peacw">純色 <input type="color" id="peac"></label><button class="edit" onclick="peAvSet(null)">預設（主題色②）</button></div></div><input type="range" id="peaz" min="1" max="4" step="0.01" value="1"><p class="sub" id="peah">拖曳圖片調整位置，拉桿縮放</p><input type="file" id="peaf2" accept="image/*" hidden></div>
+<div id="peaw"><label>頭貼</label><div id="pear"><div id="peaf" class="av"><img id="peai" alt=""></div><div id="peab"><button class="edit" onclick="$('#peaf2').click()">選擇圖片</button><label class="r" id="peacw">純色 <input type="color" id="peac"></label><button class="edit" onclick="peAvSet(null)">預設（主題色②）</button></div></div><input type="range" id="peaz" min="1" max="4" step="0.01" value="1"><p class="sub" id="peah">拖曳圖片調整位置，拉桿縮放</p><input type="file" id="peaf2" accept="image/*" hidden></div>
 <div class="acts end"><button class="pri" id="peo" onclick="peOk()">儲存</button><button onclick="pe.close()">取消</button></div>
 </dialog>
 <dialog id="tm">
@@ -877,7 +878,7 @@ html.jsb #dmvl,html.jsb #dmvl.sbon{padding:0 15px 0 0}
 <dialog id="dmm"><h2>月總結</h2><p class="sub">選擇要製作 dump 的月份</p><div id="dmml"></div><div class="acts end"><button onclick="$('#dmm').close();openDumpHome()">返回</button><button onclick="$('#dmm').close()">退出</button></div></dialog>
 <dialog id="dmp"><h2 id="dmpt">月總結</h2><nav id="dmmb" aria-label="編輯選單"><button class="mi" data-m="file" onclick="dmMenu('file')">檔案</button><button class="mi" data-m="add" onclick="dmMenu('add')">新增</button><button class="mi" data-m="box" onclick="dmMenu('box')">方塊</button><button class="mi" data-m="look" onclick="dmMenu('look')">版面</button></nav><div id="dmbk" hidden></div><div id="dmdd" role="menu" hidden></div><div id="dmw"><canvas id="dmcv"></canvas></div><div id="dmsb"></div><div class="acts"><button onclick="$('#dmp').close();openDump()">返回</button><button onclick="$('#dmp').close()">退出</button></div><input type="file" id="dmf" accept="image/*" hidden><input type="file" id="dmf2" accept="image/*" hidden></dialog>
 <dialog id="dmr"><p id="dmot">匯出中…</p><div class="acts" style="justify-content:center"><button id="dmos" onclick="dmStop=true">停止</button></div></dialog>
-<dialog id="dmbg"><h2>背景</h2><div class="mb"><button class="edit" id="dmbgi" onclick="$('#dmbg').close();DM.bgSrc?dmCrop():$('#dmf').click()">選擇圖片</button><label class="r edit" id="dmbgcw">純色 <input type="color" id="dmbgc"></label><button class="edit" onclick="dmBgNone();$('#dmbg').close()">不使用背景（主題底色）</button></div><div class="acts end"><button onclick="$('#dmbg').close()">關閉</button></div></dialog>
+<dialog id="dmbg"><h2>背景</h2><div class="mb"><button class="edit" id="dmbgi" onclick="$('#dmbg').close();DM.bgSrc?dmCrop():$('#dmf').click()">選擇圖片</button><label class="r" id="dmbgcw">純色 <input type="color" id="dmbgc"></label><button class="edit" onclick="dmBgNone();$('#dmbg').close()">不使用背景（主題底色）</button></div><div class="acts end"><button onclick="$('#dmbg').close()">關閉</button></div></dialog>
 <dialog id="dmc"><h2>背景（9:16）</h2><p class="sub">拖曳圖片調整位置</p><div id="dmcf"><img id="dmci" alt=""></div><label for="dmcz">縮放</label><input type="range" id="dmcz" min="1" max="4" step="0.01" value="1"><div class="acts"><button onclick="$('#dmf').click()">換圖片</button><button onclick="dmBgNone()">不使用背景</button></div><div class="acts end"><button class="pri" onclick="dmCropOk()">確定</button><button onclick="$('#dmc').close()">取消</button></div></dialog>
 <dialog id="dmi"><h2>選擇紀錄</h2><div class="qsrow" id="dmisr"><input type="search" id="dmis" placeholder="搜尋文字或標籤" enterkeyhint="search" autocomplete="off"><button id="dmisb" type="button" onclick="dmPickList()">搜尋</button></div><div id="dmil"></div><div class="acts end"><button class="pri" onclick="dmPickOk()">確定</button><button onclick="$('#dmi').close()">取消</button></div></dialog>
 <dialog id="dmx"><h2>文字</h2><textarea id="dmxt" rows="3" placeholder="輸入文字"></textarea><div class="acts"><label class="r"><input type="radio" name="dmxm" value="0"> 純色字</label><label class="r"><input type="radio" name="dmxm" value="1" checked> 有外框的字</label></div><div class="acts"><label class="r">文字顏色 <input type="color" id="dmxc" value="#ffffff"></label><label class="r" id="dmxsw">外框顏色 <input type="color" id="dmxs" value="#000000"></label></div><div class="acts end"><button class="pri" onclick="dmTextOk()">確定</button><button onclick="$('#dmx').close()">取消</button></div></dialog>
