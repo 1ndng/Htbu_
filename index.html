@@ -850,9 +850,9 @@ html.w7 .day,html.w7 .otl{font-weight:300;color:var(--acx)}
 /* 主題2～6（與日回顧）：大日期與視窗大標題用文字色（同 Win95），底線與日期同色 */
 html.w7[data-th] :is(.day,.otl,dialog h2){color:var(--ink)}
 html.w7 .day .dn{text-decoration-color:currentColor}
-/* 大日期、隨手記標題、年份：白色光暈（同標題列） */
-html.w7 :is(.day,.otl,.yr){text-shadow:0 0 6px #FFFFFF,0 0 10px #FFFFFF,0 0 2px #FFFFFF}
-html.w7 .dhead .arrow{filter:drop-shadow(0 0 2px #FFFFFF) drop-shadow(0 0 4px #FFFFFF)}
+/* 大日期、隨手記標題、年份、日期箭頭：光暈顏色＝功能淺色（同 Win95 陰影色） */
+html.w7 :is(.day,.otl,.yr){text-shadow:0 0 6px var(--card),0 0 10px var(--card),0 0 2px var(--card)}
+html.w7 .dhead .arrow{filter:drop-shadow(0 0 2px var(--card)) drop-shadow(0 0 4px var(--card))}
 html.w7 .hcell{border-radius:2px}
 html.w7 :is(.sw,input[type=color]){border:1px solid #707070;border-radius:3px}
 html.w7 .av{box-shadow:0 0 0 1px var(--sep),0 1px 3px rgba(0,0,0,.2)}
