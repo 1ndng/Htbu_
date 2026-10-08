@@ -284,7 +284,7 @@ dialog.tbd>.eth:is(:first-child,.sbw+.eth){position:absolute;left:8px;right:32px
 #dtc>.dth{display:none}
 .card{--tt:5px;padding:12px 14px}
 .card.empty{padding:0}
-/* 周復盤的紀錄方塊：和視窗一樣有標題列（瀏海），日期放在標題列上 */
+/* 紀錄整理的紀錄方塊：和視窗一樣有標題列（瀏海），日期放在標題列上 */
 .wc{--tt:36px;padding:0;overflow:hidden;background-attachment:scroll}
 .wcs{position:absolute;left:0;right:0;top:46px;bottom:0;padding:0 21px 11px;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y}
 .wc>.dth{position:absolute;left:8px;right:8px;top:4px;height:24px;margin:0;font:400 16px/24px "Cubic 11",serif;letter-spacing:.1em;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -585,7 +585,7 @@ dialog select{padding-top:2px;padding-bottom:2px;line-height:1.3}
 #ar>.acts:not(.xe){margin:0!important}
 #tm #tmsw{margin-bottom:8px}#tm #tmsw[hidden]{margin:0}
 #pe #pesw{margin-bottom:8px}#pe #pes{margin:4px 0 0!important}#pe label{display:block}#pe #penw{margin:0}#pe #penw[hidden]{display:none}
-/* 視窗統一：留白、寬度、標題字、周復盤編輯鈕 */
+/* 視窗統一：留白、寬度、標題字、紀錄整理編輯鈕 */
 #ed,#qd,#cv,#mv{padding:38px 12px 10px}
 #ed[open]{display:flex;flex-direction:column;overflow:hidden;background-attachment:scroll}
 #edb{flex:1 1 auto;min-height:0;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:none}
@@ -645,6 +645,29 @@ input.tmx:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink)
 #tmwrap .acts,#mvtw .acts{gap:10px;align-items:center}
 @media (max-width:400px){#tmwrap .acts,#mvtw .acts{column-gap:10px}}
 .acts label.r{letter-spacing:1.56px;font-size:13px}
+/* ===== 月總結 dump 編輯器 ===== */
+#dmml{display:flex;flex-direction:column;gap:8px;max-height:55vh;overflow-y:auto;margin-bottom:8px}
+#dmp{width:100vw;max-width:100vw;height:100vh;height:100dvh;max-height:100vh;max-height:100dvh;margin:0;padding-left:8px;padding-right:8px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px))}
+#dmp[open]{display:flex;flex-direction:column;gap:8px;overflow:hidden}
+#dmw{flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center}
+#dmcv{display:block;touch-action:none;box-shadow:0 0 0 1px var(--ink)}
+#dmsb,#dmtb{flex:none;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;align-items:center;min-height:28px}
+#dmsb .edit{margin:0}#dmsb .sub{margin:0;text-align:center}
+#dmp>.acts.xe{margin:0!important;height:0}
+#dmcf{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#000;touch-action:none;margin:0 0 8px;box-shadow:0 0 0 1px var(--ink)}
+#dmci{position:absolute;left:0;top:0;max-width:none;max-height:none;border:0;clip-path:none;pointer-events:none;-webkit-user-select:none;user-select:none}
+#dmcz{width:100%;margin:4px 0 8px}
+#dmil{max-height:58vh;overflow-y:auto;display:flex;flex-direction:column;gap:14px;margin-bottom:8px}
+#dmil .rd{font-size:13px;margin-bottom:4px}
+#dmil .dmck{display:flex;align-items:center;gap:6px;font-size:13px;min-width:0}
+#dmil .dmct{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;min-width:0}
+.dmim{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+#dmil .dmim .dmck.th{position:relative;display:block}
+.dmim .dmck.th img{width:64px;height:64px;object-fit:cover;display:block;clip-path:none;border:1px solid var(--ink)}
+.dmim .dmck.th input{position:absolute;left:3px;top:3px;margin:0}
+.dmvt{position:absolute;right:4px;bottom:2px;color:#fff;font-size:13px;text-shadow:0 0 2px #000}
+#dmxt{width:100%;box-sizing:border-box;margin-bottom:8px}
+#dmthl .sw.on{outline:2px solid var(--ink);outline-offset:2px}
 </style>
 </head>
 <body>
@@ -791,6 +814,12 @@ input.tmx:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink)
 </dialog>
 <dialog id="cf"><p id="cft">是否刪除？</p><p class="sm" id="cfs" hidden></p><div class="acts"><button id="cfy" class="pri">確定</button><button id="cfn">取消</button></div></dialog>
 <dialog id="dt"><div id="dtt"></div><div id="dts"><div id="dtc"></div></div><div class="dtf"><button id="dtb" hidden onclick="dtBack()">返回</button><button onclick="$('#dt').close()">退出</button></div></dialog>
+<dialog id="dmm"><h2>月總結</h2><p class="sub">選擇要製作 dump 的月份</p><div id="dmml"></div><div class="acts end"><button onclick="$('#dmm').close();openMenu('rev')">返回</button><button onclick="$('#dmm').close()">退出</button></div></dialog>
+<dialog id="dmp"><h2 id="dmpt">月總結</h2><div id="dmw"><canvas id="dmcv"></canvas></div><div id="dmsb"></div><div id="dmtb"><button onclick="dmBg()">背景</button><button onclick="dmPick()">紀錄</button><button onclick="dmTextEd()">文字</button><button onclick="dmTheme()">主題色</button><button class="pri" onclick="dmExport()">匯出圖片</button></div><div class="acts"><button onclick="$('#dmp').close();openDump()">返回</button><button onclick="$('#dmp').close()">退出</button></div><input type="file" id="dmf" accept="image/*" hidden></dialog>
+<dialog id="dmc"><h2>背景（16:9）</h2><p class="sub">拖曳圖片調整位置</p><div id="dmcf"><img id="dmci" alt=""></div><label for="dmcz">縮放</label><input type="range" id="dmcz" min="1" max="4" step="0.01" value="1"><div class="acts"><button onclick="$('#dmf').click()">換圖片</button><button onclick="dmBgNone()">不使用背景</button></div><div class="acts end"><button class="pri" onclick="dmCropOk()">確定</button><button onclick="$('#dmc').close()">取消</button></div></dialog>
+<dialog id="dmi"><h2>選擇紀錄</h2><p class="sub">紀錄方塊與裡面的圖片、影片、音訊、檔案都可以分開選</p><div id="dmil"></div><div class="acts end"><button class="pri" onclick="dmPickOk()">確定</button><button onclick="$('#dmi').close()">取消</button></div></dialog>
+<dialog id="dmx"><h2>文字</h2><textarea id="dmxt" rows="3" placeholder="輸入文字"></textarea><div class="acts"><label class="r">顏色 <input type="color" id="dmxc" value="#ffffff"></label><label class="r"><input type="checkbox" id="dmxs" checked> 外框</label></div><div class="acts end"><button class="pri" onclick="dmTextOk()">確定</button><button onclick="$('#dmx').close()">取消</button></div></dialog>
+<dialog id="dmth"><h2>主題色</h2><p class="sub">視窗方塊使用的配色</p><div class="acts" id="dmthl"></div><div class="acts end"><button onclick="$('#dmth').close()">取消</button></div></dialog>
 <dialog id="qd"><h2>選擇要引用的紀錄</h2><div class="qsrow"><input type="search" id="qs2" placeholder="搜尋文字或標籤" enterkeyhint="search" autocomplete="off"><button id="qsb" class="pri" onclick="qdGo(true)">搜尋</button></div><div id="qdc"></div><div class="acts end"><button onclick="$('#qd').close()">取消</button></div></dialog>
 <dialog id="lb" class="tbd"><h2 id="lbt">圖片</h2><button id="lbx" class="xcl" aria-label="關閉" onclick="$('#lb').close()">關閉</button><div id="lbc"></div></dialog>
 <button id="fab" hidden onclick="fabAdd()">+新增</button>
@@ -992,8 +1021,8 @@ function menuGroups(k){
  if(k==='set')return [[act('年份設定',openMinYear),act('色彩設定',openColorList),act('功能設定',openFeat)]];
  if(k==='rev')return [[
   act(multi?'結束回顧':'日回顧',()=>{if(!multi&&people.length<1){toast('目前沒有可回顧的日記');openMenu('rev');return}toggleMulti()}),
-  act('月總結',()=>toast('尚未開放！')),act('年視圖',openHp)]];
- if(k==='org')return [[act('周復盤',openWr),act('封存',openAr)]];
+  act('月總結',openDump),act('年視圖',openHp)]];
+ if(k==='org')return [[act('紀錄整理',openWr),act('封存',openAr)]];
  if(k==='help')return [GUIDE.map((g,j)=>act(g.t,()=>openGd(j)))];
  if(k==='bak')return [[act('備份',openBk)],[info(lbMap().all?'上次備份：'+new Date(lbMap().all).toLocaleDateString('zh-TW'):'尚未備份過')]];
  if(k==='ppl'){
@@ -1479,7 +1508,7 @@ function hlMark(){const k=qs.trim().toLowerCase();if(!k)return;
 function hlScroll(){document.querySelectorAll('.card:not(.open) .txt.hlc').forEach(t=>{const m=t.querySelector('mark.hl');if(!m)return;t.scrollTop=0;const hm=!!t.closest('.cbody.hm'),line=parseFloat(getComputedStyle(t).lineHeight)||22,tr=t.getBoundingClientRect(),mr=m.getBoundingClientRect(),top=mr.top-tr.top;
   if(mr.bottom-tr.top>t.clientHeight+1)t.scrollTop=Math.max(0,hm?top:top-line)})}
 {const r0=render;render=function(){r0.apply(this,arguments);hlMark()}}
-/* ===== 周復盤 / 封存 ===== */
+/* ===== 紀錄整理 / 封存 ===== */
 const ARD=7*864e5;
 async function purgeArchive(){try{const lim=Date.now()-ARD;for(const e of await dbAll('entries'))if(e.archived&&e.archived<lim)await dbDel('entries',e.k)}catch(_){}}
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)purgeArchive()});
@@ -1657,6 +1686,147 @@ async function save(){
   await dbPut('entries',en);const L=E[edDate]||(E[edDate]=[]),i=L.findIndex(x=>x.k===en.k);i<0?L.push(en):L[i]=en}
  const isNew=!edK&&!empty;dropDraft();$('#ed').close();renderKeep();if(isNew)bkNudge()}catch(e){toast('儲存失敗，可能是檔案太大或空間不足')}}
 
+
+/* ===== 月總結：選月份 → 製作 dump（16:9 拼貼圖：背景、紀錄視窗、文字；可拖曳、縮放、調順序，匯出 PNG）
+   畫面與匯出都用同一個 dmPaint 畫在 canvas 上，所以看到的就是匯出的樣子；座標一律用 1920×1080 的原始尺寸 ===== */
+const DW=1920,DH=1080,DTB=46,DFONT='"Cubic 11","BaDing",sans-serif';
+const DPAL0={bg:'#C0C0C0',btnf:'#C0C0C0',card:'#FFFFFF',ink:'#000000',acc:'#000080',on:'#FFFFFF',bhi:'#FFFFFF',blo:'#808080'};
+const dPal=k=>{const t=k&&THEMES[k];return t?{...DPAL0,...t}:DPAL0};
+let DM=null,dmUrls=[],dmDrag=null,dmRaf=0,dmTap={id:null,t:0},dmTx=null,dmCr=null;const dmStore={};
+const dmPids=()=>multi?[...msel]:cur?[cur]:[];
+async function dmEntries(){const out=[];for(const id of dmPids())out.push(...await dbByP(id));return out.filter(e=>e.date!==NODATE)}
+async function openDump(){if(!dmPids().length){toast('請先新增對象');openMenu('rev');return}
+ const cnt={};(await dmEntries()).forEach(e=>{const m=e.date.slice(0,7);cnt[m]=(cnt[m]||0)+1});
+ const ms=Object.keys(cnt).sort().reverse();if(!ms.length){toast('目前沒有可製作的紀錄');openMenu('rev');return}
+ rc($('#dmml'),...ms.map(m=>h('button',{class:'edit',onclick:()=>{$('#dmm').close();openDumpEd(m)}},`${+m.slice(0,4)}年${+m.slice(5)}月（${cnt[m]} 則）`)));
+ $('#dmm').showModal()}
+async function openDumpEd(ym){const key=dmPids().join(',')+'|'+ym,c=people.find(p=>p.id===cur)?.color;
+ DM=dmStore[key]||(dmStore[key]={ym,bg:null,bgSrc:null,theme:isTh(c)?c.slice(2):null,items:[],sel:null,nid:1,sc:1,r:1});
+ try{await document.fonts.load('30px "Cubic 11"')}catch(_){}
+ $('#dmpt').textContent=`${+ym.slice(0,4)}年${+ym.slice(5)}月 dump`;$('#dmp').showModal();dmFit();dmSelBar()}
+$('#dmp').addEventListener('close',()=>{if(DM)DM.sel=null;dmDrag=null});
+function dmFit(){const w=$('#dmw'),cv=$('#dmcv');if(!DM||!$('#dmp').open)return;
+ let W=w.clientWidth,H=W*9/16;if(H>w.clientHeight){H=w.clientHeight;W=H*16/9}
+ const r=devicePixelRatio||1;cv.style.width=W+'px';cv.style.height=H+'px';cv.width=Math.round(W*r);cv.height=Math.round(H*r);DM.sc=W/DW;DM.r=r;dmDraw()}
+addEventListener('resize',()=>{if($('#dmp').open)dmFit()});
+function dmDraw(){const cv=$('#dmcv');if(!DM||!cv.width)return;const c=cv.getContext('2d');c.setTransform(DM.sc*DM.r,0,0,DM.sc*DM.r,0,0);dmPaint(c,true)}
+const dmLater=()=>{if(!dmRaf)dmRaf=requestAnimationFrame(()=>{dmRaf=0;dmDraw()})};
+/* 文字換行（逐字量寬，中英文都適用）；結果依寬度與字級快取 */
+function dmWrap(c,it,t,maxW){const k=maxW+'|'+c.font+'|'+t;if(it._wk===k)return it._wl;const out=[];
+ for(const para of String(t||'').split('\n')){let line='';for(const ch of para){const tl=line+ch;if(line&&c.measureText(tl).width>maxW){out.push(line);line=ch.trim()?ch:''}else line=tl}out.push(line)}
+ it._wk=k;it._wl=out;return out}
+const dmBox=it=>({x:it.x,y:it.y,w:it.w,h:it.t==='text'?(it.h||it.fs*1.3):it.h});
+const dmContra=x=>{const n=parseInt(String(x).slice(1),16);return((n>>16)*.299+(n>>8&255)*.587+(n&255)*.114)>150?'#000000':'#FFFFFF'};
+function dmBev(c,x,y,w,h,tl,br,n){c.fillStyle=tl;c.fillRect(x,y,w,n);c.fillRect(x,y,n,h);c.fillStyle=br;c.fillRect(x,y+h-n,w,n);c.fillRect(x+w-n,y,n,h)}
+function dmPaint(c,ui){const P=dPal(DM.theme);c.clearRect(0,0,DW,DH);
+ if(DM.bg)c.drawImage(DM.bg,0,0,DW,DH);else{c.fillStyle=P.bg;c.fillRect(0,0,DW,DH)}
+ for(const it of DM.items)it.t==='text'?dmText(c,it):dmWin(c,it,P);
+ const s=ui&&DM.items.find(x=>x.id===DM.sel);
+ if(s){const b=dmBox(s),k=1/DM.sc;c.save();c.lineWidth=2*k;c.setLineDash([6*k,4*k]);c.strokeStyle='#FFFFFF';c.strokeRect(b.x,b.y,b.w,b.h);c.lineDashOffset=5*k;c.strokeStyle='#000000';c.strokeRect(b.x,b.y,b.w,b.h);c.setLineDash([]);
+  const hs=14*k;c.fillStyle='#FFFFFF';c.fillRect(b.x+b.w-hs/2,b.y+b.h-hs/2,hs,hs);c.lineWidth=2*k;c.strokeRect(b.x+b.w-hs/2,b.y+b.h-hs/2,hs,hs);c.restore()}}
+function dmWin(c,it,P){const {x,y,w,h}=it;c.save();
+ c.fillStyle=P.btnf;c.fillRect(x,y,w,h);dmBev(c,x,y,w,h,P.bhi,P.ink,3);dmBev(c,x+3,y+3,w-6,h-6,P.btnf,P.blo,3);
+ const tx=x+8,ty=y+8,tw=w-16,bs=DTB-12;c.fillStyle=P.acc;c.fillRect(tx,ty,tw,DTB);
+ let bx=tx+tw-6-bs;const by=ty+6;
+ for(const g of ['x','_']){c.fillStyle=P.btnf;c.fillRect(bx,by,bs,bs);dmBev(c,bx,by,bs,bs,P.bhi,P.ink,2);c.fillStyle=c.strokeStyle=P.ink;
+  if(g==='x'){c.lineWidth=4;c.beginPath();c.moveTo(bx+10,by+10);c.lineTo(bx+bs-10,by+bs-10);c.moveTo(bx+bs-10,by+10);c.lineTo(bx+10,by+bs-10);c.stroke()}else c.fillRect(bx+9,by+bs-14,bs-18,5);
+  bx-=bs+6}
+ c.save();c.beginPath();c.rect(tx,ty,bx+bs-tx,DTB);c.clip();c.fillStyle=P.on;c.font=`28px ${DFONT}`;c.textBaseline='middle';c.fillText(it.title||'',tx+12,ty+DTB/2+1);c.restore();
+ const cx=x+8,cy=ty+DTB+8,cw=w-16,ch=h-DTB-24;
+ if(ch>6&&cw>6){const md=it.t==='image'||it.t==='video';c.fillStyle=md?'#000000':P.card;c.fillRect(cx,cy,cw,ch);
+  c.save();c.beginPath();c.rect(cx+2,cy+2,cw-4,ch-4);c.clip();dmBody(c,it,P,cx+2,cy+2,cw-4,ch-4);c.restore();dmBev(c,cx,cy,cw,ch,P.blo,P.bhi,2)}
+ c.restore()}
+function dmBody(c,it,P,x,y,w,h){const im=it.img,iw=im&&(im.naturalWidth||im.width),ih=im&&(im.naturalHeight||im.height);
+ if(iw){const s=Math.max(w/iw,h/ih);c.drawImage(im,x+(w-iw*s)/2,y+(h-ih*s)/2,iw*s,ih*s)}
+ if(it.t==='video'){const r=Math.min(56,Math.min(w,h)/4),mx=x+w/2,my=y+h/2;c.fillStyle='rgba(0,0,0,.55)';c.beginPath();c.arc(mx,my,r,0,7);c.fill();c.fillStyle='#FFFFFF';c.beginPath();c.moveTo(mx-r*.35,my-r*.5);c.lineTo(mx+r*.55,my);c.lineTo(mx-r*.35,my+r*.5);c.closePath();c.fill()}
+ if(it.t==='card'){c.fillStyle=P.ink;c.font=`32px ${DFONT}`;c.textBaseline='top';let yy=y+16;for(const l of dmWrap(c,it,it.text,w-32)){if(yy+34>y+h)break;c.fillText(l,x+16,yy);yy+=46}}
+ if(it.t==='audio'||it.t==='file'){const s=Math.max(30,Math.min(110,h*.42,w*.35)),ix=x+w/2,iy=y+Math.max(14,(h-s-70)/2);
+  if(it.t==='audio'){c.fillStyle=P.acc;c.beginPath();c.ellipse(ix-s*.18,iy+s*.82,s*.2,s*.15,-.4,0,7);c.fill();c.fillRect(ix-s*.02,iy+s*.08,s*.09,s*.76);c.beginPath();c.moveTo(ix+s*.02,iy+s*.08);c.lineTo(ix+s*.36,iy+s*.24);c.lineTo(ix+s*.36,iy+s*.38);c.lineTo(ix+s*.02,iy+s*.26);c.closePath();c.fill()}
+  else{const pw=s*.72,px=ix-pw/2,f=s*.24;c.fillStyle=P.card;c.strokeStyle=P.ink;c.lineWidth=4;c.beginPath();c.moveTo(px,iy);c.lineTo(px+pw-f,iy);c.lineTo(px+pw,iy+f);c.lineTo(px+pw,iy+s);c.lineTo(px,iy+s);c.closePath();c.fill();c.stroke();c.beginPath();c.moveTo(px+pw-f,iy);c.lineTo(px+pw-f,iy+f);c.lineTo(px+pw,iy+f);c.stroke();
+   c.fillStyle=P.ink;for(let i=1;i<4;i++)c.fillRect(px+pw*.18,iy+s*(.3+i*.15),pw*.6,4)}
+  c.fillStyle=P.ink;c.font=`28px ${DFONT}`;c.textBaseline='top';c.textAlign='center';dmWrap(c,it,it.name||'',w-24).slice(0,2).forEach((l,i)=>c.fillText(l,ix,iy+s+16+i*36));c.textAlign='left'}}
+function dmText(c,it){c.save();c.font=`${it.fs}px ${DFONT}`;c.textBaseline='top';const L=dmWrap(c,it,it.text,it.w),lh=it.fs*1.3;it.h=L.length*lh;
+ L.forEach((l,i)=>{const yy=it.y+i*lh+it.fs*.15;if(it.st){c.lineJoin='round';c.lineWidth=Math.max(3,it.fs*.18);c.strokeStyle=dmContra(it.color);c.strokeText(l,it.x,yy)}c.fillStyle=it.color;c.fillText(l,it.x,yy)});c.restore()}
+/* 拖曳：點方塊可移動；選取後拖曳右下角可縮放（文字會等比放大縮小）；連點兩下文字可編輯 */
+const dmPt=e=>{const r=$('#dmcv').getBoundingClientRect();return{x:(e.clientX-r.left)/DM.sc,y:(e.clientY-r.top)/DM.sc}};
+$('#dmcv').addEventListener('pointerdown',e=>{if(!DM)return;const cv=e.currentTarget,p=dmPt(e),hs=24/DM.sc,s=DM.items.find(x=>x.id===DM.sel);
+ if(s){const b=dmBox(s);if(Math.abs(p.x-(b.x+b.w))<hs&&Math.abs(p.y-(b.y+b.h))<hs){dmDrag={m:'r',it:s,p0:p,b0:{...b},fs0:s.fs};cv.setPointerCapture(e.pointerId);return}}
+ const it=[...DM.items].reverse().find(x=>{const b=dmBox(x);return p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h});
+ DM.sel=it?it.id:null;
+ if(it){const n=Date.now();if(it.t==='text'&&dmTap.id===it.id&&n-dmTap.t<350){dmTap={id:null,t:0};dmTextEd(it);return}dmTap={id:it.id,t:n};
+  dmDrag={m:'m',it,p0:p,b0:{x:it.x,y:it.y}};cv.setPointerCapture(e.pointerId)}
+ dmSelBar();dmDraw()});
+$('#dmcv').addEventListener('pointermove',e=>{if(!dmDrag)return;const p=dmPt(e),d=dmDrag,it=d.it,dx=p.x-d.p0.x,dy=p.y-d.p0.y,b=dmBox(it);
+ if(d.m==='m'){it.x=Math.min(DW-60,Math.max(60-b.w,d.b0.x+dx));it.y=Math.min(DH-40,Math.max(it.t==='text'?40-b.h:0,d.b0.y+dy))}
+ else if(it.t==='text'){const f=Math.max(.15,(d.b0.w+dx)/d.b0.w);it.w=Math.max(40,d.b0.w*f);it.fs=Math.max(14,d.fs0*f)}
+ else{it.w=Math.max(240,d.b0.w+dx);it.h=Math.max(DTB+90,d.b0.h+dy)}
+ dmLater()});
+['pointerup','pointercancel'].forEach(t=>$('#dmcv').addEventListener(t,()=>{dmDrag=null}));
+function dmSelBar(){const it=DM&&DM.items.find(x=>x.id===DM.sel),b=$('#dmsb');
+ if(!it){rc(b,h('span',{class:'sub'},(DM&&DM.items.length?'點選方塊可拖曳移動，選取後拖曳右下角可調整大小':'先選擇背景、紀錄或加入文字')+(innerHeight>innerWidth?'（手機橫放編輯區會比較大）':'')));return}
+ rc(b,h('button',{class:'edit',onclick:()=>dmZ(it,9e9)},'最上層'),h('button',{class:'edit',onclick:()=>dmZ(it,1)},'往上'),h('button',{class:'edit',onclick:()=>dmZ(it,-1)},'往下'),h('button',{class:'edit',onclick:()=>dmZ(it,-9e9)},'最下層'),
+  it.t==='text'&&h('button',{class:'edit',onclick:()=>dmTextEd(it)},'編輯'),h('button',{class:'edit',onclick:()=>{DM.items=DM.items.filter(x=>x!==it);DM.sel=null;dmSelBar();dmDraw()}},'移除'))}
+function dmZ(it,d){const a=DM.items,i=a.indexOf(it),j=Math.max(0,Math.min(a.length-1,i+d));a.splice(i,1);a.splice(j,0,it);dmDraw()}
+/* 圖片載入（太大的先縮小，拖曳時才不會卡） */
+const dmImg=(b,max=1600)=>new Promise(res=>{const u=URL.createObjectURL(b),i=new Image();
+ i.onload=()=>{const s=Math.min(1,max/Math.max(i.naturalWidth,i.naturalHeight));if(s>=1)return res(i);const c=document.createElement('canvas');c.width=Math.round(i.naturalWidth*s);c.height=Math.round(i.naturalHeight*s);c.getContext('2d').drawImage(i,0,0,c.width,c.height);URL.revokeObjectURL(u);res(c)};
+ i.onerror=()=>{URL.revokeObjectURL(u);res(null)};i.src=u});
+/* 背景：選圖後裁切成 16:9 */
+function dmBg(){DM.bgSrc?dmCrop():$('#dmf').click()}
+$('#dmf').onchange=async()=>{const f=$('#dmf').files&&$('#dmf').files[0];$('#dmf').value='';if(!f)return;const img=await dmImg(f,4000);if(!img){toast('無法讀取這張圖片');return}
+ const u=img.src||img.toDataURL('image/jpeg',.9),iw=img.naturalWidth||img.width,ih=img.naturalHeight||img.height;DM.bgSrc={img,u,z:1,cx:iw/2,cy:ih/2};dmCrop()};
+function dmCrop(){dmCr={...DM.bgSrc};$('#dmcz').value=dmCr.z;$('#dmci').src=dmCr.u;if(!$('#dmc').open)$('#dmc').showModal();dmCrDraw()}
+function dmCrGeo(){const F=$('#dmcf'),fw=F.clientWidth,fh=F.clientHeight,im=dmCr.img,iw=im.naturalWidth||im.width,ih=im.naturalHeight||im.height,s=Math.max(fw/iw,fh/ih)*dmCr.z,vw=fw/s,vh=fh/s;
+ dmCr.cx=Math.min(iw-vw/2,Math.max(vw/2,dmCr.cx));dmCr.cy=Math.min(ih-vh/2,Math.max(vh/2,dmCr.cy));return{fw,fh,iw,ih,s,vw,vh}}
+function dmCrDraw(){const g=dmCrGeo(),i=$('#dmci');Object.assign(i.style,{width:g.iw*g.s+'px',height:g.ih*g.s+'px',left:(g.fw/2-dmCr.cx*g.s)+'px',top:(g.fh/2-dmCr.cy*g.s)+'px'})}
+$('#dmcz').oninput=()=>{dmCr.z=+$('#dmcz').value;dmCrDraw()};
+{let st=null;const F=$('#dmcf');
+ F.addEventListener('pointerdown',e=>{if(!dmCr)return;st={x:e.clientX,y:e.clientY,cx:dmCr.cx,cy:dmCr.cy};F.setPointerCapture(e.pointerId)});
+ F.addEventListener('pointermove',e=>{if(!st)return;const g=dmCrGeo();dmCr.cx=st.cx-(e.clientX-st.x)/g.s;dmCr.cy=st.cy-(e.clientY-st.y)/g.s;dmCrDraw()});
+ ['pointerup','pointercancel'].forEach(t=>F.addEventListener(t,()=>{st=null}))}
+function dmCropOk(){const g=dmCrGeo(),c=document.createElement('canvas');c.width=DW;c.height=DH;c.getContext('2d').drawImage(dmCr.img,dmCr.cx-g.vw/2,dmCr.cy-g.vh/2,g.vw,g.vh,0,0,DW,DH);
+ DM.bg=c;DM.bgSrc={...dmCr};$('#dmc').close();dmDraw()}
+function dmBgNone(){DM.bg=null;DM.bgSrc=null;$('#dmc').close();dmDraw()}
+/* 紀錄：整個紀錄方塊，或裡面的圖片／影片／音訊／檔案，都可以單獨選 */
+async function dmPick(){const es=(await dmEntries()).filter(e=>e.date.startsWith(DM.ym)).sort((a,b)=>a.date===b.date?(a.time||'').localeCompare(b.time||''):a.date<b.date?-1:1);
+ dmUrls.forEach(URL.revokeObjectURL);dmUrls=[];const have=new Set(DM.items.map(x=>x.id)),many=dmPids().length>1;
+ const ck=(id,cls,...c)=>h('label',{class:'dmck'+(cls?' '+cls:'')},h('input',{type:'checkbox','data-id':id,...(have.has(id)?{checked:''}:{})}),...c);
+ rc($('#dmil'),...(es.length?es.map(e=>{const M=e.media||[];
+  return h('div',{class:'dmir'},h('div',{class:'rd'},(many?pname(e.pid)+'・':'')+fmtD(e.date)+(e.time?'　'+e.time:'')),
+   ck(e.k+'|card','',h('span',{class:'dmct'},'紀錄方塊：'+((e.text||'').replace(/\s+/g,' ').trim().slice(0,40)||cntStr(e)||'（沒有文字）'))),
+   M.length>0&&h('div',{class:'dmim'},...M.map((m,i)=>{const id=e.k+'|m'+i,src=m.t==='image'?m.b:m.t==='video'?m.p:null;
+    if(src){const u=URL.createObjectURL(src);dmUrls.push(u);return ck(id,'th',h('img',{src:u,alt:''}),m.t==='video'&&h('span',{class:'dmvt'},'▶'))}
+    return ck(id,'',h('span',{class:'dmct'},({image:'圖片',video:'影片',audio:'音訊',file:'檔案'})[m.t]+'：'+(m.n||'')))})))}):[h('p',{class:'sub'},'這個月沒有紀錄')]));
+ $('#dmi').showModal()}
+$('#dmi').addEventListener('close',()=>{dmUrls.forEach(URL.revokeObjectURL);dmUrls=[]});
+async function dmPickOk(){const on=[...$('#dmil').querySelectorAll('input:checked')].map(i=>i.dataset.id),ons=new Set(on);
+ const byK=Object.fromEntries((await dmEntries()).map(e=>[e.k,e]));
+ DM.items=DM.items.filter(x=>x.t==='text'||ons.has(x.id));if(DM.sel&&!DM.items.some(x=>x.id===DM.sel))DM.sel=null;
+ const have=new Set(DM.items.map(x=>x.id));let n=DM.items.filter(x=>x.t!=='text').length;
+ for(const id of on){if(have.has(id))continue;const j=id.lastIndexOf('|'),e=byK[id.slice(0,j)],part=id.slice(j+1);if(!e)continue;
+  const title=fmtD(e.date)+(e.time?' '+e.time:''),pos={x:40+(n%4)*465+(Math.floor(n/8)%4)*30,y:40+(Math.floor(n/4)%2)*510+(Math.floor(n/8)%4)*30};n++;
+  if(part==='card'){DM.items.push({id,t:'card',title,text:e.text||cntStr(e)||'',...pos,w:440,h:340});continue}
+  const m=(e.media||[])[+part.slice(1)];if(!m)continue;
+  const it={id,t:m.t,title:m.t==='image'||m.t==='video'?title:(m.n||title),name:m.n||'',...pos,w:420,h:260};
+  if(m.t==='image'||m.t==='video'){let b=m.t==='image'?m.b:m.p;if(!b&&m.t==='video')b=await mkPoster(m.b).catch(()=>null);it.img=b?await dmImg(b):null;
+   const iw=it.img&&(it.img.naturalWidth||it.img.width),r=iw?(it.img.naturalHeight||it.img.height)/iw:.75;it.w=440;it.h=Math.min(620,Math.round(408*r)+DTB+24)}
+  DM.items.push(it)}
+ for(const it of DM.items)if(it.t!=='text'){it.x=Math.max(0,Math.min(it.x,DW-it.w-20));it.y=Math.max(0,Math.min(it.y,DH-it.h-20))}
+ $('#dmi').close();dmSelBar();dmDraw()}
+/* 文字：新增或編輯（顏色、外框） */
+function dmTextEd(it){dmTx=it||null;$('#dmxt').value=it?it.text:'';$('#dmxc').value=it?it.color:'#ffffff';$('#dmxs').checked=it?!!it.st:true;$('#dmx').showModal();$('#dmxt').focus()}
+function dmTextOk(){const t=$('#dmxt').value.replace(/\s+$/,'');if(!t.trim()){toast('請輸入文字');return}
+ const c=$('#dmcv').getContext('2d'),fs=dmTx?dmTx.fs:72;c.font=`${fs}px ${DFONT}`;const w=Math.min(1700,Math.max(...t.split('\n').map(l=>c.measureText(l).width))+8);
+ if(dmTx)Object.assign(dmTx,{text:t,w,color:$('#dmxc').value,st:$('#dmxs').checked});
+ else{const it={id:'t'+(DM.nid++),t:'text',text:t,fs,w,color:$('#dmxc').value,st:$('#dmxs').checked,x:Math.max(20,(DW-w)/2),y:DH/2-60};DM.items.push(it);DM.sel=it.id}
+ $('#dmx').close();dmSelBar();dmDraw()}
+/* 主題色：視窗方塊的配色 */
+function dmTheme(){const sw=(k,c,t)=>h('button',{class:'sw'+(DM.theme===k?' on':''),style:'background:'+c,title:t,'aria-label':t,onclick:()=>{DM.theme=k;$('#dmth').close();dmDraw()}});
+ rc($('#dmthl'),sw(null,PRE[0],'主題1（預設）'),...Object.keys(THEMES).map(k=>sw(k,THEMES[k].acc,THEMES[k].n)));$('#dmth').showModal()}
+/* 匯出：1920×1080 PNG */
+async function dmExport(){try{const c=document.createElement('canvas');c.width=DW;c.height=DH;dmPaint(c.getContext('2d'),false);
+ const b=await new Promise(r=>c.toBlob(r,'image/png'));if(!b)throw 0;const f=new File([b],`dump-${DM.ym}.png`,{type:'image/png'});
+ if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f]})}catch(e){if(e.name!=='AbortError')dl(f)}}else dl(f)}catch(_){toast('匯出失敗')}}
 
 /* ===== 備份與還原 ===== */
 const LBK='nyear-lb2';
