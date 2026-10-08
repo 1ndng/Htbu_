@@ -1038,15 +1038,15 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
 function bkDue(){return people.some(p=>Date.now()-lastB(p.id)>1209600000)}
 /* 主題色（每位對象各自設定） */
 const TK='nyear-theme',PRE=['#000080'],REVK='nyear-review-color';
-/* 配色主題：主題1（預設，Windows 95）寫在 CSS :root；主題2～6 在這裡（t4 參考秋季烘焙色票、t5 參考痛車色票、t6 參考天空草地色票）。儲存時記成 "T:代號"
+/* 配色主題：主題1（預設，Windows 95）寫在 CSS :root；主題2～6 在這裡（t4 參考秋季烘焙色票、t5 參考痛車色票、t6 參考「春風のクロス」色票）。儲存時記成 "T:代號"
    bg＝主題色①（也是按鈕面 btnf）、acc＝主題色②、ink＝功能色（深）、card＝功能色（淺）、del＝功能色（對比，已調深到看得清楚）、press＝主題色②按鈕按下瞬間的顏色
    acx＝②調深後的文字／線條色、mute／line／sep＝由深色與①調出的次要文字／分隔線、on＝②上的文字色 */
 const THEMES={/* 顯示順序＝這裡的順序（代號 t2～t6 是存檔用的，不可改；名稱「主題N」照顯示順序） */
  t3:{n:'主題2',bg:'#B0B3D6',btnf:'#B0B3D6',card:'#E0E4E7',ink:'#520523',mute:'#6A3050',line:'#D2D4E8',sep:'#907899',bhi:'#EDEEF6',blo:'#8D7394',acc:'#41898B',acx:'#254D4E',press:'#B5D4C8',del:'#2D4E41',hotx:'#2D4E41',hotbg:'rgba(45,78,65,.16)',soft:'rgba(65,137,139,.18)',mark:'rgba(45,78,65,.28)',on:'#FFFFFF'},
- t6:{n:'主題3',bg:'#9FBEED',btnf:'#9FBEED',card:'#F3F5F2',ink:'#172C0B',mute:'#395044',line:'#C8DAF5',sep:'#718CA0',bhi:'#E9F0FB',blo:'#6D8899',acc:'#4B6C03',acx:'#3A5302',press:'#93C001',del:'#0846A6',hotx:'#0846A6',hotbg:'rgba(8,70,166,.16)',soft:'rgba(75,108,3,.16)',mark:'rgba(8,70,166,.28)',on:'#FFFFFF'},
- t4:{n:'主題4',bg:'#E8D1A7',btnf:'#E8D1A7',card:'#F6EBD6',ink:'#442D1C',mute:'#6D563F',line:'#F2E5CD',sep:'#B09978',bhi:'#FAF4EB',blo:'#AB9474',acc:'#743014',acx:'#743014',press:'#9D9167',del:'#635B40',hotx:'#635B40',hotbg:'rgba(99,91,64,.16)',soft:'rgba(116,48,20,.16)',mark:'rgba(99,91,64,.28)',on:'#FFFFFF'},
+ t4:{n:'主題3',bg:'#E8D1A7',btnf:'#E8D1A7',card:'#F6EBD6',ink:'#442D1C',mute:'#6D563F',line:'#F2E5CD',sep:'#B09978',bhi:'#FAF4EB',blo:'#AB9474',acc:'#743014',acx:'#743014',press:'#9D9167',del:'#635B40',hotx:'#635B40',hotbg:'rgba(99,91,64,.16)',soft:'rgba(116,48,20,.16)',mark:'rgba(99,91,64,.28)',on:'#FFFFFF'},
+ t6:{n:'主題4',bg:'#A3DBCF',btnf:'#A3DBCF',card:'#F8E8CB',ink:'#17393B',mute:'#3A6160',line:'#CBEAE4',sep:'#74A69F',bhi:'#EAF7F4',blo:'#70A29B',acc:'#F0917E',acx:'#A62C13',press:'#36C9D1',del:'#176266',hotx:'#176266',hotbg:'rgba(23,98,102,.16)',soft:'#F4BAA5',mark:'rgba(23,98,102,.28)',on:'#17393B'},
  t5:{n:'主題5',bg:'#C1ECFD',btnf:'#C1ECFD',card:'#FFF6B7',ink:'#283F76',mute:'#4E6A98',line:'#DCF4FE',sep:'#8DB1CF',bhi:'#F1FBFF',blo:'#88ACCB',acc:'#C1121F',acx:'#C1121F',press:'#5591D1',del:'#2D68A7',hotx:'#2D68A7',hotbg:'rgba(45,104,167,.16)',soft:'rgba(193,18,31,.16)',mark:'rgba(45,104,167,.28)',on:'#FFFFFF'},
- t2:{n:'主題6',bg:'#F0EEF3',btnf:'#F0EEF3',card:'#DDEAE8',ink:'#2A2A2A',mute:'#5C5B5C',line:'#F8F6F9',sep:'#AFADB1',bhi:'#FCFCFD',blo:'#B2B0B4',acc:'#CD5782',acx:'#BE3869',press:'#C7DAD8',del:'#2F6F6A',hotx:'#2F6F6A',hotbg:'rgba(47,111,106,.16)',soft:'rgba(205,87,130,.16)',mark:'rgba(47,111,106,.28)',on:'#FFFFFF'}};
+ t2:{n:'主題6',bg:'#F0EEF3',btnf:'#F0EEF3',card:'#DDEAE8',ink:'#2A2A2A',mute:'#5C5B5C',line:'#F8F6F9',sep:'#AFADB1',bhi:'#FCFCFD',blo:'#B2B0B4',acc:'#CD5782',acx:'#BE3869',press:'#81BFB7',del:'#397069',hotx:'#397069',hotbg:'rgba(57,112,105,.16)',soft:'rgba(205,87,130,.16)',mark:'rgba(57,112,105,.28)',on:'#FFFFFF'}};
 const isTh=x=>typeof x==='string'&&x.startsWith('T:')&&!!THEMES[x.slice(2)];
 const tcVal=x=>isTh(x)?THEMES[x.slice(2)].acc:(x||PRE[0]);
 const THV=['--card','--ink','--mute','--line','--sep','--del','--btnf','--hotx','--hotbg','--bhi','--blo','--press'];
