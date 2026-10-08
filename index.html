@@ -184,7 +184,7 @@ video.dtm{background:#000}
 .dtf button{padding:6px 18px}
 .bkw{display:flex;flex-direction:column;align-items:center;gap:6px;width:100%}.bkn{font-size:11px;color:var(--mute);text-align:center;line-height:1.5}
 #gd{width:min(320px,86vw)}#gd h2{text-align:center;margin:2px 0 14px}#gd .mb{display:flex;flex-direction:column;align-items:center;gap:12px}
-#cl,#hp,#ft{width:min(320px,86vw)}#cl h2,#hp h2,#ft h2{text-align:center;margin:2px 0 14px}#cl .mb,#hp .mb,#ft .mb{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:14px}#cl .edit,#hp .edit,#ft .edit{margin:0;width:100%;max-width:230px;padding:8px 12px;font-size:14px;text-align:center}
+#cl,#hp,#ft,#dmh{width:min(320px,86vw)}#cl h2,#hp h2,#ft h2,#dmh h2{text-align:center;margin:2px 0 14px}#cl .mb,#hp .mb,#ft .mb,#dmh .mb{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:14px}#cl .edit,#hp .edit,#ft .edit,#dmh .edit{margin:0;width:100%;max-width:230px;padding:8px 12px;font-size:14px;text-align:center}
 #gd .mb .edit{margin:0;width:100%;max-width:230px;padding:8px 12px;font-size:14px;text-align:center}
 #gd .gb{font-size:14px;line-height:1.8;white-space:pre-wrap;max-height:56vh;overflow:auto;margin:0 0 4px}
 #gd .acts{justify-content:center;margin:14px 0 2px}
@@ -332,7 +332,7 @@ button,input:not([type=radio]):not([type=checkbox]):not([type=range]):not([type=
 *{--stair1:polygon(2px 0,calc(100% - 2px) 0,calc(100% - 2px) 1px,calc(100% - 1px) 1px,calc(100% - 1px) 2px,100% 2px,100% calc(100% - 2px),calc(100% - 1px) calc(100% - 2px),calc(100% - 1px) calc(100% - 1px),calc(100% - 2px) calc(100% - 1px),calc(100% - 2px) 100%,2px 100%,2px calc(100% - 1px),1px calc(100% - 1px),1px calc(100% - 2px),0 calc(100% - 2px),0 2px,1px 2px,1px 1px,2px 1px)}
 dialog,.wc{--bw:2px}
 /* ===== 字級統一：按鈕 14px／淺色提示字 11px（輸入欄提示字除外）／輸入欄與紀錄文字 16px ===== */
-button,.edit,.card .edit,.card button,.eth .edit,.rm>.cvb,#wred,.wrside,#wrb button,.tg,.dtg,.card .tg,.fl,.card .fl,#dtc .fl,.wc .fl,.qv,.qchip,#cl .edit,#hp .edit,#ft .edit,#gd .mb .edit{font-size:13px;letter-spacing:1.56px}
+button,.edit,.card .edit,.card button,.eth .edit,.rm>.cvb,#wred,.wrside,#wrb button,.tg,.dtg,.card .tg,.fl,.card .fl,#dtc .fl,.wc .fl,.qv,.qchip,#cl .edit,#hp .edit,#ft .edit,#gd .mb .edit,#dmh .edit{font-size:13px;letter-spacing:1.56px}
 .tg,.dtg,.card .tg{letter-spacing:.04em}
 .xcl,.xbk{font-size:0}
 dialog.tbd>h2:is(:first-child,.sbw+h2),.eth h2{font-size:16px}
@@ -357,7 +357,7 @@ button{padding-top:3px;padding-bottom:3px;line-height:19.6px}
 #dtc .fl,.wc .fl{padding-top:7px;padding-bottom:7px}
 #cf .acts button{padding-top:4px;padding-bottom:4px}
 .dtf button{padding-top:3px;padding-bottom:3px}
-#cl .edit,#hp .edit,#ft .edit,#gd .mb .edit{padding-top:5px;padding-bottom:5px}
+#cl .edit,#hp .edit,#ft .edit,#gd .mb .edit,#dmh .edit{padding-top:5px;padding-bottom:5px}
 .eth .edit,#wred{height:20px;line-height:16px}
 #wrb button{padding-top:2px;padding-bottom:2px}
 #qsb{padding-top:3px;padding-bottom:3px}
@@ -564,11 +564,11 @@ dialog.tbd>h2:is(:first-child,.sbw+h2),dialog.tbd>.eth:is(:first-child,.sbw+.eth
 #mv label:not(.r){display:block;margin:4px 0 4px}#mv #mvtw{margin-top:8px}
 dialog select{padding-top:2px;padding-bottom:2px;line-height:1.3}
 /* 清單型視窗：第一個按鈕與標題列／說明字的間隔 = 最下方按鈕與下框的間隔 */
-#cl,#ft,#hp,#gd{padding:38px 12px 10px}
-#cl .sub,#ft .sub,#hp .sub,#gd .sub{margin:0 0 12px!important}
-#cl .mb,#ft .mb,#hp .mb,#gd .mb{margin:0 0 8px;gap:8px}
-#cl .acts,#ft .acts,#hp .acts,#gd .acts{margin:0!important}
-#cl .mb:has(+.acts.xe),#ft .mb:has(+.acts.xe),#hp .mb:has(+.acts.xe),#gd .mb:has(+.acts.xe){margin-bottom:0}
+#cl,#ft,#hp,#gd,#dmh{padding:38px 12px 10px}
+#cl .sub,#ft .sub,#hp .sub,#gd .sub,#dmh .sub{margin:0 0 12px!important}
+#cl .mb,#ft .mb,#hp .mb,#gd .mb,#dmh .mb{margin:0 0 8px;gap:8px}
+#cl .acts,#ft .acts,#hp .acts,#gd .acts,#dmh .acts{margin:0!important}
+#cl .mb:has(+.acts.xe),#ft .mb:has(+.acts.xe),#hp .mb:has(+.acts.xe),#gd .mb:has(+.acts.xe),#dmh .mb:has(+.acts.xe){margin-bottom:0}
 /* 輸入欄統一扁度：padding 4px、行高 1.3（比照新增對象／標籤） */
 #q,#qs2,#tv,#mvtv,#tn,#tx,#lk,#pn,#pen,#tmn,input[type=text],input[type=search],input[type=time],textarea{line-height:1.3}
 #q,#qs2,#tv,#mvtv,#tn,#tx,#lk,input[type=text],input[type=search],input[type=time],textarea{padding-top:4px;padding-bottom:4px}
@@ -655,7 +655,6 @@ input.tmx:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink)
 .acts label.r{letter-spacing:1.56px;font-size:13px}
 /* ===== 月總結 dump 編輯器 ===== */
 #dmml{display:flex;flex-direction:column;gap:8px;max-height:55vh;overflow-y:auto;margin-bottom:8px}
-#dmh .mb .edit{min-width:120px}
 #dmbg .mb{align-items:center;width:100%}#dmbg .mb .edit{min-width:200px;justify-content:center}#dmbgcw{display:inline-flex;align-items:center;gap:8px;cursor:pointer;box-sizing:border-box;min-height:26px;padding:2px 9px;font-size:13px;letter-spacing:1.56px;background:var(--btnf);color:var(--ink);box-shadow:inset 1px 1px 0 var(--bhi),inset -1px -1px 0 var(--blo),0 0 0 1px var(--ink)}#dmbgcw input{width:40px;height:24px;padding:0}#dmbg .mb .edit.on{outline:2px solid var(--ink);outline-offset:2px}
 #dmvn{margin:-6px -12px 0;padding:8px 12px;text-align:center;font:400 17px/1.4 "Cubic 11","BaDing",serif;letter-spacing:.08em;border-bottom:1px solid var(--sep);box-shadow:0 1px 0 var(--bhi);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #dmvp{display:flex;align-items:center;gap:16px;padding:12px 4px;margin:0 0 10px;border-bottom:1px solid var(--sep);box-shadow:0 1px 0 var(--bhi)}
@@ -857,7 +856,7 @@ html.jsb #dmvl,html.jsb #dmvl.sbon{padding:0 15px 0 0}
 </dialog>
 <dialog id="cf"><p id="cft">是否刪除？</p><p class="sm" id="cfs" hidden></p><div class="acts"><button id="cfy" class="pri">確定</button><button id="cfn">取消</button></div></dialog>
 <dialog id="dt"><div id="dtt"></div><div id="dts"><div id="dtc"></div></div><div class="dtf"><button id="dtb" hidden onclick="dtBack()">返回</button><button onclick="$('#dt').close()">退出</button></div></dialog>
-<dialog id="dmh"><h2>月總結</h2><div class="mb"><button class="edit" onclick="$('#dmh').close();openDump()">製作</button><button class="edit" onclick="$('#dmh').close();openDumpBrowse()">瀏覽</button></div><div class="acts end"><button onclick="$('#dmh').close();openMenu('rev')">返回</button><button onclick="$('#dmh').close()">退出</button></div></dialog>
+<dialog id="dmh"><h2>月總結</h2><p class="sub" style="text-align:center;margin:-6px 0 12px">選擇要製作或瀏覽</p><div class="mb"><button class="edit" onclick="$('#dmh').close();openDump()">製作</button><button class="edit" onclick="$('#dmh').close();openDumpBrowse()">瀏覽</button></div><div class="acts end"><button onclick="$('#dmh').close();openMenu('rev')">返回</button><button onclick="$('#dmh').close()">退出</button></div></dialog>
 <dialog id="dmv"><h2>月總結・瀏覽</h2><div id="dmvn"></div><div id="dmvp"><div id="dmva"></div><div id="dmvs"><b id="dmvc">0</b><span>篇 dump</span></div></div><div id="dmvf"><div id="dmvl"></div></div><div class="acts end"><button onclick="$('#dmv').close();openDumpHome()">返回</button><button onclick="$('#dmv').close()">退出</button></div></dialog>
 <dialog id="dmvw"><h2 id="dmvwt">dump</h2><div id="dmvwc"></div><p class="sub" id="dmvws"></p><div class="acts dmvwb"><button class="pri" id="dmvi" onclick="dmvImg()">匯出圖片</button><button class="pri" id="dmvv" onclick="dmvVid()">匯出影片</button></div><div class="acts dmvwb"><button onclick="dmvEdit()">編輯</button><button onclick="dmvDel()">刪除</button></div><div class="acts end"><button onclick="$('#dmvw').close();openDumpBrowse()">返回</button><button onclick="$('#dmvw').close()">退出</button></div></dialog>
 <dialog id="dmm"><h2>月總結</h2><p class="sub">選擇要製作 dump 的月份</p><div id="dmml"></div><div class="acts end"><button onclick="$('#dmm').close();openDumpHome()">返回</button><button onclick="$('#dmm').close()">退出</button></div></dialog>
@@ -1824,7 +1823,7 @@ async function openDump(){if(!dmPids().length){toast('請先新增對象');openM
  const cnt={};(await dmEntries()).forEach(e=>{const m=e.date.slice(0,7);cnt[m]=(cnt[m]||0)+1});
  const ms=Object.keys(cnt).sort().reverse();if(!ms.length){toast('目前沒有可製作的紀錄');openMenu('rev');return}
  const recs=Object.fromEntries((await dbAll('dumps')).filter(d=>d.pk===dmPk()).map(d=>[d.ym,d]));
- rc($('#dmml'),...ms.map(m=>h('button',{class:'edit',onclick:()=>{$('#dmm').close();openDumpEd(m)}},`${+m.slice(0,4)}年${+m.slice(5)}月（${cnt[m]} 則）`+(recs[m]?(recs[m].b?'・已製作，點選編輯':'・編輯中'):''))));
+ rc($('#dmml'),...ms.map(m=>h('button',{class:'edit',onclick:()=>{$('#dmm').close();openDumpEd(m)}},`${+m.slice(0,4)}年${+m.slice(5)}月（${cnt[m]} 則）`+(recs[m]?(recs[m].b?'・已製作':'・編輯中'):''))));
  $('#dmm').showModal()}
 async function openDumpEd(ym){const key=dmPk()+'|'+ym,c=people.find(p=>p.id===cur)?.color;
  if(!dmStore[key]){const rec=await dmGetRec(key);dmStore[key]=rec&&rec.lay?await dmRestore(rec.lay,ym):{ym,bg:null,bgSrc:null,theme:isTh(c)?c.slice(2):null,items:[],sel:null,nid:1,sc:1,r:1}}
