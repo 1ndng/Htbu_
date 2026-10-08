@@ -457,6 +457,8 @@ dialog select{-webkit-appearance:none;appearance:none;padding-right:30px;backgro
 button:active:not(:disabled){text-indent:1px}
 /* 頂端選單列與下拉選單：按下時只變色，文字與按鈕都不位移 */
 #mbar .mi:active,#mdd .mit:active,#mdd .mit:active *{text-indent:0}
+/* 配色主題 2、3：主題色②的按鈕按下瞬間變成對比色（預設主題與自訂顏色不變） */
+html[data-th] :is(.pri,#fab,.chip.on,.tg.on):active:not(:disabled){--fill:var(--del)}
 button.tapfx{--hi:var(--blo);--lo:var(--bhi);text-indent:1px}
 html.kb #wr[open]{height:var(--vvh);max-height:var(--vvh);top:var(--vvt,0px);bottom:auto}
 html.kb dialog[open]:not(#wr){max-height:calc(var(--vvh) - 16px);top:calc(var(--vvt,0px) + 8px);bottom:auto;margin-top:0;margin-bottom:0}
@@ -496,6 +498,7 @@ dialog{overscroll-behavior:none}
 #wrh>*{min-height:24px}
 #wrh>div{line-height:24px;font-size:12px}
 #wr .xcl{top:calc(8px + env(safe-area-inset-top,0px));right:12px}
+#wr .xbk{top:calc(8px + env(safe-area-inset-top,0px));right:40px}#wrb .xbk{padding:0;font-size:0;line-height:0}
 #wred{align-self:start}
 /* 手機用的自製捲軸（iOS Safari 不顯示原生捲軸） */
 html.jsb :is(dialog,#dts,.hs,#qdc,#gd .gb,#hmc,.wcs,.arl,#edb,textarea)::-webkit-scrollbar{display:none;width:0;height:0}
@@ -740,7 +743,7 @@ input.tmx:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink)
 <div class="mb" id="ftc"></div>
 <div class="acts" style="justify-content:center"><button onclick="$('#ft').close();openMenu('set')">返回</button><button onclick="$('#ft').close()">退出</button></div>
 </dialog>
-<dialog id="wr"><div id="wrh"></div><div id="wrs"><div class="wbd" id="wrk">保留<i class="pxa r"></i></div><div class="wbd" id="wra"><i class="pxa l"></i>封存</div><div class="wbd" id="wrp"><i class="pxa u"></i>跳過</div><button class="wrbare wrside" id="wrla" onclick="wrBtn(-1)"><i class="pxa l"></i>封存</button><button class="wrbare wrside" id="wrrk" onclick="wrBtn(1)"><i class="pxa r"></i>保留</button></div><div id="wrb"><button id="wrun" onclick="wrUndo()">上一步</button><button class="wrbare" id="wrup" onclick="wrBtn(0)"><i class="pxa u"></i>跳過</button><button id="wrx" onclick="closeWr()">退出</button></div></dialog>
+<dialog id="wr"><div id="wrh"></div><div id="wrs"><div class="wbd" id="wrk">保留<i class="pxa r"></i></div><div class="wbd" id="wra"><i class="pxa l"></i>封存</div><div class="wbd" id="wrp"><i class="pxa u"></i>跳過</div><button class="wrbare wrside" id="wrla" onclick="wrBtn(-1)"><i class="pxa l"></i>封存</button><button class="wrbare wrside" id="wrrk" onclick="wrBtn(1)"><i class="pxa r"></i>保留</button></div><div id="wrb"><button id="wrun" onclick="wrUndo()">上一步</button><button class="wrbare" id="wrup" onclick="wrBtn(0)"><i class="pxa u"></i>跳過</button><button id="wrbk" onclick="closeWr();openMenu('org')">返回</button><button id="wrx" onclick="closeWr()">退出</button></div></dialog>
 <dialog id="ar"></dialog>
 <dialog id="hp">
 <h2>選擇對象</h2>
@@ -1054,8 +1057,8 @@ function colInfo(x){if(isTh(x))return THEMES[x.slice(2)];if(!/^#[0-9a-f]{6}$/i.t
  const bs=dark?[18,23,28]:[244,246,248],f=dark?.1:.11,mx=(v,i)=>Math.round(bs[i]+(v-bs[i])*f);
  return{acc:`rgb(${R},${G},${B})`,acx:dark?`rgb(${R},${G},${B})`:txc(R,G,B),soft:`rgba(${R},${G},${B},.16)`,mark:`rgba(${R},${G},${B},.32)`,on:lum()>.62?'#111':'#fff'}}
 function applyTheme(x){const r=document.documentElement.style,mt=document.querySelector('meta[name=theme-color]'),c=colInfo(x);
- if(!c){['--acc','--acx','--soft','--mark','--onacc','--bg',...THV].forEach(k=>r.removeProperty(k));mt.content='#000080';return}
- THV.forEach(k=>c.card?r.setProperty(k,c[k.slice(2)]):r.removeProperty(k));
+ if(!c){['--acc','--acx','--soft','--mark','--onacc','--bg',...THV].forEach(k=>r.removeProperty(k));delete document.documentElement.dataset.th;mt.content='#000080';return}
+ THV.forEach(k=>c.card?r.setProperty(k,c[k.slice(2)]):r.removeProperty(k));c.card?document.documentElement.dataset.th='1':delete document.documentElement.dataset.th;
  r.setProperty('--acc',c.acc);r.setProperty('--acx',c.acx);r.setProperty('--soft',c.soft);r.setProperty('--mark',c.mark);r.setProperty('--onacc',c.on);c.bg?r.setProperty('--bg',c.bg):r.removeProperty('--bg');mt.content=c.card?c.acc:x}
 async function setTheme(x){
  if(thEditing==='review'){REVCOL=x||null;x?localStorage.setItem(REVK,x):localStorage.removeItem(REVK);if(multi)applyTheme(x);$('#tc').value=tcVal(x);return}
