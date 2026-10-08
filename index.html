@@ -696,10 +696,14 @@ html.jsb #dmvl,html.jsb #dmvl.sbon{padding:0 15px 0 0}
 #dmcz{width:100%;margin:4px 0 8px}
 #dmil{max-height:58vh;overflow-y:auto;display:flex;flex-direction:column;gap:14px;margin-bottom:8px}
 #dmil .rd{font-size:13px;margin-bottom:2px}
-#dmisr{margin:0 0 10px}#dmis{flex:1;min-width:0}
-.dmie{padding:6px 0 8px}.dmie+.dmie{border-top:1px dashed var(--sep)}
+/* 搜尋欄比照主頁 */
+#dmisr{display:flex;gap:6px;align-items:stretch;margin:0 0 10px}
+#dmis{--bw:1px;--pxc:3px;clip-path:var(--cut);display:block;flex:1;min-width:0;width:auto;border:var(--bw) solid transparent;background:var(--pxbg);border-radius:0;padding:4px 7px;margin:0;line-height:1.3;-webkit-appearance:none;appearance:none}
+#dmisb{flex:none;min-width:56px;padding:0 12px;font-size:13px;letter-spacing:1.56px;line-height:19.6px;margin:0}
+.dmie{padding:6px 0 8px}.dmie+.dmie{border-top:1px dashed var(--sep)}.dmie.dmhas+.dmie{border-top-style:solid}
 #dmil .dmck{display:flex;align-items:center;gap:6px;font-size:13px;min-width:0;cursor:pointer;-webkit-user-select:none;user-select:none;padding:2px 0}
-#dmil .dmck .cbx{margin:0;flex:none}
+#dmil .dmck .cbx{margin:0;flex:none}#dmil .dmck.dmc{align-items:flex-start}#dmil .dmck.dmc .cbx{margin-top:4px}#dmil .dmck.dmc .dmtx{flex:1;margin:0}
+.dmtm{color:var(--hotx,var(--acx));margin-right:.6em}
 .dmtx{font-size:13px;line-height:1.55;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;margin:2px 0 0 19px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden}
 .dmtx.open{display:block}
 #dmil .dmmore{margin:4px 0 0 19px;padding:0 8px;font-size:11px;line-height:20px;height:auto}
@@ -872,7 +876,7 @@ html.jsb #dmvl,html.jsb #dmvl.sbon{padding:0 15px 0 0}
 <dialog id="dmr"><p id="dmot">匯出中…</p><div class="acts" style="justify-content:center"><button id="dmos" onclick="dmStop=true">停止</button></div></dialog>
 <dialog id="dmbg"><h2>背景</h2><div class="mb"><button class="edit" id="dmbgi" onclick="$('#dmbg').close();DM.bgSrc?dmCrop():$('#dmf').click()">選擇圖片</button><label class="r edit" id="dmbgcw">純色 <input type="color" id="dmbgc"></label><button class="edit" onclick="dmBgNone();$('#dmbg').close()">不使用背景（主題底色）</button></div><div class="acts end"><button onclick="$('#dmbg').close()">關閉</button></div></dialog>
 <dialog id="dmc"><h2>背景（9:16）</h2><p class="sub">拖曳圖片調整位置</p><div id="dmcf"><img id="dmci" alt=""></div><label for="dmcz">縮放</label><input type="range" id="dmcz" min="1" max="4" step="0.01" value="1"><div class="acts"><button onclick="$('#dmf').click()">換圖片</button><button onclick="dmBgNone()">不使用背景</button></div><div class="acts end"><button class="pri" onclick="dmCropOk()">確定</button><button onclick="$('#dmc').close()">取消</button></div></dialog>
-<dialog id="dmi"><h2>選擇紀錄</h2><div class="qsrow" id="dmisr"><input type="search" id="dmis" placeholder="搜尋文字或標籤" enterkeyhint="search" autocomplete="off"><button class="pri" id="dmisb" onclick="dmPickList()">搜尋</button></div><div id="dmil"></div><div class="acts end"><button class="pri" onclick="dmPickOk()">確定</button><button onclick="$('#dmi').close()">取消</button></div></dialog>
+<dialog id="dmi"><h2>選擇紀錄</h2><div class="qsrow" id="dmisr"><input type="search" id="dmis" placeholder="搜尋文字或標籤" enterkeyhint="search" autocomplete="off"><button id="dmisb" type="button" onclick="dmPickList()">搜尋</button></div><div id="dmil"></div><div class="acts end"><button class="pri" onclick="dmPickOk()">確定</button><button onclick="$('#dmi').close()">取消</button></div></dialog>
 <dialog id="dmx"><h2>文字</h2><textarea id="dmxt" rows="3" placeholder="輸入文字"></textarea><div class="acts"><label class="r"><input type="radio" name="dmxm" value="0"> 純色字</label><label class="r"><input type="radio" name="dmxm" value="1" checked> 有外框的字</label></div><div class="acts"><label class="r">文字顏色 <input type="color" id="dmxc" value="#ffffff"></label><label class="r" id="dmxsw">外框顏色 <input type="color" id="dmxs" value="#000000"></label></div><div class="acts end"><button class="pri" onclick="dmTextOk()">確定</button><button onclick="$('#dmx').close()">取消</button></div></dialog>
 <dialog id="dmwe"><h2>視窗</h2><label for="dmwet">標題列文字</label><input type="text" id="dmwet" maxlength="40"><div id="dmwfw"><label for="dmwef">內文大小</label><input type="range" id="dmwef" min="20" max="96" step="1"></div><div id="dmwlw" class="acts"><label class="r">比例不同時的補底顏色 <input type="color" id="dmwl"></label><button id="dmwlr" onclick="dmLbReset()">用主題色①</button></div><div class="acts end"><button class="pri" onclick="dmWinOk()">確定</button><button onclick="$('#dmwe').close()">取消</button></div></dialog>
 <dialog id="dmth"><h2>主題色</h2><p class="sub">視窗方塊使用的配色</p><div class="acts" id="dmthl"></div><div class="acts end"><button onclick="$('#dmth').close()">取消</button></div></dialog>
@@ -1995,23 +1999,23 @@ function dmBgNone(){DM.bg=null;DM.bgSrc=null;DM.bgMode=null;$('#dmc').close();dm
 /* 紀錄：整個紀錄方塊，或裡面的圖片／影片／音訊／檔案，都可以單獨選 */
 /* 選擇紀錄：依日期分組（同一天只顯示一次日期）、可搜尋、勾選框比照標籤選單；紀錄方塊文字可展開全文 */
 let dmPickSel=new Set(),dmPickEs=[];
-async function dmPick(){dmPickEs=(await dmEntries()).filter(e=>e.date.startsWith(DM.ym)).sort((a,b)=>a.date===b.date?(a.time||'').localeCompare(b.time||''):a.date<b.date?-1:1);
+async function dmPick(){dmPickEs=(await dmEntries()).filter(e=>e.date.startsWith(DM.ym)).sort((a,b)=>a.date!==b.date?(a.date<b.date?-1:1):!!a.time!==!!b.time?(a.time?-1:1):a.time?a.time.localeCompare(b.time):tsOf(a)-tsOf(b));/* 同一天：有時間的先（依時間），再來沒時間的（依建立順序） */
  dmPickSel=new Set(DM.items.filter(x=>x.t!=='text'&&x.t!=='pic').map(x=>x.id));$('#dmis').value='';dmPickList();$('#dmi').showModal();$('#dmil').scrollTop=0}
 function dmPickList(){dmUrls.forEach(URL.revokeObjectURL);dmUrls=[];const many=dmPids().length>1,k=$('#dmis').value.trim().toLowerCase(),es=dmPickEs.filter(e=>!k||hay(e).includes(k));
  const ck=(id,cls,...c)=>{const on=dmPickSel.has(id),bx=h('i',{class:'cbx'+(on?' on':'')});
   return h('div',{class:'dmck'+(cls?' '+cls:''),role:'checkbox','aria-checked':String(on),tabindex:'0',onclick:e=>{const t=e.currentTarget,v=!dmPickSel.has(id);v?dmPickSel.add(id):dmPickSel.delete(id);bx.classList.toggle('on',v);t.setAttribute('aria-checked',String(v))}},bx,...c)};
  const out=[];let last='';
  for(const e of es){if(e.date!==last){last=e.date;out.push(h('div',{class:'rd'},fmtD(e.date)))}
-  const M=e.media||[],txt=(e.text||'').trim(),tx=txt&&h('div',{class:'dmtx'},txt);
-  out.push(h('div',{class:'dmie'},
-   ck(e.k+'|card','',h('span',{class:'dmct'},'紀錄方塊'+(many?'・'+pname(e.pid):'')+(e.time?'　'+e.time:'')+(txt?'':'：'+(cntStr(e)||'（沒有文字）')))),
-   tx,tx&&h('button',{class:'edit dmmore',hidden:'',onclick:ev=>{const o=tx.classList.toggle('open');ev.currentTarget.textContent=o?'收合':'展開全文'}},'展開全文'),
+  const M=e.media||[],txt=(e.text||'').trim(),tx=h('div',{class:'dmtx'},many?pname(e.pid)+'・':'',e.time&&h('span',{class:'dmtm'},e.time),txt||cntStr(e)||'（沒有文字）');
+  out.push(h('div',{class:'dmie'+(e.time?' dmhas':'')},
+   ck(e.k+'|card','dmc',tx),
+   h('button',{class:'edit dmmore',hidden:'',onclick:ev=>{const o=tx.classList.toggle('open');ev.currentTarget.textContent=o?'收合':'展開全文'}},'展開全文'),
    M.length>0&&h('div',{class:'dmim'},...M.map((m,i)=>{const id=e.k+'|m'+i,src=m.t==='image'?m.b:m.t==='video'?m.p:null;
     if(src){const u=URL.createObjectURL(src);dmUrls.push(u);return ck(id,'th',h('img',{src:u,alt:''}),m.t==='video'&&h('span',{class:'pl'},h('i',{class:'pli'})))}
     return ck(id,'',h('span',{class:'dmct'},({image:'圖片',video:'影片',audio:'音訊',file:'檔案'})[m.t]+'：'+(m.n||'')))}))))}
  rc($('#dmil'),...(out.length?out:[h('p',{class:'sub'},k?'沒有符合的紀錄':'這個月沒有紀錄')]));
  /* 文字超過兩行才顯示「展開全文」 */
- requestAnimationFrame(()=>$('#dmil').querySelectorAll('.dmtx').forEach(t=>{const b=t.nextElementSibling;if(b&&b.classList.contains('dmmore'))b.hidden=t.scrollHeight<=t.clientHeight+1}))}
+ requestAnimationFrame(()=>$('#dmil').querySelectorAll('.dmtx').forEach(t=>{const b=t.closest('.dmie').querySelector('.dmmore');if(b)b.hidden=t.scrollHeight<=t.clientHeight+1}))}
 {let t=0;$('#dmis').addEventListener('input',()=>{clearTimeout(t);t=setTimeout(dmPickList,200)});$('#dmis').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();dmPickList();$('#dmis').blur()}})}
 $('#dmi').addEventListener('close',()=>{dmUrls.forEach(URL.revokeObjectURL);dmUrls=[]});
 async function dmPickOk(){const on=[...dmPickSel],ons=new Set(on);
