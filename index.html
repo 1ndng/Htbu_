@@ -468,6 +468,7 @@ html.kb dialog[open]:not(#wr){max-height:calc(var(--vvh) - 16px);top:calc(var(--
 /* 固定頂列（瀏海）：三行——標題列（主題色②）、選單列（主題色①）、搜尋列（主題色①） */
 #hdr{position:sticky;top:0;z-index:30;margin:-18px -16px 14px;padding:0;background:var(--bg);border-bottom:1px solid var(--ink)}
 #hdr .hb{background:var(--acc);border-bottom:1px solid var(--ink);box-shadow:inset 0 -1px 0 var(--blo);padding:calc(4px + env(safe-area-inset-top,0px)) 16px 4px}
+html.rvm #hdr .hb,html.rvm #mbar,html.rvm #mdd{display:none}html.rvm #hdr{padding-top:env(safe-area-inset-top,0px)}
 #hdr h1{font-size:16px;line-height:20px;letter-spacing:.1em;text-align:left;color:var(--onacc)}
 #mbar{border-top:1px solid var(--bhi);border-bottom:1px solid var(--blo);display:flex;align-items:stretch;padding:0 7px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
 #mbar::-webkit-scrollbar{display:none}
@@ -929,8 +930,8 @@ const dbByPAll=id=>useMem?Promise.resolve(Object.values(M.entries).filter(e=>e.p
 const dbByP=id=>dbByPAll(id).then(a=>a.filter(e=>!e.archived));
 
 async function loadView(){E={};const ids=multi?[...msel]:cur?[cur]:[];for(const id of ids)(await dbByP(id)).forEach(e=>{if((e.date===NODATE)!==other)return;(E[e.date]||(E[e.date]=[])).push(e)})}
-async function sel(id){cur=id;multi=false;hy=null;extra=0;ftags=[];rlim=50;applyTheme(people.find(p=>p.id===id)?.color);await loadView();render()}
-async function toggleMulti(){multi=!multi;if(multi){other=false;msel=new Set(people.map(p=>p.id))}hy=null;ftags=[];applyTheme(multi?REVCOL:people.find(p=>p.id===cur)?.color);await loadView();render()}
+async function sel(id){cur=id;multi=false;document.documentElement.classList.remove('rvm');hy=null;extra=0;ftags=[];rlim=50;applyTheme(people.find(p=>p.id===id)?.color);await loadView();render()}
+async function toggleMulti(){multi=!multi;if(multi){other=false;msel=new Set(people.map(p=>p.id))}hy=null;ftags=[];document.documentElement.classList.toggle('rvm',multi);if(multi)closeMenu();applyTheme(multi?REVCOL:people.find(p=>p.id===cur)?.color);await loadView();render()}
 async function toggleOther(){
  if(!other&&!cur){toast('請先新增對象');return}
  other=!other;if(other)multi=false;hy=null;ftags=[];qs='';$('#q').value='';rlim=50;
@@ -1202,9 +1203,7 @@ function openTh(pid){pid=pid||cur;
  const p=people.find(q=>q.id===pid);if(!p){toast('請先新增對象，再選擇他的主題色');return}
  thEditing=pid;$('#tht').textContent=`「${p.name}」的主題色`;$('#tc').value=tcVal(p.color);$('#th').showModal()}
 function openColorList(){if(!people.length){toast('請先新增對象，再選擇他的主題色');openMenu('set');return}
- if(!FEAT.people){openTh(people[0].id);return}
- rc($('#clc'),...people.map(p=>{const c=colInfo(p.color);return h('button',{class:'edit',style:c?`box-shadow:inset 0 -3px 0 ${c.acc}`:'',onclick:()=>openTh(p.id)},p.name)}));
- if(!$('#cl').open)$('#cl').showModal()}
+ openTh(people.some(p=>p.id===cur)?cur:people[0].id)}
 function openMinYear(){const cy=now.getFullYear(),s=$('#myv');rc(s,h('option',{value:''},'請選擇年份'),...Array.from({length:cy-1900+1},(_,i)=>h('option',{value:cy-i},(cy-i)+'年')));s.value=MINY?String(MINY):'';$('#my').showModal()}
 function saveMinY(){const v=+$('#myv').value,cy=now.getFullYear();if(!v||v<1900||v>cy){toast('請選擇年份');return}
  MINY=v;localStorage.setItem('nyear-miny',v);$('#my').close();render()}
@@ -1289,9 +1288,7 @@ function clearF(){qs='';ftags=[];$('#q').value='';rlim=50;render()}
 function goDay(date){const [y,m,d]=date.split('-').map(Number);mo=m;dy=d;hy=y;qs='';ftags=[];$('#q').value='';render();scrollTo(0,0)}
 const rc=(el,...c)=>el.replaceChildren(...c.flat().filter(Boolean));
 function openHp(){if(!people.length){toast('請先新增對象');openMenu('rev');return}
- if(!FEAT.people){openHeat(people[0].id);return}
- rc($('#hpc'),...people.map(p=>{const c=colInfo(p.color);return h('button',{class:'edit',style:c?`box-shadow:inset 0 -3px 0 ${c.acc}`:'',onclick:()=>openHeat(p.id)},p.name)}));
- $('#hp').showModal()}
+ openHeat(people.some(p=>p.id===cur)?cur:people[0].id)}
 async function heatGo(ds){$('#hm').close();const p=hmPid;
  if(other)other=false;
  if(!multi&&p!==cur)await sel(p);
@@ -1577,8 +1574,8 @@ function applyFeat(){const d=(el,on)=>{if(el)el.style.display=on?'':'none'};
  document.querySelectorAll('.mdb').forEach(b=>d(b,FEAT.md));d($('#txl'),FEAT.md);d($('#txb'),FEAT.md);d($('#txh'),!FEAT.md);
  d($('#tgbtn'),FEAT.tags);d($('#tgd'),FEAT.tags);d($('#qbtn'),FEAT.quote);d($('#qpv'),FEAT.quote);d($('#tqrow'),FEAT.tags||FEAT.quote);d($('#mvtw'),FEAT.time);
  if(!FEAT.tags)$('#tgi').hidden=true}
-function heatBack(){FEAT.people?openHp():openMenu('rev')}
-function thBack(){FEAT.people?openColorList():openMenu('set')}
+function heatBack(){openMenu('rev')}
+function thBack(){openMenu('set')}
 function openFeat(){rc($('#ftc'),...FEATS.map(([k,t])=>h('button',{class:'edit','aria-pressed':String(FEAT[k]),onclick:()=>setFeat(k,!FEAT[k])},`${t}：${FEAT[k]?'開啟':'關閉'}`)));if(!$('#ft').open)$('#ft').showModal()}
 async function setFeat(k,v){let made=false;
  if(k==='sound'){FEAT.sound=v;saveFeat();openFeat();if(v)sfx('tap');return}
