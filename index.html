@@ -538,6 +538,8 @@ dialog{--pp:var(--bg)}
 .qhit,.qv,.qchip,.fl{--fill:var(--card)}
 #hdr h1{color:var(--onacc)}
 dialog.tbd>h2:is(:first-child,.sbw+h2),dialog.tbd>.eth:is(:first-child,.sbw+.eth) h2,#dtt,.wc>.dth{color:var(--onacc)}
+/* 標題列文字（Win7 是白光暈處）：右下角 1px 實色陰影（功能深色） */
+#hdr h1,dialog.tbd>h2:is(:first-child,.sbw+h2),dialog.tbd>.eth:is(:first-child,.sbw+.eth) h2,#dtt,.wc>.dth,#lbt{text-shadow:1px 1px 0 var(--ink)}
 /* 小型輸入視窗：扁一點，上下留白一致、輸入框與按鈕拉近 */
 #pd,#pe,#tm,#my,#dp,#mv{padding:38px 12px 10px}
 #pd input[type=text],#pe input[type=text],#tm input[type=text]{padding:4px 9px;margin:0;line-height:1.3}
@@ -2129,7 +2131,7 @@ function dmWin(c,it,P0){if(dmW7())return dmWin7(c,it,P0);if(it.t==='audio')it.h=
  for(const g of ['x','_']){c.fillStyle=PB.btnf;c.fillRect(bx,by,bs,bs);dmBev(c,bx,by,bs,bs,P.bhi,BD,2);c.fillStyle=c.strokeStyle=P.ink;
   if(g==='x'){c.lineWidth=4;c.beginPath();c.moveTo(bx+10,by+10);c.lineTo(bx+bs-10,by+bs-10);c.moveTo(bx+bs-10,by+10);c.lineTo(bx+10,by+bs-10);c.stroke()}else c.fillRect(bx+9,by+bs-14,bs-18,5);
   bx-=bs+6}
- c.save();c.beginPath();c.rect(tx,ty,bx+bs-tx,DTB);c.clip();c.fillStyle=P.on;c.font=`28px ${dmF()}`;c.textBaseline='middle';c.fillText(it.title||'',tx+12,ty+DTB/2+1);c.restore();
+ c.save();c.beginPath();c.rect(tx,ty,bx+bs-tx,DTB);c.clip();c.font=`28px ${dmF()}`;c.textBaseline='middle';c.fillStyle=P0.ink;c.fillText(it.title||'',tx+14,ty+DTB/2+3);c.fillStyle=P.on;c.fillText(it.title||'',tx+12,ty+DTB/2+1);c.restore();
  const cx=x+8,cy=ty+DTB+8,cw=w-16,ch=h-DTB-24;
  if(ch>6&&cw>6){const g=dmGeo(it),md=it.t==='image'||it.t==='video';c.fillStyle=md?(it.lb||P.bg):it.t==='audio'?PB.btnf:P.card;c.fillRect(cx,cy,cw,ch);
   c.save();c.beginPath();c.rect(g.vx,g.vy,g.vw,g.vh);c.clip();dmBody(c,it,it.t==='audio'?PB:P,g);c.restore();
