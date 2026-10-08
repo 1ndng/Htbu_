@@ -1127,7 +1127,7 @@ function menuGroups(k){
  if(k==='help')return [GUIDE.map((g,j)=>act(g.t,()=>openGd(j)))];
  if(k==='bak')return [[act('備份',openBk)],[info(lbMap().all?'上次備份：'+new Date(lbMap().all).toLocaleDateString('zh-TW'):'尚未備份過')]];
  if(k==='ppl'){
-  const g1=people.length?people.map(p=>keep(p.name,()=>{if(multi)tog(p.id);else{closeMenu();sel(p.id)}},{mark:multi?msel.has(p.id):p.id===cur})):[info('（尚未有對象）')],g2=[];
+  const g1=people.length?people.map(p=>keep(p.name,()=>{if(multi)tog(p.id);else{closeMenu();sel(p.id)}},multi?{mark:msel.has(p.id),cb:1}:{mark:p.id===cur})):[info('（尚未有對象）')],g2=[];
   if(!multi){g2.push(act('新增對象',()=>{pd.showModal();$('#pn').focus()}));
    const P=people.find(p=>p.id===cur);
    if(people.length){g2.push(act('編輯對象',()=>openPe('edit')));g2.push(act('刪除對象',()=>openPe('del'),{del:1}))}}
