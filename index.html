@@ -1727,7 +1727,7 @@ function sbProbe(){if(sbSem)return sbSem;const c=document.createElement('div');c
  const w=document.createElement('div');w.style.cssText='position:sticky;top:0;height:0';const f=document.createElement('div');f.style.height='300px';c.append(w,f);document.body.append(c);c.scrollTop=100;
  const y=w.getBoundingClientRect().top-c.getBoundingClientRect().top;c.remove();return sbSem=y>10?'content':'padding'}
 function sbGeom(el){
- const isD=el.tagName==='DIALOG',px=(cs,k)=>parseFloat(cs[k])||0,G=1;
+ const isD=el.tagName==='DIALOG',px=(cs,k)=>parseFloat(cs[k])||0,G=document.documentElement.classList.contains('w7')?6:1;/* Win7 的內容面板在玻璃框內縮 5px，捲軸要留在面板裡 */
  if(isD){
   if(!el.open||el.id==='dt'||el.id==='wr'||el.id==='cf')return null;
   const cs=getComputedStyle(el),pl=px(cs,'paddingLeft'),pt=px(cs,'paddingTop'),bw=px(cs,'borderTopWidth'),
