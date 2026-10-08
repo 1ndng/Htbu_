@@ -700,7 +700,9 @@ html.jsb #dmvl,html.jsb #dmvl.sbon{padding:0 15px 0 0}
 #dmisr{display:flex;gap:6px;align-items:stretch;margin:0 0 10px}
 #dmis{--bw:1px;--pxc:3px;clip-path:var(--cut);display:block;flex:1;min-width:0;width:auto;border:var(--bw) solid transparent;background:var(--pxbg);border-radius:0;padding:4px 7px;margin:0;line-height:1.3;-webkit-appearance:none;appearance:none}
 #dmisb{flex:none;min-width:56px;padding:0 12px;font-size:13px;letter-spacing:1.56px;line-height:19.6px;margin:0}
-.dmie{padding:6px 0 8px}.dmie+.dmie{border-top:1px dashed var(--sep)}.dmie.dmhas+.dmie{border-top-style:solid}
+/* 分隔線：虛線＝同一組裡的每則紀錄；實線＝同一天「有時間／沒時間」的交界、以及不同日期之間 */
+.dmie{padding:6px 0 8px}.dmie+.dmie{border-top:1px dashed var(--sep)}.dmie.dmsplit{border-top:1px solid var(--sep)}
+#dmil .rd.dmday:not(:first-child){border-top:1px solid var(--sep);padding-top:10px}
 #dmil .dmck{display:flex;align-items:center;gap:6px;font-size:13px;min-width:0;cursor:pointer;-webkit-user-select:none;user-select:none;padding:2px 0}
 #dmil .dmck .cbx{margin:0;flex:none}#dmil .dmck.dmc{align-items:flex-start}#dmil .dmck.dmc .cbx{margin-top:4px}#dmil .dmck.dmc .dmtx{flex:1;margin:0}
 .dmtm{color:var(--hotx,var(--acx));margin-right:.6em}
@@ -2005,10 +2007,10 @@ async function dmPick(){dmPickEs=(await dmEntries()).filter(e=>e.date.startsWith
 function dmPickList(){dmUrls.forEach(URL.revokeObjectURL);dmUrls=[];const many=dmPids().length>1,k=$('#dmis').value.trim().toLowerCase(),es=dmPickEs.filter(e=>!k||hay(e).includes(k));
  const ck=(id,cls,...c)=>{const on=dmPickSel.has(id),bx=h('i',{class:'cbx'+(on?' on':'')});
   return h('div',{class:'dmck'+(cls?' '+cls:''),role:'checkbox','aria-checked':String(on),tabindex:'0',onclick:e=>{const t=e.currentTarget,v=!dmPickSel.has(id);v?dmPickSel.add(id):dmPickSel.delete(id);bx.classList.toggle('on',v);t.setAttribute('aria-checked',String(v))}},bx,...c)};
- const out=[];let last='';
- for(const e of es){if(e.date!==last){last=e.date;out.push(h('div',{class:'rd'},fmtD(e.date)))}
+ const out=[];let last='',lastT=null;
+ for(const e of es){let split=false;if(e.date!==last){last=e.date;lastT=null;out.push(h('div',{class:'rd dmday'},fmtD(e.date)))}else split=lastT===true&&!e.time;lastT=!!e.time;
   const M=e.media||[],txt=(e.text||'').trim(),tx=h('div',{class:'dmtx'},many?pname(e.pid)+'・':'',e.time&&h('span',{class:'dmtm'},e.time),txt||cntStr(e)||'（沒有文字）');
-  out.push(h('div',{class:'dmie'+(e.time?' dmhas':'')},
+  out.push(h('div',{class:'dmie'+(split?' dmsplit':'')},
    ck(e.k+'|card','dmc',tx),
    h('button',{class:'edit dmmore',hidden:'',onclick:ev=>{const o=tx.classList.toggle('open');ev.currentTarget.textContent=o?'收合':'展開全文'}},'展開全文'),
    ...(()=>{const th=[],rows=[];M.forEach((m,i)=>{const id=e.k+'|m'+i,src=m.t==='image'?m.b:m.t==='video'?m.p:null;
