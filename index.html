@@ -208,6 +208,8 @@ video.dtm{background:#000}
 .card:not(.open) .txt.hlc{overflow:hidden;max-height:5.1em}
 mark.hl{background:rgba(128,128,128,.3);background:color-mix(in srgb,var(--acc) 38%,transparent);color:inherit;padding:0;border-radius:0}
 .wbd{clip-path:var(--cut);position:absolute;top:14px;z-index:3;padding:4px 14px;font:600 var(--f16) "Cubic 11",serif;letter-spacing:.1em;opacity:0;pointer-events:none}
+/* 快速整理：長按圖片不要跳出 iPhone 的分享/儲存選單（會打斷滑動） */
+#wr img,#wr video{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 #wrk,#wra,#wrp{background:none;clip-path:none;padding:4px 0;text-shadow:0 0 5px var(--bg),0 0 5px var(--bg)}#wrk{left:52px}#wra{right:52px}
 #wr{width:100vw;max-width:640px;height:100vh;height:100dvh;max-height:100vh;max-height:100dvh;margin:0 auto;padding:0;border:0;clip-path:none;overflow:hidden;background:var(--bg)}
 #wr[open]{display:flex;flex-direction:column}
@@ -1990,8 +1992,8 @@ function wrShow(){wrUrls.forEach(URL.revokeObjectURL);wrUrls=[];wrBusy=false;wrE
 function wrBind(c){const kb=$('#wrk'),ab=$('#wra'),sb=$('#wrp');
  const sc=c._sc;let x0=0,y0=0,id=null,mode=0,dx=0,ty=0,s0=0,fr=false,sm=[];
  const T=()=>Math.max(70,Math.min(110,Math.min(innerWidth,640)*.22));
- /* 內容沒超出、或已捲到底時，整張卡片可往任意方向拖；內容太長時保留原生捲動，左右滑仍可用 */
- const free=()=>sc.scrollHeight<=sc.clientHeight+2||sc.scrollTop+sc.clientHeight>=sc.scrollHeight-2;
+ /* 內容沒超出時，整張卡片可往任意方向拖（往上＝跳過）；內容太長時上下一律是捲動（捲到底也不會變成拖動卡片），左右滑仍可用，跳過用下方按鈕 */
+ const free=()=>sc.scrollHeight<=sc.clientHeight+2;
  const upd=()=>{if(!wrEd)c.style.touchAction=sc.style.touchAction=free()?'none':'pan-y'};
  upd();sc.addEventListener('scroll',upd,{passive:true});
  if(window.ResizeObserver){const ro=new ResizeObserver(upd);ro.observe(sc);[...sc.children].forEach(k=>ro.observe(k));c._ro=ro}
