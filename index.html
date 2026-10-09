@@ -357,6 +357,9 @@ button{padding-top:3px;padding-bottom:3px;line-height:19.6px}
 .qv .rd,.qchip .rd{background:var(--bg);color:var(--ink);font-size:var(--f12);line-height:18px;margin:0;padding:2px 8px;border-bottom:1px solid var(--sep)}
 .qv .qtx,.qchip .qtx{color:var(--ink);font-size:var(--f13);line-height:20px;padding:4px 8px 5px;margin:0}
 .qv .qtx:empty,.qchip .qtx:empty{display:none}
+/* 選擇引用：可多選（前面核取方塊） */
+.qhit{position:relative;padding-left:30px!important}.qhit>.cbx{position:absolute;left:9px;top:12px;margin:0}
+#qpv .qchip+.qchip{margin-top:6px}
 /* 引用顯示原紀錄內容：收合時內文一行、縮圖露出一點（比照收合的紀錄方塊）；展開時全部顯示 */
 .qv.qx .qft{white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;text-overflow:clip;width:auto;min-width:0}
 .qv.qx .media,.qv.qx .auds{margin:2px 8px 8px}
@@ -1206,7 +1209,7 @@ html #boot,html #boot *{font-family:"Cubic 11",monospace!important;letter-spacin
 <dialog id="dmwe"><h2>視窗</h2><label for="dmwet">標題列文字</label><input type="text" id="dmwet" maxlength="40"><div class="acts end"><button class="pri" onclick="dmWinOk()">確定</button><button onclick="$('#dmwe').close()" class="xcl" aria-label="關閉"></button></div></dialog>
 <dialog id="dmco"><h2>視窗顏色</h2><div id="dmcol"></div><p class="sub" id="dmcos">按「預設」或沒有自訂的顏色會跟著主題色</p><div class="acts end"><button onclick="$('#dmco').close()" class="xcl" aria-label="關閉"></button></div></dialog>
 <dialog id="dmth"><h2>主題色</h2><p class="sub">視窗方塊使用的配色</p><div class="acts" id="dmthl"></div><div class="acts end"><button onclick="$('#dmth').close()" class="xcl" aria-label="關閉"></button></div></dialog>
-<dialog id="qd"><h2>選擇要引用的紀錄</h2><div class="qsrow"><input type="search" id="qs2" enterkeyhint="search" autocomplete="off"><button id="qsb" class="pri" onclick="qdGo(true)">搜尋</button></div><div id="qdf" class="qpf"></div><div id="qdc"></div><div class="acts end"><button onclick="$('#qd').close()" class="xcl" aria-label="關閉"></button></div></dialog>
+<dialog id="qd"><h2>選擇要引用的紀錄</h2><div class="qsrow"><input type="search" id="qs2" enterkeyhint="search" autocomplete="off"><button id="qsb" class="pri" onclick="qdGo(true)">搜尋</button></div><div id="qdf" class="qpf"></div><div id="qdc"></div><div class="acts end"><button class="pri" id="qdok" onclick="qdOk()">確定</button><button onclick="$('#qd').close()" class="xcl" aria-label="關閉"></button></div></dialog>
 <dialog id="lb" class="tbd"><h2 id="lbt">圖片</h2><button id="lbb" class="xbk" onclick="$('#lb').close()" aria-label="返回"></button><button id="lbx" class="xcl" onclick="lbCloseAll()" aria-label="關閉"></button><div id="lbc"></div></dialog>
 <button id="fab" hidden onclick="fabAdd()">+ 新增</button>
 <div id="toast" role="status" popover="manual"></div>
@@ -1226,7 +1229,7 @@ try{Object.assign(FEAT,JSON.parse(localStorage.getItem(FK)||'{}'))}catch(e){}
 /* 對象、標籤、時間、引用一律開啟（不再提供開關） */
 Object.assign(FEAT,{people:true,tags:true,time:true,quote:true});
 const saveFeat=()=>{try{localStorage.setItem(FK,JSON.stringify(FEAT))}catch(e){}};
-let db,useMem=false,M={people:{},entries:{},dumps:{}},people=[],cur=null,E={},urls=[],extra=0,hy=null,multi=false,msel=new Set(),edDate=null,edK=null,draft=[],durls=[],dturls=[],dtags=[],dquote=null,qs='',ftags=[],rlim=50,qt,other=false,srch=false,sf={types:new Set(),pids:new Set(),tags:new Set(),d1:'',d2:''};
+let db,useMem=false,M={people:{},entries:{},dumps:{}},people=[],cur=null,E={},urls=[],extra=0,hy=null,multi=false,msel=new Set(),edDate=null,edK=null,draft=[],durls=[],dturls=[],dtags=[],dquote=[],qs='',ftags=[],rlim=50,qt,other=false,srch=false,sf={types:new Set(),pids:new Set(),tags:new Set(),d1:'',d2:''};
 const NODATE='0000-00-00',tsOf=e=>+String(e.k).split('|').pop()||0;
 const now=new Date();let mo=now.getMonth()+1,dy=now.getDate();
 
@@ -1398,7 +1401,7 @@ function dtNodes(en,L,live){const M=en.media||[],by=t=>M.filter(m=>m.t===t),au=b
   au.filter(m=>m.n!=='錄音').map(ad),au.filter(m=>m.n==='錄音').map(ad),
   (en.links||[]).length>0&&h('div',{class:'dtl'},...en.links.map(l=>h('a',{href:l,target:'_blank',rel:'noopener noreferrer'},l))),
   (en.tags||[]).length>0&&h('div',{class:'tgs dtgs'},...en.tags.map(t=>h('span',{class:'tg dtg'},'#'+t))),
-  FEAT.quote&&en.quote&&h('div',{class:'qv',...(live?{role:'button',tabindex:'0',onclick:()=>qOpen(en.quote)}:{})},h('div',{class:'qb'},h('div',{class:'rd'},qLbl(en.quote)),h('div',{class:'qtx'},qTxt(en.quote))))]}
+  ...(FEAT.quote?qList(en.quote).map(q=>h('div',{class:'qv',...(live?{role:'button',tabindex:'0',onclick:()=>qOpen(q)}:{})},h('div',{class:'qb'},h('div',{class:'rd'},qLbl(q)),h('div',{class:'qtx'},qTxt(q))))):[])]}
 function dtRender(en){dtCur=en;dturls.forEach(URL.revokeObjectURL);dturls=[];
  rc($('#dtc'),...dtNodes(en,dturls,true));
  $('#dtt').textContent=($('#dtc .dth')||{}).textContent||'';$('#dts').scrollTop=0;$('#dtb').hidden=!dtStack.length;if(!$('#dt').open){$('#dt').showModal();/* 開啟時不聚焦任何元素（否則會框住第一張圖） */const a=document.activeElement;if(a&&a!==document.body&&$('#dt').contains(a))a.blur()}}
@@ -1574,7 +1577,7 @@ const MUNIT=[['image','張圖'],['video','部影片'],['audio','個音訊'],['fi
 const mCnt=M=>Object.fromEntries(MUNIT.map(([t])=>[t,(M||[]).filter(x=>x.t===t).length]));
 const mParts=(mc,sp='')=>MUNIT.map(([t,u])=>mc[t]&&mc[t]+sp+u).filter(Boolean);
 function cntParts(en){const L=(en.links||[]).length;
- return [...mParts(mCnt(en.media)),L&&L+'個連結',en.quote&&'含引用'].filter(Boolean)}
+ return [...mParts(mCnt(en.media)),L&&L+'個連結',qList(en.quote).length&&'含引用'].filter(Boolean)}
 function cntStr(en){return cntParts(en).join('、')}
 /* 主搜尋欄只比對紀錄內文；標籤、日期、時間只能用篩選勾選 */
 const cHay=e=>(e.text||'').toLowerCase();
@@ -1589,20 +1592,23 @@ const qTxt=q=>{const t=(q.text||'').replace(/\s+/g,' ').trim();if(t)return t.sli
 let QX=new Map();/* 所有紀錄（引用跨對象、跨時間軸／隨手記時找原紀錄用） */
 const qFind=q=>QX.get(q.k)||(E[q.date]||[]).find(x=>x.k===q.k);
 const qGone=q=>!qFind(q);
+/* 引用可以有多則：舊資料 quote 是單一物件，新資料是陣列；一律用 qList 讀 */
+const qList=v=>!v?[]:(Array.isArray(v)?v:[v]).filter(x=>x&&x.k);
 const qOpen=q=>{const t=qFind(q);if(!t){toast('此紀錄已被刪除');return}if(dtCur)dtStack.push(dtCur);dtRender(t)};
 const qLbl=q=>(q.pid&&q.pid!==cur&&people.length>1?pname(q.pid)+'・':'')+(q.date===NODATE?'隨手記':fmtD(q.date))+(q.time?'　'+q.time:'')+(qGone(q)?'（原紀錄已被刪除）':'');
 const parts=(en,date,jump,showTime)=>{
  /* 引用：顯示原紀錄的內文與照片/影片縮圖（不是「幾張圖」這種計數）；紀錄方塊收合時引用也收合，展開時引用跟著展開 */
- const qe=FEAT.quote&&en.quote&&qFind(en.quote),qm=qe?(qe.media||[]):[];
- const qv=FEAT.quote&&en.quote&&h('div',{class:'qv'+(qe?' qx':''),role:'button',tabindex:'0',onclick:e=>{if(e.target.closest('.th,.ap,audio,a,button'))return;qOpen(en.quote)}},h('div',{class:'qb'},h('div',{class:'rd'},qLbl(en.quote)),
-  ...(qe?[qe.text&&h('div',{class:'qtx qft'},qe.text),qm.some(m=>m.t!=='audio')&&h('div',{class:'media'},qm.filter(m=>m.t!=='audio').map(m=>mEl(m,qe))),qm.some(m=>m.t==='audio')&&h('div',{class:'auds'},qm.filter(m=>m.t==='audio').map(m=>mEl(m,qe)))]:[h('div',{class:'qtx'},qTxt(en.quote))])));
+ const QS=FEAT.quote?qList(en.quote):[],qm=QS.flatMap(q=>qFind(q)?.media||[]);
+ const qv=QS.map(q=>{const qe=qFind(q),m=qe?(qe.media||[]):[];
+  return h('div',{class:'qv'+(qe?' qx':''),role:'button',tabindex:'0',onclick:e=>{if(e.target.closest('.th,.ap,audio,a,button'))return;qOpen(q)}},h('div',{class:'qb'},h('div',{class:'rd'},qLbl(q)),
+  ...(qe?[qe.text&&h('div',{class:'qtx qft'},qe.text),m.some(x=>x.t!=='audio')&&h('div',{class:'media'},m.filter(x=>x.t!=='audio').map(x=>mEl(x,qe))),m.some(x=>x.t==='audio')&&h('div',{class:'auds'},m.filter(x=>x.t==='audio').map(x=>mEl(x,qe)))]:[h('div',{class:'qtx'},qTxt(q))])))});
  const body=[
   multi&&FEAT.people&&h('div',{class:'who',style:'color:'+whoCol(en.pid)},pname(en.pid)),
   txtBits(en.text,jump),
   en.media.some(m=>m.t!=='audio')&&h('div',{class:'media'},en.media.filter(m=>m.t!=='audio').map(m=>mEl(m,en))),en.media.some(m=>m.t==='audio')&&h('div',{class:'auds'},en.media.filter(m=>m.t==='audio').map(m=>mEl(m,en))),
   en.links.length>0&&h('div',{class:'links'},en.links.map(l=>h('a',{href:l,target:'_blank',rel:'noopener noreferrer'},l))),
   (en.tags||[]).length>0&&h('div',{class:'tgs'},en.tags.map(t=>h('button',{class:'tg',onclick:()=>setTag(en.pid,t)},'#'+t))),
-  qv];
+  ...qv];
  const cs=cntStr(en);
  const ea=h('div',{class:'ea'},jump?h('button',{class:'edit xb',onclick:e=>toggleX(e.currentTarget)},'展開'):h('button',{class:'edit cx',hidden:true,onclick:e=>toggleC(e.currentTarget)},'展開'),!multi&&h('button',{class:'edit',onclick:()=>openEd(date,en.k)},'編輯'),!multi&&FEAT.quote&&h('button',{class:'edit',onclick:()=>quoteFrom(en)},'引用'),jump&&h('button',{class:'edit',onclick:()=>goDay(date,en.pid)},'跳到這天'),cs&&h('span',{class:'cnt',hidden:true},...cntParts(en).map((p,i,a)=>h('span',{class:'cs'},i<a.length-1?p+'、':p))));
  return jump?[...body,ea]:[h('div',{class:'cbody'+([...en.media,...qm].some(m=>m.t==='image'||m.t==='video')?' hm':'')},...body),ea]};
@@ -1802,12 +1808,12 @@ function openEd(date,k){edDate=date;edK=k||null;edReady=false;clearTimeout(dtm);
  const en=k?E[date].find(x=>x.k===k):null,[y,m,d]=date.split('-').map(Number);
  $('#et').textContent=date===NODATE?'隨手記':(multi&&FEAT.people&&en?pname(en.pid)+'・':'')+`${y}年${m}月${d}日`;$('#emv').hidden=!en;$('#emv').textContent=date===NODATE?'移至時間軸':'移至隨手記';$('#tmwrap').hidden=date===NODATE||!FEAT.time;$('#tx').value=en?.text||'';$('#lk').value=(en?.links||[]).join('\n');
  draft=(en?.media||[]).map(m=>({...m}));dtags=[...(en?.tags||[])];drawDraft();$('#tgi').hidden=true;$('#tn').value='';drawTags();
- dquote=en?.quote?{...en.quote}:null;drawQuote();
+ dquote=qList(en?.quote).map(x=>({...x}));drawQuote();
  setMode(en?.time?'manual':'none',en?.time);
  $('#dl').style.display=en?'':'none';
  edBase=JSON.stringify(edState());
  const dr=drafts()[draftKey()];
- if(dr){$('#tx').value=dr.text||'';$('#lk').value=dr.links||'';dtags=FEAT.tags?[...(dr.tags||[])]:[];dquote=FEAT.quote?(dr.quote||null):null;setMode(dr.tmode||'none',dr.tv);drawTags();drawQuote();toast('已還原未儲存的草稿')}
+ if(dr){$('#tx').value=dr.text||'';$('#lk').value=dr.links||'';dtags=FEAT.tags?[...(dr.tags||[])]:[];dquote=FEAT.quote?qList(dr.quote):[];setMode(dr.tmode||'none',dr.tv);drawTags();drawQuote();toast('已還原未儲存的草稿')}
  $('#ed').showModal();edReady=true}
 const DK='nyear-drafts';
 function drafts(){try{const o=JSON.parse(localStorage.getItem(DK)||'{}'),lim=Date.now()-30*864e5;for(const k in o)if(!o[k].ts||o[k].ts<lim)delete o[k];return o}catch(e){return{}}}
@@ -1826,10 +1832,10 @@ async function commitMove(date,time){
  const old=edK&&E[edDate]?E[edDate].find(x=>x.k===edK):null;if(!old)return false;
  addTag($('#tn').value);
  const text=$('#tx').value.trim(),links=$('#lk').value.split(/\s+/).filter(Boolean).map(l=>/^https?:\/\//i.test(l)?l:'https://'+l);
- if(!text&&!links.length&&!draft.length&&!dquote){toast('內容是空的，無法移動');return false}
- const en={...old,date,time,text,links,tags:[...dtags],media:draft,quote:dquote?{...dquote}:null};
+ if(!text&&!links.length&&!draft.length&&!dquote.length){toast('內容是空的，無法移動');return false}
+ const en={...old,date,time,text,links,tags:[...dtags],media:draft,quote:dquote.length?dquote.map(x=>({...x})):null};
  try{await dbPut('entries',en);
-  for(const x of await dbByPAll(old.pid))if(x.k!==en.k&&x.quote&&x.quote.k===old.k)await dbPut('entries',{...x,quote:{...x.quote,date,time}})
+  for(const x of await dbAll('entries')){const xs=qList(x.quote);if(x.k!==en.k&&xs.some(q=>q.k===old.k))await dbPut('entries',{...x,quote:xs.map(q=>q.k===old.k?{...q,date,time}:q)})}
  }catch(e){toast('移動失敗');return false}
  dropDraft();await loadView();return true}
 function moveEntry(){edDate===NODATE?openMv():moveToNote()}
@@ -2095,16 +2101,18 @@ async function removeEntry(){if(!edK)return;await dbDel('entries',edK);E[edDate]
 function mkQuoteSnap(en){return{k:en.k,pid:en.pid,date:en.date,time:en.time||null,text:(en.text||'').slice(0,60),
  mc:mCnt(en.media),
  lc:(en.links||[]).length}}
-function drawQuote(){const v=$('#qpv');schedDraft();if(!dquote){rc(v);return}
- rc(v,h('div',{class:'qchip'},h('div',{class:'qb'},h('div',{class:'rd'},qLbl(dquote)),h('div',{class:'qtx'},qTxt(dquote))),h('button',{class:'xcl','aria-label':'移除引用',onclick:async()=>{if(await ask('移除這則引用？')){dquote=null;drawQuote()}}},'×')))}
+function drawQuote(){const v=$('#qpv');schedDraft();
+ rc(v,...dquote.map((q,i)=>h('div',{class:'qchip'},h('div',{class:'qb'},h('div',{class:'rd'},qLbl(q)),h('div',{class:'qtx'},qTxt(q))),h('button',{class:'xcl','aria-label':'移除引用',onclick:async()=>{if(await ask('移除這則引用？')){dquote.splice(i,1);drawQuote()}}},'×'))))}
 /* 選擇引用：可篩選類型、日期、對象（可跨對象引用）、標籤；預設＝目前對象的全部紀錄 */
 let qf={types:new Set(['tl','note']),pids:new Set(),tags:new Set(),d1:'',d2:''};
 function drawQdf(){rc($('#qdf'),...fltUI(qf,{types:1,dates:1,people:people.length>1,tags:fltTags(qf.pids,qf)},()=>{drawQdf();drawQd($('#qs2').value)}))}
-function openQd(){if(!cur)return;$('#qs2').value='';qf={types:new Set(['tl','note']),pids:new Set([cur]),tags:new Set(),d1:'',d2:''};drawQdf();drawQd('');$('#qd').classList.remove('kb');$('#qd').showModal()}
+/* 一次可勾選多則；按「確定」才加入（已引用的會先勾好） */
+let qsel=new Map();
+function openQd(){if(!cur)return;$('#qs2').value='';qsel=new Map(dquote.map(q=>[q.k,q]));qf={types:new Set(['tl','note']),pids:new Set([cur]),tags:new Set(),d1:'',d2:''};drawQdf();drawQd('');$('#qd').classList.remove('kb');$('#qd').showModal()}
 async function drawQd(k){const my=drawQd.n=(drawQd.n||0)+1,all=[];for(const id of qf.pids)all.push(...(await dbByP(id)).filter(e=>e.k!==edK));const kk=k.trim().toLowerCase(),
  list=all.filter(e=>fltHit(e,qf,kk)).sort((a,b)=>dOf(a)!==dOf(b)?(dOf(a)<dOf(b)?1:-1):(b.time||'').localeCompare(a.time||'')||tsOf(b)-tsOf(a)).slice(0,80);
  if(my!==drawQd.n)return;
- rc($('#qdc'),list.length?list.map(e=>h('button',{class:'qhit',onclick:()=>{if(Date.now()<qdHold)return;dquote=mkQuoteSnap(e);drawQuote();$('#qd').close()}},h('div',{class:'rd'},(qf.pids.size>1?pname(e.pid)+'・':'')+(e.date===NODATE?'隨手記':fmtD(e.date))+(e.time?'　'+e.time:'')),h('div',{class:'qtx'},qTxt(e)))):h('p',{class:'sub'},'沒有符合的紀錄'))}
+ rc($('#qdc'),list.length?list.map(e=>h('button',{class:'qhit'+(qsel.has(e.k)?' on':''),onclick:ev=>{if(Date.now()<qdHold)return;qsel.has(e.k)?qsel.delete(e.k):qsel.set(e.k,mkQuoteSnap(e));const b=ev.currentTarget,on=qsel.has(e.k);b.classList.toggle('on',on);b.querySelector('.cbx').classList.toggle('on',on)}},h('i',{class:'cbx'+(qsel.has(e.k)?' on':'')}),h('div',{class:'rd'},(qf.pids.size>1?pname(e.pid)+'・':'')+(e.date===NODATE?'隨手記':fmtD(e.date))+(e.time?'　'+e.time:'')),h('div',{class:'qtx'},qTxt(e)))):h('p',{class:'sub'},'沒有符合的紀錄'))}
 /* 手機：搜尋欄聚焦／失焦、鍵盤開關時視窗會跳位，同一下觸控可能落到剛移到指尖下的第一筆引用；跳位後短時間內不接受點選 */
 let qdHold=0;const qdWait=()=>{qdHold=Date.now()+500};
 function qdGo(b){clearTimeout(drawQd.t);qdWait();drawQd($('#qs2').value);if(b===true)$('#qs2').blur()}
@@ -2117,9 +2125,10 @@ $('#qs2').addEventListener('change',()=>qdGo());
 $('#qs2').addEventListener('focus',()=>{qdWait();$('#qd').classList.add('kb')});
 $('#qs2').addEventListener('blur',()=>{qdWait();$('#qd').classList.remove('kb')});
 $('#qs2').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();qdGo(true)}});
+function qdOk(){dquote=[...qsel.values()];drawQuote();$('#qd').close()}
 function quoteFrom(en){const snap=mkQuoteSnap(en);
  openEd(ymd(now));
- dquote=snap;drawQuote()}
+ dquote=[snap];drawQuote()}
 async function archiveEntry(){if(!edK)return;const old=(E[edDate]||[]).find(x=>x.k===edK);if(!old)return;
  if(!await ask(`封存的紀錄會在${Math.round(ARD/864e5)}天後自動刪除，期間可以還原`,'是否封存？'))return;
  try{await dbPut('entries',{...old,archived:Date.now()});E[edDate]=E[edDate].filter(x=>x.k!==edK);if(!E[edDate].length)delete E[edDate];dropDraft();$('#ed').close();renderKeep();toast('已封存')}catch(e){toast('封存失敗')}}
@@ -2160,11 +2169,11 @@ async function save(){
  addTag($('#tn').value);
  const text=$('#tx').value.trim(),links=$('#lk').value.split(/\s+/).filter(Boolean).map(l=>/^https?:\/\//i.test(l)?l:'https://'+l);
  const old=edK?E[edDate].find(x=>x.k===edK):null,mode=document.querySelector('input[name=tm]:checked').value,time=!FEAT.time?(old?old.time||null:null):(mode==='none'?null:(normTime($('#tv').value)||null));
- const empty=!text&&!links.length&&!draft.length&&!dquote;
+ const empty=!text&&!links.length&&!draft.length&&!dquote.length;
  if(empty&&dtags.length){toast('請輸入紀錄內容');return}
  if(empty&&edK&&!await ask('內容已清空，這則紀錄會被刪除'))return;
  try{if(empty)await removeEntry();
- else{const en={k:edK||`${cur}|${edDate}|${Date.now()}`,pid:old?old.pid:cur,date:edDate,time,text,links,tags:[...dtags],media:draft,quote:dquote?{...dquote}:null,...(old&&old.reviewed?{reviewed:old.reviewed}:{})};
+ else{const en={k:edK||`${cur}|${edDate}|${Date.now()}`,pid:old?old.pid:cur,date:edDate,time,text,links,tags:[...dtags],media:draft,quote:dquote.length?dquote.map(x=>({...x})):null,...(old&&old.reviewed?{reviewed:old.reviewed}:{})};
   await dbPut('entries',en);const L=E[edDate]||(E[edDate]=[]),i=L.findIndex(x=>x.k===en.k);i<0?L.push(en):L[i]=en}
  const isNew=!edK&&!empty;dropDraft();$('#ed').close();renderKeep();if(isNew)bkNudge()}catch(e){toast('儲存失敗')}}
 
@@ -2716,7 +2725,7 @@ async function exportMd(){const st=$('#bst3'),sel=$('#bsel').value;
    if((e.links||[]).length)out.push(...e.links.map(l=>'- '+l),'');
    if((e.tags||[]).length)out.push(e.tags.map(t=>'#'+t).join(' '),'');
    if(att.length)out.push(`（附件：${att.join('、')}）`,'');
-   if(e.quote)out.push(`> 引用 ${qLbl(e.quote)}：${qTxt(e.quote)}`,'')};
+   qList(e.quote).forEach(q=>out.push(`> 引用 ${qLbl(q)}：${qTxt(q)}`,''))};
   let n=0;
   for(const p of ps){const L=(await dbByP(p.id)).sort((a,b)=>a.date===b.date?(a.time||'').localeCompare(b.time||'')||tsOf(a)-tsOf(b):(a.date<b.date?-1:1));
    if(ps.length>1)out.push(`## ${p.name}`,'');
@@ -2744,7 +2753,7 @@ async function importBackup(f){
      it={t:m.t,n:String(m.n||''),b:new Blob([b],{type:ty})};
     if(m.t==='video'&&/^data:image\//.test(m.p||''))it.p=await(await fetch(m.p)).blob();media.push(it)}
    await dbPut('entries',{k:String(e.k),pid:String(e.pid),date:e.date,time:/^\d{2}:\d{2}$/.test(e.time)?e.time:null,text:String(e.text||''),
-    links:(e.links||[]).map(String).filter(l=>/^https?:\/\//i.test(l)),tags:(e.tags||[]).map(x=>String(x).slice(0,20)).slice(0,10),media,quote:(e.quote&&typeof e.quote==='object'&&e.quote.k)?e.quote:null,reviewed:Number(e.reviewed)||0});
+    links:(e.links||[]).map(String).filter(l=>/^https?:\/\//i.test(l)),tags:(e.tags||[]).map(x=>String(x).slice(0,20)).slice(0,10),media,quote:(()=>{const a=(Array.isArray(e.quote)?e.quote:e.quote?[e.quote]:[]).filter(q=>q&&typeof q==='object'&&q.k);return a.length?a:null})(),reviewed:Number(e.reviewed)||0});
    n++;st.textContent=`匯入中… ${n}/${j.entries.length}`;
   }
   people=await dbAll('people');people.sort((a,b)=>a.id<b.id?-1:1);
