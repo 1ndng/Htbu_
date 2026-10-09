@@ -2096,7 +2096,7 @@ function dmmDraw(){const {cnt,mon,recs}=dmmD,l=$('#dmml');
  if(!dmmMon){$('#dmms').textContent='選擇年月';
   rc(l,...Object.keys(mon).sort().reverse().map(y=>h('button',{class:'edit',onclick:()=>{dmmMon=y;dmmDraw()}},`${+y.slice(0,4)}年${+y.slice(5)}月`)))}
  else{$('#dmms').textContent=`${+dmmMon.slice(0,4)}年${+dmmMon.slice(5)}月・選擇日期區間`;
-  rc(l,...[...mon[dmmMon]].sort().reverse().map(m=>h('button',{class:'edit',onclick:()=>{$('#dmm').close();openDumpEd(m)}},`${dmWs(m)}（${cnt[m]} 則）`+(recs[m]?(recs[m].b?'・已製作':'・編輯中'):''))))}
+  rc(l,...[...mon[dmmMon]].sort().reverse().map(m=>h('button',{class:'edit',onclick:()=>{$('#dmm').close();openDumpEd(m)}},`${dmWs(m)}（${cnt[m]}則）`+(recs[m]?(recs[m].b?'・已製作':'・編輯中'):''))))}
  l.scrollTop=0}
 function dmmBack(){if(dmmMon){dmmMon=null;dmmDraw()}else{$('#dmm').close();openDumpHome()}}
 async function openDumpEd(ym){const key=dmPk()+'|'+ym,c=pById(cur)?.color;
