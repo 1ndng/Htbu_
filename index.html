@@ -1466,6 +1466,8 @@ const mParts=(mc,sp='')=>MUNIT.map(([t,u])=>mc[t]&&mc[t]+sp+u).filter(Boolean);
 function cntParts(en){const L=(en.links||[]).length;
  return [...mParts(mCnt(en.media)),L&&L+'個連結',en.quote&&'含引用'].filter(Boolean)}
 function cntStr(en){return cntParts(en).join('、')}
+/* 主搜尋欄只比對紀錄內文；標籤、日期、時間只能用篩選勾選 */
+const cHay=e=>(e.text||'').toLowerCase();
 const hay=e=>[e.date===NODATE?'':e.date,e.text,...(e.links||[]),...(e.tags||[]),...(e.media||[]).map(m=>m.n)].join('\n').toLowerCase();
 const qTxt=q=>{const t=(q.text||'').replace(/\s+/g,' ').trim();if(t)return t.slice(0,28);
  const live=q.media||q.links?q:qFind(q)||null;let mc=q.mc,lc=q.lc;
@@ -1564,7 +1566,7 @@ function drawHeat(){
 /* 搜尋結果：涵蓋所選對象、類型的全部紀錄，再依文字、標籤、日期篩選；新到舊 */
 const dOf=e=>{if(e.date!==NODATE)return e.date;const t=new Date(tsOf(e));return `${t.getFullYear()}-${pad(t.getMonth()+1)}-${pad(t.getDate())}`};
 function renderSearch(A){
- const k=qs.toLowerCase(),T=[...sf.tags],hits=Object.values(E).flat().filter(e=>(!k||hay(e).includes(k))&&T.every(t=>(e.tags||[]).includes(t))&&(!sf.d1||dOf(e)>=sf.d1)&&(!sf.d2||dOf(e)<=sf.d2))
+ const k=qs.toLowerCase(),T=[...sf.tags],hits=Object.values(E).flat().filter(e=>(!k||cHay(e).includes(k))&&T.every(t=>(e.tags||[]).includes(t))&&(!sf.d1||dOf(e)>=sf.d1)&&(!sf.d2||dOf(e)<=sf.d2))
   .sort((a,b)=>dOf(a)!==dOf(b)?(dOf(a)<dOf(b)?1:-1):(a.time||'')!==(b.time||'')?((a.time||'')<(b.time||'')?1:-1):tsOf(b)-tsOf(a));
  const many=sf.pids.size>1;
  rc(A,h('p',{class:'sub'},(qs?`搜尋「${qs}」`:'搜尋結果')+`：${hits.length}則`),
@@ -1573,7 +1575,7 @@ function renderSearch(A){
  fitX()}
 function renderOther(A,P){
  const k=qs.toLowerCase(),all=Object.values(E).flat(),filt=!!(qs||ftags.length),
-  list=all.filter(e=>matchF(e)&&(!k||hay(e).includes(k))).sort((a,b)=>tsOf(b)-tsOf(a));
+  list=all.filter(e=>matchF(e)&&(!k||cHay(e).includes(k))).sort((a,b)=>tsOf(b)-tsOf(a));
  rc(A,
   h('div',{class:'ohead'},h('div',{class:'otl'},'★隨手記★'),bkBtn()),
   h('p',{class:'sub'},filt?[ftagLabel()+(ftags.length&&qs?'　':'')+(qs?`搜尋「${qs}」`:'')+`：${list.length}則`]:`${P.name}共記錄了${all.length}則。`),
@@ -1600,7 +1602,7 @@ function renderView(){
  if(srch){renderSearch(A);return}
  if(other){renderOther(A,P);return}
  if(qs||ftags.length){
-  const k=qs.toLowerCase(),hits=Object.values(E).flat().filter(e=>matchF(e)&&(!k||hay(e).includes(k)))
+  const k=qs.toLowerCase(),hits=Object.values(E).flat().filter(e=>matchF(e)&&(!k||cHay(e).includes(k)))
    .sort((a,b)=>a.date===b.date?(b.time||'').localeCompare(a.time||''):a.date<b.date?1:-1);
   rc(A,h('p',{class:'sub'},ftagLabel()+(ftags.length&&qs?'　':'')+(qs?`搜尋「${qs}」`:'')+`：${hits.length}則`),
    ...hits.slice(0,rlim).map(e=>{const [y,m,d]=e.date.split('-').map(Number);return h('div',{class:'hit'},h('div',{class:'rd'},`${y}年${m}月${d}日`),card(e,e.date,true,true))}),
