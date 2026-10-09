@@ -1052,7 +1052,7 @@ html.w7 #dmp,html.w7 #wr{border:0;border-radius:0;box-shadow:none;background:var
 <dialog id="ar"></dialog>
 <dialog id="my">
 <h2>年份設定</h2>
-<p class="sub">回顧列表「展開更多」最多只會捲到這一年，避免無限往回展開。</p>
+<p class="sub">回顧時最多只會展開到這一年。</p>
 <select id="myv" aria-label="最早年份"></select>
 <div class="acts end"><button class="pri" onclick="saveMinY()">儲存</button><button onclick="clearMinY()">不限制</button><button onclick="$('#my').close()">返回</button><button onclick="$('#my').close()">取消</button></div>
 </dialog>
@@ -1425,9 +1425,9 @@ async function setTheme(x){
  if(pid===cur&&!multi)applyTheme(x);$('#tc').value=tcVal(x);drawMbar()}
 let thEditing=null;
 function openTh(pid){pid=pid||cur;
- const p=pById(pid);if(!p){toast('請先新增對象，再選擇他的主題色');return}
+ const p=pById(pid);if(!p){toast('請先新增對象，再進行色彩設定');return}
  thEditing=pid;$('#tht').textContent=pT('色彩設定',pid);$('#tc').value=tcVal(p.color);$('#th').showModal()}
-function openColorList(){if(!people.length){toast('請先新增對象，再選擇他的主題色');openMenu('set');return}
+function openColorList(){if(!people.length){toast('請先新增對象，再進行色彩設定');openMenu('set');return}
  openTh(people.some(p=>p.id===cur)?cur:people[0].id)}
 function openMinYear(){const s=$('#myv');rc(s,h('option',{value:''},'請選擇年份'),...yearOpts());s.value=MINY?String(MINY):'';$('#my').showModal()}
 function saveMinY(){const v=+$('#myv').value,cy=now.getFullYear();if(!v||v<1900||v>cy){toast('請選擇年份');return}
@@ -1572,7 +1572,7 @@ function renderView(){
  urls.forEach(URL.revokeObjectURL);urls=[];updFab();
  drawMbar();
  const P=pById(cur),A=$('#app');
- if(!multi&&!P){rc(A,h('div',{class:'emp'},h('p',{class:'note'},'先新增一個對象，可以是你自己，也可以是你想追蹤的人。每個對象有各自獨立的日記。'),h('button',{class:'pri',onclick:()=>{pd.showModal();$('#pn').focus()}},'新增對象')));return}
+ if(!multi&&!P){rc(A,h('div',{class:'emp'},h('p',{class:'note'},'新增一位你想記錄的對象。'),h('button',{class:'pri',onclick:()=>{pd.showModal();$('#pn').focus()}},'新增對象')));return}
  if(other){renderOther(A,P);return}
  if(qs||ftags.length){
   const k=qs.toLowerCase(),hits=Object.values(E).flat().filter(e=>matchF(e)&&(!k||hay(e).includes(k)))
@@ -1606,7 +1606,7 @@ function renderView(){
   h('div',{class:'dhead'},
    h('div',{class:'dgL'},h('button',{class:'edit arrow',onclick:step(-1),'aria-label':'前一天'},'‹'),h('div',{class:'dpick'},h('div',{class:'day'},h('span',{class:'dn'},String(mo)),'月',h('span',{class:'dn'},String(dy)),'日'),dpk),h('button',{class:'edit arrow',onclick:step(1),'aria-label':'後一天'},'›')),
    h('div',{class:'dgR'},!(mo===now.getMonth()+1&&dy===now.getDate())&&h('button',{class:'edit',onclick:()=>{mo=now.getMonth()+1;dy=now.getDate();hy=null;render()}},'跳回今日'),bkBtn())),
-  h('p',{class:'sub'},multi&&!msel.size?'選擇你要回顧的對象':`這一天，${who}共記錄了${cnt}則，共記錄了${Object.keys(E).filter(k=>k.slice(5)===md_&&E[k].length).length}年。`),
+  h('p',{class:'sub'},multi&&!msel.size?'選擇你想回顧的對象':`這一天，${who}共記錄了${cnt}則，共記錄了${Object.keys(E).filter(k=>k.slice(5)===md_&&E[k].length).length}年。`),
   h('div',{class:'tl'},rows),
   h('div',{class:'acts',style:'justify-content:center'},!atFloor&&h('button',{onclick:()=>{extra++;render()}},'展開更多'),extra>0&&h('button',{onclick:()=>{extra=0;render()}},'收合')),
   useMem&&h('p',{class:'note'},'此瀏覽器無法長期儲存，關閉頁面後資料會消失。'));
@@ -1666,7 +1666,7 @@ async function commitMove(date,time){
  const en={...old,date,time,text,links,tags:[...dtags],media:draft,quote:dquote?{...dquote}:null};
  try{await dbPut('entries',en);
   for(const x of await dbByPAll(old.pid))if(x.k!==en.k&&x.quote&&x.quote.k===old.k)await dbPut('entries',{...x,quote:{...x.quote,date,time}})
- }catch(e){toast('移動失敗，可能是檔案太大或空間不足');return false}
+ }catch(e){toast('移動失敗');return false}
  dropDraft();await loadView();return true}
 function moveEntry(){edDate===NODATE?openMv():moveToNote()}
 async function moveToNote(){if(await commitMove(NODATE,null)){$('#ed').close();toast('已移至隨手記');renderKeep()}}
@@ -1820,10 +1820,10 @@ async function setFeat(k,v){let made=false;
    if(!people.length){const p={id:'p'+Date.now(),name:'我'};await dbPut('people',p);people.push(p);made=true}}
   if(k==='tags'){const all=await dbAll('entries');if(people.some(p=>(p.tags||[]).length)||all.some(e=>(e.tags||[]).length)){toast('目前已存在標籤，無法關閉');return}}
   if(k==='time'){const all=await dbAll('entries'),ch=all.filter(e=>e.time||(e.quote&&e.quote.time));
-   if(ch.length){if(!await ask(`關閉後，既有紀錄的時間會被刪除，這些紀錄會變成當日不記時間的紀錄，其餘內容不受影響`))return;
+   if(ch.length){if(!await ask(`關閉後，原有記錄時間的紀錄會變成當日不記時間的紀錄`))return;
     for(const e of ch)await dbPut('entries',{...e,time:null,...(e.quote?{quote:{...e.quote,time:null}}:{})})}}
   if(k==='quote'){const all=(await dbAll('entries')).filter(e=>e.quote);
-   if(all.length){if(!await ask(`關閉後，${all.length} 則紀錄的引用會被刪除，紀錄的其餘內容不受影響`))return;
+   if(all.length){if(!await ask(`關閉後，${all.length} 則紀錄的引用會被刪除`))return;
     for(const e of all)await dbPut('entries',{...e,quote:null})}}
  }
  FEAT[k]=v;saveFeat();applyFeat();
@@ -1841,7 +1841,7 @@ const ARD=7*864e5;
 async function purgeArchive(){try{const lim=Date.now()-ARD;for(const e of await dbAll('entries'))if(e.archived&&e.archived<lim)await dbDel('entries',e.k)}catch(_){}}
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)purgeArchive()});
 let wrQ=[],wrI=0,wrN=0,wrDirty=false,wrUrls=[],wrMoved=false,wrBusy=false,wrChain=Promise.resolve(),wrHist=[],wrSkip=0,wrEd=false;
-const wrSave=en=>{wrChain=wrChain.then(()=>dbPut('entries',en)).catch(()=>toast('儲存失敗，可能是空間不足'));return wrChain};
+const wrSave=en=>{wrChain=wrChain.then(()=>dbPut('entries',en)).catch(()=>toast('儲存失敗'));return wrChain};
 async function openWr(){await purgeArchive();
  const all=(await dbAll('entries')).filter(e=>!e.reviewed&&!e.archived);
  if(!all.length){toast('目前沒有未整理的紀錄');openMenu('rev');return}
@@ -1977,7 +1977,7 @@ function quoteFrom(en){const snap=mkQuoteSnap(en);
  openEd(ymd(now));
  dquote=snap;drawQuote()}
 async function archiveEntry(){if(!edK)return;const old=(E[edDate]||[]).find(x=>x.k===edK);if(!old)return;
- if(!await ask(`封存的紀錄會在 ${Math.round(ARD/864e5)} 天後自動刪除，期間可以在封存箱還原`,'是否封存？'))return;
+ if(!await ask(`封存的紀錄會在 ${Math.round(ARD/864e5)} 天後自動刪除，期間可以還原`,'是否封存？'))return;
  try{await dbPut('entries',{...old,archived:Date.now()});E[edDate]=E[edDate].filter(x=>x.k!==edK);if(!E[edDate].length)delete E[edDate];dropDraft();$('#ed').close();renderKeep();toast('已封存')}catch(e){toast('封存失敗')}}
 $('#fi').onchange=e=>{for(const f of e.target.files){const t=['image','video','audio'].find(x=>f.type.startsWith(x))||'file';draft.push({t,b:f,n:f.name})}e.target.value='';drawDraft()};
 $('#ed').onclose=()=>{edReady=false;clearTimeout(dtm);durls.forEach(URL.revokeObjectURL);durls=[]};
@@ -2001,7 +2001,7 @@ async function save(){
  try{if(empty)await removeEntry();
  else{const en={k:edK||`${cur}|${edDate}|${Date.now()}`,pid:old?old.pid:cur,date:edDate,time,text,links,tags:[...dtags],media:draft,quote:dquote?{...dquote}:null,...(old&&old.reviewed?{reviewed:old.reviewed}:{})};
   await dbPut('entries',en);const L=E[edDate]||(E[edDate]=[]),i=L.findIndex(x=>x.k===en.k);i<0?L.push(en):L[i]=en}
- const isNew=!edK&&!empty;dropDraft();$('#ed').close();renderKeep();if(isNew)bkNudge()}catch(e){toast('儲存失敗，可能是檔案太大或空間不足')}}
+ const isNew=!edK&&!empty;dropDraft();$('#ed').close();renderKeep();if(isNew)bkNudge()}catch(e){toast('儲存失敗')}}
 
 
 /* ===== 週總結：選週 → 製作 dump（9:16 直式拼貼圖：背景、紀錄視窗、文字；可拖曳、縮放、調順序，匯出 PNG）
@@ -2318,8 +2318,8 @@ const dmAfter=()=>{dmSelBar();dmDraw()};
 function dmMenuGroups(k){const it=DM&&DM.items.find(x=>x.id===DM.sel),A=(t,f,o)=>({t,f,...o}),I=t=>({t,dis:1}),bm=dmBm();
  if(k==='file')return[[A('儲存',dmSaveBtn),A('儲存並前往瀏覽',async()=>{await dmSaveBtn();$('#dmp').close();openDumpBrowse()})],[A('回到週選擇',()=>{$('#dmp').close();openDump()}),A('離開編輯',()=>$('#dmp').close())]];
  if(k==='add')return[[A('紀錄…',dmPick),A('文字…',()=>dmTextEd()),A('圖片…',()=>$('#dmf2').click())]];
- if(k==='box'||k==='ord'){if(!it)return[[I('先點選畫面上的一個方塊')]];
-  if(it.lk)return[[I('這個方塊已鎖定（在下方解鎖）')]];
+ if(k==='box'||k==='ord'){if(!it)return[[I('選取畫面上的方塊')]];
+  if(it.lk)return[[I('這個方塊已鎖定')]];
   if(k==='ord')return[[A('移到最上層',()=>dmZ(it,9e9)),A('往上一層',()=>dmZ(it,1))],[A('往下一層',()=>dmZ(it,-1)),A('移到最下層',()=>dmZ(it,-9e9))]];
   const win=!['text','pic'].includes(it.t),md=it.t==='image'||it.t==='video';
   const g=[[it.t!=='pic'&&A(it.t==='text'?'編輯文字…':'編輯…',()=>it.t==='text'?dmTextEd(it):dmWinEd(it))].filter(Boolean),
@@ -2536,7 +2536,7 @@ async function saveBackup(){
   const fs=bkFiles.length?bkFiles:[bkFile];
   if(!await shareOrDl(fs,'HTBU_?備份'))return;
   markB(bkSel);updBlast();render();
-  $('#bst').textContent='已送出。請確認檔案真的存到「檔案」App、雲端硬碟或其他安全的地方。';
+  $('#bst').textContent='已匯出。';
  }catch(e){toast('無法儲存：'+(e.message||e))}
 }
 /* 匯出成 Markdown：依對象、日期排列，附件只列出數量 */
