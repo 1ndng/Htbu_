@@ -1067,6 +1067,7 @@ html #boot,html #boot *{font-family:"Cubic 11",monospace!important;letter-spacin
 <dialog id="gd"></dialog>
 <dialog id="pe">
 <h2 id="pet">編輯對象</h2>
+<div id="pesw" hidden><label for="pes">選擇對象</label><select id="pes" style="margin:6px 0 12px"></select></div>
 <div id="penw"><label for="pen">名稱</label><input type="text" id="pen" maxlength="30"></div>
 <div id="peaw"><label>頭貼</label><div id="pear"><div id="peal"><div id="peaf" class="av"><img id="peai" alt=""></div><input type="range" id="peaz" min="1" max="4" step="0.01" value="1" aria-label="頭貼大小"></div><div id="peab"><button class="edit" onclick="$('#peaf2').click()">圖片</button><button class="edit" id="peacw" onclick="$('#peac').click()">純色</button><input type="color" id="peac" tabindex="-1" aria-hidden="true"><button class="edit" onclick="peAvSet(null)">預設</button></div></div><input type="file" id="peaf2" accept="image/*" hidden></div>
 <div class="acts end"><button class="pri" id="peo" onclick="peOk()">儲存</button><button onclick="pe.close();openMenu('ppl')" class="xbk" aria-label="返回"></button><button onclick="pe.close()" class="xcl" aria-label="關閉"></button></div>
@@ -1253,7 +1254,9 @@ async function addP(){const n=$('#pn').value.trim();if(!n)return;const p={id:'p'
 let peMode='edit',peId=null;
 function openPe(mode){if(!people.some(p=>p.id===cur))return;peMode=mode==='del'?'del':'edit';peId=cur;
  $('#pet').textContent=peMode==='del'?'刪除對象':'編輯對象';$('#peo').textContent=peMode==='del'?'刪除':'儲存';
- $('#penw').hidden=$('#peaw').hidden=peMode==='del';$('#pen').value=pname(peId);peAvLoad(peId);
+ $('#penw').hidden=$('#peaw').hidden=peMode==='del';$('#pesw').hidden=peMode!=='del';
+ /* 刪除對象：比照刪除標籤，先選要刪除的對象（預設＝目前對象） */
+ if(peMode==='del'){rc($('#pes'),...people.map(p=>h('option',{value:p.id},p.name)));$('#pes').value=peId;$('#pes').onchange=()=>{peId=$('#pes').value}}$('#pen').value=pname(peId);peAvLoad(peId);
  pe.showModal();if(peMode==='edit'){$('#pen').focus();$('#pen').select()}}
 /* 頭貼編輯：選圖後在圓框裡拖曳、縮放；儲存時裁成 256×256 */
 let peAv=null;
