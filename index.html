@@ -481,7 +481,8 @@ html.kb #wr[open]{height:var(--vvh);max-height:var(--vvh);top:var(--vvt,0px);bot
 /* 視窗不要被瀏海／動態島／底部橫條蓋住：置中範圍扣掉安全區域（全螢幕的整理、週dump編輯器除外） */
 dialog:not(#wr):not(#dmp){top:env(safe-area-inset-top,0px);bottom:env(safe-area-inset-bottom,0px);max-height:calc(100% - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 16px)}
 dialog#dt:not(#wr):not(#dmp){max-height:min(88vh,calc(100% - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 16px))}
-html.kb dialog[open]:not(#wr){max-height:calc(var(--vvh) - 16px);top:calc(var(--vvt,0px) + 8px);bottom:auto;margin-top:0;margin-bottom:0}
+/* 鍵盤開著：視窗移到鍵盤上方的可見範圍（選擇器要比上面避開瀏海的規則更具體，否則會被蓋掉、視窗跑到鍵盤後面） */
+html.kb dialog[open]:not(#wr):not(#dmp),html.kb dialog#dt[open]:not(#wr):not(#dmp){max-height:calc(var(--vvh) - 16px);top:calc(var(--vvt,0px) + 8px);bottom:auto;margin-top:0;margin-bottom:0}
 /* 固定頂列（瀏海）：三行——標題列（主題色②）、選單列（主題色①）、搜尋列（主題色①） */
 #hdr{position:sticky;top:0;z-index:30;margin:-18px -16px 14px;padding:0;background:var(--bg);border-bottom:1px solid var(--ink)}
 #hdr .hb{background:var(--acc);border-bottom:1px solid var(--ink);box-shadow:inset 0 -1px 0 var(--blo);padding:calc(4px + env(safe-area-inset-top,0px)) 16px 4px}
@@ -1018,8 +1019,9 @@ html:not(.w7) :is(.tg,.dtg,.card .tg):not(.on){background:color-mix(in srgb,var(
 #boot .bgo:active{box-shadow:inset 1px 1px 0 #000000,inset -1px -1px 0 #FFFFFF,inset 2px 2px 0 #808080,inset -2px -2px 0 #DFDFDF;padding-top:2px;padding-left:18px}
 #boot .bgo:focus-visible{outline:1px dotted #000;outline-offset:-5px}
 #boot.ready .bb,#boot.ready .bp{display:none}#boot.ready .bgo{display:block}
+#boot .bs{visibility:hidden;margin-top:14px;display:flex;align-items:center;gap:12px;font-size:14.6667px}#boot .bs label{display:inline-flex;align-items:center;gap:4px;margin:0;font-size:14.6667px;color:#000}#boot.ready .bs{visibility:visible}
 #boot.out{display:none}
-</style><span class="bi"><img src="icon-192.png" alt=""></span><div class="bt">Htbu_?</div><div class="bw"><div class="bb"><i id="bootb"></i></div><div class="bp" id="bootp">0%</div><button class="bgo" id="bootgo" type="button">開始記錄</button></div></div>
+</style><span class="bi"><img src="icon-192.png" alt=""></span><div class="bt">Htbu_?</div><div class="bw"><div class="bb"><i id="bootb"></i></div><div class="bp" id="bootp">0%</div><button class="bgo" id="bootgo" type="button">開始記錄</button></div><div class="bs" id="boots"><span>音效</span><label class="r"><input type="radio" name="bsnd" value="1"> 開啟</label><label class="r"><input type="radio" name="bsnd" value="0"> 關閉</label></div></div>
 <script>
 /* 進度：主程式各階段設定目標值，畫面一格一格（整數 %）往上跑；到 100% 後換成「開始記錄」按鈕，按下才進入 */
 (function(){var cur=0,tgt=8,done=false,B=document.getElementById('boot'),b=document.getElementById('bootb'),p=document.getElementById('bootp'),g=document.getElementById('bootgo');
@@ -1028,6 +1030,11 @@ html:not(.w7) :is(.tg,.dtg,.card .tg):not(.on){background:color-mix(in srgb,var(
   if(cur>=100&&done){setTimeout(function(){B.classList.add('ready')},150);return}
   setTimeout(tick,40)}
  g.onclick=function(){B.classList.add('out')};
+ /* 音效開關：比照功能設定；主程式已載入就直接改設定，否則先寫進 localStorage */
+ var on=true;try{var f=JSON.parse(localStorage.getItem('nyear-feat')||'{}');if(f.sound===false)on=false}catch(e){}
+ document.querySelector('#boots input[value="'+(on?1:0)+'"]').checked=true;
+ document.querySelectorAll('#boots input').forEach(function(r){r.onchange=function(){var v=r.value==='1';
+  if(typeof setFeat==='function')setFeat('sound',v);else{try{var f=JSON.parse(localStorage.getItem('nyear-feat')||'{}');f.sound=v;localStorage.setItem('nyear-feat',JSON.stringify(f))}catch(e){}}}});
  window.bootP=function(n){tgt=Math.max(tgt,Math.min(100,n));if(n>=100)done=true};
  setTimeout(function(){if(!done)window.bootP(100)},8000);/* 保險：最多 8 秒 */
  draw();tick()})();
