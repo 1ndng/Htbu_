@@ -1,8 +1,8 @@
 <!doctype html><meta charset="utf-8"><style>
 @font-face{font-family:QM;src:url(file:///usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf)}
-@font-face{font-family:TX;src:url(file:///usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf)}
+@font-face{font-family:TX;src:url(../SatsukiGendaiMincho-M.ttf)}
 body{margin:0}</style><canvas id="c" width="1024" height="1024"></canvas><script>
-async function draw(){await document.fonts.load('100px QM','?');await document.fonts.load('100px TX','Htbu_');
+async function draw(){await document.fonts.load('100px QM','?');await document.fonts.load('100px TX','Htbu');
 const S=1024,c=document.getElementById('c').getContext('2d');
 /* 外圍底色（iOS 會自己裁圓角，四角不能透明） */
 const bgG=c.createLinearGradient(0,0,0,S);bgG.addColorStop(0,'#dfe9f5');bgG.addColorStop(1,'#b9cde4');c.fillStyle=bgG;c.fillRect(0,0,S,S);
@@ -25,8 +25,9 @@ const rg=o.createRadialGradient(S/2,qb,0,S/2,qb,qs*.5);rg.addColorStop(0,'rgba(1
 c.save();c.shadowColor='rgba(20,60,140,.35)';c.shadowBlur=S*.03;c.shadowOffsetY=S*.015;c.lineJoin='round';c.lineWidth=S*.053;c.strokeStyle='#1a4fa8';c.strokeText('?',S/2,qy);c.restore();c.drawImage(off,0,0);
 
 /* Htbu_：Win95 預設主題色②，像參考圖一樣錯開疊在方形裡 */
-c.font=`100px TX`;const tw=c.measureText('Htbu_').width;c.font=`${100*W*.68/tw}px TX`;c.textAlign='left';c.fillStyle='#000080';
-c.fillText('Htbu_',M+W*.08,M+W*.44);c.fillText('Htbu_',M+W*.24,M+W*.69);
+c.font=`100px TX`;c.textAlign='left';const tw=c.measureText('Htbu').width;c.fillStyle=c.strokeStyle='#000080';c.lineJoin='round';
+/* Satsuki（Win7 字體）加粗：同色描邊；五組大小、位置、角度都不一樣，有些交疊 */
+[[.08,.24,.40,-.05],[.42,.33,.36,.07],[.13,.56,.44,.03],[.50,.74,.38,-.08],[.12,.86,.31,.05]].forEach(([x,y,w,r])=>{const f=100*W*w/tw;c.save();c.translate(M+W*x,M+W*y);c.rotate(r);c.font=`${f}px TX`;c.lineWidth=f*.06;c.strokeText('Htbu',0,0);c.fillText('Htbu',0,0);c.restore()});
 c.restore();
 /* 頭貼外框：上半亮面＋白色半透明內框＋細深邊（比照 html.w7 .av） */
 c.save();rr(M,M,W,W,R);c.clip();
