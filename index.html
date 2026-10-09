@@ -366,6 +366,14 @@ button{padding-top:3px;padding-bottom:3px;line-height:19.6px}
 mark{background:var(--acc);color:var(--onacc);border-radius:0}
 ::selection{background:var(--acc);color:var(--onacc)}
 #srow{display:flex;gap:6px;align-items:stretch}
+/* 搜尋篩選下拉面板（比照頂列選單的下拉樣式） */
+#qp{position:absolute;left:4px;right:4px;top:100%;z-index:3;max-height:calc(100dvh - var(--hdr,120px) - 16px);overflow-y:auto;overscroll-behavior:contain;background:var(--bg);border:1px solid var(--ink);box-shadow:inset 1px 1px 0 var(--bhi),inset -1px -1px 0 var(--blo),1px 1px 0 var(--ink);padding:6px 10px 8px}#qp[hidden]{display:none}
+.qps{display:grid;grid-template-columns:3em 1fr;gap:8px;align-items:start;padding:5px 0}.qps+.qps{border-top:1px solid var(--sep)}
+.qpt{font-size:var(--f12);color:var(--mute);line-height:28px}
+.qpl{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center;min-height:28px}
+.qpo{display:inline-flex;align-items:center;gap:6px;border:0;background:none;box-shadow:none;clip-path:none;padding:0;margin:0;min-height:28px;font-size:var(--f13);color:var(--ink)}.qpo .cbx{margin:0;flex:none}
+.qpd{flex-wrap:nowrap;gap:6px}.qpd input{flex:1 1 0;min-width:0;width:0;font-size:var(--f13);padding:2px 4px}.qpn{font-size:var(--f12);color:var(--mute)}
+html.w7 #qp{background:#F0F0F0;border:1px solid #979797;box-shadow:2px 2px 4px rgba(0,0,0,.28)}
 #srow #q{flex:1;min-width:0}
 #qgo{flex:none;min-width:56px;padding:0 12px;font-size:var(--f13);letter-spacing:1.56px;line-height:19.6px}
 .dtm.zm{cursor:pointer;background:#000}
@@ -960,7 +968,7 @@ html.w7 #dmp{border:0;border-radius:0;box-shadow:none}
 <header id="hdr">
 <div class="hb"><h1><img class="hbi" src="icon-192.png" alt="">Htbu_?</h1></div>
 <nav id="mbar" aria-label="功能選單"><button class="mi" data-m="set" onclick="toggleMenu('set')">設定</button><button class="mi" data-m="ppl" onclick="toggleMenu('ppl')">對象</button><button class="mi" data-m="tag" onclick="toggleMenu('tag')">標籤</button><button class="mi" data-m="rev" onclick="toggleMenu('rev')">回顧</button><button class="mi" data-m="org" onclick="toggleMenu('org')">管理</button><button class="mi" data-m="help" onclick="toggleMenu('help')">說明</button><button class="mi" data-m="bak" onclick="toggleMenu('bak')">備份</button></nav>
-<div id="srow" class="prow"><input type="search" id="q" aria-label="搜尋紀錄" enterkeyhint="search" autocomplete="off"><button id="qgo" type="button" aria-label="搜尋">搜尋</button></div>
+<div id="srow" class="prow"><input type="search" id="q" aria-label="搜尋紀錄" enterkeyhint="search" autocomplete="off"><button id="qgo" type="button" aria-label="搜尋">搜尋</button></div><div id="qp" hidden></div>
 <div id="mdd" role="menu" hidden></div>
 </header>
 <div id="mback" hidden></div>
@@ -1121,7 +1129,7 @@ try{Object.assign(FEAT,JSON.parse(localStorage.getItem(FK)||'{}'))}catch(e){}
 /* 對象、標籤、時間、引用一律開啟（不再提供開關） */
 Object.assign(FEAT,{people:true,tags:true,time:true,quote:true});
 const saveFeat=()=>{try{localStorage.setItem(FK,JSON.stringify(FEAT))}catch(e){}};
-let db,useMem=false,M={people:{},entries:{},dumps:{}},people=[],cur=null,E={},urls=[],extra=0,hy=null,multi=false,msel=new Set(),edDate=null,edK=null,draft=[],durls=[],dturls=[],dtags=[],dquote=null,qs='',ftags=[],rlim=50,qt,other=false;
+let db,useMem=false,M={people:{},entries:{},dumps:{}},people=[],cur=null,E={},urls=[],extra=0,hy=null,multi=false,msel=new Set(),edDate=null,edK=null,draft=[],durls=[],dturls=[],dtags=[],dquote=null,qs='',ftags=[],rlim=50,qt,other=false,srch=false,sf={types:new Set(),pids:new Set(),tags:new Set(),d1:'',d2:''};
 const NODATE='0000-00-00',tsOf=e=>+String(e.k).split('|').pop()||0;
 const now=new Date();let mo=now.getMonth()+1,dy=now.getDate();
 
@@ -1140,12 +1148,14 @@ const dbDel=(st,k)=>useMem?(delete M[st][k],Promise.resolve()):req(st,'readwrite
 const dbByPAll=id=>useMem?Promise.resolve(Object.values(M.entries).filter(e=>e.pid===id)):req('entries','readonly',s=>s.index('pid').getAll(id));
 const dbByP=id=>dbByPAll(id).then(a=>a.filter(e=>!e.archived));
 
-async function loadView(){E={};const ids=multi?[...msel]:cur?[cur]:[];for(const id of ids)(await dbByP(id)).forEach(e=>{if((e.date===NODATE)!==other)return;(E[e.date]||(E[e.date]=[])).push(e)})}
-async function sel(id){cur=id;multi=false;document.documentElement.classList.remove('rvm');drawMbar();hy=null;extra=0;ftags=[];rlim=50;applyTheme(pById(id)?.color);await loadView();render()}
-async function toggleMulti(){multi=!multi;if(multi){other=false;msel=new Set(people.map(p=>p.id))}hy=null;ftags=[];document.documentElement.classList.toggle('rvm',multi);if(multi)closeMenu();drawMbar();applyTheme(multi?REVCOL:pById(cur)?.color);await loadView();render()}
+async function loadView(){E={};
+ if(srch){for(const id of sf.pids)(await dbByP(id)).forEach(e=>{if(!sf.types.has(e.date===NODATE?'note':'tl'))return;(E[e.date]||(E[e.date]=[])).push(e)});return}
+ const ids=multi?[...msel]:cur?[cur]:[];for(const id of ids)(await dbByP(id)).forEach(e=>{if((e.date===NODATE)!==other)return;(E[e.date]||(E[e.date]=[])).push(e)})}
+async function sel(id){cur=id;multi=false;srch=false;qs='';$('#q').value='';qpClose();document.documentElement.classList.remove('rvm');drawMbar();hy=null;extra=0;ftags=[];rlim=50;applyTheme(pById(id)?.color);await loadView();render()}
+async function toggleMulti(){multi=!multi;srch=false;qs='';$('#q').value='';qpClose();if(multi){other=false;msel=new Set(people.map(p=>p.id))}hy=null;ftags=[];document.documentElement.classList.toggle('rvm',multi);if(multi)closeMenu();drawMbar();applyTheme(multi?REVCOL:pById(cur)?.color);await loadView();render()}
 async function toggleOther(){
  if(!other&&!cur){toast('請先新增對象');return}
- other=!other;if(other)multi=false;hy=null;ftags=[];qs='';$('#q').value='';rlim=50;
+ other=!other;if(other)multi=false;srch=false;qpClose();hy=null;ftags=[];qs='';$('#q').value='';rlim=50;
  applyTheme(pById(cur)?.color);await loadView();render()}
 async function tog(id){msel.has(id)?msel.delete(id):msel.add(id);ftags=ftags.filter(x=>msel.has(x.pid));await loadView();render()}
 async function addP(){const n=$('#pn').value.trim();if(!n)return;const p={id:'p'+Date.now(),name:n};await dbPut('people',p);people.push(p);$('#pn').value='';pd.close();sel(p.id)}
@@ -1478,7 +1488,7 @@ const parts=(en,date,jump,showTime)=>{
   (en.tags||[]).length>0&&h('div',{class:'tgs'},en.tags.map(t=>h('button',{class:'tg',onclick:()=>setTag(en.pid,t)},'#'+t))),
   qv];
  const cs=cntStr(en);
- const ea=h('div',{class:'ea'},jump?h('button',{class:'edit xb',onclick:e=>toggleX(e.currentTarget)},'展開'):h('button',{class:'edit cx',hidden:true,onclick:e=>toggleC(e.currentTarget)},'展開'),!multi&&h('button',{class:'edit',onclick:()=>openEd(date,en.k)},'編輯'),!multi&&FEAT.quote&&h('button',{class:'edit',onclick:()=>quoteFrom(en)},'引用'),jump&&h('button',{class:'edit',onclick:()=>goDay(date)},'跳到這天'),cs&&h('span',{class:'cnt',hidden:true},...cntParts(en).map((p,i,a)=>h('span',{class:'cs'},i<a.length-1?p+'、':p))));
+ const ea=h('div',{class:'ea'},jump?h('button',{class:'edit xb',onclick:e=>toggleX(e.currentTarget)},'展開'):h('button',{class:'edit cx',hidden:true,onclick:e=>toggleC(e.currentTarget)},'展開'),!multi&&h('button',{class:'edit',onclick:()=>openEd(date,en.k)},'編輯'),!multi&&FEAT.quote&&h('button',{class:'edit',onclick:()=>quoteFrom(en)},'引用'),jump&&h('button',{class:'edit',onclick:()=>goDay(date,en.pid)},'跳到這天'),cs&&h('span',{class:'cnt',hidden:true},...cntParts(en).map((p,i,a)=>h('span',{class:'cs'},i<a.length-1?p+'、':p))));
  return jump?[...body,ea]:[h('div',{class:'cbody'+(en.media.some(m=>m.t==='image'||m.t==='video')?' hm':'')},...body),ea]};
 const card=(en,date,jump,st)=>h('div',{class:'card'+(en.media&&en.media.length?' hasm':''),'data-k':en.k,'data-d':date},...parts(en,date,jump,st));
 const normTag=v=>String(v||'').trim().replace(/^#+/,'').slice(0,20);
@@ -1512,8 +1522,10 @@ async function tmOk(){const P=pById(cur);if(!P)return;const mode=tmMode,old=$('#
    await retag(P,old,null);render()}
  }catch(e){toast('儲存失敗')}}
 function setTag(pid,t){const i=ftags.findIndex(x=>x.pid===pid&&x.tag===t);i>=0?ftags.splice(i,1):ftags.push({pid,tag:t});rlim=50;render()}
-function clearF(){qs='';ftags=[];$('#q').value='';rlim=50;render()}
-function goDay(date){const [y,m,d]=date.split('-').map(Number);mo=m;dy=d;hy=y;qs='';ftags=[];$('#q').value='';render();scrollTo(0,0)}
+async function clearF(){qs='';ftags=[];$('#q').value='';rlim=50;qpClose();if(srch){srch=false;await loadView()}render()}
+async function goDay(date,pid){const [y,m,d]=date.split('-').map(Number);
+ if(srch||(pid&&(pid!==cur||multi))){if(pid&&(pid!==cur||multi))await sel(pid);else{srch=false;qpClose();await loadView()}}
+ mo=m;dy=d;hy=y;qs='';ftags=[];$('#q').value='';render();scrollTo(0,0)}
 const rc=(el,...c)=>el.replaceChildren(...c.flat().filter(Boolean));
 function openHp(){if(!people.length){toast('請先新增對象');openMenu('rev');return}
  openHeat(people.some(p=>p.id===cur)?cur:people[0].id)}
@@ -1549,6 +1561,16 @@ function drawHeat(){
   h('div',{class:'hmstat'},`${total}天中，${pname(hmPid)}記錄了${has.size}天。`,...(has.size?[h('br'),`${mis.join('、')}月記錄了最多，共有${mx}則。`]:[])),
   h('div',{class:'hmleg'},h('div',{class:'hcell'}),h('span',{},'無紀錄'),...HMLV.map(([c,t])=>[h('div',{class:'hcell '+c}),h('span',{},t)]).flat()),
   h('div',{class:'hmwrap'},...months))}
+/* 搜尋結果：涵蓋所選對象、類型的全部紀錄，再依文字、標籤、日期篩選；新到舊 */
+const dOf=e=>{if(e.date!==NODATE)return e.date;const t=new Date(tsOf(e));return `${t.getFullYear()}-${pad(t.getMonth()+1)}-${pad(t.getDate())}`};
+function renderSearch(A){
+ const k=qs.toLowerCase(),T=[...sf.tags],hits=Object.values(E).flat().filter(e=>(!k||hay(e).includes(k))&&T.every(t=>(e.tags||[]).includes(t))&&(!sf.d1||dOf(e)>=sf.d1)&&(!sf.d2||dOf(e)<=sf.d2))
+  .sort((a,b)=>dOf(a)!==dOf(b)?(dOf(a)<dOf(b)?1:-1):(a.time||'')!==(b.time||'')?((a.time||'')<(b.time||'')?1:-1):tsOf(b)-tsOf(a));
+ const many=sf.pids.size>1;
+ rc(A,h('p',{class:'sub'},(qs?`搜尋「${qs}」`:'搜尋結果')+`：${hits.length}則`),
+  ...hits.slice(0,rlim).map(e=>h('div',{class:'hit'},h('div',{class:'rd'},(many?pname(e.pid)+'・':'')+(e.date===NODATE?'隨手記・'+fmtD(dOf(e)):fmtD(e.date))+(e.time?'　'+e.time:'')),card(e,e.date,e.date!==NODATE,true))),
+  hits.length>rlim&&h('button',{class:'more',onclick:()=>{rlim+=50;render()}},'顯示更多'));
+ fitX()}
 function renderOther(A,P){
  const k=qs.toLowerCase(),all=Object.values(E).flat(),filt=!!(qs||ftags.length),
   list=all.filter(e=>matchF(e)&&(!k||hay(e).includes(k))).sort((a,b)=>tsOf(b)-tsOf(a));
@@ -1575,6 +1597,7 @@ function renderView(){
  drawMbar();
  const P=pById(cur),A=$('#app');
  if(!multi&&!P){rc(A,h('div',{class:'emp'},h('p',{class:'note'},'新增一位你想記錄的對象。'),h('button',{class:'pri',onclick:()=>{pd.showModal();$('#pn').focus()}},'新增對象')));return}
+ if(srch){renderSearch(A);return}
  if(other){renderOther(A,P);return}
  if(qs||ftags.length){
   const k=qs.toLowerCase(),hits=Object.values(E).flat().filter(e=>matchF(e)&&(!k||hay(e).includes(k)))
@@ -1692,7 +1715,7 @@ document.querySelectorAll('dialog').forEach(d=>{decoDlg(d);new MutationObserver(
 {const hd=document.getElementById('hdr');if(hd&&window.ResizeObserver){const f=()=>document.documentElement.style.setProperty('--hdr',hd.offsetHeight+'px');new ResizeObserver(f).observe(hd);f()}}
 /* 日期頁左右滑動換日：往左滑＝後一天、往右滑＝前一天（從可左右捲動的方塊列、輸入欄、播放器開始的滑動不算） */
 {let sx=0,sy=0,st=0,ok=false;const A=$('#app');
- const dayView=()=>!other&&!qs&&!ftags.length&&!!A.querySelector('.dhead')&&!document.querySelector('dialog[open]')&&!mOpen;
+ const dayView=()=>!srch&&!other&&!qs&&!ftags.length&&!!A.querySelector('.dhead')&&!document.querySelector('dialog[open]')&&!mOpen;
  const hScroll=t=>{for(let n=t;n&&n!==A;n=n.parentNode)if(n.nodeType===1&&(n.matches('input,textarea,select,.ap,.jsb-bar')||(n.scrollWidth>n.clientWidth+1&&/(auto|scroll)/.test(getComputedStyle(n).overflowX))))return true;return false};
  A.addEventListener('touchstart',e=>{const t=e.touches[0];ok=e.touches.length===1&&dayView()&&t.clientX>20&&t.clientX<innerWidth-20&&!hScroll(e.target);if(ok){sx=t.clientX;sy=t.clientY;st=Date.now()}},{passive:true});
  A.addEventListener('touchmove',e=>{if(ok&&e.touches.length>1)ok=false},{passive:true});
@@ -1979,10 +2002,27 @@ async function archiveEntry(){if(!edK)return;const old=(E[edDate]||[]).find(x=>x
 $('#fi').onchange=e=>{for(const f of e.target.files){const t=['image','video','audio'].find(x=>f.type.startsWith(x))||'file';draft.push({t,b:f,n:f.name})}e.target.value='';drawDraft()};
 $('#ed').onclose=()=>{edReady=false;clearTimeout(dtm);durls.forEach(URL.revokeObjectURL);durls=[]};
 $('#tn').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();addTag(e.target.value)}};
-function updQb(){const b=$('#qgo');if(!b)return;const v=$('#q').value.trim(),act=!!(qs||ftags.length),clr=act&&v===qs;b.textContent=clr?'清除':'搜尋';b.setAttribute('aria-label',clr?'清除搜尋':'搜尋');b.dataset.mode=clr?'clr':'go'}
+function updQb(){const b=$('#qgo');if(!b)return;const v=$('#q').value.trim(),act=!!(qs||ftags.length||srch),clr=act&&v===qs;b.textContent=clr?'清除':'搜尋';b.setAttribute('aria-label',clr?'清除搜尋':'搜尋');b.dataset.mode=clr?'clr':'go'}
+/* 搜尋篩選：點搜尋欄就展開。預設＝目前頁面的類型（時間軸或隨手記）與對象；選單裡已篩選的標籤會帶進來 */
+function qpInit(){if(srch)return;sf.types=new Set([other?'note':'tl']);sf.pids=new Set(multi?[...msel]:cur?[cur]:[]);sf.tags=new Set(ftags.map(x=>x.tag));sf.d1='';sf.d2=''}
+async function qRun(){if(!sf.pids.size)return;if(!srch){srch=true;}rlim=50;await loadView();render();updQb()}
+function qpOpen(){if(!people.length)return;qpInit();drawQp();$('#qp').hidden=false}
+function qpClose(){const p=$('#qp');if(p)p.hidden=true}
+function drawQp(){
+ const opt=(on,t,f)=>h('button',{type:'button',class:'qpo'+(on?' on':''),'aria-pressed':String(!!on),onclick:f},h('i',{class:'cbx'+(on?' on':'')}),h('span',{},t));
+ const tog=(set,v,keep)=>{if(set.has(v)){if(keep&&set.size<=1)return;set.delete(v)}else set.add(v);drawQp();qRun()};
+ const tags=[...new Set([...sf.pids].flatMap(id=>pById(id)?.tags||[]).concat([...sf.tags]))].sort();
+ const date=(k)=>h('input',{type:'date',value:sf[k],'aria-label':k==='d1'?'開始日期':'結束日期',onchange:e=>{sf[k]=e.target.value;qRun()}});
+ rc($('#qp'),
+  h('div',{class:'qps'},h('div',{class:'qpt'},'類型'),h('div',{class:'qpl'},opt(sf.types.has('tl'),'時間軸',()=>tog(sf.types,'tl',1)),opt(sf.types.has('note'),'隨手記',()=>tog(sf.types,'note',1)))),
+  h('div',{class:'qps'},h('div',{class:'qpt'},'日期'),h('div',{class:'qpl qpd'},date('d1'),h('span',{},'～'),date('d2'))),
+  people.length>1&&h('div',{class:'qps'},h('div',{class:'qpt'},'對象'),h('div',{class:'qpl'},...people.map(p=>opt(sf.pids.has(p.id),p.name,()=>tog(sf.pids,p.id,1))))),
+  h('div',{class:'qps'},h('div',{class:'qpt'},'標籤'),h('div',{class:'qpl'},...(tags.length?tags.map(t=>opt(sf.tags.has(t),'#'+t,()=>tog(sf.tags,t))):[h('span',{class:'qpn'},'（目前沒有標籤）')]))))}
+$('#q').addEventListener('focus',qpOpen);
+document.addEventListener('pointerdown',e=>{const p=$('#qp');if(!p||p.hidden)return;if(e.target.closest('#qp,#srow'))return;qpClose()},true);
 function qGo(){const b=$('#qgo');if(b&&b.dataset.mode==='clr'){clearTimeout(qt);clearF();$('#q').blur();scrollTo(0,0);return}
- clearTimeout(qt);const v=$('#q').value.trim();if(!v&&!qs)return;qs=v;rlim=50;$('#q').blur();render();scrollTo(0,0)}
-$('#q').oninput=()=>{updQb();clearTimeout(qt);qt=setTimeout(()=>{qs=$('#q').value.trim();rlim=50;render()},250)};
+ clearTimeout(qt);const v=$('#q').value.trim();if(!v&&!qs&&!srch)return;qs=v;qpClose();$('#q').blur();qpInit();qRun();scrollTo(0,0)}
+$('#q').oninput=()=>{updQb();clearTimeout(qt);qt=setTimeout(()=>{qs=$('#q').value.trim();if(!qs&&!srch){render();return}qpInit();qRun()},250)};
 $('#q').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('#q').dataset.x='';const b=$('#qgo');b.dataset.mode='go';qGo()}});
 $('#qgo').onclick=qGo;
 updQb();
