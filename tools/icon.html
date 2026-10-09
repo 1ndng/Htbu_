@@ -9,8 +9,8 @@ o.fillStyle='#000080';o.fillRect(0,0,L,L);
 /* 白字 Htbu（Satsuki 加粗）：參考網頁連結散落的感覺——不旋轉、大小不一但平均、有的斜體、有的底線，貼近邊緣 */
 o.font=`100px TX`;const tw=o.measureText('Htbu').width;o.fillStyle=o.strokeStyle='#fff';o.lineJoin='round';
 /* [x, 基線 y, 字寬（方框比例）, 斜體, 底線] */
-[[.02,.15,.30,1,1],[.47,.10,.21,0,0],[.73,.31,.26,0,1],[.31,.37,.27,0,0],[.00,.52,.24,0,1],
- [.62,.57,.30,1,1],[.27,.71,.23,1,0],[.12,.90,.27,0,1],[.58,.92,.25,0,0]].forEach(([x,y,w,it,ul])=>{const f=100*W*w/tw;o.save();o.translate(M+W*x,M+W*y);if(it)o.transform(1,0,-.2,1,0,0);o.font=`${f}px TX`;o.lineWidth=f*.06;o.strokeText('Htbu',0,0);o.fillText('Htbu',0,0);if(ul)o.fillRect(0,Math.round(f*.1),W*w,Math.max(1,Math.round(f*.06)));o.restore()});
+[[.03,.17,.34,1,1],[.50,.14,.18,0,0],[.60,.24,.31,0,1],[.24,.36,.22,0,0],[.00,.55,.27,0,1],
+ [.25,.50,.33,1,1],[.70,.70,.19,0,0],[.20,.82,.25,1,0],[.32,.91,.29,0,1]].forEach(([x,y,w,it,ul])=>{const f=100*W*w/tw;o.save();o.translate(M+W*x,M+W*y);if(it)o.transform(1,0,-.2,1,0,0);o.font=`${f}px TX`;o.lineWidth=f*.06;o.strokeText('Htbu',0,0);o.fillText('Htbu',0,0);if(ul)o.fillRect(0,Math.round(f*.1),W*w,Math.max(1,Math.round(f*.06)));o.restore()});
 const c=document.getElementById('c').getContext('2d');c.imageSmoothingEnabled=false;c.drawImage(o.canvas,0,0,S,S);
 document.title='done'}
 draw();</script>
