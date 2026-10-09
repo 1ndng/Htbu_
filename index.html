@@ -1004,23 +1004,30 @@ html:not(.w7) :is(.tg,.dtg,.card .tg):not(.on){background:color-mix(in srgb,var(
 </style>
 </head>
 <body>
-<div id="boot" aria-hidden="true"><style>
-/* 開機畫面：Win95 主題1 的主題色①（#C0C0C0）、圖標＋標題＋進度條（參考 Win95 安裝程式），兩種風格都一樣 */
-#boot{position:fixed;inset:0;z-index:2147483647;background:#C0C0C0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;font-family:"Cubic 11",monospace;color:#000;letter-spacing:0}
+<div id="boot"><style>
+/* 開機畫面：Win95 主題1 的主題色①（#C0C0C0）、內凹框圖標＋標題＋進度條（參考 Win95 安裝程式）；跑完後進度條的位置換成「開始記錄」按鈕。兩種風格都一樣 */
+#boot{position:fixed;inset:0;z-index:2147483647;background:#C0C0C0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:"Cubic 11",monospace;color:#000;letter-spacing:0}
+#boot .bi{display:block;padding:2px;background:#C0C0C0;box-shadow:inset 1px 1px 0 #808080,inset -1px -1px 0 #FFFFFF,inset 2px 2px 0 #000000,inset -2px -2px 0 #DFDFDF}
 #boot img{width:112px;height:112px;image-rendering:pixelated;display:block}
 #boot .bt{margin:14px 0 52px;font-size:33px;line-height:1;text-shadow:1px 1px 0 #FFFFFF}
-#boot .bb{width:min(240px,64vw);height:18px;padding:2px;box-sizing:border-box;background:#C0C0C0;box-shadow:inset 1px 1px 0 #808080,inset -1px -1px 0 #FFFFFF,inset 2px 2px 0 #000000,inset -2px -2px 0 #DFDFDF}
+#boot .bw{width:min(240px,64vw);height:42px;display:flex;flex-direction:column;align-items:center}
+#boot .bb{width:100%;height:18px;padding:2px;box-sizing:border-box;background:#C0C0C0;box-shadow:inset 1px 1px 0 #808080,inset -1px -1px 0 #FFFFFF,inset 2px 2px 0 #000000,inset -2px -2px 0 #DFDFDF}
 #boot .bb i{display:block;height:100%;width:0;background:#000080}
-#boot .bp{width:min(240px,64vw);margin-top:5px;font-size:14px;line-height:1;text-align:left}
+#boot .bp{width:100%;margin-top:5px;font-size:14px;line-height:1;text-align:left}
+#boot .bgo{display:none;min-width:150px;height:34px;padding:0 16px;border:0;border-radius:0;background:#C0C0C0;color:#000;font:400 18.3333px/1 "Cubic 11",monospace;letter-spacing:0;cursor:pointer;-webkit-appearance:none;appearance:none;box-shadow:inset -1px -1px 0 #000000,inset 1px 1px 0 #FFFFFF,inset -2px -2px 0 #808080,inset 2px 2px 0 #DFDFDF}
+#boot .bgo:active{box-shadow:inset 1px 1px 0 #000000,inset -1px -1px 0 #FFFFFF,inset 2px 2px 0 #808080,inset -2px -2px 0 #DFDFDF;padding-top:2px;padding-left:18px}
+#boot .bgo:focus-visible{outline:1px dotted #000;outline-offset:-5px}
+#boot.ready .bb,#boot.ready .bp{display:none}#boot.ready .bgo{display:block}
 #boot.out{display:none}
-</style><img src="icon-192.png" alt=""><div class="bt">Htbu_?</div><div class="bb"><i id="bootb"></i></div><div class="bp" id="bootp">0%</div></div>
+</style><span class="bi"><img src="icon-192.png" alt=""></span><div class="bt">Htbu_?</div><div class="bw"><div class="bb"><i id="bootb"></i></div><div class="bp" id="bootp">0%</div><button class="bgo" id="bootgo" type="button">開始記錄</button></div></div>
 <script>
-/* 進度：主程式各階段設定目標值，畫面一格一格（整數 %）往上跑；跑到 100% 才收起，至少顯示 0.7 秒 */
-(function(){var cur=0,tgt=8,t0=Date.now(),done=false,b=document.getElementById('bootb'),p=document.getElementById('bootp');
+/* 進度：主程式各階段設定目標值，畫面一格一格（整數 %）往上跑；到 100% 後換成「開始記錄」按鈕，按下才進入 */
+(function(){var cur=0,tgt=8,done=false,B=document.getElementById('boot'),b=document.getElementById('bootb'),p=document.getElementById('bootp'),g=document.getElementById('bootgo');
  function draw(){b.style.width=cur+'%';p.textContent=cur+'%'}
  function tick(){if(cur<tgt){cur+=Math.max(1,Math.round((tgt-cur)/6));if(cur>tgt)cur=tgt;draw()}
-  if(cur>=100&&done){if(Date.now()-t0<700){setTimeout(tick,50);return}document.getElementById('boot').classList.add('out');return}
+  if(cur>=100&&done){setTimeout(function(){B.classList.add('ready')},150);return}
   setTimeout(tick,40)}
+ g.onclick=function(){B.classList.add('out')};
  window.bootP=function(n){tgt=Math.max(tgt,Math.min(100,n));if(n>=100)done=true};
  setTimeout(function(){if(!done)window.bootP(100)},8000);/* 保險：最多 8 秒 */
  draw();tick()})();
