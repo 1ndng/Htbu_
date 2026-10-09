@@ -1355,7 +1355,7 @@ function menuGroups(k){
  if(k==='rev')return [[
   act('合併對象回顧',()=>{if(people.length<1){toast('目前沒有可回顧的日記');openMenu('rev');return}toggleMulti()}),
   act('週dump',openDumpHome),act('熱力圖',openHp)]];
- if(k==='org')return [[act('整理',openWr),act('封存',openAr)]];
+ if(k==='org')return [[act('快速整理',openWr),act('封存',openAr)]];
  if(k==='help')return [GUIDE.map((g,j)=>act(g.t,()=>openGd(j)))];
  if(k==='bak')return [[act('備份',openBk)],[info(lbMap().all?'上次備份：'+new Date(lbMap().all).toLocaleDateString('zh-TW'):'尚未備份過')]];
  if(k==='ppl'){
@@ -1389,7 +1389,7 @@ function openMenu(k){const b=k&&mBtn(k);if(!b||b.hidden)return;if(mOpen!==k)$('#
 function toggleMenu(k){mOpen===k?closeMenu():openMenu(k)}
 /* 依「功能」開關顯示對象／標籤選單；選單開著時內容跟著目前狀態更新 */
 function drawMbar(){mBtn('ppl').hidden=!FEAT.people;mBtn('tag').hidden=!FEAT.tags;
- $('#mbar').querySelectorAll('.mi').forEach(b=>b.disabled=multi&&!['ppl','tag'].includes(b.dataset.m));
+ $('#mbar').querySelectorAll('.mi').forEach(b=>b.disabled=(multi&&!['ppl','tag'].includes(b.dataset.m))||(other&&b.dataset.m==='rev'));/* 合併對象回顧只留對象、標籤；隨手記頁不能用回顧 */
  if(mOpen){mBtn(mOpen).hidden?closeMenu():showMenu(mOpen)}}
 $('#mback').addEventListener('click',closeMenu);
 $('#mback').addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
@@ -1862,12 +1862,11 @@ async function purgeArchive(){try{const lim=Date.now()-ARD;for(const e of await 
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)purgeArchive()});
 let wrQ=[],wrI=0,wrN=0,wrDirty=false,wrUrls=[],wrMoved=false,wrBusy=false,wrChain=Promise.resolve(),wrHist=[],wrSkip=0,wrEd=false;
 const wrSave=en=>{wrChain=wrChain.then(()=>dbPut('entries',en)).catch(()=>toast('儲存失敗'));return wrChain};
+/* 快速整理：時間軸與隨手記分開整理——在時間軸頁只整理時間軸的紀錄，在隨手記頁只整理隨手記 */
 async function openWr(){await purgeArchive();
- const all=(await dbAll('entries')).filter(e=>!e.reviewed&&!e.archived);
- if(!all.length){toast('目前沒有未整理的紀錄');openMenu('rev');return}
- const dated=all.filter(e=>e.date!==NODATE).sort((a,b)=>a.date<b.date?1:a.date>b.date?-1:((a.time||'')<(b.time||'')?1:(a.time||'')>(b.time||'')?-1:tsOf(b)-tsOf(a))),
-  note=all.filter(e=>e.date===NODATE).sort((a,b)=>tsOf(b)-tsOf(a));
- wrQ=[...dated,...note];wrI=0;wrN=wrQ.length;wrDirty=false;wrChain=Promise.resolve();wrHist=[];wrSkip=0;wrEd=false;wrShow();$('#wr').showModal();wrLock(true)}
+ const all=(await dbAll('entries')).filter(e=>!e.reviewed&&!e.archived&&(e.date===NODATE)===other);
+ if(!all.length){toast('目前沒有未整理的紀錄');openMenu('org');return}
+ wrQ=other?all.sort((a,b)=>tsOf(b)-tsOf(a)):all.sort((a,b)=>a.date<b.date?1:a.date>b.date?-1:((a.time||'')<(b.time||'')?1:(a.time||'')>(b.time||'')?-1:tsOf(b)-tsOf(a)));wrI=0;wrN=wrQ.length;wrDirty=false;wrChain=Promise.resolve();wrHist=[];wrSkip=0;wrEd=false;wrShow();$('#wr').showModal();wrLock(true)}
 function wrBtns(){const lock=!wrQ[wrI]||wrEd;
  ['#wrla','#wrup','#wrrk','#wred'].forEach(q=>$(q).disabled=lock);$('#wrun').disabled=wrEd||!wrHist.length}
 const wrHead=(...c)=>rc($('#wrh'),h('button',{id:'wred',onclick:wrEdit},'編輯'),h('div',{},...c),h('div',{}));
