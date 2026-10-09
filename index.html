@@ -19,7 +19,9 @@
 <style>
 /* 字級：Win95 對齊 Cubic 11 的像素格（3 倍螢幕上 11/3px 的倍數）；Win7 台灣明體只放大最小的三級，其他維持原大小 */
 :root{--f10:11px;--f11:11px;--f12:11px;--f13:14.6667px;--f14:14.6667px;--f15:14.6667px;--f16:18.3333px;--f17:18.3333px;--f18:18.3333px;--f20:22px;--f22:22px;--f30:29.3333px;--f32:33px;--f33:33px}
-html.w7{--f11:12px;--f12:13px;--f13:14px;--f14:14px;--f15:15px;--f16:16px;--f17:17px;--f18:18px;--f20:20px;--f30:30px;--f32:32px}
+/* Win7 台灣明體字面較小：整體大約放大一級；固定置頂欄（瀏海、選單列、搜尋列）維持原本字級，高度不變 */
+html.w7{--f10:12px;--f11:13px;--f12:14px;--f13:15px;--f14:15px;--f15:16px;--f16:17px;--f17:18px;--f18:19px;--f20:21px;--f22:23px;--f30:31px;--f32:33px;--f33:34px}
+html.w7 #hdr{--f10:11px;--f11:12px;--f12:13px;--f13:14px;--f14:14px;--f15:15px;--f16:16px;--f17:17px;--f18:18px}
 html{font-synthesis:none}
 :root{color-scheme:only light;--hdr:0px;--bg:#C0C0C0;--card:#FFFFFF;--ink:#000000;--mute:#404040;--line:#DFDFDF;--sep:#808080;--acc:#000080;--acx:#000080;--soft:rgba(0,0,128,.12);--mark:rgba(0,0,128,.25);--onacc:#FFFFFF;--del:#A30000;--bhi:#fff;--blo:#8f8f8f;--btnf:#C0C0C0;
 box-sizing:border-box;padding-top:0;padding-bottom:env(safe-area-inset-bottom,0px)}
