@@ -967,24 +967,24 @@ html.w7 #dmp{border:0;border-radius:0;box-shadow:none}
 <div id="app"></div>
 </main>
 
-<dialog id="hm"><h2 style="text-align:center">熱力圖</h2><div id="hmc"></div><div class="acts end"><button onclick="$('#hm').close();openMenu('rev')">返回</button><button onclick="$('#hm').close()">退出</button></div></dialog>
+<dialog id="hm"><h2 style="text-align:center">熱力圖</h2><div id="hmc"></div><div class="acts end"><button onclick="$('#hm').close();openMenu('rev')" class="xbk" aria-label="返回"></button><button onclick="$('#hm').close()" class="xcl" aria-label="關閉"></button></div></dialog>
 <dialog id="gd"></dialog>
 <dialog id="pe">
 <h2 id="pet">編輯對象</h2>
 <div id="penw"><label for="pen">名稱</label><input type="text" id="pen" maxlength="30"></div>
 <div id="peaw"><label>頭貼</label><div id="pear"><div id="peal"><div id="peaf" class="av"><img id="peai" alt=""></div><input type="range" id="peaz" min="1" max="4" step="0.01" value="1" aria-label="頭貼大小"></div><div id="peab"><button class="edit" onclick="$('#peaf2').click()">圖片</button><button class="edit" id="peacw" onclick="$('#peac').click()">純色</button><input type="color" id="peac" tabindex="-1" aria-hidden="true"><button class="edit" onclick="peAvSet(null)">預設</button></div></div><input type="file" id="peaf2" accept="image/*" hidden></div>
-<div class="acts end"><button class="pri" id="peo" onclick="peOk()">儲存</button><button onclick="pe.close();openMenu('ppl')">返回</button><button onclick="pe.close()">取消</button></div>
+<div class="acts end"><button class="pri" id="peo" onclick="peOk()">儲存</button><button onclick="pe.close();openMenu('ppl')" class="xbk" aria-label="返回"></button><button onclick="pe.close()" class="xcl" aria-label="關閉"></button></div>
 </dialog>
 <dialog id="tm">
 <h2 id="tmt"></h2>
 <div id="tmsw"><label for="tms">選擇標籤</label><select id="tms" style="margin:6px 0 12px"></select></div>
 <div id="tmnw"><input type="text" id="tmn" maxlength="20"></div>
-<div class="acts end"><button class="pri" id="tmo" onclick="tmOk()">確定</button><button onclick="tm.close();openMenu('tag')">返回</button><button onclick="tm.close()">取消</button></div>
+<div class="acts end"><button class="pri" id="tmo" onclick="tmOk()">確定</button><button onclick="tm.close();openMenu('tag')" class="xbk" aria-label="返回"></button><button onclick="tm.close()" class="xcl" aria-label="關閉"></button></div>
 </dialog>
 <dialog id="pd">
 <h2>新增對象</h2>
 <input type="text" id="pn" maxlength="30">
-<div class="acts end"><button class="pri" onclick="addP()">建立</button><button onclick="pd.close();openMenu('ppl')">返回</button><button onclick="pd.close()">取消</button></div>
+<div class="acts end"><button class="pri" onclick="addP()">建立</button><button onclick="pd.close();openMenu('ppl')" class="xbk" aria-label="返回"></button><button onclick="pd.close()" class="xcl" aria-label="關閉"></button></div>
 </dialog>
 
 <dialog id="ed">
@@ -1002,11 +1002,11 @@ html.w7 #dmp{border:0;border-radius:0;box-shadow:none}
 <label for="tx" id="txl">文字</label>
 <div class="lh" id="txh" style="display:none;margin-top:0"><label for="tx">文字</label><button class="edit" onclick="clr('#tx')">清除</button></div>
 <div class="tb" id="txb">
-<button class="mdb" onclick="lineP('# ')" aria-label="標題" title="標題">H</button>
-<button class="mdb" onclick="wrap('==')" aria-label="標記" title="標記"><mark>A</mark></button>
-<button class="mdb" onclick="wrap('~~')" aria-label="刪除線" title="刪除線"><s>S</s></button>
-<button class="mdb" onclick="lineP('- ')" aria-label="清單" title="清單"><span class="gd"></span>―</button>
-<button class="mdb" onclick="lineP('> ')" aria-label="引用" title="引用">❝</button>
+<button class="mdb" onclick="lineP('# ')" aria-label="標題">H</button>
+<button class="mdb" onclick="wrap('==')" aria-label="標記"><mark>A</mark></button>
+<button class="mdb" onclick="wrap('~~')" aria-label="刪除線"><s>S</s></button>
+<button class="mdb" onclick="lineP('- ')" aria-label="清單"><span class="gd"></span>―</button>
+<button class="mdb" onclick="lineP('> ')" aria-label="引用">❝</button>
 <button onclick="clr('#tx')">清除</button>
 </div>
 <textarea id="tx" rows="3"></textarea>
@@ -1022,7 +1022,7 @@ html.w7 #dmp{border:0;border-radius:0;box-shadow:none}
 <div id="tgd" class="acts" style="margin-top:0"></div>
 <div id="tgi" hidden><div class="acts" style="margin:0 0 8px"><input type="text" id="tn" maxlength="20" style="flex:1;margin:0"><button onclick="addTag($('#tn').value)">加入</button></div><div id="tsg" class="acts" style="margin-top:0"></div></div>
 <div id="dm" class="media"></div>
-<div class="acts end"><button id="dl" onclick="archiveEntry()">封存</button><button class="pri" onclick="save()">儲存</button><button onclick="cancelEd()">取消</button></div>
+<div class="acts end"><button id="dl" onclick="archiveEntry()">封存</button><button class="pri" onclick="save()">儲存</button><button onclick="cancelEd()" class="xcl" aria-label="關閉"></button></div>
 </div>
 </dialog>
 <dialog id="bk">
@@ -1039,26 +1039,26 @@ html.w7 #dmp{border:0;border-radius:0;box-shadow:none}
 <label>匯入備份檔（與現有資料合併，相同的紀錄以備份檔為準）</label>
 <div class="acts"><button onclick="$('#bf').click()">選擇備份檔</button><input type="file" id="bf" accept=".json,application/json" multiple hidden></div>
 <p class="sub" id="bst2" style="margin:0"></p>
-<div class="acts end"><button onclick="$('#bk').close();openMenu('bak')">返回</button><button onclick="$('#bk').close()">退出</button></div>
+<div class="acts end"><button onclick="$('#bk').close();openMenu('bak')" class="xbk" aria-label="返回"></button><button onclick="$('#bk').close()" class="xcl" aria-label="關閉"></button></div>
 </dialog>
 <dialog id="th">
 <h2 id="tht">色彩設定</h2>
 <div class="acts" id="swt"></div>
 <div class="acts"><label class="r">自訂 <input type="color" id="tc"></label><button onclick="setTheme(null)">恢復預設</button></div>
-<div class="acts" style="justify-content:center"><button onclick="$('#th').close();openMenu('set')">返回</button><button onclick="$('#th').close()">退出</button></div>
+<div class="acts" style="justify-content:center"><button onclick="$('#th').close();openMenu('set')" class="xbk" aria-label="返回"></button><button onclick="$('#th').close()" class="xcl" aria-label="關閉"></button></div>
 </dialog>
 <dialog id="ui">
 <h2>風格設定</h2>
 <p class="sub" style="text-align:center;margin:-6px 0 12px">整個 App 的外型（配色照各對象的色彩設定）</p>
 <div class="mb" id="uic"></div>
-<div class="acts" style="justify-content:center"><button onclick="$('#ui').close();openMenu('set')">返回</button><button onclick="$('#ui').close()">退出</button></div>
+<div class="acts" style="justify-content:center"><button onclick="$('#ui').close();openMenu('set')" class="xbk" aria-label="返回"></button><button onclick="$('#ui').close()" class="xcl" aria-label="關閉"></button></div>
 </dialog>
 <dialog id="ft">
 <h2>功能設定</h2>
 <div id="ftc"></div>
-<div class="acts" style="justify-content:center"><button onclick="$('#ft').close();openMenu('set')">返回</button><button onclick="$('#ft').close()">退出</button></div>
+<div class="acts" style="justify-content:center"><button onclick="$('#ft').close();openMenu('set')" class="xbk" aria-label="返回"></button><button onclick="$('#ft').close()" class="xcl" aria-label="關閉"></button></div>
 </dialog>
-<dialog id="wr"><div id="wrh"></div><div id="wrs"><div class="wbd" id="wrk">保留<i class="pxa r"></i></div><div class="wbd" id="wra"><i class="pxa l"></i>封存</div><div class="wbd" id="wrp"><i class="pxa u"></i>跳過</div><button class="wrbare wrside" id="wrla" onclick="wrBtn(-1)"><i class="pxa l"></i>封存</button><button class="wrbare wrside" id="wrrk" onclick="wrBtn(1)"><i class="pxa r"></i>保留</button></div><div id="wrb"><button id="wrun" onclick="wrUndo()">上一步</button><button class="wrbare" id="wrup" onclick="wrBtn(0)"><i class="pxa u"></i>跳過</button><button id="wrbk" onclick="closeWr();openMenu('org')">返回</button><button id="wrx" onclick="closeWr()">退出</button></div></dialog>
+<dialog id="wr"><div id="wrh"></div><div id="wrs"><div class="wbd" id="wrk">保留<i class="pxa r"></i></div><div class="wbd" id="wra"><i class="pxa l"></i>封存</div><div class="wbd" id="wrp"><i class="pxa u"></i>跳過</div><button class="wrbare wrside" id="wrla" onclick="wrBtn(-1)"><i class="pxa l"></i>封存</button><button class="wrbare wrside" id="wrrk" onclick="wrBtn(1)"><i class="pxa r"></i>保留</button></div><div id="wrb"><button id="wrun" onclick="wrUndo()">上一步</button><button class="wrbare" id="wrup" onclick="wrBtn(0)"><i class="pxa u"></i>跳過</button><button id="wrbk" onclick="closeWr();openMenu('org')" class="xbk" aria-label="返回"></button><button id="wrx" onclick="closeWr()" class="xcl" aria-label="關閉"></button></div></dialog>
 <dialog id="ar"></dialog>
 <dialog id="hd"></dialog>
 <dialog id="mv">
@@ -1072,37 +1072,37 @@ html.w7 #dmp{border:0;border-radius:0;box-shadow:none}
 <label class="r"><input type="radio" name="mvt" value="manual"> 手動輸入</label>
 <input type="text" id="mvtv" class="tmx" inputmode="numeric" maxlength="5" autocomplete="off" disabled aria-label="時間（24 小時制）">
 </div></div>
-<div class="acts end"><button class="pri" onclick="mvOk()">確定</button><button onclick="$('#mv').close()">取消</button></div>
+<div class="acts end"><button class="pri" onclick="mvOk()">確定</button><button onclick="$('#mv').close()" class="xcl" aria-label="關閉"></button></div>
 </dialog>
 <dialog id="dp">
 <h2>選擇日期</h2>
 <div class="acts" style="justify-content:center"><select id="dpm" aria-label="月份" onchange="fillDpd(+$('#dpd').value)"></select><select id="dpd" aria-label="日期"></select></div>
-<div class="acts end"><button class="pri" onclick="dpOk()">確定</button><button onclick="$('#dp').close()">取消</button></div>
+<div class="acts end"><button class="pri" onclick="dpOk()">確定</button><button onclick="$('#dp').close()" class="xcl" aria-label="關閉"></button></div>
 </dialog>
 <dialog id="cv">
 <h2>選擇影片封面</h2>
 <video id="cvv" playsinline muted></video>
 <input type="range" id="cvr" min="0" max="1000" value="0" aria-label="拖曳選擇畫面">
 <div class="acts"><button class="pri" onclick="cvUse()">用這個畫面</button><button onclick="$('#cvf').click()">從相簿選圖</button><input type="file" id="cvf" accept="image/*" hidden></div>
-<div class="acts end"><button onclick="$('#cv').close()">取消</button></div>
+<div class="acts end"><button onclick="$('#cv').close()" class="xcl" aria-label="關閉"></button></div>
 </dialog>
 <dialog id="cf"><p id="cft">是否刪除？</p><p class="sm" id="cfs" hidden></p><div class="acts"><button id="cfy" class="pri">確定</button><button id="cfn">取消</button></div></dialog>
-<dialog id="dt"><div id="dtt"></div><div id="dts"><div id="dtc"></div></div><div class="dtf"><button id="dtb" hidden onclick="dtBack()">返回</button><button onclick="$('#dt').close()">退出</button></div></dialog>
-<dialog id="dmh"><h2>週dump</h2><p class="sub" style="text-align:center;margin:-6px 0 12px">選擇要製作或瀏覽</p><div class="mb"><button class="edit" onclick="$('#dmh').close();openDump()">製作</button><button class="edit" onclick="$('#dmh').close();openDumpBrowse()">瀏覽</button></div><div class="acts end"><button onclick="$('#dmh').close();openMenu('rev')">返回</button><button onclick="$('#dmh').close()">退出</button></div></dialog>
-<dialog id="dmv"><h2>週dump・瀏覽</h2><div id="dmvn"></div><div id="dmvp"><div id="dmva"></div><div id="dmvs"><b id="dmvc">0</b><span>篇 dump</span></div></div><div id="dmvf"><div id="dmvl"></div></div><div class="acts end"><button onclick="$('#dmv').close();openDumpHome()">返回</button><button onclick="$('#dmv').close()">退出</button></div></dialog>
-<dialog id="dmvw"><h2 id="dmvwt">dump</h2><div id="dmvwc"></div><p class="sub" id="dmvws"></p><div class="acts dmvwb"><button class="pri" id="dmvi" onclick="dmvImg()">匯出圖片</button><button class="pri" id="dmvv" onclick="dmvVid()">匯出影片</button></div><div class="acts dmvwb"><button onclick="dmvEdit()">編輯</button><button onclick="dmvDel()">刪除</button></div><div class="acts end"><button onclick="$('#dmvw').close();openDumpBrowse()">返回</button><button onclick="$('#dmvw').close()">退出</button></div></dialog>
-<dialog id="dmm"><h2>週dump</h2><p class="sub" id="dmms" style="text-align:center">選擇年月</p><div id="dmml"></div><div class="acts end"><button onclick="dmmBack()">返回</button><button onclick="$('#dmm').close()">退出</button></div></dialog>
-<dialog id="dmp"><h2 id="dmph">週dump</h2><nav id="dmmb" aria-label="編輯選單"><button class="mi" data-m="file" onclick="dmMenu('file')">檔案</button><button class="mi" data-m="add" onclick="dmMenu('add')">新增</button><button class="mi" data-m="box" onclick="dmMenu('box')">方塊</button><button class="mi" data-m="ord" onclick="dmMenu('ord')">排列</button><button class="mi" data-m="look" onclick="dmMenu('look')">版面</button><span id="dmpt"></span></nav><div id="dmbk" hidden></div><div id="dmdd" role="menu" hidden></div><div id="dmw"><canvas id="dmcv"></canvas></div><div id="dmsb"></div><input type="file" id="dmf" accept="image/*" hidden><input type="file" id="dmf2" accept="image/*" hidden><div class="acts"><button onclick="$('#dmp').close();openDump()">返回</button><button onclick="$('#dmp').close()">退出</button></div></dialog>
+<dialog id="dt"><div id="dtt"></div><div id="dts"><div id="dtc"></div></div><div class="dtf"><button id="dtb" hidden onclick="dtBack()" class="xbk" aria-label="返回"></button><button onclick="$('#dt').close()" class="xcl" aria-label="關閉"></button></div></dialog>
+<dialog id="dmh"><h2>週dump</h2><p class="sub" style="text-align:center;margin:-6px 0 12px">選擇要製作或瀏覽</p><div class="mb"><button class="edit" onclick="$('#dmh').close();openDump()">製作</button><button class="edit" onclick="$('#dmh').close();openDumpBrowse()">瀏覽</button></div><div class="acts end"><button onclick="$('#dmh').close();openMenu('rev')" class="xbk" aria-label="返回"></button><button onclick="$('#dmh').close()" class="xcl" aria-label="關閉"></button></div></dialog>
+<dialog id="dmv"><h2>週dump・瀏覽</h2><div id="dmvn"></div><div id="dmvp"><div id="dmva"></div><div id="dmvs"><b id="dmvc">0</b><span>篇 dump</span></div></div><div id="dmvf"><div id="dmvl"></div></div><div class="acts end"><button onclick="$('#dmv').close();openDumpHome()" class="xbk" aria-label="返回"></button><button onclick="$('#dmv').close()" class="xcl" aria-label="關閉"></button></div></dialog>
+<dialog id="dmvw"><h2 id="dmvwt">dump</h2><div id="dmvwc"></div><p class="sub" id="dmvws"></p><div class="acts dmvwb"><button class="pri" id="dmvi" onclick="dmvImg()">匯出圖片</button><button class="pri" id="dmvv" onclick="dmvVid()">匯出影片</button></div><div class="acts dmvwb"><button onclick="dmvEdit()">編輯</button><button onclick="dmvDel()">刪除</button></div><div class="acts end"><button onclick="$('#dmvw').close();openDumpBrowse()" class="xbk" aria-label="返回"></button><button onclick="$('#dmvw').close()" class="xcl" aria-label="關閉"></button></div></dialog>
+<dialog id="dmm"><h2>週dump</h2><p class="sub" id="dmms" style="text-align:center">選擇年月</p><div id="dmml"></div><div class="acts end"><button onclick="dmmBack()" class="xbk" aria-label="返回"></button><button onclick="$('#dmm').close()" class="xcl" aria-label="關閉"></button></div></dialog>
+<dialog id="dmp"><h2 id="dmph">週dump</h2><nav id="dmmb" aria-label="編輯選單"><button class="mi" data-m="file" onclick="dmMenu('file')">檔案</button><button class="mi" data-m="add" onclick="dmMenu('add')">新增</button><button class="mi" data-m="box" onclick="dmMenu('box')">方塊</button><button class="mi" data-m="ord" onclick="dmMenu('ord')">排列</button><button class="mi" data-m="look" onclick="dmMenu('look')">版面</button><span id="dmpt"></span></nav><div id="dmbk" hidden></div><div id="dmdd" role="menu" hidden></div><div id="dmw"><canvas id="dmcv"></canvas></div><div id="dmsb"></div><input type="file" id="dmf" accept="image/*" hidden><input type="file" id="dmf2" accept="image/*" hidden><div class="acts"><button onclick="$('#dmp').close();openDump()" class="xbk" aria-label="返回"></button><button onclick="$('#dmp').close()" class="xcl" aria-label="關閉"></button></div></dialog>
 <dialog id="dmr"><p id="dmot">匯出中…</p><div class="acts" style="justify-content:center"><button id="dmos" onclick="dmStop=true">停止</button></div></dialog>
-<dialog id="dmbg"><h2>背景</h2><div class="mb"><button class="edit" id="dmbgi" onclick="$('#dmbg').close();DM.bgSrc?dmCrop():$('#dmf').click()">選擇圖片</button><label class="r" id="dmbgcw">純色 <input type="color" id="dmbgc"></label><button class="edit" onclick="dmBgNone();$('#dmbg').close()">不使用背景（主題底色）</button></div><div class="acts end"><button onclick="$('#dmbg').close()">關閉</button></div></dialog>
-<dialog id="dmc"><h2>背景（9:16）</h2><p class="sub">拖曳圖片調整位置</p><div id="dmcf"><img id="dmci" alt=""></div><label for="dmcz">縮放</label><input type="range" id="dmcz" min="1" max="4" step="0.01" value="1"><div class="acts"><button onclick="$('#dmf').click()">換圖片</button><button onclick="dmBgNone()">不使用背景</button></div><div class="acts end"><button class="pri" onclick="dmCropOk()">確定</button><button onclick="$('#dmc').close()">取消</button></div></dialog>
-<dialog id="dmi"><h2>選擇紀錄</h2><div class="qsrow" id="dmisr"><input type="search" id="dmis" enterkeyhint="search" autocomplete="off"><button id="dmisb" type="button" onclick="dmPickList()">搜尋</button></div><div id="dmil"></div><div class="acts end"><button class="pri" onclick="dmPickOk()">確定</button><button onclick="$('#dmi').close()">取消</button></div></dialog>
-<dialog id="dmx"><h2>文字</h2><textarea id="dmxt" rows="3"></textarea><div class="acts dmpx"><label for="dmxf">字體</label><select id="dmxf"><option value="c">Cubic 11</option><option value="s">台灣明體</option><option value="d">預設字體</option></select></div><div class="acts dmpx"><label for="dmxv">樣式</label><select id="dmxv"><option value="plain">文字</option><option value="menu">選單</option><option value="btn">按鈕</option></select></div><div class="acts"><label class="r"><input type="radio" name="dmxm" value="0"> 純色字</label><label class="r"><input type="radio" name="dmxm" value="1" checked> 有外框的字</label></div><div class="acts"><label class="r">文字顏色 <input type="color" id="dmxc" value="#ffffff"></label><label class="r" id="dmxsw">外框顏色 <input type="color" id="dmxs" value="#000000"></label></div><div class="acts end"><button class="pri" onclick="dmTextOk()">確定</button><button onclick="$('#dmx').close()">取消</button></div></dialog>
-<dialog id="dmwe"><h2>視窗</h2><label for="dmwet">標題列文字</label><input type="text" id="dmwet" maxlength="40"><div class="acts end"><button class="pri" onclick="dmWinOk()">確定</button><button onclick="$('#dmwe').close()">取消</button></div></dialog>
-<dialog id="dmco"><h2>視窗顏色</h2><div id="dmcol"></div><p class="sub" id="dmcos">按「預設」或沒有自訂的顏色會跟著主題色</p><div class="acts end"><button onclick="$('#dmco').close()">關閉</button></div></dialog>
-<dialog id="dmth"><h2>主題色</h2><p class="sub">視窗方塊使用的配色</p><div class="acts" id="dmthl"></div><div class="acts end"><button onclick="$('#dmth').close()">取消</button></div></dialog>
-<dialog id="qd"><h2>選擇要引用的紀錄</h2><div class="qsrow"><input type="search" id="qs2" enterkeyhint="search" autocomplete="off"><button id="qsb" class="pri" onclick="qdGo(true)">搜尋</button></div><div id="qdc"></div><div class="acts end"><button onclick="$('#qd').close()">取消</button></div></dialog>
-<dialog id="lb" class="tbd"><h2 id="lbt">圖片</h2><button id="lbx" class="xcl" aria-label="關閉" onclick="$('#lb').close()">關閉</button><div id="lbc"></div></dialog>
+<dialog id="dmbg"><h2>背景</h2><div class="mb"><button class="edit" id="dmbgi" onclick="$('#dmbg').close();DM.bgSrc?dmCrop():$('#dmf').click()">選擇圖片</button><label class="r" id="dmbgcw">純色 <input type="color" id="dmbgc"></label><button class="edit" onclick="dmBgNone();$('#dmbg').close()">不使用背景（主題底色）</button></div><div class="acts end"><button onclick="$('#dmbg').close()" class="xcl" aria-label="關閉"></button></div></dialog>
+<dialog id="dmc"><h2>背景（9:16）</h2><p class="sub">拖曳圖片調整位置</p><div id="dmcf"><img id="dmci" alt=""></div><label for="dmcz">縮放</label><input type="range" id="dmcz" min="1" max="4" step="0.01" value="1"><div class="acts"><button onclick="$('#dmf').click()">換圖片</button><button onclick="dmBgNone()">不使用背景</button></div><div class="acts end"><button class="pri" onclick="dmCropOk()">確定</button><button onclick="$('#dmc').close()" class="xcl" aria-label="關閉"></button></div></dialog>
+<dialog id="dmi"><h2>選擇紀錄</h2><div class="qsrow" id="dmisr"><input type="search" id="dmis" enterkeyhint="search" autocomplete="off"><button id="dmisb" type="button" onclick="dmPickList()">搜尋</button></div><div id="dmil"></div><div class="acts end"><button class="pri" onclick="dmPickOk()">確定</button><button onclick="$('#dmi').close()" class="xcl" aria-label="關閉"></button></div></dialog>
+<dialog id="dmx"><h2>文字</h2><textarea id="dmxt" rows="3"></textarea><div class="acts dmpx"><label for="dmxf">字體</label><select id="dmxf"><option value="c">Cubic 11</option><option value="s">台灣明體</option><option value="d">預設字體</option></select></div><div class="acts dmpx"><label for="dmxv">樣式</label><select id="dmxv"><option value="plain">文字</option><option value="menu">選單</option><option value="btn">按鈕</option></select></div><div class="acts"><label class="r"><input type="radio" name="dmxm" value="0"> 純色字</label><label class="r"><input type="radio" name="dmxm" value="1" checked> 有外框的字</label></div><div class="acts"><label class="r">文字顏色 <input type="color" id="dmxc" value="#ffffff"></label><label class="r" id="dmxsw">外框顏色 <input type="color" id="dmxs" value="#000000"></label></div><div class="acts end"><button class="pri" onclick="dmTextOk()">確定</button><button onclick="$('#dmx').close()" class="xcl" aria-label="關閉"></button></div></dialog>
+<dialog id="dmwe"><h2>視窗</h2><label for="dmwet">標題列文字</label><input type="text" id="dmwet" maxlength="40"><div class="acts end"><button class="pri" onclick="dmWinOk()">確定</button><button onclick="$('#dmwe').close()" class="xcl" aria-label="關閉"></button></div></dialog>
+<dialog id="dmco"><h2>視窗顏色</h2><div id="dmcol"></div><p class="sub" id="dmcos">按「預設」或沒有自訂的顏色會跟著主題色</p><div class="acts end"><button onclick="$('#dmco').close()" class="xcl" aria-label="關閉"></button></div></dialog>
+<dialog id="dmth"><h2>主題色</h2><p class="sub">視窗方塊使用的配色</p><div class="acts" id="dmthl"></div><div class="acts end"><button onclick="$('#dmth').close()" class="xcl" aria-label="關閉"></button></div></dialog>
+<dialog id="qd"><h2>選擇要引用的紀錄</h2><div class="qsrow"><input type="search" id="qs2" enterkeyhint="search" autocomplete="off"><button id="qsb" class="pri" onclick="qdGo(true)">搜尋</button></div><div id="qdc"></div><div class="acts end"><button onclick="$('#qd').close()" class="xcl" aria-label="關閉"></button></div></dialog>
+<dialog id="lb" class="tbd"><h2 id="lbt">圖片</h2><button id="lbx" class="xcl" onclick="$('#lb').close()" aria-label="關閉"></button><div id="lbc"></div></dialog>
 <button id="fab" hidden onclick="fabAdd()">+ 新增</button>
 <div id="toast" role="status" popover="manual"></div>
 
@@ -1334,7 +1334,7 @@ const GUIDE=[
  {t:'施工日誌',b:'尚未更新！'}];
 function openGd(i){const d=$('#gd');
  if(i==null){d.close();openMenu('help');return}
- rc(d,h('h2',{},GUIDE[i].t),h('div',{class:'gb'},GUIDE[i].b),h('div',{class:'acts'},h('button',{onclick:()=>openGd(null)},'返回'),h('button',{onclick:()=>d.close()},'退出')));
+ rc(d,h('h2',{},GUIDE[i].t),h('div',{class:'gb'},GUIDE[i].b),h('div',{class:'acts'},h('button',{class:'xbk','aria-label':'返回',onclick:()=>openGd(null)}),h('button',{class:'xcl','aria-label':'關閉',onclick:()=>d.close()})));
  if(!d.open)d.showModal();d.scrollTop=0}
 /* ===== 頂列選單：設定／對象／標籤／回顧／管理／說明／備份，點擊後向下彈出功能條 ===== */
 let mOpen=null;
@@ -1433,7 +1433,7 @@ function openColorList(){if(!people.length){toast('請先新增對象，再進�
 /* 回顧範圍：回顧時最多只展開到這一年（空值＝不限制） */
 function setMinY(v){v=+v||null;MINY=v;try{v?localStorage.setItem('nyear-miny',v):localStorage.removeItem('nyear-miny')}catch(e){}render()}
 
-function drawSwt(){$('#swt').replaceChildren(h('button',{class:'sw',style:'background:'+defAcc(),'aria-label':'主題1（預設）',title:'主題1（預設）',onclick:()=>setTheme(null)}),...Object.keys(THEMES).map(k=>{const t=THEMES[k];return h('button',{class:'sw',style:`background:${t.acc}`,'aria-label':t.n,title:t.n,onclick:()=>setTheme('T:'+k)})}));}
+function drawSwt(){$('#swt').replaceChildren(h('button',{class:'sw',style:'background:'+defAcc(),'aria-label':'主題1（預設）',onclick:()=>setTheme(null)}),...Object.keys(THEMES).map(k=>{const t=THEMES[k];return h('button',{class:'sw',style:`background:${t.acc}`,'aria-label':t.n,onclick:()=>setTheme('T:'+k)})}));}
 drawSwt();
 $('#tc').oninput=e=>setTheme(e.target.value);
 
@@ -1523,7 +1523,7 @@ function openHeatDay(ds){const d=$('#hd'),list=hmData.filter(e=>e.date===ds).sor
   h('div',{class:'qb'},h('div',{class:'rd'},e.time||'不記時間'),h('div',{class:'qtx'},(e.text||'')||cntStr(e)||'（沒有文字）')))));
  rc(d,h('h2',{style:'text-align:center'},fmtD(ds)),
   h('div',{class:'arl'},...items),
-  h('div',{class:'acts',style:'justify-content:center'},h('button',{onclick:()=>d.close()},'返回'),h('button',{onclick:()=>{d.close();$('#hm').close()}},'退出')));
+  h('div',{class:'acts',style:'justify-content:center'},h('button',{class:'xbk','aria-label':'返回',onclick:()=>d.close()}),h('button',{class:'xcl','aria-label':'關閉',onclick:()=>{d.close();$('#hm').close()}})));
  if(!d.open)d.showModal()}
 function openHeat(pid){hmPid=pid;
  dbByP(pid).then(arr=>{hmData=arr.filter(e=>e.date!==NODATE);
@@ -1540,7 +1540,7 @@ function drawHeat(){
   for(let i=0;i<first;i++)cells.push(h('div',{class:'hcell blank'}));
   for(let d=1;d<=dim;d++){
    const ds=`${hmY}-${pad(m+1)}-${pad(d)}`,c=dcnt[ds]||0,on=c>0;
-   cells.push(h('div',{class:'hcell'+(on?` ${hmLv(c)} ck`:''),title:`${m+1}月${d}日：${on?c+'則紀錄':'無紀錄'}`,onclick:on?()=>{sfx('tap');openHeatDay(ds)}:null}))
+   cells.push(h('div',{class:'hcell'+(on?` ${hmLv(c)} ck`:''),onclick:on?()=>{sfx('tap');openHeatDay(ds)}:null}))
   }
   months.push(h('div',{class:'hmonth'},h('div',{class:'hmtitle'},`${m+1}月`),h('div',{class:'hgrid'},cells)))
  }
@@ -1681,11 +1681,8 @@ async function commitMove(date,time){
  dropDraft();await loadView();return true}
 function moveEntry(){edDate===NODATE?openMv():moveToNote()}
 async function moveToNote(){if(await commitMove(NODATE,null)){$('#ed').close();toast('已移至隨手記');renderKeep()}}
-/* 視窗風：取消/退出 → 右上 ✕，返回 → －（沿用原按鈕，只改外觀與位置） */
-function decoDlg(d){if(d.id==='cf'||d.id==='lb')return;let any=false;
- d.querySelectorAll('button').forEach(b=>{const t=(b.textContent||'').trim();
-  if(/^(取消|退出|關閉)$/.test(t)){b.classList.add('xcl');any=true;b.setAttribute('aria-label',t)}
-  else if(t==='返回'){b.classList.add('xbk');any=true;b.setAttribute('aria-label',t)}});
+/* 視窗風：class xcl → 右上 ✕（直接關閉），xbk → －（回上一層） */
+function decoDlg(d){if(d.id==='cf'||d.id==='lb')return;const any=!!d.querySelector('button.xcl,button.xbk');
  if(d.id!=='wr')d.classList.toggle('tbd',any);
  d.querySelectorAll('.acts,.dtf').forEach(a=>{const k=[...a.children];a.classList.toggle('xe',k.length>0&&k.every(c=>c.matches('.xcl,.xbk')||c.hidden))});
 }
@@ -1809,7 +1806,7 @@ document.addEventListener('click',e=>{const c=e.target.closest&&e.target.closest
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('button');if(!b||b.disabled)return;
  if(b.matches('.tg button'))return;
  const t=(b.textContent||'').trim();
- sfx((b.id==='dl'||b.classList.contains('del')||t.includes('刪除')||t.includes('清除')||/^(返回|取消|退出|關閉)/.test(t))?'low':'tap')},true);
+ sfx((b.id==='dl'||b.classList.contains('del')||b.matches('.xcl,.xbk')||t.includes('刪除')||t.includes('清除')||/^(返回|取消)/.test(t))?'low':'tap')},true);
 document.addEventListener('change',e=>{if(e.target.matches&&e.target.matches('select,input[type=radio],input[type=checkbox]'))sfx('tap')},true);
 document.addEventListener('pointerdown',e=>{if(e.target.matches&&e.target.matches('textarea,input[type=search],input[type=text],input:not([type])')&&document.activeElement!==e.target)sfx('tap')},true);
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches&&e.target.matches('input[type=search]'))sfx('tap')},true);
@@ -1932,7 +1929,7 @@ async function openAr(){await purgeArchive();
    h('div',{class:'arf'},h('button',{class:'edit',onclick:()=>arRestore(e)},'還原'),h('button',{class:'edit',onclick:()=>arDel(e)},'刪除'),h('span',{class:'ardn'},`${left}天後自動刪除`)))});
  rc(d,h('h2',{style:'text-align:center'},'封存'),
   h('div',{class:'arl'},...(items.length?items:[h('p',{class:'sub',style:'text-align:center'},'目前沒有封存的紀錄')])),
-  h('div',{class:'acts',style:'justify-content:center;flex-wrap:wrap'},...(all.length?[h('button',{onclick:()=>arDelAll(all.length)},'全部刪除')]:[]),h('button',{onclick:()=>{d.close();openMenu('org')}},'返回'),h('button',{onclick:()=>d.close()},'退出')));
+  h('div',{class:'acts',style:'justify-content:center;flex-wrap:wrap'},...(all.length?[h('button',{onclick:()=>arDelAll(all.length)},'全部刪除')]:[]),h('button',{class:'xbk','aria-label':'返回',onclick:()=>{d.close();openMenu('org')}}),h('button',{class:'xcl','aria-label':'關閉',onclick:()=>d.close()})));
  if(!d.open)d.showModal()}
 async function arDelAll(n){if(!await ask(`${n}則封存的紀錄會被永久刪除，無法復原`))return;try{for(const e of (await dbAll('entries')).filter(e=>e.archived))await dbDel('entries',e.k);toast('已全部刪除');openAr()}catch(_){toast('刪除失敗')}}
 async function arRestore(e){try{await dbPut('entries',{...e,archived:0});await loadView();render();toast('已還原');openAr()}catch(_){toast('還原失敗')}}
@@ -2411,7 +2408,7 @@ function dmWinEd(it){dmWe=it;$('#dmwet').value=it.title||'';$('#dmwe').showModal
 /* 照片／影片比例不同時的補底顏色：預設主題色①（跟著主題色變），也可以自訂 */
 const DMSWN=['主題色①','主題色②','功能深色','功能淺色','對比色'];
 function dmSwFor(inp){let w=inp._sw;if(!w){w=inp._sw=h('span',{class:'dmsw'});inp.after(w)}const P=dPal(DM&&DM.theme);
- rc(w,...[P.bg,P.acc,P.ink,P.card,P.press||P.del].map((c,i)=>h('button',{type:'button',class:'sw dmsws',style:'background:'+c,title:DMSWN[i],'aria-label':DMSWN[i],onclick:e=>{e.preventDefault();inp.value=String(c).toLowerCase();inp.dispatchEvent(new Event('input',{bubbles:true}))}})))}
+ rc(w,...[P.bg,P.acc,P.ink,P.card,P.press||P.del].map((c,i)=>h('button',{type:'button',class:'sw dmsws',style:'background:'+c,'aria-label':DMSWN[i],onclick:e=>{e.preventDefault();inp.value=String(c).toLowerCase();inp.dispatchEvent(new Event('input',{bubbles:true}))}})))}
 /* 視窗顏色：標題列、標題文字、視窗框、邊框、按鈕（照片／影片另有補底顏色）；沒自訂的跟著主題色 */
 const DMCOL=[['ca','標題列','acc'],['ct','標題文字','on'],['cf','視窗框','btnf'],['cb','邊框','ink'],['cn','按鈕','btnf'],['lb','圖片補底','bg']];
 function dmColorEd(it){const P=dPal(DM.theme),rows=DMCOL.filter(([k])=>k!=='lb'||it.t==='image'||it.t==='video');
@@ -2437,7 +2434,7 @@ function dmTextOk(){const t=$('#dmxt').value.replace(/\s+$/,'');if(!t.trim()){to
  else{const it={id:'t'+(DM.nid++),t:'text',text:t,fs,ff,tv,w,color:$('#dmxc').value,st,sc,x:Math.max(20,(DW-w)/2),y:DH/2-60};DM.items.push(it);DM.sel=it.id}
  $('#dmx').close();dmSelBar();dmDraw()}
 /* 主題色：視窗方塊的配色 */
-function dmTheme(){const sw=(k,c,t)=>h('button',{class:'sw'+(DM.theme===k?' on':''),style:'background:'+c,title:t,'aria-label':t,onclick:()=>{DM.theme=k;$('#dmth').close();dmDraw()}});
+function dmTheme(){const sw=(k,c,t)=>h('button',{class:'sw'+(DM.theme===k?' on':''),style:'background:'+c,'aria-label':t,onclick:()=>{DM.theme=k;$('#dmth').close();dmDraw()}});
  rc($('#dmthl'),sw(null,dmW7()?DPAL7.acc:DPAL0.acc,'主題1（預設）'),...Object.keys(THEMES).map(k=>sw(k,THEMES[k].acc,THEMES[k].n)));$('#dmth').showModal()}
 /* 匯出：沒有影片／音訊 → 1080×1920 PNG；有的話錄成影片：由上到下依序播放影片，接著由上到下播放音訊，播完為止 */
 let dmStop=false;
@@ -2589,7 +2586,6 @@ if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWor
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
 (async()=>{await openDB();await purgeArchive();people=await dbAll('people');people.sort((a,b)=>a.id<b.id?-1:1);
  try{const g=localStorage.getItem(TK);if(g&&people.length){for(const p of people)if(!p.color){p.color=g;await dbPut('people',p)}localStorage.removeItem(TK)}}catch(e){}
- if(!FEAT.people&&!people.length){const p={id:'p'+Date.now(),name:'我'};await dbPut('people',p);people.push(p)}
  applyFeat();await sel(people[0]?.id||null)})();
 document.addEventListener('touchstart',()=>{},{passive:true});
 
