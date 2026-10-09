@@ -584,12 +584,12 @@ dialog select{padding-top:2px;padding-bottom:2px;line-height:1.3}
 
 #tx,#lk{padding-left:9px;padding-right:9px}
 /* 備份／熱力圖／封存：留白與其他視窗一致 */
-#bk,#ar,#hm{padding:38px 12px 10px}
-#bk .acts.xe,#ar .acts.xe,#hm .acts.xe{margin:0!important}
+#bk,#ar,#hd,#hm{padding:38px 12px 10px}
+#bk .acts.xe,#ar .acts.xe,#hd .acts.xe,#hm .acts.xe{margin:0!important}
 #bk .sub,#bk p.sub{margin-bottom:8px!important}
 #bk>:last-child:not(.acts){margin-bottom:0!important}
 #hmc{margin-bottom:8px}
-#ar>.sub{margin:0 0 10px!important}#ar .arl{margin-bottom:8px;padding-top:0;padding-bottom:0}#ar .arl:has(+.acts.xe){margin-bottom:0}#ar .arl>p.sub{margin:0!important;padding:4px 0}
+#ar>.sub{margin:0 0 10px!important}#ar .arl,#hd .arl{margin-bottom:8px;padding-top:0;padding-bottom:0}#ar .arl:has(+.acts.xe),#hd .arl:has(+.acts.xe){margin-bottom:0}#ar .arl>p.sub{margin:0!important;padding:4px 0}
 #ar>.acts:not(.xe){margin:0!important}
 #tm #tmsw{margin-bottom:8px}#tm #tmsw[hidden]{margin:0}
 
@@ -1060,6 +1060,7 @@ html.w7 #dmp{border:0;border-radius:0;box-shadow:none}
 </dialog>
 <dialog id="wr"><div id="wrh"></div><div id="wrs"><div class="wbd" id="wrk">保留<i class="pxa r"></i></div><div class="wbd" id="wra"><i class="pxa l"></i>封存</div><div class="wbd" id="wrp"><i class="pxa u"></i>跳過</div><button class="wrbare wrside" id="wrla" onclick="wrBtn(-1)"><i class="pxa l"></i>封存</button><button class="wrbare wrside" id="wrrk" onclick="wrBtn(1)"><i class="pxa r"></i>保留</button></div><div id="wrb"><button id="wrun" onclick="wrUndo()">上一步</button><button class="wrbare" id="wrup" onclick="wrBtn(0)"><i class="pxa u"></i>跳過</button><button id="wrbk" onclick="closeWr();openMenu('org')">返回</button><button id="wrx" onclick="closeWr()">退出</button></div></dialog>
 <dialog id="ar"></dialog>
+<dialog id="hd"></dialog>
 <dialog id="mv">
 <h2>移至時間軸</h2>
 <label>日期</label>
@@ -1516,10 +1517,14 @@ function goDay(date){const [y,m,d]=date.split('-').map(Number);mo=m;dy=d;hy=y;qs
 const rc=(el,...c)=>el.replaceChildren(...c.flat().filter(Boolean));
 function openHp(){if(!people.length){toast('請先新增對象');openMenu('rev');return}
  openHeat(people.some(p=>p.id===cur)?cur:people[0].id)}
-async function heatGo(ds){$('#hm').close();const p=hmPid;
- if(other)other=false;
- if(p!==cur)await sel(p);else await loadView();
- goDay(ds)}
+/* 熱力圖點方塊：跳出當天紀錄的視窗（比照封存的樣式；點紀錄可展開全文）；−＝回熱力圖、×＝回主頁 */
+function openHeatDay(ds){const d=$('#hd'),list=hmData.filter(e=>e.date===ds).sort((a,b)=>(a.time||'99')<(b.time||'99')?-1:1);
+ const items=list.map(e=>h('div',{class:'ari'},h('div',{class:'qv arq',onclick:ev=>{ev.currentTarget.classList.toggle('open')}},
+  h('div',{class:'qb'},h('div',{class:'rd'},e.time||'不記時間'),h('div',{class:'qtx'},(e.text||'')||cntStr(e)||'（沒有文字）')))));
+ rc(d,h('h2',{style:'text-align:center'},fmtD(ds)),
+  h('div',{class:'arl'},...items),
+  h('div',{class:'acts',style:'justify-content:center'},h('button',{onclick:()=>d.close()},'返回'),h('button',{onclick:()=>{d.close();$('#hm').close()}},'退出')));
+ if(!d.open)d.showModal()}
 function openHeat(pid){hmPid=pid;
  dbByP(pid).then(arr=>{hmData=arr.filter(e=>e.date!==NODATE);
   const yrs=hmData.map(e=>+e.date.slice(0,4));hmY=yrs.length?Math.max(...yrs):now.getFullYear();if(MINY&&hmY<MINY)hmY=MINY;if(hmY>now.getFullYear())hmY=now.getFullYear();
@@ -1535,7 +1540,7 @@ function drawHeat(){
   for(let i=0;i<first;i++)cells.push(h('div',{class:'hcell blank'}));
   for(let d=1;d<=dim;d++){
    const ds=`${hmY}-${pad(m+1)}-${pad(d)}`,c=dcnt[ds]||0,on=c>0;
-   cells.push(h('div',{class:'hcell'+(on?` ${hmLv(c)} ck`:''),title:`${m+1}月${d}日：${on?c+' 則紀錄':'無紀錄'}`,onclick:on?()=>{sfx('tap');heatGo(ds)}:null}))
+   cells.push(h('div',{class:'hcell'+(on?` ${hmLv(c)} ck`:''),title:`${m+1}月${d}日：${on?c+'則紀錄':'無紀錄'}`,onclick:on?()=>{sfx('tap');openHeatDay(ds)}:null}))
   }
   months.push(h('div',{class:'hmonth'},h('div',{class:'hmtitle'},`${m+1}月`),h('div',{class:'hgrid'},cells)))
  }
