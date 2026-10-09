@@ -190,7 +190,7 @@ video.dtm{background:#000}
 
 #gd{width:min(320px,86vw)}#gd h2{text-align:center;margin:2px 0 14px}#gd .mb{display:flex;flex-direction:column;align-items:center;gap:12px}
 #ft,
-#ui,#dmh{width:min(320px,86vw)}#ft h2,#ui h2,#dmh h2{text-align:center;margin:2px 0 14px}#ft .mb,#ui .mb,#dmh .mb{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:14px}#ft .edit,#ui .edit,#dmh .edit{margin:0;width:100%;max-width:230px;padding:8px 12px;font-size:var(--f14);text-align:center}
+#ui,#dmh{width:min(320px,86vw)}#ft h2,#ui h2,#dmh h2{text-align:center;margin:2px 0 14px}.moreS{height:1px}.row.rin{animation:rowIn .45s ease-out both}@keyframes rowIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}@media (prefers-reduced-motion:reduce){.row.rin{animation:none}}#ftc{display:grid;grid-template-columns:auto 1fr;gap:10px 14px;align-items:center;margin:0 4px 8px}#ftc>label{margin:0;font-size:var(--f13);color:var(--ink)}#ftc .acts{margin:0!important;gap:10px;align-items:center;flex-wrap:nowrap}#ftc select{width:auto;margin:0}#ft .mb,#ui .mb,#dmh .mb{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:14px}#ft .edit,#ui .edit,#dmh .edit{margin:0;width:100%;max-width:230px;padding:8px 12px;font-size:var(--f14);text-align:center}
 #gd .mb .edit{margin:0;width:100%;max-width:230px;padding:8px 12px;font-size:var(--f14);text-align:center}
 #gd .gb{font-size:var(--f14);line-height:1.8;white-space:pre-wrap;max-height:56vh;overflow:auto;margin:0 0 4px}
 #gd .acts{justify-content:center;margin:14px 0 2px}
@@ -256,7 +256,6 @@ mark.hl{background:rgba(128,128,128,.3);background:color-mix(in srgb,var(--acc) 
 .ohead .edit{margin:0;height:32px;line-height:28px;padding:0 12px;box-sizing:border-box}
 .otl{font:400 var(--f33)/1.2 "Cubic 11",serif;margin:0;white-space:nowrap}
 .ol{margin-top:4px}
-#my{width:min(320px,86vw);overflow-x:hidden}#my h2{text-align:center;margin:2px 0 12px}#my .sub{font-size:var(--f13);word-break:break-word}#my select{width:100%}
 .qsrow{display:flex;gap:8px;align-items:center;flex:none}
 #qs2{clip-path:var(--cut);-webkit-appearance:none;appearance:none;flex:1;min-width:0;width:auto;border:var(--bw) solid transparent;background:var(--pxbg);border-radius:0;padding:6px 10px;margin:0}
 #qs2::-webkit-search-decoration{-webkit-appearance:none;display:none}
@@ -455,7 +454,7 @@ html[data-th] :is(.pri,#fab,.tg.on):active:not(:disabled){--fill:var(--press,var
 html[data-th="t5"] .card:not(.empty){--ca:var(--card)}
 button.tapfx{--hi:var(--blo);--lo:var(--bhi);text-indent:1px}
 html.kb #wr[open]{height:var(--vvh);max-height:var(--vvh);top:var(--vvt,0px);bottom:auto}
-/* 視窗不要被瀏海／動態島／底部橫條蓋住：置中範圍扣掉安全區域（全螢幕的整理、週總結編輯器除外） */
+/* 視窗不要被瀏海／動態島／底部橫條蓋住：置中範圍扣掉安全區域（全螢幕的整理、週dump編輯器除外） */
 dialog:not(#wr):not(#dmp){top:env(safe-area-inset-top,0px);bottom:env(safe-area-inset-bottom,0px);max-height:calc(100% - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 16px)}
 dialog#dt:not(#wr):not(#dmp){max-height:min(88vh,calc(100% - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 16px))}
 html.kb dialog[open]:not(#wr){max-height:calc(var(--vvh) - 16px);top:calc(var(--vvt,0px) + 8px);bottom:auto;margin-top:0;margin-bottom:0}
@@ -562,7 +561,6 @@ html[data-th="t6"]{--tsh:var(--card)}
 #pd input[type=text],#pe input[type=text],#tm input[type=text]{padding:4px 9px;margin:0;line-height:1.3}
 #pd .acts.end,#pe .acts.end,#tm .acts.end,#my .acts.end,#dp .acts.end,#mv .acts.end{margin:8px 0 0}
 #tm #tmnw{margin:0}#tm #tms{margin:4px 0 0!important}#tm label{display:block}
-#my .sub{margin:0 0 8px}#my select{margin:0}
 #dp .acts:not(.end),#mv .acts:not(.end){margin:0 0 0}
 #mv label:not(.r){display:block;margin:4px 0 4px}#mv #mvtw{margin-top:8px}
 dialog select{padding-top:2px;padding-bottom:2px;line-height:1.3}
@@ -659,7 +657,7 @@ input.tmx:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink)
 .acts label.r{letter-spacing:1.56px;font-size:var(--f13)}
 /* 時間那排（三個選項＋時間欄）放不下較大的字，用小一級 */
 #tmwrap .acts label.r{font-size:var(--f12)}
-/* ===== 週總結 dump 編輯器 ===== */
+/* ===== 週dump dump 編輯器 ===== */
 #dmml:focus{outline:none}
 #dmml{display:flex;flex-direction:column;gap:8px;max-height:55vh;overflow-y:auto;margin-bottom:8px}
 #dmbg .mb{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%}#dmbg .mb .edit{min-width:200px;justify-content:center}#dmbgcw{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-size:var(--f13);letter-spacing:1.56px;color:var(--ink)}#dmbg .mb .edit.on,#dmbgcw.on{outline:2px solid var(--ink);outline-offset:2px}
@@ -749,8 +747,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
 input[type=range]::-moz-range-thumb{width:11px;height:21px;border:0;border-radius:0;background:var(--btnf);box-shadow:inset -1px -1px 0 var(--ink),inset 1px 1px 0 var(--bhi),inset -2px -2px 0 var(--blo)}
 input[type=range]:focus-visible::-webkit-slider-thumb{outline:1px dotted var(--ink);outline-offset:-4px}
 input[type=range]:disabled{cursor:default}
-/* 搜尋欄：右側像素放大鏡（Win95 風）；大日期、隨手記標題、年份：右下角 1px 淺色陰影（功能淺色） */
-#hdr #q,#qs2,#dmis{padding-right:28px;background:var(--magi,none) right 8px center/12px 12px no-repeat,var(--pxbg)}
+/* 大日期、隨手記標題、年份：右下角 1px 淺色陰影（功能淺色） */
 .day,.otl,.yr{text-shadow:1px 1px 0 var(--card)}
 .dhead .arrow{filter:drop-shadow(1px 1px 0 var(--card))}
 /* 時間軸＝拉桿（比照拉桿樣式）：軸線是凹槽軌道；有紀錄的年份放一個滑塊（橫放），沒紀錄的年份只有刻度；一天內的時間點也是滑塊 */
@@ -800,7 +797,6 @@ html.w7 #fab{border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.25)}
 html.w7 :is(input:not([type=radio]):not([type=checkbox]):not([type=range]):not([type=color]),textarea,select,.fl,.qhit,.qv,.qchip,.dtg){border-radius:3px}
 html.w7 :is(input,textarea,select):focus,html.w7 .fl:focus-visible{outline:none!important;--w7bd:var(--acc)}
 html.w7 input::placeholder,html.w7 textarea::placeholder{color:#8A8A8A;font-style:italic}
-html.w7 #hdr #q,html.w7 #qs2,html.w7 #dmis{padding-right:28px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Ccircle cx='6' cy='6' r='4.2' fill='none' stroke='%233F5F8F' stroke-width='1.5'/%3E%3Cpath d='M9.2 9.2L13.2 13.2' stroke='%233F5F8F' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") right 8px center/14px no-repeat,var(--pxbg)}
 html.w7 dialog select{background:linear-gradient(to top right,transparent 50%,#3A3A3A 50%) right 11px center/4px 4px no-repeat,linear-gradient(to top left,transparent 50%,#3A3A3A 50%) right 7px center/4px 4px no-repeat,var(--pxbg)}
 /* 輸入欄（參考 Win7 文字框）：未選取＝灰框（上緣較深）；選取（輸入中）＝藍框 */
 html.w7 :is(input:not([type=radio]):not([type=checkbox]):not([type=range]):not([type=color]):not([type=file]),textarea,dialog select){border-style:solid!important;border-width:1px!important;border-color:#ABADB3 #DBDFE6 #E3E9EF #E2E3EA!important;--pxbg:linear-gradient(var(--fill),var(--fill)) padding-box}
@@ -952,7 +948,7 @@ html.w7 .row::after{background:#8A8A8A}
 html.w7 .htm::after{border-radius:2px;background:linear-gradient(to right,#F4F4F4,#E3E3E3 50%,#D2D2D2);box-shadow:inset 0 0 0 1px #707070,inset 0 0 0 2px rgba(255,255,255,.6)}
 /* 左右滑動換日：平滑移動（Win95 是逐格） */
 html.w7 #app.swl{animation:swl .18s ease-out}html.w7 #app.swr{animation:swr .18s ease-out}
-/* 週總結編輯器（全螢幕）：沒有外框 */
+/* 週dump編輯器（全螢幕）：沒有外框 */
 html.w7 #dmp,html.w7 #wr{border:0;border-radius:0;box-shadow:none;background:var(--bg)}
 </style>
 </head>
@@ -1015,10 +1011,10 @@ html.w7 #dmp,html.w7 #wr{border:0;border-radius:0;box-shadow:none;background:var
 <textarea id="lk" rows="1" placeholder="https://"></textarea>
 <label>附件/其他</label>
 <div class="acts">
-<button onclick="fi.click()">＋ 照片／影片／音訊／檔案</button>
+<button onclick="fi.click()">+ 照片/影片/音訊/檔案</button>
 <input type="file" id="fi" multiple hidden>
 </div>
-<div class="acts" id="tqrow"><button id="tgbtn" onclick="tagToggle()">＋ 標籤</button><button id="qbtn" onclick="openQd()">＋ 引用</button></div>
+<div class="acts" id="tqrow"><button id="tgbtn" onclick="tagToggle()">+ 標籤</button><button id="qbtn" onclick="openQd()">+ 引用</button></div>
 <div id="qpv"></div>
 <div id="tgd" class="acts" style="margin-top:0"></div>
 <div id="tgi" hidden><div class="acts" style="margin:0 0 8px"><input type="text" id="tn" placeholder="輸入標籤" maxlength="20" style="flex:1;margin:0"><button onclick="addTag($('#tn').value)">加入</button></div><div id="tsg" class="acts" style="margin-top:0"></div></div>
@@ -1043,7 +1039,7 @@ html.w7 #dmp,html.w7 #wr{border:0;border-radius:0;box-shadow:none;background:var
 <div class="acts end"><button onclick="$('#bk').close();openMenu('bak')">返回</button><button onclick="$('#bk').close()">退出</button></div>
 </dialog>
 <dialog id="th">
-<h2 id="tht">主題色</h2>
+<h2 id="tht">色彩設定</h2>
 <div class="acts" id="swt"></div>
 <div class="acts"><label class="r">自訂 <input type="color" id="tc"></label><button onclick="setTheme(null)">恢復預設</button></div>
 <div class="acts" style="justify-content:center"><button onclick="$('#th').close();openMenu('set')">返回</button><button onclick="$('#th').close()">退出</button></div>
@@ -1056,18 +1052,11 @@ html.w7 #dmp,html.w7 #wr{border:0;border-radius:0;box-shadow:none;background:var
 </dialog>
 <dialog id="ft">
 <h2>功能設定</h2>
-<p class="sub" style="text-align:center;margin:-6px 0 12px">點按可開啟或關閉</p>
-<div class="mb" id="ftc"></div>
+<div id="ftc"></div>
 <div class="acts" style="justify-content:center"><button onclick="$('#ft').close();openMenu('set')">返回</button><button onclick="$('#ft').close()">退出</button></div>
 </dialog>
 <dialog id="wr"><div id="wrh"></div><div id="wrs"><div class="wbd" id="wrk">保留<i class="pxa r"></i></div><div class="wbd" id="wra"><i class="pxa l"></i>封存</div><div class="wbd" id="wrp"><i class="pxa u"></i>跳過</div><button class="wrbare wrside" id="wrla" onclick="wrBtn(-1)"><i class="pxa l"></i>封存</button><button class="wrbare wrside" id="wrrk" onclick="wrBtn(1)"><i class="pxa r"></i>保留</button></div><div id="wrb"><button id="wrun" onclick="wrUndo()">上一步</button><button class="wrbare" id="wrup" onclick="wrBtn(0)"><i class="pxa u"></i>跳過</button><button id="wrbk" onclick="closeWr();openMenu('org')">返回</button><button id="wrx" onclick="closeWr()">退出</button></div></dialog>
 <dialog id="ar"></dialog>
-<dialog id="my">
-<h2>年份設定</h2>
-<p class="sub">回顧時最多只會展開到這一年。</p>
-<select id="myv" aria-label="最早年份"></select>
-<div class="acts end"><button class="pri" onclick="saveMinY()">儲存</button><button onclick="clearMinY()">不限制</button><button onclick="$('#my').close()">返回</button><button onclick="$('#my').close()">取消</button></div>
-</dialog>
 <dialog id="mv">
 <h2>移至時間軸</h2>
 <label>日期</label>
@@ -1095,10 +1084,10 @@ html.w7 #dmp,html.w7 #wr{border:0;border-radius:0;box-shadow:none;background:var
 </dialog>
 <dialog id="cf"><p id="cft">是否刪除？</p><p class="sm" id="cfs" hidden></p><div class="acts"><button id="cfy" class="pri">確定</button><button id="cfn">取消</button></div></dialog>
 <dialog id="dt"><div id="dtt"></div><div id="dts"><div id="dtc"></div></div><div class="dtf"><button id="dtb" hidden onclick="dtBack()">返回</button><button onclick="$('#dt').close()">退出</button></div></dialog>
-<dialog id="dmh"><h2>週總結</h2><p class="sub" style="text-align:center;margin:-6px 0 12px">選擇要製作或瀏覽</p><div class="mb"><button class="edit" onclick="$('#dmh').close();openDump()">製作</button><button class="edit" onclick="$('#dmh').close();openDumpBrowse()">瀏覽</button></div><div class="acts end"><button onclick="$('#dmh').close();openMenu('rev')">返回</button><button onclick="$('#dmh').close()">退出</button></div></dialog>
-<dialog id="dmv"><h2>週總結・瀏覽</h2><div id="dmvn"></div><div id="dmvp"><div id="dmva"></div><div id="dmvs"><b id="dmvc">0</b><span>篇 dump</span></div></div><div id="dmvf"><div id="dmvl"></div></div><div class="acts end"><button onclick="$('#dmv').close();openDumpHome()">返回</button><button onclick="$('#dmv').close()">退出</button></div></dialog>
+<dialog id="dmh"><h2>週dump</h2><p class="sub" style="text-align:center;margin:-6px 0 12px">選擇要製作或瀏覽</p><div class="mb"><button class="edit" onclick="$('#dmh').close();openDump()">製作</button><button class="edit" onclick="$('#dmh').close();openDumpBrowse()">瀏覽</button></div><div class="acts end"><button onclick="$('#dmh').close();openMenu('rev')">返回</button><button onclick="$('#dmh').close()">退出</button></div></dialog>
+<dialog id="dmv"><h2>週dump・瀏覽</h2><div id="dmvn"></div><div id="dmvp"><div id="dmva"></div><div id="dmvs"><b id="dmvc">0</b><span>篇 dump</span></div></div><div id="dmvf"><div id="dmvl"></div></div><div class="acts end"><button onclick="$('#dmv').close();openDumpHome()">返回</button><button onclick="$('#dmv').close()">退出</button></div></dialog>
 <dialog id="dmvw"><h2 id="dmvwt">dump</h2><div id="dmvwc"></div><p class="sub" id="dmvws"></p><div class="acts dmvwb"><button class="pri" id="dmvi" onclick="dmvImg()">匯出圖片</button><button class="pri" id="dmvv" onclick="dmvVid()">匯出影片</button></div><div class="acts dmvwb"><button onclick="dmvEdit()">編輯</button><button onclick="dmvDel()">刪除</button></div><div class="acts end"><button onclick="$('#dmvw').close();openDumpBrowse()">返回</button><button onclick="$('#dmvw').close()">退出</button></div></dialog>
-<dialog id="dmm"><h2>週總結</h2><p class="sub" id="dmms" style="text-align:center">選擇年月</p><div id="dmml"></div><div class="acts end"><button onclick="dmmBack()">返回</button><button onclick="$('#dmm').close()">退出</button></div></dialog>
+<dialog id="dmm"><h2>週dump</h2><p class="sub" id="dmms" style="text-align:center">選擇年月</p><div id="dmml"></div><div class="acts end"><button onclick="dmmBack()">返回</button><button onclick="$('#dmm').close()">退出</button></div></dialog>
 <dialog id="dmp"><nav id="dmmb" aria-label="編輯選單"><button class="mi" data-m="file" onclick="dmMenu('file')">檔案</button><button class="mi" data-m="add" onclick="dmMenu('add')">新增</button><button class="mi" data-m="box" onclick="dmMenu('box')">方塊</button><button class="mi" data-m="ord" onclick="dmMenu('ord')">排列</button><button class="mi" data-m="look" onclick="dmMenu('look')">版面</button><span id="dmpt"></span></nav><div id="dmbk" hidden></div><div id="dmdd" role="menu" hidden></div><div id="dmw"><canvas id="dmcv"></canvas></div><div id="dmsb"></div><input type="file" id="dmf" accept="image/*" hidden><input type="file" id="dmf2" accept="image/*" hidden></dialog>
 <dialog id="dmr"><p id="dmot">匯出中…</p><div class="acts" style="justify-content:center"><button id="dmos" onclick="dmStop=true">停止</button></div></dialog>
 <dialog id="dmbg"><h2>背景</h2><div class="mb"><button class="edit" id="dmbgi" onclick="$('#dmbg').close();DM.bgSrc?dmCrop():$('#dmf').click()">選擇圖片</button><label class="r" id="dmbgcw">純色 <input type="color" id="dmbgc"></label><button class="edit" onclick="dmBgNone();$('#dmbg').close()">不使用背景（主題底色）</button></div><div class="acts end"><button onclick="$('#dmbg').close()">關閉</button></div></dialog>
@@ -1106,11 +1095,11 @@ html.w7 #dmp,html.w7 #wr{border:0;border-radius:0;box-shadow:none;background:var
 <dialog id="dmi"><h2>選擇紀錄</h2><div class="qsrow" id="dmisr"><input type="search" id="dmis" placeholder="搜尋文字或標籤" enterkeyhint="search" autocomplete="off"><button id="dmisb" type="button" onclick="dmPickList()">搜尋</button></div><div id="dmil"></div><div class="acts end"><button class="pri" onclick="dmPickOk()">確定</button><button onclick="$('#dmi').close()">取消</button></div></dialog>
 <dialog id="dmx"><h2>文字</h2><textarea id="dmxt" rows="3" placeholder="輸入文字"></textarea><div class="acts dmpx"><label for="dmxf">字體</label><select id="dmxf"><option value="c">Cubic 11</option><option value="s">台灣明體</option><option value="d">預設字體</option></select></div><div class="acts dmpx"><label for="dmxv">樣式</label><select id="dmxv"><option value="plain">文字</option><option value="menu">選單</option><option value="btn">按鈕</option></select></div><div class="acts"><label class="r"><input type="radio" name="dmxm" value="0"> 純色字</label><label class="r"><input type="radio" name="dmxm" value="1" checked> 有外框的字</label></div><div class="acts"><label class="r">文字顏色 <input type="color" id="dmxc" value="#ffffff"></label><label class="r" id="dmxsw">外框顏色 <input type="color" id="dmxs" value="#000000"></label></div><div class="acts end"><button class="pri" onclick="dmTextOk()">確定</button><button onclick="$('#dmx').close()">取消</button></div></dialog>
 <dialog id="dmwe"><h2>視窗</h2><label for="dmwet">標題列文字</label><input type="text" id="dmwet" maxlength="40"><div class="acts end"><button class="pri" onclick="dmWinOk()">確定</button><button onclick="$('#dmwe').close()">取消</button></div></dialog>
-<dialog id="dmco"><h2>視窗顏色</h2><div id="dmcol"></div><p class="sub" id="dmcos">按「預設」或沒有自訂的顏色會跟著主題色</p><div class="acts end"><button class="pri" onclick="$('#dmco').close()">確定</button><button onclick="$('#dmco').close()">關閉</button></div></dialog>
+<dialog id="dmco"><h2>視窗顏色</h2><div id="dmcol"></div><p class="sub" id="dmcos">按「預設」或沒有自訂的顏色會跟著主題色</p><div class="acts end"><button onclick="$('#dmco').close()">關閉</button></div></dialog>
 <dialog id="dmth"><h2>主題色</h2><p class="sub">視窗方塊使用的配色</p><div class="acts" id="dmthl"></div><div class="acts end"><button onclick="$('#dmth').close()">取消</button></div></dialog>
 <dialog id="qd"><h2>選擇要引用的紀錄</h2><div class="qsrow"><input type="search" id="qs2" placeholder="搜尋文字或標籤" enterkeyhint="search" autocomplete="off"><button id="qsb" class="pri" onclick="qdGo(true)">搜尋</button></div><div id="qdc"></div><div class="acts end"><button onclick="$('#qd').close()">取消</button></div></dialog>
 <dialog id="lb" class="tbd"><h2 id="lbt">圖片</h2><button id="lbx" class="xcl" aria-label="關閉" onclick="$('#lb').close()">關閉</button><div id="lbc"></div></dialog>
-<button id="fab" hidden onclick="fabAdd()">+新增</button>
+<button id="fab" hidden onclick="fabAdd()">+ 新增</button>
 <div id="toast" role="status" popover="manual"></div>
 
 <script>
@@ -1125,6 +1114,8 @@ let hmY=null,hmData=[],hmPid=null;
 let MINY=+localStorage.getItem('nyear-miny')||null;
 const FK='nyear-feat',FEAT={people:true,tags:true,time:true,quote:true,md:true,sound:true};
 try{Object.assign(FEAT,JSON.parse(localStorage.getItem(FK)||'{}'))}catch(e){}
+/* 對象、標籤、時間、引用一律開啟（不再提供開關） */
+Object.assign(FEAT,{people:true,tags:true,time:true,quote:true});
 const saveFeat=()=>{try{localStorage.setItem(FK,JSON.stringify(FEAT))}catch(e){}};
 let db,useMem=false,M={people:{},entries:{},dumps:{}},people=[],cur=null,E={},urls=[],extra=0,hy=null,multi=false,msel=new Set(),edDate=null,edK=null,draft=[],durls=[],dturls=[],dtags=[],dquote=null,qs='',ftags=[],rlim=50,qt,other=false;
 const NODATE='0000-00-00',tsOf=e=>+String(e.k).split('|').pop()||0;
@@ -1133,7 +1124,7 @@ const now=new Date();let mo=now.getMonth()+1,dy=now.getDate();
 function ask(sub,title){return new Promise(res=>{const d=$('#cf'),s=$('#cfs');$('#cft').textContent=title||'是否刪除？';s.textContent=sub||'';s.hidden=!sub;let done=false;
  const fin=v=>{if(done)return;done=true;if(d.open)d.close();res(v)};
  $('#cfy').onclick=()=>fin(true);$('#cfn').onclick=()=>fin(false);d.onclose=()=>fin(false);d.showModal()})}
-async function clr(id){const e=$(id);if(e.value&&await ask())e.value=''}
+async function clr(id){const e=$(id);if(e.value&&await ask('','是否清除？'))e.value=''}
 function toast(t){const e=$('#toast');e.textContent=t;if(!e.matches(':popover-open'))e.showPopover();clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidePopover(),3500)}
 function openDB(){return new Promise(r=>{try{const q=indexedDB.open('nyear-diary',2);
 q.onupgradeneeded=()=>{const d=q.result,has=n=>d.objectStoreNames.contains(n);if(!has('people'))d.createObjectStore('people',{keyPath:'id'});if(!has('entries'))d.createObjectStore('entries',{keyPath:'k'}).createIndex('pid','pid');if(!has('dumps'))d.createObjectStore('dumps',{keyPath:'k'})};
@@ -1167,7 +1158,7 @@ function avEl(P,size,cls){const d=h('div',{class:'av'+(cls?' '+cls:''),style:`wi
 function peAvLoad(id){const P=pById(id);peAv={P,mode:P&&P.av?'img':P&&P.avc?'color':null,color:P&&P.avc||avAcc(P),img:null,z:1,cx:0,cy:0,dirty:false};
  if(peAv.mode==='img'){const i=new Image();i.onload=()=>{peAv.img=i;peAv.cx=i.naturalWidth/2;peAv.cy=i.naturalHeight/2;peAvDraw()};i.src=P.av}
  $('#peac').value=String(peAv.color).toLowerCase().startsWith('#')?String(peAv.color).toLowerCase():'#000080';$('#peaz').value=1;peAvDraw()}
-/* 裁切框（頭貼、週總結背景共用）：圖片鋪滿框、可縮放（z）與拖曳（cx,cy＝框中心對到的圖片座標） */
+/* 裁切框（頭貼、週dump背景共用）：圖片鋪滿框、可縮放（z）與拖曳（cx,cy＝框中心對到的圖片座標） */
 function cropGeo(S,fw,fh){const im=S.img,iw=im.naturalWidth||im.width,ih=im.naturalHeight||im.height,s=Math.max(fw/iw,fh/ih)*S.z,vw=fw/s,vh=fh/s;
  S.cx=Math.min(iw-vw/2,Math.max(vw/2,S.cx));S.cy=Math.min(ih-vh/2,Math.max(vh/2,S.cy));return{fw,fh,iw,ih,s,vw,vh}}
 function cropPlace(i,S,g){Object.assign(i.style,{width:g.iw*g.s+'px',height:g.ih*g.s+'px',left:(g.fw/2-S.cx*g.s)+'px',top:(g.fh/2-S.cy*g.s)+'px'})}
@@ -1330,7 +1321,7 @@ document.fonts&&document.fonts.ready.then(()=>{fitX();chkClip()});addEventListen
 function wrap(m){const t=$('#tx'),a=t.selectionStart,b=t.selectionEnd,v=t.value;t.value=v.slice(0,a)+m+v.slice(a,b)+m+v.slice(b);t.focus();t.setSelectionRange(a+m.length,b+m.length)}
 function lineP(p){const t=$('#tx'),v=t.value,a=t.selectionStart,b=t.selectionEnd,s0=v.lastIndexOf('\n',a-1)+1;let e0=v.indexOf('\n',b);if(e0<0)e0=v.length;
  const seg=v.slice(s0,e0).split('\n').map(l=>p+l).join('\n');t.value=v.slice(0,s0)+seg+v.slice(e0);t.focus();t.setSelectionRange(s0,s0+seg.length)}
-function updFab(){const b=$('#fab'),ok=other?!!cur:(!multi&&!!cur);b.hidden=!ok;b.textContent='+新增'}
+function updFab(){const b=$('#fab'),ok=other?!!cur:(!multi&&!!cur);b.hidden=!ok;b.textContent='+ 新增'}
 function fabAdd(){openEd(other?NODATE:ymd(now))}
 /* 功能選單 */
 const GUIDE=[
@@ -1346,15 +1337,15 @@ let mOpen=null;
 const mBtn=k=>document.querySelector(`#mbar [data-m="${k}"]`);
 function menuGroups(k){
  const act=(t,f,o)=>({t,f:()=>{closeMenu();f()},...o}),keep=(t,f,o)=>({t,f,...o}),info=t=>({t,dis:1});
- if(k==='set')return [[act('風格設定',openUi),act('色彩設定',openColorList),act('年份設定',openMinYear),act('功能設定',openFeat)]];
+ if(k==='set')return [[act('風格設定',openUi),act('色彩設定',openColorList),act('功能設定',openFeat)]];
  if(k==='rev')return [[
-  act('日回顧',()=>{if(people.length<1){toast('目前沒有可回顧的日記');openMenu('rev');return}toggleMulti()}),
-  act('週總結',openDumpHome),act('熱力圖',openHp)]];
+  act('合併對象回顧',()=>{if(people.length<1){toast('目前沒有可回顧的日記');openMenu('rev');return}toggleMulti()}),
+  act('週dump',openDumpHome),act('熱力圖',openHp)]];
  if(k==='org')return [[act('整理',openWr),act('封存',openAr)]];
  if(k==='help')return [GUIDE.map((g,j)=>act(g.t,()=>openGd(j)))];
  if(k==='bak')return [[act('備份',openBk)],[info(lbMap().all?'上次備份：'+new Date(lbMap().all).toLocaleDateString('zh-TW'):'尚未備份過')]];
  if(k==='ppl'){
-  const g1=people.length?people.map(p=>keep(p.name,()=>{if(multi)tog(p.id);else{closeMenu();sel(p.id)}},multi?{mark:msel.has(p.id),cb:1}:{mark:p.id===cur})):[info('（尚未有對象）')],g2=[];
+  const g1=people.length?people.map(p=>keep(p.name,()=>{if(multi)tog(p.id);else{closeMenu();sel(p.id)}},multi?{mark:msel.has(p.id),cb:1}:{mark:p.id===cur})):[info('（目前沒有對象）')],g2=[];
   if(!multi){g2.push(act('新增對象',()=>{pd.showModal();$('#pn').focus()}));
    if(people.length){g2.push(act('編輯對象',()=>openPe('edit')));g2.push(act('刪除對象',()=>openPe('del'),{del:1}))}}
   return [g1,g2]}
@@ -1409,7 +1400,7 @@ const isTh=x=>typeof x==='string'&&x.startsWith('T:')&&!!THEMES[x.slice(2)];
 const tcVal=x=>isTh(x)?THEMES[x.slice(2)].acc:(x||defAcc());
 const THV=['--card','--ink','--mute','--line','--sep','--del','--btnf','--hotx','--hotbg','--bhi','--blo','--press'];
 /* 日回顧的主題色固定（不能改）：參考線框稿的黑白灰淡色配色 */
-const RVTH={n:'日回顧',bg:'#EEEEEE',btnf:'#EEEEEE',card:'#FFFFFF',ink:'#1C1C1C',mute:'#6E6E6E',line:'#F6F6F6',sep:'#C4C4C4',bhi:'#FFFFFF',blo:'#B8B8B8',acc:'#747474',acx:'#555555',press:'#D6D6D6',del:'#3A3A3A',hotx:'#3A3A3A',hotbg:'rgba(0,0,0,.07)',soft:'rgba(0,0,0,.07)',mark:'rgba(0,0,0,.16)',on:'#FFFFFF'};
+const RVTH={n:'合併對象回顧',bg:'#EEEEEE',btnf:'#EEEEEE',card:'#FFFFFF',ink:'#1C1C1C',mute:'#6E6E6E',line:'#F6F6F6',sep:'#C4C4C4',bhi:'#FFFFFF',blo:'#B8B8B8',acc:'#747474',acx:'#555555',press:'#D6D6D6',del:'#3A3A3A',hotx:'#3A3A3A',hotbg:'rgba(0,0,0,.07)',soft:'rgba(0,0,0,.07)',mark:'rgba(0,0,0,.16)',on:'#FFFFFF'};
 const REVCOL='T:rv';
 const rlum=(r,g,b)=>{const f=v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)};return .2126*f(r)+.7152*f(g)+.0722*f(b)};
 function txc(R,G,B){/* 淺色主題色當文字/小圖示用時，壓暗到看得清楚 */let r=R/255,g=G/255,b=B/255;const M=Math.max(r,g,b),m=Math.min(r,g,b);let l=(M+m)/2,h=0,s=0;
@@ -1421,13 +1412,7 @@ function colInfo(x){if(x===REVCOL)return RVTH;if(isTh(x))return THEMES[x.slice(2
  if(dark&&lum()<.5){const f=.45;R=Math.round(R+(255-R)*f);G=Math.round(G+(255-G)*f);B=Math.round(B+(255-B)*f)}
  const bs=dark?[18,23,28]:[244,246,248],f=dark?.1:.11,mx=(v,i)=>Math.round(bs[i]+(v-bs[i])*f);
  return{acc:`rgb(${R},${G},${B})`,acx:dark?`rgb(${R},${G},${B})`:txc(R,G,B),soft:`rgba(${R},${G},${B},.16)`,mark:`rgba(${R},${G},${B},.32)`,on:lum()>.62?'#111':'#fff'}}
-/* 搜尋欄右側的像素放大鏡（Win95）：顏色跟著目前的功能深色 */
-function setMag(){const d=document.documentElement,col=getComputedStyle(d).getPropertyValue('--ink').trim()||'#000';
- const px=[[3,0,4,1],[2,1,1,1],[7,1,1,1],[1,2,1,4],[8,2,1,4],[2,6,1,1],[7,6,1,1],[3,7,4,1],[8,8,2,2],[9,9,2,2],[10,10,2,2]];
- const svg=`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' shape-rendering='crispEdges' fill='${col}'>${px.map(([x,y,w,h])=>`<rect x='${x}' y='${y}' width='${w}' height='${h}'/>`).join('')}</svg>`;
- d.style.setProperty('--magi',`url("data:image/svg+xml,${encodeURIComponent(svg)}")`)}
-function applyTheme(x){applyTheme0(x);setMag()}
-setMag();
+function applyTheme(x){applyTheme0(x)}
 function applyTheme0(x){const r=document.documentElement.style,mt=document.querySelector('meta[name=theme-color]'),c=colInfo(x);
  if(!c){['--acc','--acx','--soft','--mark','--onacc','--bg',...THV].forEach(k=>r.removeProperty(k));delete document.documentElement.dataset.th;mt.content=document.documentElement.classList.contains('w7')?'#C3D6EE':'#000080';return}
  THV.forEach(k=>c.card?r.setProperty(k,c[k.slice(2)]):r.removeProperty(k));c.card?document.documentElement.dataset.th=x.slice(2):delete document.documentElement.dataset.th;
@@ -1441,11 +1426,8 @@ function openTh(pid){pid=pid||cur;
  thEditing=pid;$('#tht').textContent=pT('色彩設定',pid);$('#tc').value=tcVal(p.color);$('#th').showModal()}
 function openColorList(){if(!people.length){toast('請先新增對象，再進行色彩設定');openMenu('set');return}
  openTh(people.some(p=>p.id===cur)?cur:people[0].id)}
-function openMinYear(){const s=$('#myv');rc(s,h('option',{value:''},'請選擇年份'),...yearOpts());s.value=MINY?String(MINY):'';$('#my').showModal()}
-function saveMinY(){const v=+$('#myv').value,cy=now.getFullYear();if(!v||v<1900||v>cy){toast('請選擇年份');return}
- MINY=v;localStorage.setItem('nyear-miny',v);$('#my').close();render()}
-function clearMinY(){MINY=null;localStorage.removeItem('nyear-miny');$('#my').close();render()}
-$('#my').onclose=()=>openMenu('set');
+/* 回顧範圍：回顧時最多只展開到這一年（空值＝不限制） */
+function setMinY(v){v=+v||null;MINY=v;try{v?localStorage.setItem('nyear-miny',v):localStorage.removeItem('nyear-miny')}catch(e){}render()}
 
 function drawSwt(){$('#swt').replaceChildren(h('button',{class:'sw',style:'background:'+defAcc(),'aria-label':'主題1（預設）',title:'主題1（預設）',onclick:()=>setTheme(null)}),...Object.keys(THEMES).map(k=>{const t=THEMES[k];return h('button',{class:'sw',style:`background:${t.acc}`,'aria-label':t.n,title:t.n,onclick:()=>setTheme('T:'+k)})}));}
 drawSwt();
@@ -1522,7 +1504,7 @@ async function tmOk(){const P=pById(cur);if(!P)return;const mode=tmMode,old=$('#
    if(mg&&!await ask(`「#${nv}」已經存在，兩個標籤會合併`))return;
    await retag(P,old,nv);render();return}
   if(mode==='del'){const n=(await dbByP(cur)).filter(e=>(e.tags||[]).includes(old)).length;$('#tm').close();
-   if(!await ask(n?`「#${old}」會從 ${n} 則紀錄中移除，紀錄本身不會被刪除`:`「#${old}」`))return;
+   if(!await ask(n?`「#${old}」會從${n}則紀錄中移除，紀錄本身不會被刪除`:`「#${old}」`))return;
    await retag(P,old,null);render()}
  }catch(e){toast('儲存失敗')}}
 function setTag(pid,t){const i=ftags.findIndex(x=>x.pid===pid&&x.tag===t);i>=0?ftags.splice(i,1):ftags.push({pid,tag:t});rlim=50;render()}
@@ -1556,7 +1538,7 @@ function drawHeat(){
  }
  rc($('#hmc'),
   h('div',{class:'hmhead'},h('button',{onclick:()=>{if(MINY&&hmY<=MINY)return;hmY--;drawHeat()},'aria-label':'上一年',...(MINY&&hmY<=MINY?{disabled:''}:{})},'‹'),h('div',{},`${hmY}年`),h('button',{onclick:()=>{if(hmY>=now.getFullYear())return;hmY++;drawHeat()},'aria-label':'下一年',...(hmY>=now.getFullYear()?{disabled:''}:{})},'›')),
-  h('div',{class:'hmstat'},`在${total}天中，${pname(hmPid)}共記錄了${has.size}天。`,...(has.size?[h('br'),`其中${mis.join('、')}月記錄了最多，共記錄了${mx}則。`]:[])),
+  h('div',{class:'hmstat'},`${total}天中，${pname(hmPid)}記錄了${has.size}天。`,...(has.size?[h('br'),`${mis.join('、')}月記錄了最多，共有${mx}則。`]:[])),
   h('div',{class:'hmleg'},h('div',{class:'hcell'}),h('span',{},'無紀錄'),...HMLV.map(([c,t])=>[h('div',{class:'hcell '+c}),h('span',{},t)]).flat()),
   h('div',{class:'hmwrap'},...months))}
 function renderOther(A,P){
@@ -1564,7 +1546,7 @@ function renderOther(A,P){
   list=all.filter(e=>matchF(e)&&(!k||hay(e).includes(k))).sort((a,b)=>tsOf(b)-tsOf(a));
  rc(A,
   h('div',{class:'ohead'},h('div',{class:'otl'},'★隨手記★'),bkBtn()),
-  h('p',{class:'sub'},filt?[ftagLabel()+(ftags.length&&qs?'　':'')+(qs?`搜尋「${qs}」`:'')+`：${list.length} 則　`,h('button',{class:'edit',style:'margin:0',onclick:clearF},'清除')]:`${P.name}共記錄了${all.length}則。`),
+  h('p',{class:'sub'},filt?[ftagLabel()+(ftags.length&&qs?'　':'')+(qs?`搜尋「${qs}」`:'')+`：${list.length}則　`,h('button',{class:'edit',style:'margin:0',onclick:clearF},'清除')]:`${P.name}共記錄了${all.length}則。`),
   list.length?h('div',{class:'ol'},...list.slice(0,rlim).map(e=>card(e,NODATE,false,true))):null,
   list.length>rlim&&h('button',{class:'more',onclick:()=>{rlim+=50;render()}},'顯示更多'),
   useMem&&h('p',{class:'note'},'此瀏覽器無法長期儲存，關閉頁面後資料會消失。'));
@@ -1589,7 +1571,7 @@ function renderView(){
  if(qs||ftags.length){
   const k=qs.toLowerCase(),hits=Object.values(E).flat().filter(e=>matchF(e)&&(!k||hay(e).includes(k)))
    .sort((a,b)=>a.date===b.date?(b.time||'').localeCompare(a.time||''):a.date<b.date?1:-1);
-  rc(A,h('p',{class:'sub'},ftagLabel()+(ftags.length&&qs?'　':'')+(qs?`搜尋「${qs}」`:'')+`：${hits.length} 則　`,h('button',{class:'edit',style:'margin:0',onclick:clearF},'清除')),
+  rc(A,h('p',{class:'sub'},ftagLabel()+(ftags.length&&qs?'　':'')+(qs?`搜尋「${qs}」`:'')+`：${hits.length}則　`,h('button',{class:'edit',style:'margin:0',onclick:clearF},'清除')),
    ...hits.slice(0,rlim).map(e=>{const [y,m,d]=e.date.split('-').map(Number);return h('div',{class:'hit'},h('div',{class:'rd'},`${y}年${m}月${d}日`),card(e,e.date,true,true))}),
    hits.length>rlim&&h('button',{class:'more',onclick:()=>{rlim+=50;render()}},'顯示更多'));
   fitX();return}
@@ -1598,7 +1580,7 @@ function renderView(){
  for(let y=cy;y>=minY;y--){
   if(new Date(y,mo-1,dy).getDate()!==dy)continue;
   const date=`${y}-${pad(mo)}-${pad(dy)}`,list=E[date]||[];if(list.length)filled++;
-  const head=h('div',{class:'rh'},h('div',{class:'ya'},h('span',{class:'yr'},y+''),h('span',{class:'ago'},y===cy?'今年':(cy-y)+' 年前')),!multi&&h('button',{class:'edit radd',onclick:()=>openEd(date)},'新增'));
+  const head=h('div',{class:'rh'},h('div',{class:'ya'},h('span',{class:'yr'},y+''),h('span',{class:'ago'},y===cy?'今年':(cy-y)+'年前')),!multi&&h('button',{class:'edit radd',onclick:()=>openEd(date)},'新增'));
   let body;
   if(!list.length)body=null;
   else{
@@ -1608,7 +1590,8 @@ function renderView(){
     N.length>0&&h('div',{class:'hs'},...N.map(x=>card(x,date))),
     );
   }
-  rows.push(h('div',{class:'row'+(list.length?' has':'')+''},head,body));
+  const rin=moreFrom!=null&&y<moreFrom;
+  rows.push(h('div',{class:'row'+(list.length?' has':'')+(rin?' rin':''),...(rin?{style:`animation-delay:${(moreFrom-1-y)*60}ms`}:{})},head,body));
  }
  const step=n=>()=>shiftDay(n);
  const dpk=h('button',{class:'dpin','aria-label':'選擇日期',onclick:openDp});
@@ -1618,12 +1601,20 @@ function renderView(){
   h('div',{class:'dhead'},
    h('div',{class:'dgL'},h('button',{class:'edit arrow',onclick:step(-1),'aria-label':'前一天'},'‹'),h('div',{class:'dpick'},h('div',{class:'day'},h('span',{class:'dn'},String(mo)),'月',h('span',{class:'dn'},String(dy)),'日'),dpk),h('button',{class:'edit arrow',onclick:step(1),'aria-label':'後一天'},'›')),
    h('div',{class:'dgR'},!(mo===now.getMonth()+1&&dy===now.getDate())&&h('button',{class:'edit',onclick:()=>{mo=now.getMonth()+1;dy=now.getDate();hy=null;render()}},'跳回今日'),bkBtn())),
-  h('p',{class:'sub'},multi&&!msel.size?'選擇你想回顧的對象':`這一天，${who}共記錄了${cnt}則，共記錄了${Object.keys(E).filter(k=>k.slice(5)===md_&&E[k].length).length}年。`),
+  h('p',{class:'sub'},multi&&!msel.size?'選擇你想回顧的對象':`這一天，${who}記錄了${Object.keys(E).filter(k=>k.slice(5)===md_&&E[k].length).length}個年份，共有${cnt}則。`),
   h('div',{class:'tl'},rows),
-  h('div',{class:'acts',style:'justify-content:center'},!atFloor&&h('button',{onclick:()=>{extra++;render()}},'展開更多'),extra>0&&h('button',{onclick:()=>{extra=0;render()}},'收合')),
+  !atFloor&&h('div',{class:'moreS','aria-hidden':'true'}),
   useMem&&h('p',{class:'note'},'此瀏覽器無法長期儲存，關閉頁面後資料會消失。'));
  chkClip();
+ const ms=A.querySelector('.moreS');if(ms)moreIO().observe(ms);
 }
+/* 往下捲到底就自動載入更早的年份（取代「展開更多」）；新載入的年份依序淡入、往上滑進來 */
+let moreFrom=null,mIO=null;
+function moreIO(){if(mIO)return mIO;
+ mIO=new IntersectionObserver(es=>{for(const e of es){if(!e.isIntersecting)continue;mIO.unobserve(e.target);
+  const rs=[...$('#app').querySelectorAll('.tl .row .yr')],last=rs.length?+rs[rs.length-1].textContent:null;
+  moreFrom=last;extra++;try{render()}finally{moreFrom=null}}},{rootMargin:'0px 0px 160px 0px'});
+ return mIO}
 
 /* 年／月／日選單（選擇日期、移至時間軸、年份設定共用） */
 const numOpts=(n,u)=>Array.from({length:n},(_,i)=>h('option',{value:i+1},(i+1)+u));
@@ -1814,7 +1805,7 @@ document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest
 document.addEventListener('change',e=>{if(e.target.matches&&e.target.matches('select,input[type=radio],input[type=checkbox]'))sfx('tap')},true);
 document.addEventListener('pointerdown',e=>{if(e.target.matches&&e.target.matches('textarea,input[type=search],input[type=text],input:not([type])')&&document.activeElement!==e.target)sfx('tap')},true);
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches&&e.target.matches('input[type=search]'))sfx('tap')},true);
-const FEATS=[['people','對象'],['tags','標籤'],['time','時間'],['quote','引用'],['md','MARKDOWN語法'],['sound','音效']];
+const FEATS=[['md','Markdown語法'],['sound','音效']];
 function applyFeat(){const d=(el,on)=>{if(el)el.style.display=on?'':'none'};
  drawMbar();
  document.querySelectorAll('.mdb').forEach(b=>d(b,FEAT.md));d($('#txl'),FEAT.md);d($('#txb'),FEAT.md);d($('#txh'),!FEAT.md);
@@ -1824,23 +1815,12 @@ function applyFeat(){const d=(el,on)=>{if(el)el.style.display=on?'':'none'};
 const UIS=[['95','Windows 95'],['w7','Windows 7']];let UI=document.documentElement.classList.contains('w7')?'w7':'95';
 function setUi(v){UI=v;try{localStorage.setItem('nyear-ui',v)}catch(e){}document.documentElement.classList.toggle('w7',v==='w7');drawSwt();applyTheme(multi?REVCOL:pById(cur)?.color);openUi();if(typeof sbRefresh==='function')sbRefresh()}
 function openUi(){rc($('#uic'),...UIS.map(([k,t])=>h('button',{class:'edit','aria-pressed':String(UI===k),onclick:()=>setUi(k)},(UI===k?'● ':'')+t)));if(!$('#ui').open)$('#ui').showModal()}
-function openFeat(){rc($('#ftc'),...FEATS.map(([k,t])=>h('button',{class:'edit','aria-pressed':String(FEAT[k]),onclick:()=>setFeat(k,!FEAT[k])},`${t}：${FEAT[k]?'開啟':'關閉'}`)));if(!$('#ft').open)$('#ft').showModal()}
-async function setFeat(k,v){let made=false;
- if(k==='sound'){FEAT.sound=v;saveFeat();openFeat();if(v)sfx('tap');return}
- if(!v){
-  if(k==='people'){if(people.length>1){toast('目前已存在多個對象，無法關閉');return}
-   if(!people.length){const p={id:'p'+Date.now(),name:'我'};await dbPut('people',p);people.push(p);made=true}}
-  if(k==='tags'){const all=await dbAll('entries');if(people.some(p=>(p.tags||[]).length)||all.some(e=>(e.tags||[]).length)){toast('目前已存在標籤，無法關閉');return}}
-  if(k==='time'){const all=await dbAll('entries'),ch=all.filter(e=>e.time||(e.quote&&e.quote.time));
-   if(ch.length){if(!await ask(`關閉後，原有記錄時間的紀錄會變成當日不記時間的紀錄`))return;
-    for(const e of ch)await dbPut('entries',{...e,time:null,...(e.quote?{quote:{...e.quote,time:null}}:{})})}}
-  if(k==='quote'){const all=(await dbAll('entries')).filter(e=>e.quote);
-   if(all.length){if(!await ask(`關閉後，${all.length} 則紀錄的引用會被刪除`))return;
-    for(const e of all)await dbPut('entries',{...e,quote:null})}}
- }
- FEAT[k]=v;saveFeat();applyFeat();
- if(made)await sel(people[0].id);else{await loadView();render()}
- openFeat()}
+/* 功能設定：Markdown 語法、音效用開啟／關閉單選鈕（比照紀錄的時間選擇）；回顧範圍用年份下拉選單，選了就生效 */
+function openFeat(){const rad=(k,v,t)=>h('label',{class:'r'},h('input',{type:'radio',name:'ft-'+k,value:v?'1':'0',...(FEAT[k]===v?{checked:''}:{}),onchange:()=>setFeat(k,v)}),' '+t);
+ const sel=h('select',{id:'myv','aria-label':'回顧範圍設定',onchange:e=>setMinY(e.target.value)},h('option',{value:''},'不限制'),...yearOpts());sel.value=MINY?String(MINY):'';
+ rc($('#ftc'),...FEATS.flatMap(([k,t])=>[h('label',{},t),h('div',{class:'acts'},rad(k,true,'開啟'),rad(k,false,'關閉'))]),h('label',{for:'myv'},'回顧範圍設定'),h('div',{class:'acts'},sel));
+ if(!$('#ft').open)$('#ft').showModal()}
+function setFeat(k,v){FEAT[k]=v;saveFeat();applyFeat();if(k==='md'){loadView().then(render)}}
 function hlMark(){const k=qs.trim().toLowerCase();if(!k)return;
  document.querySelectorAll('.card .txt').forEach(root=>{const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT),ns=[];while(w.nextNode())ns.push(w.currentNode);
   ns.forEach(n=>{const t=n.nodeValue,lo=t.toLowerCase();if(lo.length!==t.length||!lo.includes(k))return;
@@ -1872,8 +1852,8 @@ function wrShow(){wrUrls.forEach(URL.revokeObjectURL);wrUrls=[];wrBusy=false;wrE
  const s=$('#wrs'),old=s.querySelector('.wc');if(old){old._ro&&old._ro.disconnect();old.remove()}
  ['#wrk','#wra','#wrp'].forEach(q=>$(q).style.opacity=0);
  const en=wrQ[wrI];
- if(!en){wrHead(h('div',{},`${wrN} / ${wrN}`));s.append(h('div',{class:'wc wdone in'},'未整理的紀錄已全部整理完畢'+(wrSkip?`\n跳過的 ${wrSkip} 則仍留在未整理`:'')));wrBtns();return}
- wrHead(h('div',{},`${wrI+1} / ${wrN}`));
+ if(!en){wrHead(h('div',{},`${wrN}/${wrN}`));s.append(h('div',{class:'wc wdone in'},'未整理的紀錄已全部整理完畢'+(wrSkip?`\n跳過的${wrSkip}則仍留在未整理`:'')));wrBtns();return}
+ wrHead(h('div',{},`${wrI+1}/${wrN}`));
  const nd=dtNodes(en,wrUrls),sc=h('div',{class:'wcs'},...nd.slice(1)),c=h('div',{class:'wc in'},nd[0],sc);c._sc=sc;s.append(c);wrBind(c);wrBtns()}
 function wrBind(c){const kb=$('#wrk'),ab=$('#wra'),sb=$('#wrp');
  const sc=c._sc;let x0=0,y0=0,id=null,mode=0,dx=0,ty=0,s0=0,fr=false,sm=[];
@@ -1941,12 +1921,12 @@ async function openAr(){await purgeArchive();
   return h('div',{class:'ari'},h('div',{class:'qv arq',onclick:ev=>{ev.currentTarget.classList.toggle('open')}},
    h('div',{class:'qb'},h('div',{class:'rd'},(FEAT.people&&people.length>1?pname(e.pid)+'・':'')+(e.date===NODATE?'隨手記':fmtD(e.date))+(e.time?'　'+e.time:'')),
    h('div',{class:'qtx'},(e.text||'')||cntStr(e)||'（沒有文字）'))),
-   h('div',{class:'arf'},h('button',{class:'edit',onclick:()=>arRestore(e)},'還原'),h('button',{class:'edit',onclick:()=>arDel(e)},'刪除'),h('span',{class:'ardn'},`${left} 天後自動刪除`)))});
+   h('div',{class:'arf'},h('button',{class:'edit',onclick:()=>arRestore(e)},'還原'),h('button',{class:'edit',onclick:()=>arDel(e)},'刪除'),h('span',{class:'ardn'},`${left}天後自動刪除`)))});
  rc(d,h('h2',{style:'text-align:center'},'封存'),
   h('div',{class:'arl'},...(items.length?items:[h('p',{class:'sub',style:'text-align:center'},'目前沒有封存的紀錄')])),
   h('div',{class:'acts',style:'justify-content:center;flex-wrap:wrap'},...(all.length?[h('button',{onclick:()=>arDelAll(all.length)},'全部刪除')]:[]),h('button',{onclick:()=>{d.close();openMenu('org')}},'返回'),h('button',{onclick:()=>d.close()},'退出')));
  if(!d.open)d.showModal()}
-async function arDelAll(n){if(!await ask(`${n} 則封存的紀錄會被永久刪除，無法復原`))return;try{for(const e of (await dbAll('entries')).filter(e=>e.archived))await dbDel('entries',e.k);toast('已全部刪除');openAr()}catch(_){toast('刪除失敗')}}
+async function arDelAll(n){if(!await ask(`${n}則封存的紀錄會被永久刪除，無法復原`))return;try{for(const e of (await dbAll('entries')).filter(e=>e.archived))await dbDel('entries',e.k);toast('已全部刪除');openAr()}catch(_){toast('刪除失敗')}}
 async function arRestore(e){try{await dbPut('entries',{...e,archived:0});await loadView();render();toast('已還原');openAr()}catch(_){toast('還原失敗')}}
 async function arDel(e){if(!await ask('這則紀錄會被永久刪除，無法復原'))return;try{await dbDel('entries',e.k);openAr()}catch(_){toast('刪除失敗')}}
 function fillMvd(d){fillDays($('#mvd'),+$('#mvy').value,+$('#mvm').value,d)}
@@ -1989,7 +1969,7 @@ function quoteFrom(en){const snap=mkQuoteSnap(en);
  openEd(ymd(now));
  dquote=snap;drawQuote()}
 async function archiveEntry(){if(!edK)return;const old=(E[edDate]||[]).find(x=>x.k===edK);if(!old)return;
- if(!await ask(`封存的紀錄會在 ${Math.round(ARD/864e5)} 天後自動刪除，期間可以還原`,'是否封存？'))return;
+ if(!await ask(`封存的紀錄會在${Math.round(ARD/864e5)}天後自動刪除，期間可以還原`,'是否封存？'))return;
  try{await dbPut('entries',{...old,archived:Date.now()});E[edDate]=E[edDate].filter(x=>x.k!==edK);if(!E[edDate].length)delete E[edDate];dropDraft();$('#ed').close();renderKeep();toast('已封存')}catch(e){toast('封存失敗')}}
 $('#fi').onchange=e=>{for(const f of e.target.files){const t=['image','video','audio'].find(x=>f.type.startsWith(x))||'file';draft.push({t,b:f,n:f.name})}e.target.value='';drawDraft()};
 $('#ed').onclose=()=>{edReady=false;clearTimeout(dtm);durls.forEach(URL.revokeObjectURL);durls=[]};
@@ -2016,11 +1996,11 @@ async function save(){
  const isNew=!edK&&!empty;dropDraft();$('#ed').close();renderKeep();if(isNew)bkNudge()}catch(e){toast('儲存失敗')}}
 
 
-/* ===== 週總結：選週 → 製作 dump（9:16 直式拼貼圖：背景、紀錄視窗、文字；可拖曳、縮放、調順序，匯出 PNG）
+/* ===== 週dump：選週 → 製作 dump（9:16 直式拼貼圖：背景、紀錄視窗、文字；可拖曳、縮放、調順序，匯出 PNG）
    畫面與匯出都用同一個 dmPaint 畫在 canvas 上，所以看到的就是匯出的樣子；座標一律用 1080×1920 的原始尺寸 ===== */
 const DW=1080,DH=1920,DTB=46,DFONT='"Cubic 11",sans-serif';
 const DPAL0={bg:'#C0C0C0',btnf:'#C0C0C0',card:'#FFFFFF',ink:'#000000',acc:'#000080',on:'#FFFFFF',bhi:'#FFFFFF',blo:'#808080',del:'#A30000'};
-/* Windows 7 視窗（每份週總結可選）：預設配色參考 Win7（白底內容、淡藍玻璃框） */
+/* Windows 7 視窗（每份週dump可選）：預設配色參考 Win7（白底內容、淡藍玻璃框） */
 const DPAL7={bg:'#BFD4EE',btnf:'#E3E3E3',card:'#FFFFFF',ink:'#000000',acc:'#3D7FCB',on:'#000000',bhi:'#FFFFFF',blo:'#A0A0A0',del:'#C42B1C',line:'#F0F0F0',mute:'#6D6D6D'};
 const W7F='"cwTeXMing","Segoe UI","Microsoft JhengHei","PingFang TC","Noto Sans TC",serif';
 const dmW7=()=>!!DM&&DM.ui==='w7',dmF=()=>dmW7()?W7F:DFONT;
@@ -2037,8 +2017,8 @@ function dmBtn7(c,x,y,w,h,f,r,down){const g=c.createLinearGradient(0,y,0,y+h);
 let DM=null,dmUrls=[],dmDrag=null,dmRaf=0,dmTx=null,dmCr=null;const dmStore={};
 const dmPids=()=>cur?[cur]:[];
 async function dmEntries(){const out=[];for(const id of dmPids())out.push(...await dbByP(id));return out.filter(e=>e.date!==NODATE)}
-/* 週總結首頁：製作或瀏覽；儲存的 dump 會存在 dumps（依對象、週） */
-async function openDumpHome(){if(!dmPids().length){toast('請先新增對象');openMenu('rev');return}await dmMigrate();$('#dmh h2').textContent=pT('週總結');$('#dmh').showModal()}
+/* 週dump首頁：製作或瀏覽；儲存的 dump 會存在 dumps（依對象、週） */
+async function openDumpHome(){if(!dmPids().length){toast('請先新增對象');openMenu('rev');return}await dmMigrate();$('#dmh h2').textContent=pT('週dump');$('#dmh').showModal()}
 const dmPk=()=>dmPids().join(',');
 /* 週＝週一到週日，用該週週一的日期（YYYY-MM-DD）當代號 */
 /* 背景模式：'img'／'color'／null（舊資料沒有 bgMode 時，有背景圖就算圖片） */
@@ -2047,7 +2027,7 @@ const dmD=s=>{const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)},d
 const dmWk=ds=>{const d=dmD(ds);d.setDate(d.getDate()-(d.getDay()+6)%7);return dmS(d)},dmWkEnd=k=>{const d=dmD(k);d.setDate(d.getDate()+6);return dmS(d)};
 const dmInWk=(ds,k)=>ds>=k&&ds<=dmWkEnd(k);
 const dmWs=k=>{const a=dmD(k),b=dmD(dmWkEnd(k));return `${a.getMonth()+1}/${a.getDate()}–${b.getMonth()+1}/${b.getDate()}`};
-const dmYm=k=>`${dmD(k).getFullYear()}年 ${dmWs(k)}`;
+const dmYm=k=>`${dmD(k).getFullYear()}年${dmWs(k)}`;
 let dmvUrls=[],dmvCur=null;
 /* 每個對象每週只有一份：k＝對象|該週週一日期。存預覽圖（b）與版面（lay），之後再製作同一週＝編輯這份 */
 const DMF=['ca','ct','cf','cb','cn','cw','sx','sy','cs','ff','tv','id','src','t','title','text','fs','x','y','w','h','color','st','sc','name','dur','b','lb','lk'];
@@ -2057,7 +2037,7 @@ const dmGetRec=async k=>(await dbAll('dumps')).find(d=>d.k===k)||null;
 async function dmPutRec(extra){const k=dmPk()+'|'+DM.ym,old=await dmGetRec(k);await dbPut('dumps',{...(old||{}),k,pk:dmPk(),ym:DM.ym,lay:dmLay(),...extra})}
 const dmPng=async()=>{await dmFontsReady();const c=document.createElement('canvas');c.width=DW;c.height=DH;dmPaint(c.getContext('2d'),false);return new Promise(r=>c.toBlob(r,'image/png'))};
 /* 「儲存」：存版面＋預覽圖，之後在「瀏覽」匯出 */
-async function dmSaveBtn(){if(!DM)return;try{const b=await dmPng();if(!b)throw 0;await dmPutRec({at:Date.now(),type:'image',ext:'png',b});toast('已儲存，可到週總結的「瀏覽」匯出')}catch(_){toast('儲存失敗，可能是空間不足')}}
+async function dmSaveBtn(){if(!DM)return;try{const b=await dmPng();if(!b)throw 0;await dmPutRec({at:Date.now(),type:'image',ext:'png',b});toast('已儲存，可到週dump的「瀏覽」匯出')}catch(_){toast('儲存失敗，可能是空間不足')}}
 /* 離開編輯畫面時自動存版面；已儲存過的，預覽圖一起更新 */
 async function dmSaveLay(){if(!DM||!DM.ym)return;try{const k=dmPk()+'|'+DM.ym,rec=await dmGetRec(k);if(!DM.items.length&&!DM.bgSrc&&!DM.bgColor&&!rec)return;
  await dmPutRec(rec&&rec.b?{b:await dmPng(),type:'image',ext:'png',at:Date.now()}:{})}catch(_){}}
@@ -2082,8 +2062,8 @@ async function openDumpBrowse(){dmvUrls.forEach(URL.revokeObjectURL);dmvUrls=[];
  const P=pById(cur),ds=(await dbAll('dumps')).filter(d=>d.pk===dmPk()&&d.b).sort((a,b)=>a.ym<b.ym?1:-1);
  $('#dmvn').textContent=P?P.name:'—';rc($('#dmva'),avEl(P,80));$('#dmvc').textContent=ds.length;
  rc($('#dmvl'),...(ds.length?ds.map(d=>{const u=URL.createObjectURL(d.b);dmvUrls.push(u);
-  return h('button',{class:'dmvt2','aria-label':dmYm(d.ym)+' dump',onclick:()=>dmvOpen(d)},d.type==='video'?h('video',{src:u+'#t=0.1',muted:'',playsinline:'',preload:'metadata'}):h('img',{src:u,alt:''}),d.type==='video'&&h('span',{class:'dmvp'},'▶'),h('span',{class:'dmvd'},dmWs(d.ym)))}):[h('p',{class:'sub'},'還沒有製作過的 dump，先到「製作」做一張吧')]));
- $('#dmv h2').textContent=pT('週總結・瀏覽');$('#dmv').showModal();$('#dmvl').scrollTop=0}
+  return h('button',{class:'dmvt2','aria-label':dmYm(d.ym)+' dump',onclick:()=>dmvOpen(d)},d.type==='video'?h('video',{src:u+'#t=0.1',muted:'',playsinline:'',preload:'metadata'}):h('img',{src:u,alt:''}),d.type==='video'&&h('span',{class:'dmvp'},'▶'),h('span',{class:'dmvd'},dmWs(d.ym)))}):[h('p',{class:'sub'},'目前沒有製作過的 dump')]));
+ $('#dmv h2').textContent=pT('週dump・瀏覽');$('#dmv').showModal();$('#dmvl').scrollTop=0}
 $('#dmv').addEventListener('close',()=>{if(!$('#dmvw').open){dmvUrls.forEach(URL.revokeObjectURL);dmvUrls=[]}});
 let dmvD=null;
 async function dmvOpen(d){dmvCur=d;dmvD=null;const u=URL.createObjectURL(d.b);dmvUrls.push(u);$('#dmv').close();
@@ -2106,7 +2086,7 @@ async function openDump(){if(!dmPids().length){toast('請先新增對象');openM
  const cnt={},mon={};(await dmEntries()).forEach(e=>{const m=dmWk(e.date),y=e.date.slice(0,7);cnt[m]=(cnt[m]||0)+1;(mon[y]||(mon[y]=new Set())).add(m)});
  if(!Object.keys(cnt).length){toast('目前沒有可製作的紀錄');openMenu('rev');return}
  const recs=Object.fromEntries((await dbAll('dumps')).filter(d=>d.pk===dmPk()).map(d=>[d.ym,d]));
- dmmD={cnt,mon,recs};dmmMon=null;dmmDraw();$('#dmm h2').textContent=pT('週總結');$('#dmm').showModal()}
+ dmmD={cnt,mon,recs};dmmMon=null;dmmDraw();$('#dmm h2').textContent=pT('週dump');$('#dmm').showModal()}
 function dmmDraw(){const {cnt,mon,recs}=dmmD,l=$('#dmml');
  if(!dmmMon){$('#dmms').textContent='選擇年月';
   rc(l,...Object.keys(mon).sort().reverse().map(y=>h('button',{class:'edit',onclick:()=>{dmmMon=y;dmmDraw()}},`${+y.slice(0,4)}年${+y.slice(5)}月`)))}
@@ -2474,7 +2454,7 @@ async function dmRecord(order,els,ac,dest,cv,mime){const o={set hidden(v){v?$('#
  cv.width=DW;cv.height=DH;const cx=cv.getContext('2d'),st=cv.captureStream(30);dest.stream.getAudioTracks().forEach(t=>st.addTrack(t));
  let rec;try{rec=new MediaRecorder(st,{mimeType:mime,videoBitsPerSecond:8e6})}catch(_){o.hidden=true;toast('無法錄製影片，改為匯出圖片');return dmExportPng()}
  const chunks=[];rec.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
- let run=true,done=0;const loop=()=>{if(!run)return;dmPaint(cx,false);const pl=DM.play;ot.textContent=`正在錄製影片，請稍候\n${fmtT(done+(pl?pl.el.currentTime:0))} / ${fmtT(total)}`;requestAnimationFrame(loop)};
+ let run=true,done=0;const loop=()=>{if(!run)return;dmPaint(cx,false);const pl=DM.play;ot.textContent=`正在錄製影片，請稍候\n${fmtT(done+(pl?pl.el.currentTime:0))}/${fmtT(total)}`;requestAnimationFrame(loop)};
  dmPaint(cx,false);rec.start(1000);loop();
  for(let i=0;i<order.length&&!dmStop;i++){const el=els[i];DM.play={it:order[i],el};try{el.currentTime=0}catch(_){}
   await new Promise(res=>{const fin=()=>{clearInterval(iv);res()};el.onended=fin;el.onerror=fin;const iv=setInterval(()=>{if(dmStop){el.pause();fin()}},200);el.play().catch(fin)});
@@ -2496,7 +2476,7 @@ async function bkNudge(){try{
  let a=+localStorage.getItem(BKA)||0;if(n<a)a=0;
  if(n<BKN||Math.floor(n/BKN)<=Math.floor(a/BKN)){if(a!==(+localStorage.getItem(BKA)||0))localStorage.setItem(BKA,a);return}
  localStorage.setItem(BKA,n);
- if(await ask(Object.keys(lbMap()).length?`自上次備份又多記錄了 ${n} 則`:`還沒備份過，目前已記錄了 ${n} 則`,'是否要備份？'))openBk()}catch(_){}}
+ if(await ask(Object.keys(lbMap()).length?`自上次備份又多記錄了${n}則`:`還沒備份過，目前已記錄了${n}則`,'是否要備份？'))openBk()}catch(_){}}
 const b64=b=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=()=>rej(r.error);r.readAsDataURL(b)});
 let bkFile=null,bkFiles=[],bkSel='all';
 function updBlast(){const v=$('#bsel').value,t=v==='all'?(lbMap().all||0):lastB(v);$('#blast').textContent=t?'上次備份：'+new Date(t).toLocaleString('zh-TW'):'尚未備份過'}
@@ -2534,7 +2514,7 @@ async function prepBackup(){
    bkFiles.push(new File(parts,'n-year-diary'+nm+'-'+day+(groups.length>1?`-${i+1}of${groups.length}`:'')+'.json',{type:'application/json'}))});
   bkFile=bkFiles[0];
   const tot=bkFiles.reduce((a,f)=>a+f.size,0);
-  st.textContent=`完成：${ps.length} 位對象、${n} 則紀錄，約 ${(tot/1048576).toFixed(1)} MB`+(bkFiles.length>1?`，已分成 ${bkFiles.length} 個檔案（還原時全部選取即可）`:'')+'。請按「儲存備份檔」。';
+  st.textContent=`完成：${ps.length}位對象、${n}則紀錄，約${(tot/1048576).toFixed(1)}MB`+(bkFiles.length>1?`，已分成${bkFiles.length}個檔案（還原時全部選取即可）`:'')+'。請按「儲存備份檔」。';
   $('#bsave').style.display='';
  }catch(e){st.textContent='備份失敗：'+(e.message||e)}
 }
@@ -2571,7 +2551,7 @@ async function exportMd(){const st=$('#bst3'),sel=$('#bsel').value;
   const nm=sel==='all'?'':'-'+(ps[0]?.name||'').replace(/[\\/:*?"<>|\s]+/g,'_'),
    f=new File([out.join('\n')],'n-year-diary'+nm+'-'+new Date().toISOString().slice(0,10)+'.md',{type:'text/markdown'});
   if(!await shareOrDl([f],'Htbu_? 日記')){st.textContent='';return}
-  st.textContent=`已匯出 ${n} 則紀錄。`}catch(e){st.textContent='匯出失敗：'+(e.message||e)}}
+  st.textContent=`已匯出${n}則紀錄。`}catch(e){st.textContent='匯出失敗：'+(e.message||e)}}
 async function importBackup(f){
  const st=$('#bst2');
  try{
@@ -2593,10 +2573,10 @@ async function importBackup(f){
   }
   people=await dbAll('people');people.sort((a,b)=>a.id<b.id?-1:1);
   await sel(pById(cur)?cur:people[0]?.id||null);
-  st.textContent=`匯入完成：${n} 則紀錄。`;
+  st.textContent=`匯入完成：${n}則紀錄。`;
  }catch(e){st.textContent='匯入失敗：'+(e.message||e)}
 }
-$('#bf').onchange=async e=>{const fl=[...e.target.files];e.target.value='';for(let i=0;i<fl.length;i++){if(fl.length>1)$('#bst2').textContent=`第 ${i+1}/${fl.length} 個檔案…`;await importBackup(fl[i])}};
+$('#bf').onchange=async e=>{const fl=[...e.target.files];e.target.value='';for(let i=0;i<fl.length;i++){if(fl.length>1)$('#bst2').textContent=`第${i+1}/${fl.length}個檔案…`;await importBackup(fl[i])}};
 if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
 (async()=>{await openDB();await purgeArchive();people=await dbAll('people');people.sort((a,b)=>a.id<b.id?-1:1);
