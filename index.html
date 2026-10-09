@@ -1004,6 +1004,27 @@ html:not(.w7) :is(.tg,.dtg,.card .tg):not(.on){background:color-mix(in srgb,var(
 </style>
 </head>
 <body>
+<div id="boot" aria-hidden="true"><style>
+/* 開機畫面：Win95 主題1 的主題色①（#C0C0C0）、圖標＋標題＋進度條（參考 Win95 安裝程式），兩種風格都一樣 */
+#boot{position:fixed;inset:0;z-index:2147483647;background:#C0C0C0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;font-family:"Cubic 11",monospace;color:#000;letter-spacing:0}
+#boot img{width:72px;height:72px;image-rendering:pixelated;display:block}
+#boot .bt{margin:10px 0 22px;font-size:22px;line-height:1;text-shadow:1px 1px 0 #FFFFFF}
+#boot .bb{width:min(240px,64vw);height:18px;padding:2px;box-sizing:border-box;background:#C0C0C0;box-shadow:inset 1px 1px 0 #808080,inset -1px -1px 0 #FFFFFF,inset 2px 2px 0 #000000,inset -2px -2px 0 #DFDFDF}
+#boot .bb i{display:block;height:100%;width:0;background:#000080}
+#boot .bp{width:min(240px,64vw);margin-top:5px;font-size:14px;line-height:1;text-align:left}
+#boot.out{display:none}
+</style><img src="icon-192.png" alt=""><div class="bt">Htbu_?</div><div class="bb"><i id="bootb"></i></div><div class="bp" id="bootp">0%</div></div>
+<script>
+/* 進度：主程式各階段設定目標值，畫面一格一格（整數 %）往上跑；跑到 100% 才收起，至少顯示 0.7 秒 */
+(function(){var cur=0,tgt=8,t0=Date.now(),done=false,b=document.getElementById('bootb'),p=document.getElementById('bootp');
+ function draw(){b.style.width=cur+'%';p.textContent=cur+'%'}
+ function tick(){if(cur<tgt){cur+=Math.max(1,Math.round((tgt-cur)/6));if(cur>tgt)cur=tgt;draw()}
+  if(cur>=100&&done){if(Date.now()-t0<700){setTimeout(tick,50);return}document.getElementById('boot').classList.add('out');return}
+  setTimeout(tick,40)}
+ window.bootP=function(n){tgt=Math.max(tgt,Math.min(100,n));if(n>=100)done=true};
+ setTimeout(function(){if(!done)window.bootP(100)},8000);/* 保險：最多 8 秒 */
+ draw();tick()})();
+</script>
 <main>
 <header id="hdr">
 <div class="hb"><h1><img class="hbi" src="icon-192.png" alt="">Htbu_?</h1></div>
@@ -2693,9 +2714,9 @@ async function importBackup(f){
 $('#bf').onchange=async e=>{const fl=[...e.target.files];e.target.value='';for(let i=0;i<fl.length;i++){if(fl.length>1)$('#bst2').textContent=`第${i+1}/${fl.length}個檔案…`;await importBackup(fl[i])}};
 if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
-(async()=>{await openDB();await purgeArchive();people=await dbAll('people');people.sort((a,b)=>a.id<b.id?-1:1);
+(async()=>{bootP(20);await openDB();bootP(40);await purgeArchive();people=await dbAll('people');people.sort((a,b)=>a.id<b.id?-1:1);bootP(60);
  try{const g=localStorage.getItem(TK);if(g&&people.length){for(const p of people)if(!p.color){p.color=g;await dbPut('people',p)}localStorage.removeItem(TK)}}catch(e){}
- applyFeat();await sel(people[0]?.id||null)})();
+ applyFeat();await sel(people[0]?.id||null);bootP(85);try{await document.fonts.ready}catch(e){}bootP(100)})().catch(()=>bootP(100));
 document.addEventListener('touchstart',()=>{},{passive:true});
 
 /* ===== UX：可點範圍擴大（外觀不變）＋鍵盤避讓 ===== */
