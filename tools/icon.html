@@ -1,39 +1,14 @@
 <!doctype html><meta charset="utf-8"><style>
-@font-face{font-family:QM;src:url(file:///usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf)}
 @font-face{font-family:TX;src:url(../SatsukiGendaiMincho-M.ttf)}
 body{margin:0}</style><canvas id="c" width="1024" height="1024"></canvas><script>
-async function draw(){await document.fonts.load('100px QM','?');await document.fonts.load('100px TX','Htbu');
-const S=1024,c=document.getElementById('c').getContext('2d');
-/* 外圍底色（iOS 會自己裁圓角，四角不能透明） */
-const bgG=c.createLinearGradient(0,0,0,S);bgG.addColorStop(0,'#dfe9f5');bgG.addColorStop(1,'#b9cde4');c.fillStyle=bgG;c.fillRect(0,0,S,S);
-const M=S*.07,W=S-2*M,R=W*.16;
-const rr=(x,y,w,h,r)=>{c.beginPath();c.roundRect(x,y,w,h,r)};
-/* 頭貼外框：陰影＋深色細邊 */
-c.save();c.shadowColor='rgba(0,0,0,.35)';c.shadowBlur=S*.035;c.shadowOffsetY=S*.012;rr(M,M,W,W,R);c.fillStyle='#fff';c.fill();c.restore();
-/* 內容：白底 */
-c.save();rr(M,M,W,W,R);c.clip();c.fillStyle='#fff';c.fillRect(M,M,W,W);
-/* 問號：Win7 藍色玻璃 */
-const qs=W*.8;c.font=`${qs}px QM`;c.textAlign='center';c.textBaseline='alphabetic';
-const qm=c.measureText('?'),qy=S/2+(qm.actualBoundingBoxAscent-qm.actualBoundingBoxDescent)/2,qt=qy-qm.actualBoundingBoxAscent,qb=qy+qm.actualBoundingBoxDescent;
-const off=new OffscreenCanvas(S,S),o=off.getContext('2d');o.font=c.font;o.textAlign='center';
-const g=o.createLinearGradient(0,qt,0,qb);g.addColorStop(0,'#8fc3ff');g.addColorStop(.45,'#3c8ce8');g.addColorStop(1,'#1d5fc4');o.fillStyle=g;o.strokeStyle=g;o.lineJoin='round';o.lineWidth=S*.045;o.strokeText('?',S/2,qy);o.fillText('?',S/2,qy);
-o.globalCompositeOperation='source-atop';
-const hl=o.createLinearGradient(0,qt,0,qt+(qb-qt)*.5);hl.addColorStop(0,'rgba(255,255,255,.85)');hl.addColorStop(1,'rgba(255,255,255,.05)');o.fillStyle=hl;
-o.beginPath();o.ellipse(S/2-qs*.02,qt+(qb-qt)*.16,qs*.27,(qb-qt)*.15,0,0,Math.PI*2);o.fill();
-o.beginPath();o.ellipse(S/2,qb-(qb-qt)*.09,qs*.08,(qb-qt)*.035,0,0,Math.PI*2);o.fill();
-const rg=o.createRadialGradient(S/2,qb,0,S/2,qb,qs*.5);rg.addColorStop(0,'rgba(170,215,255,.6)');rg.addColorStop(1,'rgba(170,215,255,0)');o.fillStyle=rg;o.fillRect(0,0,S,S);
-c.save();c.shadowColor='rgba(20,60,140,.35)';c.shadowBlur=S*.03;c.shadowOffsetY=S*.015;c.lineJoin='round';c.lineWidth=S*.053;c.strokeStyle='#1a4fa8';c.strokeText('?',S/2,qy);c.restore();c.drawImage(off,0,0);
-
-/* Htbu：Win95 預設主題色②；參考網頁連結散落的感覺——不旋轉、大小差很多、有的斜體、底線，有幾組擠在一起交疊 */
-c.font=`100px TX`;c.textAlign='left';const tw=c.measureText('Htbu').width;c.fillStyle=c.strokeStyle='#000080';c.lineJoin='round';
-/* [x, 基線 y, 字寬（方框比例）, 斜體] */
-[[.09,.27,.42,1],[.60,.33,.22,0],[.30,.52,.40,0],[.66,.63,.16,1],[.11,.80,.30,0]].forEach(([x,y,w,it])=>{const f=100*W*w/tw;c.save();c.translate(M+W*x,M+W*y);if(it)c.transform(1,0,-.2,1,0,0);c.font=`${f}px TX`;c.lineWidth=f*.06;c.strokeText('Htbu',0,0);c.fillText('Htbu',0,0);c.fillRect(0,f*.1,W*w,Math.max(2,f*.05));c.restore()});
-c.restore();
-/* 頭貼外框：上半亮面＋白色半透明內框＋細深邊（比照 html.w7 .av） */
-c.save();rr(M,M,W,W,R);c.clip();
-const sh=c.createLinearGradient(0,M,0,M+W);sh.addColorStop(0,'rgba(255,255,255,.32)');sh.addColorStop(.42,'rgba(255,255,255,.06)');sh.addColorStop(.43,'rgba(255,255,255,0)');c.fillStyle=sh;c.fillRect(M,M,W,W);
-const b=W*.04;c.lineWidth=b*2;c.strokeStyle='rgba(255,255,255,.62)';rr(M,M,W,W,R);c.stroke();
-c.lineWidth=W*.01;c.strokeStyle='rgba(30,50,80,.25)';rr(M+b,M+b,W-2*b,W-2*b,R-b);c.stroke();
-c.restore();c.lineWidth=S*.004;c.strokeStyle='rgba(40,60,90,.55)';rr(M,M,W,W,R);c.stroke();
+async function draw(){await document.fonts.load('100px TX','Htbu');
+const S=1024,c=document.getElementById('c').getContext('2d'),M=S*.07,W=S-2*M;
+/* 白底（iOS 會自己裁圓角，四角不能透明） */
+c.fillStyle='#fff';c.fillRect(0,0,S,S);
+/* Htbu：Win95 預設主題色②、Satsuki 加粗；參考網頁連結散落的感覺——不旋轉、大小差很多、有的斜體、有的底線 */
+c.font=`100px TX`;const tw=c.measureText('Htbu').width;c.fillStyle=c.strokeStyle='#000080';c.lineJoin='round';
+/* [x, 基線 y, 字寬（方框比例）, 斜體, 底線] */
+[[.09,.27,.42,1,1],[.60,.33,.22,0,1],[.30,.52,.40,0,0],[.66,.63,.16,1,1],[.11,.80,.30,0,1],
+ [.64,.15,.15,0,0],[.05,.60,.17,1,1],[.76,.47,.13,0,0],[.52,.89,.19,1,0]].forEach(([x,y,w,it,ul])=>{const f=100*W*w/tw;c.save();c.translate(M+W*x,M+W*y);if(it)c.transform(1,0,-.2,1,0,0);c.font=`${f}px TX`;c.lineWidth=f*.06;c.strokeText('Htbu',0,0);c.fillText('Htbu',0,0);if(ul)c.fillRect(0,f*.1,W*w,Math.max(2,f*.05));c.restore()});
 document.title='done'}
 draw();</script>
