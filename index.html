@@ -373,6 +373,7 @@ mark{background:var(--acc);color:var(--onacc);border-radius:0}
 .qpl{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center;min-height:28px}
 .qpo{display:inline-flex;align-items:center;gap:6px;border:0;background:none;box-shadow:none;clip-path:none;padding:0;margin:0;min-height:28px;font-size:var(--f13);color:var(--ink)}.qpo .cbx{margin:0;flex:none}
 .qpd{flex-wrap:nowrap;gap:6px}.qpd input{flex:1 1 0;min-width:0;width:0;font-size:var(--f13);padding:2px 4px}.qpn{font-size:var(--f12);color:var(--mute)}
+#qdf,#dmif{margin:4px 0 8px;padding:0 2px}#qdf .qps,#dmif .qps{padding:4px 0}#dmif .qps+.qps,#dmif .qps:first-child{border-top:0}
 html.w7 #qp{background:#F0F0F0;border:1px solid #979797;box-shadow:2px 2px 4px rgba(0,0,0,.28)}
 #srow #q{flex:1;min-width:0}
 #qgo{flex:none;min-width:56px;padding:0 12px;font-size:var(--f13);letter-spacing:1.56px;line-height:19.6px}
@@ -1104,12 +1105,12 @@ html.w7 #dmp{border:0;border-radius:0;box-shadow:none}
 <dialog id="dmr"><p id="dmot">匯出中…</p><div class="acts" style="justify-content:center"><button id="dmos" onclick="dmStop=true">停止</button></div></dialog>
 <dialog id="dmbg"><h2>背景</h2><div class="mb"><button class="edit" id="dmbgi" onclick="$('#dmbg').close();DM.bgSrc?dmCrop():$('#dmf').click()">選擇圖片</button><label class="r" id="dmbgcw">純色 <input type="color" id="dmbgc"></label><button class="edit" onclick="dmBgNone();$('#dmbg').close()">不使用背景（主題底色）</button></div><div class="acts end"><button onclick="$('#dmbg').close()" class="xcl" aria-label="關閉"></button></div></dialog>
 <dialog id="dmc"><h2>背景（9:16）</h2><p class="sub">拖曳圖片調整位置</p><div id="dmcf"><img id="dmci" alt=""></div><label for="dmcz">縮放</label><input type="range" id="dmcz" min="1" max="4" step="0.01" value="1"><div class="acts"><button onclick="$('#dmf').click()">換圖片</button><button onclick="dmBgNone()">不使用背景</button></div><div class="acts end"><button class="pri" onclick="dmCropOk()">確定</button><button onclick="$('#dmc').close()" class="xcl" aria-label="關閉"></button></div></dialog>
-<dialog id="dmi"><h2>選擇紀錄</h2><div class="qsrow" id="dmisr"><input type="search" id="dmis" enterkeyhint="search" autocomplete="off"><button id="dmisb" type="button" onclick="dmPickList()">搜尋</button></div><div id="dmil"></div><div class="acts end"><button class="pri" onclick="dmPickOk()">確定</button><button onclick="$('#dmi').close()" class="xcl" aria-label="關閉"></button></div></dialog>
+<dialog id="dmi"><h2>選擇紀錄</h2><div class="qsrow" id="dmisr"><input type="search" id="dmis" enterkeyhint="search" autocomplete="off"><button id="dmisb" type="button" onclick="dmPickList()">搜尋</button></div><div id="dmif" class="qpf"></div><div id="dmil"></div><div class="acts end"><button class="pri" onclick="dmPickOk()">確定</button><button onclick="$('#dmi').close()" class="xcl" aria-label="關閉"></button></div></dialog>
 <dialog id="dmx"><h2>文字</h2><textarea id="dmxt" rows="3"></textarea><div class="acts dmpx"><label for="dmxf">字體</label><select id="dmxf"><option value="c">Cubic 11</option><option value="s">台灣明體</option><option value="d">預設字體</option></select></div><div class="acts dmpx"><label for="dmxv">樣式</label><select id="dmxv"><option value="plain">文字</option><option value="menu">選單</option><option value="btn">按鈕</option></select></div><div class="acts"><label class="r"><input type="radio" name="dmxm" value="0"> 純色字</label><label class="r"><input type="radio" name="dmxm" value="1" checked> 有外框的字</label></div><div class="acts"><label class="r">文字顏色 <input type="color" id="dmxc" value="#ffffff"></label><label class="r" id="dmxsw">外框顏色 <input type="color" id="dmxs" value="#000000"></label></div><div class="acts end"><button class="pri" onclick="dmTextOk()">確定</button><button onclick="$('#dmx').close()" class="xcl" aria-label="關閉"></button></div></dialog>
 <dialog id="dmwe"><h2>視窗</h2><label for="dmwet">標題列文字</label><input type="text" id="dmwet" maxlength="40"><div class="acts end"><button class="pri" onclick="dmWinOk()">確定</button><button onclick="$('#dmwe').close()" class="xcl" aria-label="關閉"></button></div></dialog>
 <dialog id="dmco"><h2>視窗顏色</h2><div id="dmcol"></div><p class="sub" id="dmcos">按「預設」或沒有自訂的顏色會跟著主題色</p><div class="acts end"><button onclick="$('#dmco').close()" class="xcl" aria-label="關閉"></button></div></dialog>
 <dialog id="dmth"><h2>主題色</h2><p class="sub">視窗方塊使用的配色</p><div class="acts" id="dmthl"></div><div class="acts end"><button onclick="$('#dmth').close()" class="xcl" aria-label="關閉"></button></div></dialog>
-<dialog id="qd"><h2>選擇要引用的紀錄</h2><div class="qsrow"><input type="search" id="qs2" enterkeyhint="search" autocomplete="off"><button id="qsb" class="pri" onclick="qdGo(true)">搜尋</button></div><div id="qdc"></div><div class="acts end"><button onclick="$('#qd').close()" class="xcl" aria-label="關閉"></button></div></dialog>
+<dialog id="qd"><h2>選擇要引用的紀錄</h2><div class="qsrow"><input type="search" id="qs2" enterkeyhint="search" autocomplete="off"><button id="qsb" class="pri" onclick="qdGo(true)">搜尋</button></div><div id="qdf" class="qpf"></div><div id="qdc"></div><div class="acts end"><button onclick="$('#qd').close()" class="xcl" aria-label="關閉"></button></div></dialog>
 <dialog id="lb" class="tbd"><h2 id="lbt">圖片</h2><button id="lbx" class="xcl" onclick="$('#lb').close()" aria-label="關閉"></button><div id="lbc"></div></dialog>
 <button id="fab" hidden onclick="fabAdd()">+ 新增</button>
 <div id="toast" role="status" popover="manual"></div>
@@ -1148,7 +1149,7 @@ const dbDel=(st,k)=>useMem?(delete M[st][k],Promise.resolve()):req(st,'readwrite
 const dbByPAll=id=>useMem?Promise.resolve(Object.values(M.entries).filter(e=>e.pid===id)):req('entries','readonly',s=>s.index('pid').getAll(id));
 const dbByP=id=>dbByPAll(id).then(a=>a.filter(e=>!e.archived));
 
-async function loadView(){E={};
+async function loadView(){E={};try{QX=new Map((await dbAll('entries')).filter(e=>!e.archived).map(e=>[e.k,e]))}catch(_){}
  if(srch){for(const id of sf.pids)(await dbByP(id)).forEach(e=>{if(!sf.types.has(e.date===NODATE?'note':'tl'))return;(E[e.date]||(E[e.date]=[])).push(e)});return}
  const ids=multi?[...msel]:cur?[cur]:[];for(const id of ids)(await dbByP(id)).forEach(e=>{if((e.date===NODATE)!==other)return;(E[e.date]||(E[e.date]=[])).push(e)})}
 async function sel(id){cur=id;multi=false;srch=false;qs='';$('#q').value='';qpClose();document.documentElement.classList.remove('rvm');drawMbar();hy=null;extra=0;ftags=[];rlim=50;applyTheme(pById(id)?.color);await loadView();render()}
@@ -1476,10 +1477,11 @@ const qTxt=q=>{const t=(q.text||'').replace(/\s+/g,' ').trim();if(t)return t.sli
  const n=(mc.image||0)+(mc.video||0)+(mc.audio||0)+(mc.file||0);
  if(!n&&lc&&live&&(live.links||[]).length)return String(live.links[0]).replace(/^https?:\/\//i,'').replace(/^www\./i,'')+(lc>1?'　等'+lc+'個連結':'');
  return[...mParts(mc),lc&&lc+'個連結'].filter(Boolean).join('、')||(live&&live.quote?'含引用':'')};
-const qFind=q=>(E[q.date]||[]).find(x=>x.k===q.k);
+let QX=new Map();/* 所有紀錄（引用跨對象、跨時間軸／隨手記時找原紀錄用） */
+const qFind=q=>QX.get(q.k)||(E[q.date]||[]).find(x=>x.k===q.k);
 const qGone=q=>!qFind(q);
 const qOpen=q=>{const t=qFind(q);if(!t){toast('此紀錄已被刪除');return}if(dtCur)dtStack.push(dtCur);dtRender(t)};
-const qLbl=q=>(q.date===NODATE?'隨手記':fmtD(q.date))+(q.time?'　'+q.time:'')+(qGone(q)?'（原紀錄已被刪除）':'');
+const qLbl=q=>(q.pid&&q.pid!==cur&&people.length>1?pname(q.pid)+'・':'')+(q.date===NODATE?'隨手記':fmtD(q.date))+(q.time?'　'+q.time:'')+(qGone(q)?'（原紀錄已被刪除）':'');
 const parts=(en,date,jump,showTime)=>{
  const qv=FEAT.quote&&en.quote&&h('div',{class:'qv',role:'button',tabindex:'0',onclick:()=>qOpen(en.quote)},h('div',{class:'qb'},h('div',{class:'rd'},qLbl(en.quote)),h('div',{class:'qtx'},qTxt(en.quote))));
  const body=[
@@ -1566,7 +1568,7 @@ function drawHeat(){
 /* 搜尋結果：涵蓋所選對象、類型的全部紀錄，再依文字、標籤、日期篩選；新到舊 */
 const dOf=e=>{if(e.date!==NODATE)return e.date;const t=new Date(tsOf(e));return `${t.getFullYear()}-${pad(t.getMonth()+1)}-${pad(t.getDate())}`};
 function renderSearch(A){
- const k=qs.toLowerCase(),T=[...sf.tags],hits=Object.values(E).flat().filter(e=>(!k||cHay(e).includes(k))&&T.every(t=>(e.tags||[]).includes(t))&&(!sf.d1||dOf(e)>=sf.d1)&&(!sf.d2||dOf(e)<=sf.d2))
+ const k=qs.toLowerCase(),hits=Object.values(E).flat().filter(e=>fltHit(e,{...sf,types:null},k))
   .sort((a,b)=>dOf(a)!==dOf(b)?(dOf(a)<dOf(b)?1:-1):(a.time||'')!==(b.time||'')?((a.time||'')<(b.time||'')?1:-1):tsOf(b)-tsOf(a));
  const many=sf.pids.size>1;
  rc(A,h('p',{class:'sub'},(qs?`搜尋「${qs}」`:'搜尋結果')+`：${hits.length}則`),
@@ -1977,11 +1979,14 @@ function mkQuoteSnap(en){return{k:en.k,pid:en.pid,date:en.date,time:en.time||nul
  lc:(en.links||[]).length}}
 function drawQuote(){const v=$('#qpv');schedDraft();if(!dquote){rc(v);return}
  rc(v,h('div',{class:'qchip'},h('div',{class:'qb'},h('div',{class:'rd'},qLbl(dquote)),h('div',{class:'qtx'},qTxt(dquote))),h('button',{class:'xcl','aria-label':'移除引用',onclick:async()=>{if(await ask('移除這則引用？')){dquote=null;drawQuote()}}},'×')))}
-function openQd(){if(!cur){toast('請先選擇對象');return}$('#qs2').value='';drawQd('');$('#qd').classList.remove('kb');$('#qd').showModal()}
-async function drawQd(k){const my=drawQd.n=(drawQd.n||0)+1,all=(await dbByP(cur)).filter(e=>e.k!==edK),kk=k.trim().toLowerCase(),
- list=all.filter(e=>!kk||hay(e).includes(kk)).sort((a,b)=>a.date===b.date?(b.time||'').localeCompare(a.time||''):(a.date<b.date?1:-1)).slice(0,80);
+/* 選擇引用：可篩選類型、日期、對象（可跨對象引用）、標籤；預設＝目前對象的全部紀錄 */
+let qf={types:new Set(['tl','note']),pids:new Set(),tags:new Set(),d1:'',d2:''};
+function drawQdf(){rc($('#qdf'),...fltUI(qf,{types:1,dates:1,people:people.length>1,tags:fltTags(qf.pids,qf)},()=>{drawQdf();drawQd($('#qs2').value)}))}
+function openQd(){if(!cur){toast('請先選擇對象');return}$('#qs2').value='';qf={types:new Set(['tl','note']),pids:new Set([cur]),tags:new Set(),d1:'',d2:''};drawQdf();drawQd('');$('#qd').classList.remove('kb');$('#qd').showModal()}
+async function drawQd(k){const my=drawQd.n=(drawQd.n||0)+1,all=[];for(const id of qf.pids)all.push(...(await dbByP(id)).filter(e=>e.k!==edK));const kk=k.trim().toLowerCase(),
+ list=all.filter(e=>fltHit(e,qf,kk)).sort((a,b)=>dOf(a)!==dOf(b)?(dOf(a)<dOf(b)?1:-1):(b.time||'').localeCompare(a.time||'')||tsOf(b)-tsOf(a)).slice(0,80);
  if(my!==drawQd.n)return;
- rc($('#qdc'),list.length?list.map(e=>h('button',{class:'qhit',onclick:()=>{if(Date.now()<qdHold)return;dquote=mkQuoteSnap(e);drawQuote();$('#qd').close()}},h('div',{class:'rd'},(e.date===NODATE?'隨手記':fmtD(e.date))+(e.time?'　'+e.time:'')),h('div',{class:'qtx'},qTxt(e)))):h('p',{class:'sub'},'沒有符合的紀錄'))}
+ rc($('#qdc'),list.length?list.map(e=>h('button',{class:'qhit',onclick:()=>{if(Date.now()<qdHold)return;dquote=mkQuoteSnap(e);drawQuote();$('#qd').close()}},h('div',{class:'rd'},(qf.pids.size>1?pname(e.pid)+'・':'')+(e.date===NODATE?'隨手記':fmtD(e.date))+(e.time?'　'+e.time:'')),h('div',{class:'qtx'},qTxt(e)))):h('p',{class:'sub'},'沒有符合的紀錄'))}
 /* 手機：搜尋欄聚焦／失焦、鍵盤開關時視窗會跳位，同一下觸控可能落到剛移到指尖下的第一筆引用；跳位後短時間內不接受點選 */
 let qdHold=0;const qdWait=()=>{qdHold=Date.now()+500};
 function qdGo(b){clearTimeout(drawQd.t);qdWait();drawQd($('#qs2').value);if(b===true)$('#qs2').blur()}
@@ -2009,16 +2014,20 @@ function qpInit(){if(srch)return;sf.types=new Set([other?'note':'tl']);sf.pids=n
 async function qRun(){if(!sf.pids.size)return;if(!srch){srch=true;}rlim=50;await loadView();render();updQb()}
 function qpOpen(){if(!people.length)return;qpInit();drawQp();$('#qp').hidden=false}
 function qpClose(){const p=$('#qp');if(p)p.hidden=true}
-function drawQp(){
- const opt=(on,t,f)=>h('button',{type:'button',class:'qpo'+(on?' on':''),'aria-pressed':String(!!on),onclick:f},h('i',{class:'cbx'+(on?' on':'')}),h('span',{},t));
- const tog=(set,v,keep)=>{if(set.has(v)){if(keep&&set.size<=1)return;set.delete(v)}else set.add(v);drawQp();qRun()};
- const tags=[...new Set([...sf.pids].flatMap(id=>pById(id)?.tags||[]).concat([...sf.tags]))].sort();
- const date=(k)=>h('input',{type:'date',value:sf[k],'aria-label':k==='d1'?'開始日期':'結束日期',onchange:e=>{sf[k]=e.target.value;qRun()}});
- rc($('#qp'),
-  h('div',{class:'qps'},h('div',{class:'qpt'},'類型'),h('div',{class:'qpl'},opt(sf.types.has('tl'),'時間軸',()=>tog(sf.types,'tl',1)),opt(sf.types.has('note'),'隨手記',()=>tog(sf.types,'note',1)))),
-  h('div',{class:'qps'},h('div',{class:'qpt'},'日期'),h('div',{class:'qpl qpd'},date('d1'),h('span',{},'～'),date('d2'))),
-  people.length>1&&h('div',{class:'qps'},h('div',{class:'qpt'},'對象'),h('div',{class:'qpl'},...people.map(p=>opt(sf.pids.has(p.id),p.name,()=>tog(sf.pids,p.id,1))))),
-  h('div',{class:'qps'},h('div',{class:'qpt'},'標籤'),h('div',{class:'qpl'},...(tags.length?tags.map(t=>opt(sf.tags.has(t),'#'+t,()=>tog(sf.tags,t))):[h('span',{class:'qpn'},'（目前沒有標籤）')]))))}
+/* 共用篩選列：o.types／o.dates／o.people／o.tags（標籤清單）決定顯示哪幾列；改了就呼叫 on() */
+function fltUI(st,o,on){
+ const opt=(v,t,f)=>h('button',{type:'button',class:'qpo'+(v?' on':''),'aria-pressed':String(!!v),onclick:f},h('i',{class:'cbx'+(v?' on':'')}),h('span',{},t));
+ const tog=(set,v,keep)=>{if(set.has(v)){if(keep&&set.size<=1)return;set.delete(v)}else set.add(v);on()};
+ const date=k=>h('input',{type:'date',value:st[k]||'','aria-label':k==='d1'?'開始日期':'結束日期',onchange:e=>{st[k]=e.target.value;on()}});
+ const row=(t,...c)=>h('div',{class:'qps'},h('div',{class:'qpt'},t),h('div',{class:'qpl'+(t==='日期'?' qpd':'')},...c));
+ return [o.types&&row('類型',opt(st.types.has('tl'),'時間軸',()=>tog(st.types,'tl',1)),opt(st.types.has('note'),'隨手記',()=>tog(st.types,'note',1))),
+  o.dates&&row('日期',date('d1'),h('span',{},'～'),date('d2')),
+  o.people&&row('對象',...people.map(p=>opt(st.pids.has(p.id),p.name,()=>tog(st.pids,p.id,1)))),
+  o.tags&&row('標籤',...(o.tags.length?o.tags.map(t=>opt(st.tags.has(t),'#'+t,()=>tog(st.tags,t))):[h('span',{class:'qpn'},'（目前沒有標籤）')]))].filter(Boolean)}
+const fltTags=(pids,st)=>[...new Set([...pids].flatMap(id=>pById(id)?.tags||[]).concat([...st.tags]))].sort();
+/* 套用篩選（文字只比對內文） */
+const fltHit=(e,st,k)=>(!k||cHay(e).includes(k))&&(!st.types||st.types.has(e.date===NODATE?'note':'tl'))&&[...st.tags].every(t=>(e.tags||[]).includes(t))&&(!st.d1||dOf(e)>=st.d1)&&(!st.d2||dOf(e)<=st.d2);
+function drawQp(){rc($('#qp'),...fltUI(sf,{types:1,dates:1,people:people.length>1,tags:fltTags(sf.pids,sf)},()=>{drawQp();qRun()}))}
 $('#q').addEventListener('focus',qpOpen);
 document.addEventListener('pointerdown',e=>{const p=$('#qp');if(!p||p.hidden)return;if(e.target.closest('#qp,#srow'))return;qpClose()},true);
 function qGo(){const b=$('#qgo');if(b&&b.dataset.mode==='clr'){clearTimeout(qt);clearF();$('#q').blur();scrollTo(0,0);return}
@@ -2403,10 +2412,12 @@ function dmCropOk(){dmCrGeo();const c=dmBgRender(dmCr);
  DM.bg=c;DM.bgSrc={...dmCr};DM.bgMode='img';$('#dmc').close();dmDraw()}
 function dmBgNone(){DM.bg=null;DM.bgSrc=null;DM.bgMode=null;$('#dmc').close();dmDraw()}
 /* 選擇紀錄：依日期分組（同一天只顯示一次日期）、可搜尋、勾選框比照標籤選單；紀錄方塊文字可展開全文 */
-let dmPickSel=new Set(),dmPickEs=[];
+let dmPickSel=new Set(),dmPickEs=[],dmPf={tags:new Set()};
+/* 週dump 選擇紀錄：只能篩選標籤（對象固定、日期固定為這週） */
+function drawDmf(){rc($('#dmif'),...fltUI(dmPf,{tags:[...new Set(dmPickEs.flatMap(e=>e.tags||[]))].sort()},()=>{drawDmf();dmPickList()}))}
 async function dmPick(){dmPickEs=(await dmEntries()).filter(e=>dmInWk(e.date,DM.ym)).sort((a,b)=>a.date!==b.date?(a.date<b.date?-1:1):!!a.time!==!!b.time?(a.time?-1:1):a.time?a.time.localeCompare(b.time):tsOf(a)-tsOf(b));/* 同一天：有時間的先（依時間），再來沒時間的（依建立順序） */
- dmPickSel=new Set();/* 每次都從沒勾選開始：勾了就新增視窗（同一則可以重複加入） */$('#dmis').value='';dmPickList();$('#dmi').showModal();$('#dmil').scrollTop=0}
-function dmPickList(){dmUrls.forEach(URL.revokeObjectURL);dmUrls=[];const k=$('#dmis').value.trim().toLowerCase(),es=dmPickEs.filter(e=>!k||hay(e).includes(k));
+ dmPickSel=new Set();/* 每次都從沒勾選開始：勾了就新增視窗（同一則可以重複加入） */$('#dmis').value='';dmPf={tags:new Set()};drawDmf();dmPickList();$('#dmi').showModal();$('#dmil').scrollTop=0}
+function dmPickList(){dmUrls.forEach(URL.revokeObjectURL);dmUrls=[];const k=$('#dmis').value.trim().toLowerCase(),es=dmPickEs.filter(e=>fltHit(e,dmPf,k));
  const ck=(id,cls,...c)=>{const on=dmPickSel.has(id),bx=h('i',{class:'cbx'+(on?' on':'')});
   return h('div',{class:'dmck'+(cls?' '+cls:''),role:'checkbox','aria-checked':String(on),tabindex:'0',onclick:e=>{const t=e.currentTarget,v=!dmPickSel.has(id);v?dmPickSel.add(id):dmPickSel.delete(id);bx.classList.toggle('on',v);t.setAttribute('aria-checked',String(v))}},bx,...c)};
  const out=[];let last='',lastT=null;
