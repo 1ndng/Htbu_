@@ -1040,8 +1040,9 @@ html #boot,html #boot *{font-family:"Cubic 11",monospace!important;letter-spacin
  /* 詢問與功能介紹一律用 Win95 樣式：Win7 時先暫時切回 Win95（開機畫面擋在後面看不到），結束後再切回來 */
  g.onclick=function(){if(typeof people!=='undefined'&&!people.length&&typeof ask==='function'){var de=document.documentElement,w7=de.classList.contains('w7');
    if(w7){de.classList.remove('w7');try{applyTheme(null)}catch(e){}}
-   var fin=function(){if(w7){de.classList.add('w7');try{applyTheme(multi?REVCOL:pById(cur)?.color);if(typeof sbRefresh==='function')sbRefresh()}catch(e){}}out()};
-   ask('之後都可以在選單內瀏覽','是否觀看功能介紹？','是','否',true).then(function(y){if(y)openGd(0,{intro:fin});else fin()})}else out()};
+   var back=function(){if(w7){de.classList.add('w7');try{applyTheme(multi?REVCOL:pById(cur)?.color);if(typeof sbRefresh==='function')sbRefresh()}catch(e){}}},fin=function(){back();out()};
+   /* × ＝回到開機畫面（不進主畫面）；是＝看功能介紹；否＝直接進主畫面 */
+   ask('之後都可以在選單內瀏覽','是否觀看功能介紹？','是','否',true).then(function(y){if(y===null)back();else if(y)openGd(0,{intro:fin});else fin()})}else out()};
  /* 音效開關：比照功能設定；主程式已載入就直接改設定，否則先寫進 localStorage */
  var on=true;try{var f=JSON.parse(localStorage.getItem('nyear-feat')||'{}');if(f.sound===false)on=false}catch(e){}
  document.querySelector('#boots input[value="'+(on?1:0)+'"]').checked=true;
@@ -1221,8 +1222,8 @@ let db,useMem=false,M={people:{},entries:{},dumps:{}},people=[],cur=null,E={},ur
 const NODATE='0000-00-00',tsOf=e=>+String(e.k).split('|').pop()||0;
 const now=new Date();let mo=now.getMonth()+1,dy=now.getDate();
 
-/* win＝有標題列（瀏海）的視窗外框：沒有標題文字與 −，右上 × 等同「否／取消」 */
-function ask(sub,title,yes,no,win){return new Promise(res=>{const d=$('#cf'),s=$('#cfs');d.classList.toggle('tbd',!!win);let x=d.querySelector('.xcl');if(x)x.remove();if(win){x=h('button',{class:'xcl','aria-label':'關閉',onclick:()=>fin(false)});d.prepend(x)}$('#cft').textContent=title||'是否刪除？';$('#cfy').textContent=yes||'確定';$('#cfn').textContent=no||'取消';s.textContent=sub||'';s.hidden=!sub;let done=false;
+/* win＝有標題列（瀏海）的視窗外框：沒有標題文字與 −；右上 × 回傳 null（關掉、不選是或否） */
+function ask(sub,title,yes,no,win){return new Promise(res=>{const d=$('#cf'),s=$('#cfs');d.classList.toggle('tbd',!!win);let x=d.querySelector('.xcl');if(x)x.remove();if(win){x=h('button',{class:'xcl','aria-label':'關閉',onclick:()=>fin(null)});d.prepend(x)}$('#cft').textContent=title||'是否刪除？';$('#cfy').textContent=yes||'確定';$('#cfn').textContent=no||'取消';s.textContent=sub||'';s.hidden=!sub;let done=false;
  const fin=v=>{if(done)return;done=true;if(d.open)d.close();d.classList.remove('tbd');if(x)x.remove();res(v)};
  $('#cfy').onclick=()=>fin(true);$('#cfn').onclick=()=>fin(false);d.onclose=()=>fin(false);d.showModal()})}
 async function clr(id){const e=$(id);if(e.value&&await ask('','是否清除？'))e.value=''}
