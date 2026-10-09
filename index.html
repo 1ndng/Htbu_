@@ -977,16 +977,16 @@ html.w7 #dmp{border:0;border-radius:0;box-shadow:none}
 </style>
 <style id="hlcss">
 /* ===== 螢光筆方塊（參考圖）：年份、時刻的底色方塊比字矮一點（字頂稍微超出），右下有陰影；標籤方塊與字同高、字置中 =====
-   Win95＝實色方塊＋實色陰影；Win7＝漸層方塊＋柔和漸層陰影。時間軸的軸線、當日橫線保留，原本的滑塊與刻度拿掉 */
-html{--hlt:.32em;--hlbg:var(--card);--hlsh:1px 1px 0 var(--ink)}
-html.w7{--hlbg:linear-gradient(to bottom,#FFFFFF,color-mix(in srgb,var(--acc) 16%,#F4F4F4));--hlsh:1px 2px 4px rgba(0,0,0,.28)}
+   Win95＝實色方塊、無陰影；Win7＝實色方塊＋柔和漸層陰影。時間軸的軸線、當日橫線保留，原本的滑塊與刻度拿掉 */
+html{--hlt:.32em;--hlbg:var(--card);--hlsh:none}
+html.w7{--hlbg:color-mix(in srgb,var(--acc) 12%,#FFFFFF);--hlsh:1px 2px 4px rgba(0,0,0,.28)}
 .row::before,.row::after,html.w7 :is(.row,.row.has)::before,html.w7 .row::after,.htm::after,html.w7 .htm::after{display:none}
 .rh .yr{position:relative;z-index:0;margin-left:-34px;padding:0 6px 1px;line-height:1.05}
 .rh .yr::before,.htm::before{content:"";position:absolute;z-index:-1;left:0;right:0;top:var(--hlt);bottom:0;background:var(--bg)}
 .row.has .rh .yr::before,.htm::before{background:var(--hlbg);box-shadow:var(--hlsh)}
 .row.has .rh .yr{text-shadow:none}
 .htm{z-index:0;padding:0 5px 1px;line-height:16px;color:var(--ink)}.htm::before{top:4px}
-/* 標籤（Win95）：實色銳角方塊、字不超出、置中，右下實色陰影 */
+/* 標籤（Win95）：實色銳角方塊、字不超出、置中 */
 html:not(.w7) :is(.tg,.dtg,.card .tg){clip-path:none;display:inline-flex;align-items:center;justify-content:center;text-align:center;box-shadow:var(--hlsh);margin:0 1px 1px 0}
 html:not(.w7) :is(.tg,.dtg,.card .tg):not(.on){background:color-mix(in srgb,var(--acc) 16%,var(--card))}
 </style>
