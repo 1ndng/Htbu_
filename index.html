@@ -373,6 +373,8 @@ mark{background:var(--acc);color:var(--onacc);border-radius:0}
 .qpl{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center;min-height:28px}
 .qpo{display:inline-flex;align-items:center;gap:6px;border:0;background:none;box-shadow:none;clip-path:none;padding:0;margin:0;min-height:28px;font-size:var(--f13);color:var(--ink)}.qpo .cbx{margin:0;flex:none}
 .qpd{flex-wrap:nowrap;gap:6px}
+/* 日期框：iPhone 上沒選日期時會變扁，固定高度 */
+.qpd input[type=date]{box-sizing:border-box;height:28px;min-height:28px;display:block}.qpd input[type=date]::-webkit-date-and-time-value{min-height:1.3em}
 /* 編輯紀錄：可加入的標籤分「限定對象」「所有對象」兩行 */
 #tsg .tgr{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 6px}#tsg .tgl{font-size:var(--f11);color:var(--mute);flex:none;min-width:4.5em}
 #tmscw{margin:10px 0 0}#tmscw .acts{margin:4px 0 0;gap:10px}
@@ -998,7 +1000,7 @@ html.w7 #dmp{border:0;border-radius:0;box-shadow:none}
 <h2 id="tmt"></h2>
 <div id="tmsw"><label for="tms">選擇標籤</label><select id="tms" style="margin:6px 0 12px"></select></div>
 <div id="tmnw"><input type="text" id="tmn" maxlength="20"></div>
-<div id="tmscw"><label>適用對象</label><div class="acts"><label class="r"><input type="radio" name="tmsc" value="p"> 限定此對象</label><label class="r"><input type="radio" name="tmsc" value="g"> 所有對象</label></div></div>
+<div id="tmscw"><label>適用對象</label><div class="acts"><label class="r"><input type="radio" name="tmsc" value="p"> 當前對象</label><label class="r"><input type="radio" name="tmsc" value="g"> 所有對象</label></div></div>
 <div class="acts end"><button class="pri" id="tmo" onclick="tmOk()">確定</button><button onclick="tm.close();openMenu('tag')" class="xbk" aria-label="返回"></button><button onclick="tm.close()" class="xcl" aria-label="關閉"></button></div>
 </dialog>
 <dialog id="pd">
@@ -1519,7 +1521,7 @@ function openTm(mode,pick){const P=pById(cur);if(!P)return;const ts=tagsOf(cur);
  if(mode!=='add'&&!ts.length){toast('目前沒有標籤');return}
  tmMode=mode;$('#tmt').textContent={add:'新增標籤',edit:'編輯標籤',del:'刪除標籤'}[mode];
  const pt=ptagsOf(cur),gt=[...GT].sort(),og=(l,a)=>a.length?h('optgroup',{label:l},...a.map(t=>h('option',{value:t},'#'+t))):null;
- rc($('#tms'),og('限定對象',pt),og('所有對象',gt));
+ rc($('#tms'),og('當前對象',pt),og('所有對象',gt));
  if(pick&&ts.includes(pick))$('#tms').value=pick;$('#tmsw').hidden=mode==='add';$('#tmnw').hidden=mode==='del';$('#tmn').value=mode==='edit'?(pick&&ts.includes(pick)?pick:ts[0]):'';
  $('#tmo').textContent={add:'新增',edit:'儲存',del:'刪除'}[mode];$('#tmscw').hidden=mode==='del';tmScope();
  $('#tm').showModal();if(mode==='add')$('#tmn').focus()}
@@ -1693,7 +1695,7 @@ function drawTags(){schedDraft();const pid=(edK&&E[edDate]?E[edDate].find(x=>x.k
 
  rc($('#tgd'),...dtags.map((t,i)=>h('span',{class:'tg on'},'#'+t,h('button',{'aria-label':'移除標籤',onclick:async()=>{if(await ask()){dtags.splice(i,1);drawTags()}}},'×'))));
  const row=(l,a)=>h('div',{class:'tgr'},h('span',{class:'tgl'},l),...a.filter(t=>!dtags.includes(t)).map(t=>h('button',{class:'tg',onclick:()=>addTag(t)},'#'+t)));
- rc($('#tsg'),row('限定對象',ptagsOf(pid)),row('所有對象',[...GT].sort()))}
+ rc($('#tsg'),row('當前對象',ptagsOf(pid)),row('所有對象',[...GT].sort()))}
 function addTag(v){v=normTag(v);if(!v||dtags.includes(v)||dtags.length>=10)return;dtags.push(v);$('#tn').value='';drawTags()}
 function tagToggle(){const r=$('#tgi');r.hidden=!r.hidden;if(!r.hidden)$('#tn').focus()}
 function setMode(v,val){timeMode('tm','#tv',v,val)}
