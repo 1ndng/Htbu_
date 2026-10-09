@@ -1,8 +1,8 @@
 // 更新程式後，把下面的版本號加 1，手機才會抓到新版
-const C = 'nyear-v248';
+const C = 'nyear-v249';
 const FILES = ['./', './index.html', './fonts.css', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
-// 字體切成小份（fonts/）：先備好兩種 Win95 字體的第一份（英數標點＋介面文字），其他用到時才下載
-const FONTS = ['./fonts/c00.ttf', './fonts/b00.ttf'];
+// 字體切成小份（fonts/）：先備好 Win95 字體的第一份（英數標點＋介面文字），其他用到時才下載
+const FONTS = ['./fonts/c00.ttf'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(C).then(c => c.addAll(FILES))
