@@ -987,6 +987,8 @@ html.w7{--hlbg:color-mix(in srgb,var(--acc) 12%,#FFFFFF);--hlsh:1px 2px 4px rgba
 html .htm{white-space:nowrap}
 html .htm::after,html.w7 .htm::after{display:block;left:50%;top:100%;width:1px;height:8px;transform:translateX(-50%);clip-path:none;border-radius:0;box-shadow:none;background:var(--ink)}
 html.w7 .htm::after{background:#8A8A8A}
+/* Win95 時刻下的直線：比照時間軸的凹槽線（深線＋白色亮線） */
+html:not(.w7) .htm::after{width:4px;height:6px;background:linear-gradient(to right,var(--blo) 0 1px,var(--ink) 1px 2px,var(--btnf) 2px 3px,var(--bhi) 3px 4px)}
 /* Win7 時間軸線：不用有框的凹槽，改成和時刻直線一樣的細實線（年份軸 1.5px、當日 1px） */
 html.w7 .tl{background:linear-gradient(#8A8A8A,#8A8A8A) 1.25px 0/1.5px 100% no-repeat}
 html.w7 .hi::before{top:25px;height:1px;background:#8A8A8A}
