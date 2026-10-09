@@ -27,7 +27,7 @@ def ranges(cps):
         while j+1<len(cps) and cps[j+1]==cps[j]+1:j+=1
         out.append(f'U+{cps[i]:X}' if i==j else f'U+{cps[i]:X}-{cps[j]:X}');i=j+1
     return ','.join(out)
-FONTS=[('Cubic 11','Cubic_11.ttf','c'),('cwTeXMing','cwTeXMing.ttf','m')]
+FONTS=[('Cubic 11','Cubic_11.ttf','c'),('MingLiU','mingliu.ttf','m')]
 css=[];man={}
 for fam,fn,key in FONTS:
     f=TTFont(SRC+fn,lazy=True);have=set(f.getBestCmap());f.close()
