@@ -192,7 +192,7 @@ video.dtm{background:#000}
 
 #gd{width:min(320px,86vw)}#gd h2{text-align:center;margin:2px 0 14px}#gd .mb{display:flex;flex-direction:column;align-items:center;gap:12px}
 #ft,
-#ui,#dmh{width:min(320px,86vw)}#ft h2,#ui h2,#dmh h2{text-align:center;margin:2px 0 14px}.moreS{height:1px}/* 抽幀感：約 8 格／秒、每格直接跳位（steps），像低幀率的舊電腦動畫 */.row.rin{animation:rowIn .5s steps(4,jump-end) both}@keyframes rowIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}@media (prefers-reduced-motion:reduce){.row.rin{animation:none}}#ftc{display:grid;grid-template-columns:auto 1fr;gap:10px 14px;align-items:center;margin:0 4px 8px}#ftc>label{margin:0;font-size:var(--f13);color:var(--ink)}#ftc .acts{margin:0!important;gap:10px;align-items:center;flex-wrap:nowrap}#ftc select{width:auto;margin:0}#ft .mb,#ui .mb,#dmh .mb{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:14px}#ft .edit,#ui .edit,#dmh .edit{margin:0;width:100%;max-width:230px;padding:8px 12px;font-size:var(--f14);text-align:center}
+#ui,#dmh{width:min(320px,86vw)}#ft h2,#ui h2,#dmh h2{text-align:center;margin:2px 0 14px}.moreS{height:1px}/* 抽幀感：約 8 格／秒、每格直接跳位（steps），像低幀率的舊電腦動畫 */.row.rin,.rin2{animation:rowIn .5s steps(4,jump-end) both}@keyframes rowIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}@media (prefers-reduced-motion:reduce){.row.rin,.rin2{animation:none}}#ftc{display:grid;grid-template-columns:auto 1fr;gap:10px 14px;align-items:center;margin:0 4px 8px}#ftc>label{margin:0;font-size:var(--f13);color:var(--ink)}#ftc .acts{margin:0!important;gap:10px;align-items:center;flex-wrap:nowrap}#ftc select{width:auto;margin:0}#ft .mb,#ui .mb,#dmh .mb{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:14px}#ft .edit,#ui .edit,#dmh .edit{margin:0;width:100%;max-width:230px;padding:8px 12px;font-size:var(--f14);text-align:center}
 #gd .mb .edit{margin:0;width:100%;max-width:230px;padding:8px 12px;font-size:var(--f14);text-align:center}
 #gd .gb{font-size:var(--f14);line-height:1.8;white-space:pre-wrap;max-height:56vh;overflow:auto;margin:0 0 4px}
 #gd .acts{justify-content:center;margin:14px 0 2px}
@@ -1703,19 +1703,19 @@ function renderSearch(A){
   .sort((a,b)=>dOf(a)!==dOf(b)?(dOf(a)<dOf(b)?1:-1):(a.time||'')!==(b.time||'')?((a.time||'')<(b.time||'')?1:-1):tsOf(b)-tsOf(a));
  const many=sf.pids.size>1;
  rc(A,h('p',{class:'sub'},(qs?`搜尋「${qs}」`:'搜尋結果')+`：${hits.length}則`),
-  ...hits.slice(0,rlim).map(e=>h('div',{class:'hit'},h('div',{class:'rd'},(many?pname(e.pid)+'・':'')+(e.date===NODATE?'隨手記・'+fmtD(dOf(e)):fmtD(e.date))+(e.time?'　'+e.time:'')),card(e,e.date,e.date!==NODATE,true))),
-  hits.length>rlim&&h('button',{class:'more',onclick:()=>{rlim+=50;render()}},'顯示更多'));
- fitX()}
+  ...hits.slice(0,rlim).map((e,i)=>rinH(h('div',{class:'hit'},h('div',{class:'rd'},(many?pname(e.pid)+'・':'')+(e.date===NODATE?'隨手記・'+fmtD(dOf(e)):fmtD(e.date))+(e.time?'　'+e.time:'')),card(e,e.date,e.date!==NODATE,true)),i)),
+  hits.length>rlim&&h('div',{class:'moreS moreH','aria-hidden':'true'}));
+ fitX();obsH(A)}
 function renderOther(A,P){
  const k=qs.toLowerCase(),all=Object.values(E).flat(),filt=!!(qs||ftags.length),
   list=all.filter(e=>matchF(e)&&(!k||cHay(e).includes(k))).sort((a,b)=>tsOf(b)-tsOf(a));
  rc(A,
   h('div',{class:'ohead'},h('div',{class:'otl'},'★隨手記★'),bkBtn()),
   h('p',{class:'sub'},filt?[ftagLabel()+(ftags.length&&qs?'　':'')+(qs?`搜尋「${qs}」`:'')+`：${list.length}則`]:`${P.name}共記錄了${all.length}則。`),
-  list.length?h('div',{class:'ol'},...list.slice(0,rlim).map(e=>card(e,NODATE,false,true))):null,
-  list.length>rlim&&h('button',{class:'more',onclick:()=>{rlim+=50;render()}},'顯示更多'),
+  list.length?h('div',{class:'ol'},...list.slice(0,rlim).map((e,i)=>rinH(card(e,NODATE,false,true),i))):null,
+  list.length>rlim&&h('div',{class:'moreS moreH','aria-hidden':'true'}),
   useMem&&h('p',{class:'note'},'此瀏覽器無法長期儲存，關閉頁面後資料會消失。'));
- chkClip()}
+ chkClip();obsH(A)}
 function bkbClick(){multi?toggleMulti():toggleOther()}
 const bkBtn=()=>h('button',{class:'edit',id:'bkb',onclick:()=>bkbClick()},multi?'結束回顧':other?'返回':'★隨手記★');
 const matchF=e=>!ftags.length||ftags.every(x=>x.pid===e.pid&&(e.tags||[]).includes(x.tag));
@@ -1738,9 +1738,9 @@ function renderView(){
   const k=qs.toLowerCase(),hits=Object.values(E).flat().filter(e=>matchF(e)&&(!k||cHay(e).includes(k)))
    .sort((a,b)=>a.date===b.date?(b.time||'').localeCompare(a.time||''):a.date<b.date?1:-1);
   rc(A,h('p',{class:'sub'},ftagLabel()+(ftags.length&&qs?'　':'')+(qs?`搜尋「${qs}」`:'')+`：${hits.length}則`),
-   ...hits.slice(0,rlim).map(e=>{const [y,m,d]=e.date.split('-').map(Number);return h('div',{class:'hit'},h('div',{class:'rd'},`${y}年${m}月${d}日`),card(e,e.date,true,true))}),
-   hits.length>rlim&&h('button',{class:'more',onclick:()=>{rlim+=50;render()}},'顯示更多'));
-  fitX();return}
+   ...hits.slice(0,rlim).map((e,i)=>{const [y,m,d]=e.date.split('-').map(Number);return rinH(h('div',{class:'hit'},h('div',{class:'rd'},`${y}年${m}月${d}日`),card(e,e.date,true,true)),i)}),
+   hits.length>rlim&&h('div',{class:'moreS moreH','aria-hidden':'true'}));
+  fitX();obsH(A);return}
  const cy=now.getFullYear(),ys=Object.keys(E).map(k=>+k.slice(0,4)),
   oldY=Math.min(cy,...ys),minY=Math.max(MINY||-Infinity,Math.min(cy-2-extra*3,hy||cy)),atFloor=(MINY&&(cy-2-extra*3)<=MINY)||minY<=oldY,rows=[];let filled=0;
  for(let y=cy;y>=minY;y--){
@@ -1781,6 +1781,13 @@ function moreIO(){if(mIO)return mIO;
   const rs=[...$('#app').querySelectorAll('.tl .row .yr')],last=rs.length?+rs[rs.length-1].textContent:null;
   moreFrom=last;extra++;try{render()}finally{moreFrom=null}}},{rootMargin:'0px 0px 160px 0px'});
  return mIO}
+/* 搜尋結果／標籤篩選／隨手記清單：捲到底自動再載 50 則（取代「顯示更多」），新的一批同樣抽幀滑入 */
+let hitFrom=null,hIO=null;
+function rinH(el,i){if(hitFrom!=null&&i>=hitFrom){el.classList.add('rin2');el.style.animationDelay=Math.min(i-hitFrom,8)*60+'ms'}return el}
+function obsH(A){const s=A.querySelector('.moreH');if(!s)return;
+ if(!hIO)hIO=new IntersectionObserver(es=>{for(const e of es){if(!e.isIntersecting)continue;hIO.unobserve(e.target);
+  hitFrom=rlim;rlim+=50;try{render()}finally{hitFrom=null}}},{rootMargin:'0px 0px 160px 0px'});
+ hIO.observe(s)}
 
 /* 年／月／日選單（選擇日期、移至時間軸、年份設定共用） */
 const numOpts=(n,u)=>Array.from({length:n},(_,i)=>h('option',{value:i+1},(i+1)+u));
