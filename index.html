@@ -996,7 +996,8 @@ html.w7 .hi::before{top:25px;height:1px;background:#8A8A8A}
 .rh .yr::before,.htm::before{content:"";position:absolute;z-index:-1;left:0;right:0;top:var(--hlt);bottom:0;background:var(--bg)}
 .row.has .rh .yr::before,.htm::before{background:var(--hlbg);box-shadow:var(--hlsh)}
 .row.has .rh .yr{text-shadow:none}
-.htm{z-index:0;padding:0 5px 1px;line-height:16px;color:var(--ink)}.htm::before{top:4px}
+/* 時刻：方塊與字同高、字置中不超出（年份維持字頂超出） */
+.htm{z-index:0;padding:0 5px;line-height:17px;color:var(--ink)}.htm::before{top:0}
 /* 標籤（Win95）：實色銳角方塊、字不超出、置中 */
 html:not(.w7) :is(.tg,.dtg,.card .tg){clip-path:none;display:inline-flex;align-items:center;justify-content:center;text-align:center;box-shadow:var(--hlsh);margin:0 1px 1px 0}
 html:not(.w7) :is(.tg,.dtg,.card .tg):not(.on){background:color-mix(in srgb,var(--acc) 16%,var(--card))}
