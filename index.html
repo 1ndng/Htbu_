@@ -982,7 +982,11 @@ html.w7 #dmp{border:0;border-radius:0;box-shadow:none}
    Win95＝實色方塊、無陰影；Win7＝實色方塊＋柔和漸層陰影。時間軸的軸線、當日橫線保留，原本的滑塊與刻度拿掉 */
 html{--hlt:.32em;--hlbg:var(--card);--hlsh:none}
 html.w7{--hlbg:color-mix(in srgb,var(--acc) 12%,#FFFFFF);--hlsh:1px 2px 4px rgba(0,0,0,.28)}
-.row::before,.row::after,html.w7 :is(.row,.row.has)::before,html.w7 .row::after,.htm::after,html.w7 .htm::after{display:none}
+.row::before,.row::after,html.w7 :is(.row,.row.has)::before,html.w7 .row::after{display:none}
+/* 時刻：置中在該則紀錄上方，下面一條直線接到當日時間軸 */
+html .htm{left:50%;transform:translateX(-50%);white-space:nowrap}
+html .htm::after,html.w7 .htm::after{display:block;left:50%;top:100%;width:1px;height:8px;transform:translateX(-50%);clip-path:none;border-radius:0;box-shadow:none;background:var(--ink)}
+html.w7 .htm::after{background:#8A8A8A}
 .rh .yr{position:relative;z-index:0;margin-left:-34px;padding:0 6px 1px;line-height:1.05}
 .rh .yr::before,.htm::before{content:"";position:absolute;z-index:-1;left:0;right:0;top:var(--hlt);bottom:0;background:var(--bg)}
 .row.has .rh .yr::before,.htm::before{background:var(--hlbg);box-shadow:var(--hlsh)}
