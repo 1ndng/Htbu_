@@ -1246,9 +1246,14 @@ const dbDel=(st,k)=>useMem?(delete M[st][k],Promise.resolve()):req(st,'readwrite
 const dbByPAll=id=>useMem?Promise.resolve(Object.values(M.entries).filter(e=>e.pid===id)):req('entries','readonly',s=>s.index('pid').getAll(id));
 const dbByP=id=>dbByPAll(id).then(a=>a.filter(e=>!e.archived));
 
-async function loadView(){E={};try{QX=new Map((await dbAll('entries')).filter(e=>!e.archived).map(e=>[e.k,e]))}catch(_){}
- if(srch){for(const id of sf.pids)(await dbByP(id)).forEach(e=>{if(!sf.types.has(e.date===NODATE?'note':'tl'))return;(E[e.date]||(E[e.date]=[])).push(e)});return}
- const ids=multi?[...msel]:cur?[cur]:[];for(const id of ids)(await dbByP(id)).forEach(e=>{if((e.date===NODATE)!==other)return;(E[e.date]||(E[e.date]=[])).push(e)})}
+/* 載入目前畫面的紀錄：先放進自己的暫存，最後才換上；同時有兩次載入（例如打字搜尋和勾篩選幾乎同時）時，只採用最新那次，避免同一則被加兩次 */
+let lvN=0;
+async function loadView(){const my=++lvN,X={},seen=new Set(),add=e=>{if(seen.has(e.k))return;seen.add(e.k);(X[e.date]||(X[e.date]=[])).push(e)};
+ let qx=null;try{qx=new Map((await dbAll('entries')).filter(e=>!e.archived).map(e=>[e.k,e]))}catch(_){}
+ if(srch){for(const id of sf.pids)(await dbByP(id)).forEach(e=>{if(sf.types.has(e.date===NODATE?'note':'tl'))add(e)})}
+ else{const ids=multi?[...msel]:cur?[cur]:[];for(const id of ids)(await dbByP(id)).forEach(e=>{if((e.date===NODATE)===other)add(e)})}
+ if(my!==lvN)return;/* 已經有更新的載入，這次的結果丟掉 */
+ if(qx)QX=qx;E=X}
 async function sel(id){cur=id;multi=false;srch=false;qs='';$('#q').value='';qpClose();document.documentElement.classList.remove('rvm');drawMbar();hy=null;extra=0;ftags=[];rlim=50;applyTheme(pById(id)?.color);await loadView();render()}
 async function toggleMulti(){multi=!multi;srch=false;qs='';$('#q').value='';qpClose();if(multi){other=false;msel=new Set(people.map(p=>p.id))}hy=null;ftags=[];document.documentElement.classList.toggle('rvm',multi);if(multi)closeMenu();drawMbar();applyTheme(multi?REVCOL:pById(cur)?.color);await loadView();render()}
 async function toggleOther(){
