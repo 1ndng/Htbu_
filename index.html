@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon-192.png">
-<!-- 字體（Cubic 11；Windows 7 外觀用 Satsuki）切成小份，只下載畫面上用到的字；由 tools/split-fonts.py 產生 -->
+<!-- 字體（Cubic 11；Windows 7 外觀用台灣明體 cwTeXMing）切成小份，只下載畫面上用到的字；由 tools/split-fonts.py 產生 -->
 <link rel="stylesheet" href="fonts.css">
 <script>try{if(localStorage.getItem('nyear-ui')==='w7')document.documentElement.classList.add('w7')}catch(e){}</script>
 <style>
@@ -773,7 +773,7 @@ html.w7 *{--bw:1px;
   linear-gradient(to bottom,rgba(255,255,255,.6),rgba(255,255,255,.22) 28px,rgba(255,255,255,0) 64px,rgba(255,255,255,.12)) border-box,
   linear-gradient(105deg,transparent 22%,rgba(255,255,255,.14) 22% 26%,transparent 26% 58%,rgba(255,255,255,.12) 58% 61%,transparent 61%) border-box,
   linear-gradient(var(--gl),var(--gl)) border-box}
-html.w7 *{font-family:"Satsuki","Segoe UI","Microsoft JhengHei UI","Microsoft JhengHei","PingFang TC","Noto Sans TC","Helvetica Neue",Arial,sans-serif!important;letter-spacing:.01em!important}
+html.w7 *{font-family:"cwTeXMing","Segoe UI","Microsoft JhengHei UI","Microsoft JhengHei","PingFang TC","Noto Sans TC","Helvetica Neue",Arial,sans-serif!important;letter-spacing:.01em!important}
 html.w7 body{line-height:1.6}
 /* 選取色（輸入欄藍框、按下光圈、反白）：主題1 用 Win7 原本的藍；主題2～6（與日回顧）跟著主題色② */
 html.w7{--sel1:#3D7BAD;--sel2:#A4C9E3;--sel3:#B7D9ED;--selh1:#5794BF;--selh2:#B7D5EA;--selr:#8FD0F5;--selb:#2C628B;--selg:rgba(61,160,230,.65);--selx:#3399FF}
@@ -1095,7 +1095,7 @@ html.w7 #dmp,html.w7 #wr{border:0;border-radius:0;box-shadow:none;background:var
 <dialog id="dmbg"><h2>背景</h2><div class="mb"><button class="edit" id="dmbgi" onclick="$('#dmbg').close();DM.bgSrc?dmCrop():$('#dmf').click()">選擇圖片</button><label class="r" id="dmbgcw">純色 <input type="color" id="dmbgc"></label><button class="edit" onclick="dmBgNone();$('#dmbg').close()">不使用背景（主題底色）</button></div><div class="acts end"><button onclick="$('#dmbg').close()">關閉</button></div></dialog>
 <dialog id="dmc"><h2>背景（9:16）</h2><p class="sub">拖曳圖片調整位置</p><div id="dmcf"><img id="dmci" alt=""></div><label for="dmcz">縮放</label><input type="range" id="dmcz" min="1" max="4" step="0.01" value="1"><div class="acts"><button onclick="$('#dmf').click()">換圖片</button><button onclick="dmBgNone()">不使用背景</button></div><div class="acts end"><button class="pri" onclick="dmCropOk()">確定</button><button onclick="$('#dmc').close()">取消</button></div></dialog>
 <dialog id="dmi"><h2>選擇紀錄</h2><div class="qsrow" id="dmisr"><input type="search" id="dmis" placeholder="搜尋文字或標籤" enterkeyhint="search" autocomplete="off"><button id="dmisb" type="button" onclick="dmPickList()">搜尋</button></div><div id="dmil"></div><div class="acts end"><button class="pri" onclick="dmPickOk()">確定</button><button onclick="$('#dmi').close()">取消</button></div></dialog>
-<dialog id="dmx"><h2>文字</h2><textarea id="dmxt" rows="3" placeholder="輸入文字"></textarea><div class="acts dmpx"><label for="dmxf">字體</label><select id="dmxf"><option value="c">Cubic 11</option><option value="s">Satsuki</option><option value="d">預設字體</option></select></div><div class="acts dmpx"><label for="dmxv">樣式</label><select id="dmxv"><option value="plain">文字</option><option value="menu">選單</option><option value="btn">按鈕</option></select></div><div class="acts"><label class="r"><input type="radio" name="dmxm" value="0"> 純色字</label><label class="r"><input type="radio" name="dmxm" value="1" checked> 有外框的字</label></div><div class="acts"><label class="r">文字顏色 <input type="color" id="dmxc" value="#ffffff"></label><label class="r" id="dmxsw">外框顏色 <input type="color" id="dmxs" value="#000000"></label></div><div class="acts end"><button class="pri" onclick="dmTextOk()">確定</button><button onclick="$('#dmx').close()">取消</button></div></dialog>
+<dialog id="dmx"><h2>文字</h2><textarea id="dmxt" rows="3" placeholder="輸入文字"></textarea><div class="acts dmpx"><label for="dmxf">字體</label><select id="dmxf"><option value="c">Cubic 11</option><option value="s">台灣明體</option><option value="d">預設字體</option></select></div><div class="acts dmpx"><label for="dmxv">樣式</label><select id="dmxv"><option value="plain">文字</option><option value="menu">選單</option><option value="btn">按鈕</option></select></div><div class="acts"><label class="r"><input type="radio" name="dmxm" value="0"> 純色字</label><label class="r"><input type="radio" name="dmxm" value="1" checked> 有外框的字</label></div><div class="acts"><label class="r">文字顏色 <input type="color" id="dmxc" value="#ffffff"></label><label class="r" id="dmxsw">外框顏色 <input type="color" id="dmxs" value="#000000"></label></div><div class="acts end"><button class="pri" onclick="dmTextOk()">確定</button><button onclick="$('#dmx').close()">取消</button></div></dialog>
 <dialog id="dmwe"><h2>視窗</h2><label for="dmwet">標題列文字</label><input type="text" id="dmwet" maxlength="40"><div class="acts end"><button class="pri" onclick="dmWinOk()">確定</button><button onclick="$('#dmwe').close()">取消</button></div></dialog>
 <dialog id="dmco"><h2>視窗顏色</h2><div id="dmcol"></div><p class="sub" id="dmcos">按「預設」或沒有自訂的顏色會跟著主題色</p><div class="acts end"><button class="pri" onclick="$('#dmco').close()">確定</button><button onclick="$('#dmco').close()">關閉</button></div></dialog>
 <dialog id="dmth"><h2>主題色</h2><p class="sub">視窗方塊使用的配色</p><div class="acts" id="dmthl"></div><div class="acts end"><button onclick="$('#dmth').close()">取消</button></div></dialog>
@@ -2013,7 +2013,7 @@ const DW=1080,DH=1920,DTB=46,DFONT='"Cubic 11",sans-serif';
 const DPAL0={bg:'#C0C0C0',btnf:'#C0C0C0',card:'#FFFFFF',ink:'#000000',acc:'#000080',on:'#FFFFFF',bhi:'#FFFFFF',blo:'#808080',del:'#A30000'};
 /* Windows 7 視窗（每份週總結可選）：預設配色參考 Win7（白底內容、淡藍玻璃框） */
 const DPAL7={bg:'#BFD4EE',btnf:'#E3E3E3',card:'#FFFFFF',ink:'#000000',acc:'#3D7FCB',on:'#000000',bhi:'#FFFFFF',blo:'#A0A0A0',del:'#C42B1C',line:'#F0F0F0',mute:'#6D6D6D'};
-const W7F='"Satsuki","Segoe UI","Microsoft JhengHei","PingFang TC","Noto Sans TC",serif';
+const W7F='"cwTeXMing","Segoe UI","Microsoft JhengHei","PingFang TC","Noto Sans TC",serif';
 const dmW7=()=>!!DM&&DM.ui==='w7',dmF=()=>dmW7()?W7F:DFONT;
 const dPal=k=>{const t=k&&THEMES[k];return t?{...DPAL0,...t}:dmW7()?DPAL7:DPAL0};
 /* 畫布用：混色（a→b 的比例 t）、圓角矩形路徑（r 可為 [左上,右上,右下,左下]） */
@@ -2056,7 +2056,7 @@ async function dmSaveLay(){if(!DM||!DM.ym)return;try{const k=dmPk()+'|'+DM.ym,re
 async function dmRestore(lay,ym){const D={ym,ui:lay.ui||'95',bg:null,bgSrc:null,bgMode:lay.bgMode,bgColor:lay.bgColor||null,theme:lay.theme??null,items:[],sel:null,nid:lay.nid||1,sc:1,r:1};
  if(lay.bg&&lay.bg.b){const img=await dmImg(lay.bg.b,4000);if(img){D.bgSrc={img,u:img.src||img.toDataURL('image/jpeg',.9),b:lay.bg.b,z:lay.bg.z,cx:lay.bg.cx,cy:lay.bg.cy};D.bg=dmBgRender(D.bgSrc)}}
  const byK=Object.fromEntries((await dmEntries()).map(e=>[e.k,e]));
- for(const o of lay.items||[]){const it={...o};/* 舊版文字字體依視窗風格決定：Win7 的第一種字體是 Satsuki，BaDing 改用第一種 */
+ for(const o of lay.items||[]){const it={...o};/* 舊版文字字體依視窗風格決定：Win7 的第一種字體是明體（現在是台灣明體），BaDing 改用第一種 */
   if(it.t==='text'&&!lay.fv&&it.ff!=='d')it.ff=D.ui==='w7'?'s':'c';
   if(it.t==='pic'){it.img=it.b?await dmImg(it.b):null;if(!it.img)continue}
   else if(it.t==='image'||it.t==='video'||it.t==='audio'){const sr=it.src||it.id,j=sr.lastIndexOf('|'),e=byK[sr.slice(0,j)],m=e&&(e.media||[])[+sr.slice(j+2)];if(!m)continue;
@@ -2138,7 +2138,7 @@ function dmBev(c,x,y,w,h,tl,br,n){c.fillStyle=tl;c.fillRect(x,y,w,n);c.fillRect(
 /* 畫布用的字體：字體切成小份，畫布不會自己去載，所以先把畫面上所有文字用到的那幾份載好；載到新的就重算換行再畫一次 */
 let dmFK='';
 const dmFontText=()=>DM?[...new Set(DM.items.map(i=>(i.text||'')+(i.title||'')+(i.name||'')).join('')+'0123456789:-')].join(''):'';
-const dmFontsReady=()=>{const t=dmFontText(),F=new Set([dmW7()?'Satsuki':'Cubic 11']);DM&&DM.items.forEach(i=>{if(i.t==='text'&&i.ff!=='d')F.add(i.ff==='s'?'Satsuki':'Cubic 11')});return Promise.all([...F].map(f=>document.fonts.load(`30px "${f}"`,t))).catch(()=>{})};
+const dmFontsReady=()=>{const t=dmFontText(),F=new Set([dmW7()?'cwTeXMing':'Cubic 11']);DM&&DM.items.forEach(i=>{if(i.t==='text'&&i.ff!=='d')F.add(i.ff==='s'?'cwTeXMing':'Cubic 11')});return Promise.all([...F].map(f=>document.fonts.load(`30px "${f}"`,t))).catch(()=>{})};
 function dmEnsureFonts(){const k=(dmW7()?'7':'9')+(DM?DM.items.map(i=>i.ff||'').join(''):'')+dmFontText();if(k===dmFK)return;dmFK=k;dmFontsReady().then(()=>{if(DM&&dmFK===k){DM.items.forEach(i=>{i._wk=null});dmDraw()}})}
 function dmPaint(c,ui){dmEnsureFonts();const P=dPal(DM.theme);c.clearRect(0,0,DW,DH);
  const bm=dmBm();
@@ -2265,7 +2265,7 @@ function dmPlayer(c,it,P,x,y,w,h,pl){const w7=dmW7();if(!w7){c.fillStyle=P.btnf;
  if(w7){dmRR(c,tx2,cy2-u(2),tw2,u(4),u(2));c.fillStyle='#E7EAEA';c.fill();c.lineWidth=u(1);c.strokeStyle='#B0B0B0';c.stroke();dmBtn7(c,kx,cy2-u(8),th2,u(16),P.btnf,u(2))}
  else{c.fillStyle=P.btnf;c.fillRect(tx2,cy2-u(2),tw2,u(4));dmBev(c,tx2,cy2-u(2),tw2,u(4),P.blo,P.bhi,u(1));c.fillStyle=P.btnf;c.fillRect(kx,cy2-u(8),th2,u(16));dmBev(c,kx,cy2-u(8),th2,u(16),P.bhi,P.ink,u(1));dmBev(c,kx+u(1),cy2-u(7),th2-u(2),u(14),P.btnf,P.blo,u(1))}}
 /* 自由文字：字體（Cubic 11／BaDing／預設字體）、樣式（文字／選單／按鈕，比照 App 的選單與按鈕）、外框 */
-const DFF={c:'"Cubic 11",sans-serif',s:'"Satsuki",serif',d:'sans-serif'};
+const DFF={c:'"Cubic 11",sans-serif',s:'"cwTeXMing",serif',d:'sans-serif'};
 const dmTFont=it=>`${it.fs}px ${DFF[it.ff]||DFF.c}`,dmTPad=it=>(it.tv||'plain')==='plain'?0:Math.round(it.fs*.45);
 function dmText(c,it){c.save();c.font=dmTFont(it);c.textBaseline='top';const tv=it.tv||'plain',pad=dmTPad(it),L=dmWrap(c,it,it.text,Math.max(it.fs,it.w-2*pad)),lh=it.fs*1.3;it.h=L.length*lh+2*pad;
  const P=dPal(DM.theme),{x,y,w,h}=it;

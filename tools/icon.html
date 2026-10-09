@@ -1,12 +1,12 @@
 <!doctype html><meta charset="utf-8"><style>
-@font-face{font-family:TX;src:url(../SatsukiGendaiMincho-M.ttf)}
+@font-face{font-family:TX;src:url(../cwTeXMing.ttf)}
 body{margin:0}</style><canvas id="c" width="1024" height="1024"></canvas><script>
 async function draw(){await document.fonts.load('100px TX','Htbu');
 /* 像素風：先畫在 L×L 的小畫布，再不平滑放大到 1024 */
 const S=1024,L=120,o=new OffscreenCanvas(L,L).getContext('2d'),M=L*.04,W=L-2*M;
 /* 深藍底（Win95 預設主題色②；iOS 會自己裁圓角，四角不能透明） */
 o.fillStyle='#000080';o.fillRect(0,0,L,L);
-/* 白字 Htbu（Satsuki 加粗）：參考網頁連結散落的感覺——不旋轉、大小不一但平均、有的斜體、有的底線，貼近邊緣 */
+/* 白字 Htbu（台灣明體 加粗）：參考網頁連結散落的感覺——不旋轉、大小不一但平均、有的斜體、有的底線，貼近邊緣 */
 o.font=`100px TX`;const tw=o.measureText('Htbu').width;o.fillStyle=o.strokeStyle='#fff';o.lineJoin='round';
 /* [x, 基線 y, 字寬（方框比例）, 斜體, 底線] */
 [[.03,.17,.34,1,1],[.50,.14,.18,0,0],[.60,.24,.31,0,1],[.24,.36,.22,0,0],[.00,.55,.27,0,1],
