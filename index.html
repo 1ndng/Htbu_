@@ -1020,6 +1020,10 @@ html:not(.w7) :is(.tg,.dtg,.card .tg):not(.on){background:color-mix(in srgb,var(
 #boot .bgo:focus-visible{outline:1px dotted #000;outline-offset:-5px}
 #boot.ready .bb,#boot.ready .bp{display:none}#boot.ready .bgo{display:block}
 #boot .bs{visibility:hidden;margin-top:14px;display:flex;align-items:center;gap:12px;font-size:14.6667px}#boot .bs label{display:inline-flex;align-items:center;gap:4px;margin:0;font-size:14.6667px;color:#000}#boot.ready .bs{visibility:visible}
+/* 開機畫面的單選鈕：不論風格都用 Win95 樣式 */
+#boot input[type=radio]{-webkit-appearance:none;appearance:none;position:relative;flex:none;width:16px;height:16px;margin:0 2px 0 0;padding:0;border:0;border-radius:0;background:linear-gradient(135deg,#808080 0 50%,#FFFFFF 50% 100%);clip-path:var(--dot16);vertical-align:-3px}
+#boot input[type=radio]::before{content:"";display:block;position:absolute;inset:2px;background:#FFFFFF;clip-path:var(--dot12)}
+#boot input[type=radio]:checked::after{content:"";position:absolute;inset:4px;border-radius:0;background:#000000;clip-path:polygon(2px 0,calc(100% - 2px) 0,100% 2px,100% calc(100% - 2px),calc(100% - 2px) 100%,2px 100%,0 calc(100% - 2px),0 2px)}
 #boot.out{display:none}
 </style><span class="bi"><img src="icon-192.png" alt=""></span><div class="bt">Htbu_?</div><div class="bw"><div class="bb"><i id="bootb"></i></div><div class="bp" id="bootp">0%</div><button class="bgo" id="bootgo" type="button">開始記錄</button></div><div class="bs" id="boots"><span>音效</span><label class="r"><input type="radio" name="bsnd" value="1"> 開啟</label><label class="r"><input type="radio" name="bsnd" value="0"> 關閉</label></div></div>
 <script>
