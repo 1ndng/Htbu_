@@ -249,9 +249,6 @@ mark.hl{background:rgba(128,128,128,.3);background:color-mix(in srgb,var(--acc) 
 .hcell.c2{background:color-mix(in srgb,var(--hotx,var(--acx)) 58%,var(--bg))}
 .hcell.c3{background:color-mix(in srgb,var(--hotx,var(--acx)) 80%,var(--bg))}
 .hcell.c4{background:var(--hotx,var(--acx))}
-@keyframes swl{from{transform:translateX(28px);opacity:.4}}@keyframes swr{from{transform:translateX(-28px);opacity:.4}}
-#app.swl{animation:swl .16s steps(4,end)}#app.swr{animation:swr .16s steps(4,end)}
-@media (prefers-reduced-motion:reduce){#app.swl,#app.swr{animation:none}}
 .hmleg{flex-wrap:wrap}.hmleg .hcell+span{margin-right:4px}
 .cnt{font-size:var(--f11);line-height:1.4;color:var(--mute);margin:0 0 -2px auto;align-self:flex-end;flex:0 1 auto;min-width:0;text-align:left;padding:0}.cnt .cs{display:inline-block;white-space:nowrap}
 .ohead{display:flex;align-items:center;justify-content:space-between;gap:6px;margin:14px 0 12px}
@@ -717,6 +714,9 @@ html.jsb #dmvl,html.jsb #dmvl.sbon{padding:0 15px 0 0}
 /* 編輯頁選單：比照首頁的選單列與下拉選單 */
 /* 標題列（瀏海）：−＝回到週選擇、×＝離開編輯；整個視窗往下讓出手機狀態列，上方空出的地方用主題色② */
 #dmp{top:env(safe-area-inset-top,0px);height:calc(100dvh - env(safe-area-inset-top,0px));max-height:calc(100dvh - env(safe-area-inset-top,0px))}#dmp::backdrop{background:var(--acc,#000080)}html.w7 #dmp::backdrop{background:#B9D1EA}
+/* 標題列（瀏海）與選單列貼合：選單列緊接在標題列下方、左右對齊標題列 */
+#dmp.tbd{padding-top:calc(var(--tt) - 4px)}#dmp.tbd #dmmb{border-top:0}
+html.w7 #dmp.tbd{padding-top:calc(var(--tt) - 1px)}html.w7 #dmp.tbd #dmmb{margin:0 -3px}
 #dmpt{margin-left:auto;align-self:center;padding:0 4px 0 12px;font-size:var(--f12);color:var(--mute);white-space:nowrap}
 #dmmb{flex:none;margin:0 -8px;border-top:1px solid var(--bhi);border-bottom:1px solid var(--blo);display:flex;align-items:stretch;padding:0 7px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;background:var(--bg)}#dmmb::-webkit-scrollbar{display:none}
 #dmdd{position:absolute;z-index:3;width:max-content;min-width:150px;max-width:calc(100vw - 8px);overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;background:var(--bg);border:1px solid var(--ink);box-shadow:inset 1px 1px 0 var(--bhi),inset -1px -1px 0 var(--blo),1px 1px 0 var(--ink);padding:3px 0}
@@ -972,8 +972,6 @@ html.w7 .hi::before{background:linear-gradient(to bottom,#B0B0B0 0 1px,#E7EAEA 1
 html.w7 :is(.row,.row.has)::before{border-radius:2px;background:linear-gradient(to bottom,#F4F4F4,#E3E3E3 50%,#D2D2D2);box-shadow:inset 0 0 0 1px #707070,inset 0 0 0 2px rgba(255,255,255,.6)}
 html.w7 .row::after{background:#8A8A8A}
 html.w7 .htm::after{border-radius:2px;background:linear-gradient(to right,#F4F4F4,#E3E3E3 50%,#D2D2D2);box-shadow:inset 0 0 0 1px #707070,inset 0 0 0 2px rgba(255,255,255,.6)}
-/* 左右滑動換日：平滑移動（Win95 是逐格） */
-html.w7 #app.swl{animation:swl .18s ease-out}html.w7 #app.swr{animation:swr .18s ease-out}
 /* 週dump編輯器（全螢幕）：沒有外框 */
 html.w7 #wr{border:0;border-radius:0;box-shadow:none;background:var(--bg)}
 html.w7 #dmp{border:0;border-radius:0;box-shadow:none}
@@ -1824,16 +1822,6 @@ document.querySelectorAll('dialog').forEach(d=>{decoDlg(d);new MutationObserver(
 
 
 {const hd=document.getElementById('hdr');if(hd&&window.ResizeObserver){const f=()=>document.documentElement.style.setProperty('--hdr',hd.offsetHeight+'px');new ResizeObserver(f).observe(hd);f()}}
-/* 日期頁左右滑動換日：往左滑＝後一天、往右滑＝前一天（從可左右捲動的方塊列、輸入欄、播放器開始的滑動不算） */
-{let sx=0,sy=0,st=0,ok=false;const A=$('#app');
- const dayView=()=>!srch&&!other&&!qs&&!ftags.length&&!!A.querySelector('.dhead')&&!document.querySelector('dialog[open]')&&!mOpen;
- const hScroll=t=>{for(let n=t;n&&n!==A;n=n.parentNode)if(n.nodeType===1&&(n.matches('input,textarea,select,.ap,.jsb-bar')||(n.scrollWidth>n.clientWidth+1&&/(auto|scroll)/.test(getComputedStyle(n).overflowX))))return true;return false};
- A.addEventListener('touchstart',e=>{const t=e.touches[0];ok=e.touches.length===1&&dayView()&&t.clientX>20&&t.clientX<innerWidth-20&&!hScroll(e.target);if(ok){sx=t.clientX;sy=t.clientY;st=Date.now()}},{passive:true});
- A.addEventListener('touchmove',e=>{if(ok&&e.touches.length>1)ok=false},{passive:true});
- A.addEventListener('touchend',e=>{if(!ok)return;ok=false;const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;
-  if(Date.now()-st>700||Math.abs(dx)<60||Math.abs(dy)>Math.abs(dx)*.6||!dayView())return;
-  shiftDay(dx<0?1:-1);A.classList.remove('swl','swr');void A.offsetWidth;A.classList.add(dx<0?'swl':'swr')},{passive:true});
- A.addEventListener('animationend',()=>A.classList.remove('swl','swr'))}
 /* 手機自製捲軸：Mac OS 8 風（箭頭鈕＋滑塊，可拖曳／點軌道／長按箭頭） */
 document.documentElement.classList.add('jsb');
 /* 自製捲軸：長在視窗外框「裡面」，位置只由版面尺寸（offset*）算出，不讀螢幕座標，所以鍵盤、動畫、拖曳時不會漂移 */
