@@ -357,6 +357,11 @@ button{padding-top:3px;padding-bottom:3px;line-height:19.6px}
 .qv .rd,.qchip .rd{background:var(--bg);color:var(--ink);font-size:var(--f12);line-height:18px;margin:0;padding:2px 8px;border-bottom:1px solid var(--sep)}
 .qv .qtx,.qchip .qtx{color:var(--ink);font-size:var(--f13);line-height:20px;padding:4px 8px 5px;margin:0}
 .qv .qtx:empty,.qchip .qtx:empty{display:none}
+/* 引用顯示原紀錄內容：收合時內文一行、縮圖露出一點（比照收合的紀錄方塊）；展開時全部顯示 */
+.qv.qx .qft{white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;text-overflow:clip;width:auto;min-width:0}
+.qv.qx .media,.qv.qx .auds{margin:2px 8px 8px}
+.card:not(.open) .qv.qx{max-height:118px;overflow:hidden}
+.card:not(.open) .qv.qx .qft{padding-bottom:0;margin-bottom:5px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:1;line-clamp:1;overflow:hidden}
 .qchip{align-items:center}.qchip{position:relative}.qchip>button.xcl{position:absolute;top:2px;right:2px;width:19px;height:19px;margin:0}.qchip>button.xcl::after{width:10px;height:10px}.qchip .rd{padding-right:26px}
 .dtf button.xcl,.dtf button.xbk,.acts button.xcl,.acts button.xbk,button.xcl,button.xbk{padding:0;min-width:0;width:24px}
 .qv,.qv:focus,.qv:focus-visible,.qchip{outline:none;-webkit-tap-highlight-color:transparent}
@@ -1582,7 +1587,10 @@ const qGone=q=>!qFind(q);
 const qOpen=q=>{const t=qFind(q);if(!t){toast('此紀錄已被刪除');return}if(dtCur)dtStack.push(dtCur);dtRender(t)};
 const qLbl=q=>(q.pid&&q.pid!==cur&&people.length>1?pname(q.pid)+'・':'')+(q.date===NODATE?'隨手記':fmtD(q.date))+(q.time?'　'+q.time:'')+(qGone(q)?'（原紀錄已被刪除）':'');
 const parts=(en,date,jump,showTime)=>{
- const qv=FEAT.quote&&en.quote&&h('div',{class:'qv',role:'button',tabindex:'0',onclick:()=>qOpen(en.quote)},h('div',{class:'qb'},h('div',{class:'rd'},qLbl(en.quote)),h('div',{class:'qtx'},qTxt(en.quote))));
+ /* 引用：顯示原紀錄的內文與照片/影片縮圖（不是「幾張圖」這種計數）；紀錄方塊收合時引用也收合，展開時引用跟著展開 */
+ const qe=FEAT.quote&&en.quote&&qFind(en.quote),qm=qe?(qe.media||[]):[];
+ const qv=FEAT.quote&&en.quote&&h('div',{class:'qv'+(qe?' qx':''),role:'button',tabindex:'0',onclick:e=>{if(e.target.closest('.th,.ap,audio,a,button'))return;qOpen(en.quote)}},h('div',{class:'qb'},h('div',{class:'rd'},qLbl(en.quote)),
+  ...(qe?[qe.text&&h('div',{class:'qtx qft'},qe.text),qm.some(m=>m.t!=='audio')&&h('div',{class:'media'},qm.filter(m=>m.t!=='audio').map(m=>mEl(m,qe))),qm.some(m=>m.t==='audio')&&h('div',{class:'auds'},qm.filter(m=>m.t==='audio').map(m=>mEl(m,qe)))]:[h('div',{class:'qtx'},qTxt(en.quote))])));
  const body=[
   multi&&FEAT.people&&h('div',{class:'who',style:'color:'+whoCol(en.pid)},pname(en.pid)),
   txtBits(en.text,jump),
@@ -1592,7 +1600,7 @@ const parts=(en,date,jump,showTime)=>{
   qv];
  const cs=cntStr(en);
  const ea=h('div',{class:'ea'},jump?h('button',{class:'edit xb',onclick:e=>toggleX(e.currentTarget)},'展開'):h('button',{class:'edit cx',hidden:true,onclick:e=>toggleC(e.currentTarget)},'展開'),!multi&&h('button',{class:'edit',onclick:()=>openEd(date,en.k)},'編輯'),!multi&&FEAT.quote&&h('button',{class:'edit',onclick:()=>quoteFrom(en)},'引用'),jump&&h('button',{class:'edit',onclick:()=>goDay(date,en.pid)},'跳到這天'),cs&&h('span',{class:'cnt',hidden:true},...cntParts(en).map((p,i,a)=>h('span',{class:'cs'},i<a.length-1?p+'、':p))));
- return jump?[...body,ea]:[h('div',{class:'cbody'+(en.media.some(m=>m.t==='image'||m.t==='video')?' hm':'')},...body),ea]};
+ return jump?[...body,ea]:[h('div',{class:'cbody'+([...en.media,...qm].some(m=>m.t==='image'||m.t==='video')?' hm':'')},...body),ea]};
 const card=(en,date,jump,st)=>h('div',{class:'card'+(en.media&&en.media.length?' hasm':''),'data-k':en.k,'data-d':date},...parts(en,date,jump,st));
 const normTag=v=>String(v||'').trim().replace(/^#+/,'').slice(0,20);
 /* 標籤分兩種：限定對象（存在各對象的 tags）與所有對象共用（GT，存在這台裝置並隨備份匯出）；兩種都涵蓋時間軸與隨手記 */
