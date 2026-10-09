@@ -372,7 +372,11 @@ mark{background:var(--acc);color:var(--onacc);border-radius:0}
 .qpt{font-size:var(--f12);color:var(--mute);line-height:28px}
 .qpl{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center;min-height:28px}
 .qpo{display:inline-flex;align-items:center;gap:6px;border:0;background:none;box-shadow:none;clip-path:none;padding:0;margin:0;min-height:28px;font-size:var(--f13);color:var(--ink)}.qpo .cbx{margin:0;flex:none}
-.qpd{flex-wrap:nowrap;gap:6px}.qpd input{flex:1 1 0;min-width:0;width:0;font-size:var(--f13);padding:2px 4px}.qpn{font-size:var(--f12);color:var(--mute)}
+.qpd{flex-wrap:nowrap;gap:6px}
+/* Win95 日期框：比照其他輸入欄的內凹框（不用瀏覽器原生外框） */
+html:not(.w7) .qpd input[type=date]{--bw:1px;clip-path:var(--cut);border:var(--bw) solid transparent;background:var(--pxbg);border-radius:0;-webkit-appearance:none;appearance:none;box-shadow:none;padding:4px 5px;line-height:1.3;color:var(--ink);font-family:inherit}
+html:not(.w7) .qpd input[type=date]::-webkit-date-and-time-value{text-align:left}
+html:not(.w7) .qpd input[type=date]::-webkit-calendar-picker-indicator{margin:0;padding:0;width:12px;height:12px}.qpd input{flex:1 1 0;min-width:0;width:0;font-size:var(--f13);padding:2px 4px}.qpn{font-size:var(--f12);color:var(--mute)}
 #qdf,#dmif{margin:4px 0 8px;padding:0 2px}#qdf .qps,#dmif .qps{padding:4px 0}#dmif .qps+.qps,#dmif .qps:first-child{border-top:0}
 html.w7 #qp{background:#F0F0F0;border:1px solid #979797;box-shadow:2px 2px 4px rgba(0,0,0,.28)}
 #srow #q{flex:1;min-width:0}
@@ -1111,7 +1115,7 @@ html.w7 #dmp{border:0;border-radius:0;box-shadow:none}
 <dialog id="dmco"><h2>視窗顏色</h2><div id="dmcol"></div><p class="sub" id="dmcos">按「預設」或沒有自訂的顏色會跟著主題色</p><div class="acts end"><button onclick="$('#dmco').close()" class="xcl" aria-label="關閉"></button></div></dialog>
 <dialog id="dmth"><h2>主題色</h2><p class="sub">視窗方塊使用的配色</p><div class="acts" id="dmthl"></div><div class="acts end"><button onclick="$('#dmth').close()" class="xcl" aria-label="關閉"></button></div></dialog>
 <dialog id="qd"><h2>選擇要引用的紀錄</h2><div class="qsrow"><input type="search" id="qs2" enterkeyhint="search" autocomplete="off"><button id="qsb" class="pri" onclick="qdGo(true)">搜尋</button></div><div id="qdf" class="qpf"></div><div id="qdc"></div><div class="acts end"><button onclick="$('#qd').close()" class="xcl" aria-label="關閉"></button></div></dialog>
-<dialog id="lb" class="tbd"><h2 id="lbt">圖片</h2><button id="lbx" class="xcl" onclick="$('#lb').close()" aria-label="關閉"></button><div id="lbc"></div></dialog>
+<dialog id="lb" class="tbd"><h2 id="lbt">圖片</h2><button id="lbb" class="xbk" onclick="$('#lb').close()" aria-label="返回"></button><button id="lbx" class="xcl" onclick="lbCloseAll()" aria-label="關閉"></button><div id="lbc"></div></dialog>
 <button id="fab" hidden onclick="fabAdd()">+ 新增</button>
 <div id="toast" role="status" popover="manual"></div>
 
@@ -1273,6 +1277,8 @@ $('#cvf').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)r
 $('#cv').onclose=()=>{const v=$('#cvv');v.pause();v.removeAttribute('src');v.load();if(cvU)URL.revokeObjectURL(cvU);cvU=null};
 function zoom(t,u){$('#lbt').textContent=t==='image'?'圖片':'影片';$('#lbc').replaceChildren(t==='image'?h('img',{src:u,alt:''}):vEl(u));$('#lb').showModal();if(t!=='image'){const v=$('#lbc video');if(v)v.play().catch(()=>{})}}
 $('#lb').onclose=()=>$('#lbc').replaceChildren();
+/* 圖片／影片視窗：− 回到上一層（只關這個視窗），× 連同底下的紀錄詳情一起關掉（編輯中的紀錄不關） */
+function lbCloseAll(){$('#lb').close();if($('#dt').open)$('#dt').close()}
 $('#lb').onclick=e=>{const d=$('#lb'),r=d.getBoundingClientRect();if(e.target===d&&(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom))d.close()};
 /* 詳情頁 */
 const fmtD=d=>{const [y,m,n]=d.split('-').map(Number);return `${y}年${m}月${n}日`};
