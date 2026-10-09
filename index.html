@@ -1010,7 +1010,7 @@ html:not(.w7) :is(.tg,.dtg,.card .tg):not(.on){background:color-mix(in srgb,var(
 #boot{position:fixed;inset:0;z-index:2147483647;background:#C0C0C0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:"Cubic 11",monospace;color:#000;letter-spacing:0}
 #boot .bi{display:block;padding:2px;background:#C0C0C0;box-shadow:inset 1px 1px 0 #808080,inset -1px -1px 0 #FFFFFF,inset 2px 2px 0 #000000,inset -2px -2px 0 #DFDFDF}
 #boot img{width:112px;height:112px;image-rendering:pixelated;display:block}
-#boot .bt{margin:14px 0 52px;font-size:33px;line-height:1;text-shadow:1px 1px 0 #FFFFFF}
+#boot .bt{margin:14px 0 84px;font-size:33px;line-height:1;text-shadow:1px 1px 0 #FFFFFF}
 #boot .bw{width:min(240px,64vw);height:42px;display:flex;flex-direction:column;align-items:center}
 #boot .bb{width:100%;height:18px;padding:2px;box-sizing:border-box;background:#C0C0C0;box-shadow:inset 1px 1px 0 #808080,inset -1px -1px 0 #FFFFFF,inset 2px 2px 0 #000000,inset -2px -2px 0 #DFDFDF}
 #boot .bb i{display:block;height:100%;width:0;background:#000080}
@@ -1036,7 +1036,9 @@ html #boot,html #boot *{font-family:"Cubic 11",monospace!important;letter-spacin
  function tick(){if(cur<tgt){cur+=Math.max(1,Math.round((tgt-cur)/6));if(cur>tgt)cur=tgt;draw()}
   if(cur>=100&&done){setTimeout(function(){B.classList.add('ready')},150);return}
   setTimeout(tick,40)}
- g.onclick=function(){B.classList.add('out')};
+ var out=function(){B.classList.add('out')};
+ /* 還沒有任何對象（第一次使用）：先問要不要看功能介紹；看完按 × 才進主畫面 */
+ g.onclick=function(){if(typeof people!=='undefined'&&!people.length&&typeof ask==='function'){ask('之後都可以在選單內瀏覽','是否觀看功能介紹？','是','否').then(function(y){if(y)openGd(0,{intro:out});else out()})}else out()};
  /* 音效開關：比照功能設定；主程式已載入就直接改設定，否則先寫進 localStorage */
  var on=true;try{var f=JSON.parse(localStorage.getItem('nyear-feat')||'{}');if(f.sound===false)on=false}catch(e){}
  document.querySelector('#boots input[value="'+(on?1:0)+'"]').checked=true;
@@ -1216,7 +1218,7 @@ let db,useMem=false,M={people:{},entries:{},dumps:{}},people=[],cur=null,E={},ur
 const NODATE='0000-00-00',tsOf=e=>+String(e.k).split('|').pop()||0;
 const now=new Date();let mo=now.getMonth()+1,dy=now.getDate();
 
-function ask(sub,title){return new Promise(res=>{const d=$('#cf'),s=$('#cfs');$('#cft').textContent=title||'是否刪除？';s.textContent=sub||'';s.hidden=!sub;let done=false;
+function ask(sub,title,yes,no){return new Promise(res=>{const d=$('#cf'),s=$('#cfs');$('#cft').textContent=title||'是否刪除？';$('#cfy').textContent=yes||'確定';$('#cfn').textContent=no||'取消';s.textContent=sub||'';s.hidden=!sub;let done=false;
  const fin=v=>{if(done)return;done=true;if(d.open)d.close();res(v)};
  $('#cfy').onclick=()=>fin(true);$('#cfn').onclick=()=>fin(false);d.onclose=()=>fin(false);d.showModal()})}
 async function clr(id){const e=$(id);if(e.value&&await ask('','是否清除？'))e.value=''}
@@ -1427,9 +1429,11 @@ const GUIDE=[
  {t:'功能介紹',b:'尚未更新！'},
  {t:'用法推薦',b:'尚未更新！'},
  {t:'施工日誌',b:'尚未更新！'}];
-function openGd(i){const d=$('#gd');
+/* 說明視窗；o.intro＝第一次使用時從開機畫面打開：只有 ×，關掉後呼叫 o.intro() */
+function openGd(i,o){const d=$('#gd');
  if(i==null){d.close();openMenu('help');return}
- rc(d,h('h2',{},GUIDE[i].t),h('div',{class:'gb'},GUIDE[i].b),h('div',{class:'acts'},h('button',{class:'xbk','aria-label':'返回',onclick:()=>openGd(null)}),h('button',{class:'xcl','aria-label':'關閉',onclick:()=>d.close()})));
+ rc(d,h('h2',{},GUIDE[i].t),h('div',{class:'gb'},GUIDE[i].b),h('div',{class:'acts'},!(o&&o.intro)&&h('button',{class:'xbk','aria-label':'返回',onclick:()=>openGd(null)}),h('button',{class:'xcl','aria-label':'關閉',onclick:()=>d.close()})));
+ d.onclose=o&&o.intro?()=>{d.onclose=null;o.intro()}:null;
  if(!d.open)d.showModal();d.scrollTop=0}
 /* ===== 頂列選單：設定／對象／標籤／回顧／管理／說明／備份，點擊後向下彈出功能條 ===== */
 let mOpen=null;
