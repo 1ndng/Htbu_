@@ -373,6 +373,12 @@ mark{background:var(--acc);color:var(--onacc);border-radius:0}
 .qpl{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center;min-height:28px}
 .qpo{display:inline-flex;align-items:center;gap:6px;border:0;background:none;box-shadow:none;clip-path:none;padding:0;margin:0;min-height:28px;font-size:var(--f13);color:var(--ink)}.qpo .cbx{margin:0;flex:none}
 .qpd{flex-wrap:nowrap;gap:6px}
+/* 編輯紀錄：可加入的標籤分「限定對象」「所有對象」兩行 */
+#tsg .tgr{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 6px}#tsg .tgl{font-size:var(--f11);color:var(--mute);flex:none;min-width:4.5em}
+#tmscw{margin:10px 0 0}#tmscw .acts{margin:4px 0 0;gap:10px}
+/* Win7 日期框：比照 Win7 輸入欄 */
+html.w7 .qpd input[type=date]{-webkit-appearance:none;appearance:none;background:var(--pxbg);box-shadow:none;padding:3px 5px;line-height:1.3;color:var(--ink);font-family:inherit}
+html.w7 .qpd input[type=date]::-webkit-calendar-picker-indicator{margin:0;padding:0;width:12px;height:12px}
 /* Win95 日期框：比照其他輸入欄的內凹框（不用瀏覽器原生外框） */
 html:not(.w7) .qpd input[type=date]{--bw:1px;clip-path:var(--cut);border:var(--bw) solid transparent;background:var(--pxbg);border-radius:0;-webkit-appearance:none;appearance:none;box-shadow:none;padding:4px 5px;line-height:1.3;color:var(--ink);font-family:inherit}
 html:not(.w7) .qpd input[type=date]::-webkit-date-and-time-value{text-align:left}
@@ -992,6 +998,7 @@ html.w7 #dmp{border:0;border-radius:0;box-shadow:none}
 <h2 id="tmt"></h2>
 <div id="tmsw"><label for="tms">選擇標籤</label><select id="tms" style="margin:6px 0 12px"></select></div>
 <div id="tmnw"><input type="text" id="tmn" maxlength="20"></div>
+<div id="tmscw"><label>適用對象</label><div class="acts"><label class="r"><input type="radio" name="tmsc" value="p"> 限定此對象</label><label class="r"><input type="radio" name="tmsc" value="g"> 所有對象</label></div></div>
 <div class="acts end"><button class="pri" id="tmo" onclick="tmOk()">確定</button><button onclick="tm.close();openMenu('tag')" class="xbk" aria-label="返回"></button><button onclick="tm.close()" class="xcl" aria-label="關閉"></button></div>
 </dialog>
 <dialog id="pd">
@@ -1033,7 +1040,7 @@ html.w7 #dmp{border:0;border-radius:0;box-shadow:none}
 <div class="acts" id="tqrow"><button id="tgbtn" onclick="tagToggle()">+ 標籤</button><button id="qbtn" onclick="openQd()">+ 引用</button></div>
 <div id="qpv"></div>
 <div id="tgd" class="acts" style="margin-top:0"></div>
-<div id="tgi" hidden><div class="acts" style="margin:0 0 8px"><input type="text" id="tn" maxlength="20" style="flex:1;margin:0"><button onclick="addTag($('#tn').value)">加入</button></div><div id="tsg" class="acts" style="margin-top:0"></div></div>
+<div id="tgi" hidden><div class="acts" style="margin:0 0 8px"><input type="text" id="tn" maxlength="20" style="flex:1;margin:0"><button onclick="addTag($('#tn').value)">加入</button></div><div id="tsg" style="margin-top:0"></div></div>
 <div id="dm" class="media"></div>
 <div class="acts end"><button id="dl" onclick="archiveEntry()">封存</button><button class="pri" onclick="save()">儲存</button><button onclick="cancelEd()" class="xcl" aria-label="關閉"></button></div>
 </div>
@@ -1371,13 +1378,13 @@ function menuGroups(k){
    if(people.length){g2.push(act('編輯對象',()=>openPe('edit')));g2.push(act('刪除對象',()=>openPe('del'),{del:1}))}}
   return [g1,g2]}
  if(k==='tag'){
-  const ids=multi?[...msel]:cur?[cur]:[],items=[];
+  const ids=multi?[...msel]:cur?[cur]:[],items=[],gi=[];
   for(const id of ids){const cnt={};
    Object.values(E).flat().filter(e=>e.pid===id).forEach(e=>(e.tags||[]).forEach(t=>cnt[t]=(cnt[t]||0)+1));
-   if(!multi)(pById(id)?.tags||[]).forEach(t=>{if(!(t in cnt))cnt[t]=0});
-   Object.keys(cnt).sort().forEach(t=>items.push(keep((multi&&FEAT.people?pname(id)+'・':'')+'#'+t,()=>setTag(id,t),{mark:ftags.some(x=>x.pid===id&&x.tag===t),cb:1,r:cnt[t]})))}
+   if(!multi)[...ptagsOf(id),...GT].forEach(t=>{if(!(t in cnt))cnt[t]=0});
+   Object.keys(cnt).sort().forEach(t=>(isG(t)?gi:items).push(keep((multi&&FEAT.people?pname(id)+'・':'')+'#'+t,()=>setTag(id,t),{mark:ftags.some(x=>x.pid===id&&x.tag===t),cb:1,r:cnt[t]})))}
   const g2=(!multi&&cur)?[act('新增標籤',()=>openTm('add')),act('編輯標籤',()=>openTm('edit')),act('刪除標籤',()=>openTm('del'),{del:1})]:[];
-  return [items.length?items:[info('（目前沒有標籤）')],g2]}
+  return [items.length||gi.length?items:[info('（目前沒有標籤）')],gi,g2]}
  return []}
 function showMenu(k){
  const m=$('#mdd'),b=mBtn(k),gs=menuGroups(k).filter(g=>g.length),sc=m.scrollTop;
@@ -1502,34 +1509,47 @@ const parts=(en,date,jump,showTime)=>{
  return jump?[...body,ea]:[h('div',{class:'cbody'+(en.media.some(m=>m.t==='image'||m.t==='video')?' hm':'')},...body),ea]};
 const card=(en,date,jump,st)=>h('div',{class:'card'+(en.media&&en.media.length?' hasm':''),'data-k':en.k,'data-d':date},...parts(en,date,jump,st));
 const normTag=v=>String(v||'').trim().replace(/^#+/,'').slice(0,20);
-const tagsOf=id=>[...new Set([...(pById(id)?.tags||[]),...Object.values(E).flat().filter(e=>e.pid===id).flatMap(e=>e.tags||[])])].sort();
+/* 標籤分兩種：限定對象（存在各對象的 tags）與所有對象共用（GT，存在這台裝置並隨備份匯出）；兩種都涵蓋時間軸與隨手記 */
+const GTK='nyear-gtags';let GT=[];try{GT=JSON.parse(localStorage.getItem(GTK)||'[]').filter(t=>typeof t==='string')}catch(e){}
+const saveGT=()=>{GT=[...new Set(GT)].sort();try{localStorage.setItem(GTK,JSON.stringify(GT))}catch(e){}};
+const isG=t=>GT.includes(t);
+const ptagsOf=id=>[...new Set([...(pById(id)?.tags||[]),...[...QX.values(),...Object.values(E).flat()].filter(e=>e.pid===id).flatMap(e=>e.tags||[])])].filter(t=>!isG(t)).sort();
+const tagsOf=id=>[...ptagsOf(id),...[...GT].sort()];
 function openTm(mode,pick){const P=pById(cur);if(!P)return;const ts=tagsOf(cur);
  if(mode!=='add'&&!ts.length){toast('目前沒有標籤');return}
  tmMode=mode;$('#tmt').textContent={add:'新增標籤',edit:'編輯標籤',del:'刪除標籤'}[mode];
- rc($('#tms'),...ts.map(t=>h('option',{value:t},'#'+t)));
+ const pt=ptagsOf(cur),gt=[...GT].sort(),og=(l,a)=>a.length?h('optgroup',{label:l},...a.map(t=>h('option',{value:t},'#'+t))):null;
+ rc($('#tms'),og('限定對象',pt),og('所有對象',gt));
  if(pick&&ts.includes(pick))$('#tms').value=pick;$('#tmsw').hidden=mode==='add';$('#tmnw').hidden=mode==='del';$('#tmn').value=mode==='edit'?(pick&&ts.includes(pick)?pick:ts[0]):'';
- $('#tmo').textContent={add:'新增',edit:'儲存',del:'刪除'}[mode];
+ $('#tmo').textContent={add:'新增',edit:'儲存',del:'刪除'}[mode];$('#tmscw').hidden=mode==='del';tmScope();
  $('#tm').showModal();if(mode==='add')$('#tmn').focus()}
 let tmMode=null;
-$('#tms').onchange=()=>{if(tmMode==='edit')$('#tmn').value=$('#tms').value};
+function tmScope(){const g=tmMode==='edit'&&isG($('#tms').value);document.querySelector(`input[name=tmsc][value=${g?'g':'p'}]`).checked=true}
+$('#tms').onchange=()=>{if(tmMode==='edit'){$('#tmn').value=$('#tms').value;tmScope()}};
 $('#tmn').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();tmOk()}};
+async function retagAll(old,nv){for(const P of people)await retag(P,old,nv)}
 async function retag(P,old,nv){
  const sw=t=>[...new Set((t||[]).map(x=>x===old?nv:x).filter(Boolean))].slice(0,10);
  for(const e of await dbByPAll(P.id))if((e.tags||[]).includes(old)){e.tags=sw(e.tags);await dbPut('entries',e)}
  for(const e of Object.values(E).flat())if(e.pid===P.id&&(e.tags||[]).includes(old))e.tags=sw(e.tags);
  P.tags=sw(P.tags);await dbPut('people',P);
  ftags=ftags.map(x=>x.pid===P.id&&x.tag===old?(nv?{pid:P.id,tag:nv}:null):x).filter(Boolean)}
-async function tmOk(){const P=pById(cur);if(!P)return;const mode=tmMode,old=$('#tms').value,nv=normTag($('#tmn').value);
+async function tmOk(){const P=pById(cur);if(!P)return;const mode=tmMode,old=$('#tms').value,nv=normTag($('#tmn').value),g=document.querySelector('input[name=tmsc]:checked')?.value==='g';
+ /* 改成共用：從各對象的限定清單移除；改成限定：用到這個標籤的對象（與目前對象）各自保留為限定標籤 */
+ const toG=async t=>{for(const q of people)if((q.tags||[]).includes(t)){q.tags=q.tags.filter(x=>x!==t);await dbPut('people',q)}GT.push(t);saveGT()};
+ const toP=async t=>{GT=GT.filter(x=>x!==t);saveGT();const all=await dbAll('entries');for(const q of people)if(q.id===cur||all.some(e=>e.pid===q.id&&(e.tags||[]).includes(t))){q.tags=[...new Set([...(q.tags||[]),t])];await dbPut('people',q)}};
  try{
   if(mode==='add'){if(!nv){toast('請輸入標籤名稱');return}if(tagsOf(cur).includes(nv)){toast('這個標籤已經存在');return}
-   P.tags=[...(P.tags||[]),nv];await dbPut('people',P);$('#tm').close();render();return}
-  if(mode==='edit'){if(!nv){toast('請輸入標籤名稱');return}if(nv===old){$('#tm').close();return}
-   const mg=tagsOf(cur).includes(nv);$('#tm').close();
+   if(g)await toG(nv);else{P.tags=[...(P.tags||[]),nv];await dbPut('people',P)}$('#tm').close();await loadView();render();return}
+  if(mode==='edit'){if(!nv){toast('請輸入標籤名稱');return}const wasG=isG(old);if(nv===old&&wasG===g){$('#tm').close();return}
+   const mg=nv!==old&&tagsOf(cur).includes(nv);$('#tm').close();
    if(mg&&!await ask(`「#${nv}」已經存在，兩個標籤會合併`))return;
-   await retag(P,old,nv);render();return}
-  if(mode==='del'){const n=(await dbByP(cur)).filter(e=>(e.tags||[]).includes(old)).length;$('#tm').close();
+   if(nv!==old){if(wasG){GT=GT.map(x=>x===old?nv:x);saveGT();await retagAll(old,nv)}else await retag(P,old,nv)}
+   if(g&&!isG(nv))await toG(nv);else if(!g&&isG(nv))await toP(nv);
+   await loadView();render();return}
+  if(mode==='del'){const G=isG(old),n=(await dbAll('entries')).filter(e=>(G||e.pid===cur)&&(e.tags||[]).includes(old)).length;$('#tm').close();
    if(!await ask(n?`「#${old}」會從${n}則紀錄中移除，紀錄本身不會被刪除`:`「#${old}」`))return;
-   await retag(P,old,null);render()}
+   if(G){GT=GT.filter(x=>x!==old);saveGT();await retagAll(old,null)}else await retag(P,old,null);await loadView();render()}
  }catch(e){toast('儲存失敗')}}
 function setTag(pid,t){const i=ftags.findIndex(x=>x.pid===pid&&x.tag===t);i>=0?ftags.splice(i,1):ftags.push({pid,tag:t});rlim=50;render()}
 async function clearF(){qs='';ftags=[];$('#q').value='';rlim=50;qpClose();if(srch){srch=false;await loadView()}render()}
@@ -1670,9 +1690,10 @@ function dpOk(){mo=+$('#dpm').value;dy=+$('#dpd').value;hy=null;$('#dp').close()
 function drawDraft(){durls.forEach(URL.revokeObjectURL);durls=[];
  $('#dm').replaceChildren(...draft.map((m,i)=>h('div',{class:'rm',style:(m.t==='audio'||m.t==='file')?'grid-column:1/-1':''},mEl(m),h('button',{class:'xcl','aria-label':'移除',onclick:async()=>{if(await ask()){draft.splice(i,1);drawDraft()}}},'×'),m.t==='video'&&h('button',{class:'cvb',onclick:()=>openCv(m)},'封面'))))}
 function drawTags(){schedDraft();const pid=(edK&&E[edDate]?E[edDate].find(x=>x.k===edK)?.pid:null)||cur;
- const all=tagsOf(pid).filter(t=>!dtags.includes(t));
+
  rc($('#tgd'),...dtags.map((t,i)=>h('span',{class:'tg on'},'#'+t,h('button',{'aria-label':'移除標籤',onclick:async()=>{if(await ask()){dtags.splice(i,1);drawTags()}}},'×'))));
- rc($('#tsg'),...all.map(t=>h('button',{class:'tg',onclick:()=>addTag(t)},'#'+t)))}
+ const row=(l,a)=>h('div',{class:'tgr'},h('span',{class:'tgl'},l),...a.filter(t=>!dtags.includes(t)).map(t=>h('button',{class:'tg',onclick:()=>addTag(t)},'#'+t)));
+ rc($('#tsg'),row('限定對象',ptagsOf(pid)),row('所有對象',[...GT].sort()))}
 function addTag(v){v=normTag(v);if(!v||dtags.includes(v)||dtags.length>=10)return;dtags.push(v);$('#tn').value='';drawTags()}
 function tagToggle(){const r=$('#tgi');r.hidden=!r.hidden;if(!r.hidden)$('#tn').focus()}
 function setMode(v,val){timeMode('tm','#tv',v,val)}
@@ -2030,7 +2051,7 @@ function fltUI(st,o,on){
   o.dates&&row('日期',date('d1'),h('span',{},'～'),date('d2')),
   o.people&&row('對象',...people.map(p=>opt(st.pids.has(p.id),p.name,()=>tog(st.pids,p.id,1)))),
   o.tags&&row('標籤',...(o.tags.length?o.tags.map(t=>opt(st.tags.has(t),'#'+t,()=>tog(st.tags,t))):[h('span',{class:'qpn'},'（目前沒有標籤）')]))].filter(Boolean)}
-const fltTags=(pids,st)=>[...new Set([...pids].flatMap(id=>pById(id)?.tags||[]).concat([...st.tags]))].sort();
+const fltTags=(pids,st)=>[...new Set([...pids].flatMap(id=>ptagsOf(id)).concat(GT,[...st.tags]))].sort();
 /* 套用篩選（文字只比對內文） */
 const fltHit=(e,st,k)=>(!k||cHay(e).includes(k))&&(!st.types||st.types.has(e.date===NODATE?'note':'tl'))&&[...st.tags].every(t=>(e.tags||[]).includes(t))&&(!st.d1||dOf(e)>=st.d1)&&(!st.d2||dOf(e)<=st.d2);
 function drawQp(){rc($('#qp'),...fltUI(sf,{types:1,dates:1,people:people.length>1,tags:fltTags(sf.pids,sf)},()=>{drawQp();qRun()}))}
@@ -2556,7 +2577,7 @@ async function prepBackup(){
  try{
   st.textContent='準備中…';
   const all=await dbAll('people'),ps=bkSel==='all'?all:all.filter(p=>p.id===bkSel),
-   at=JSON.stringify(new Date().toISOString()),head='{"app":"nyear-diary","v":1,"at":'+at+',"people":'+JSON.stringify(ps)+',"entries":[',PH='@@M'+Date.now()+'@@';
+   at=JSON.stringify(new Date().toISOString()),head='{"app":"nyear-diary","v":1,"at":'+at+',"gtags":'+JSON.stringify(GT)+',"people":'+JSON.stringify(ps)+',"entries":[',PH='@@M'+Date.now()+'@@';
   const groups=[];let cur=[],bytes=0,n=0,gn=0;
   for(const p of ps)for(const e of await dbByP(p.id)){
    const base=JSON.stringify({...e,media:PH}).split('"'+PH+'"'),ep=[(gn?',':'')+base[0]+'['];
@@ -2621,6 +2642,7 @@ async function importBackup(f){
   st.textContent='讀取中…';
   const j=JSON.parse(await f.text());
   if(j.app!=='nyear-diary'||!Array.isArray(j.people)||!Array.isArray(j.entries))throw new Error('這不是 Htbu_? 的備份檔');
+  if(Array.isArray(j.gtags)){GT=[...GT,...j.gtags.map(normTag).filter(Boolean)];saveGT()}
   for(const p of j.people)if(p&&p.id&&p.name)await dbPut('people',{...(typeof p.av==='string'&&/^data:image\/(jpeg|png|webp);base64,/.test(p.av)&&p.av.length<600000?{av:p.av}:{}),...(/^#[0-9a-f]{6}$/i.test(p.avc||'')?{avc:p.avc}:{}),id:String(p.id),name:String(p.name).slice(0,30),color:(/^#[0-9a-f]{6}$/i.test(p.color||'')||isTh(p.color))?p.color:(pById(String(p.id))?.color||null),tags:[...new Set([...(pById(String(p.id))?.tags||[]),...(Array.isArray(p.tags)?p.tags:[]).map(normTag).filter(Boolean)])].slice(0,200)});
   let n=0;
   for(const e of j.entries){
