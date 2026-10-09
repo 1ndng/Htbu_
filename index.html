@@ -960,7 +960,7 @@ html.w7 #dmp{border:0;border-radius:0;box-shadow:none}
 <header id="hdr">
 <div class="hb"><h1><img class="hbi" src="icon-192.png" alt="">Htbu_?</h1></div>
 <nav id="mbar" aria-label="功能選單"><button class="mi" data-m="set" onclick="toggleMenu('set')">設定</button><button class="mi" data-m="ppl" onclick="toggleMenu('ppl')">對象</button><button class="mi" data-m="tag" onclick="toggleMenu('tag')">標籤</button><button class="mi" data-m="rev" onclick="toggleMenu('rev')">回顧</button><button class="mi" data-m="org" onclick="toggleMenu('org')">管理</button><button class="mi" data-m="help" onclick="toggleMenu('help')">說明</button><button class="mi" data-m="bak" onclick="toggleMenu('bak')">備份</button></nav>
-<div id="srow" class="prow"><input type="search" id="q" placeholder="搜尋" aria-label="搜尋紀錄" enterkeyhint="search" autocomplete="off"><button id="qgo" type="button" aria-label="搜尋">搜尋</button></div>
+<div id="srow" class="prow"><input type="search" id="q" aria-label="搜尋紀錄" enterkeyhint="search" autocomplete="off"><button id="qgo" type="button" aria-label="搜尋">搜尋</button></div>
 <div id="mdd" role="menu" hidden></div>
 </header>
 <div id="mback" hidden></div>
@@ -971,19 +971,19 @@ html.w7 #dmp{border:0;border-radius:0;box-shadow:none}
 <dialog id="gd"></dialog>
 <dialog id="pe">
 <h2 id="pet">編輯對象</h2>
-<div id="penw"><label for="pen">名稱</label><input type="text" id="pen" placeholder="對象名稱" maxlength="30"></div>
+<div id="penw"><label for="pen">名稱</label><input type="text" id="pen" maxlength="30"></div>
 <div id="peaw"><label>頭貼</label><div id="pear"><div id="peal"><div id="peaf" class="av"><img id="peai" alt=""></div><input type="range" id="peaz" min="1" max="4" step="0.01" value="1" aria-label="頭貼大小"></div><div id="peab"><button class="edit" onclick="$('#peaf2').click()">圖片</button><button class="edit" id="peacw" onclick="$('#peac').click()">純色</button><input type="color" id="peac" tabindex="-1" aria-hidden="true"><button class="edit" onclick="peAvSet(null)">預設</button></div></div><input type="file" id="peaf2" accept="image/*" hidden></div>
 <div class="acts end"><button class="pri" id="peo" onclick="peOk()">儲存</button><button onclick="pe.close();openMenu('ppl')">返回</button><button onclick="pe.close()">取消</button></div>
 </dialog>
 <dialog id="tm">
 <h2 id="tmt"></h2>
 <div id="tmsw"><label for="tms">選擇標籤</label><select id="tms" style="margin:6px 0 12px"></select></div>
-<div id="tmnw"><input type="text" id="tmn" placeholder="輸入標籤" maxlength="20"></div>
+<div id="tmnw"><input type="text" id="tmn" maxlength="20"></div>
 <div class="acts end"><button class="pri" id="tmo" onclick="tmOk()">確定</button><button onclick="tm.close();openMenu('tag')">返回</button><button onclick="tm.close()">取消</button></div>
 </dialog>
 <dialog id="pd">
 <h2>新增對象</h2>
-<input type="text" id="pn" placeholder="填入你想記錄的對象" maxlength="30">
+<input type="text" id="pn" maxlength="30">
 <div class="acts end"><button class="pri" onclick="addP()">建立</button><button onclick="pd.close();openMenu('ppl')">返回</button><button onclick="pd.close()">取消</button></div>
 </dialog>
 
@@ -1009,9 +1009,9 @@ html.w7 #dmp{border:0;border-radius:0;box-shadow:none}
 <button class="mdb" onclick="lineP('> ')" aria-label="引用" title="引用">❝</button>
 <button onclick="clr('#tx')">清除</button>
 </div>
-<textarea id="tx" rows="3" placeholder="任何你想記錄的。"></textarea>
+<textarea id="tx" rows="3"></textarea>
 <div class="lh"><label for="lk">連結（每行一個）</label><button class="edit" onclick="clr('#lk')">清除</button></div>
-<textarea id="lk" rows="1" placeholder="https://"></textarea>
+<textarea id="lk" rows="1"></textarea>
 <label>附件/其他</label>
 <div class="acts">
 <button onclick="fi.click()">+ 照片/影片/音訊/檔案</button>
@@ -1020,7 +1020,7 @@ html.w7 #dmp{border:0;border-radius:0;box-shadow:none}
 <div class="acts" id="tqrow"><button id="tgbtn" onclick="tagToggle()">+ 標籤</button><button id="qbtn" onclick="openQd()">+ 引用</button></div>
 <div id="qpv"></div>
 <div id="tgd" class="acts" style="margin-top:0"></div>
-<div id="tgi" hidden><div class="acts" style="margin:0 0 8px"><input type="text" id="tn" placeholder="輸入標籤" maxlength="20" style="flex:1;margin:0"><button onclick="addTag($('#tn').value)">加入</button></div><div id="tsg" class="acts" style="margin-top:0"></div></div>
+<div id="tgi" hidden><div class="acts" style="margin:0 0 8px"><input type="text" id="tn" maxlength="20" style="flex:1;margin:0"><button onclick="addTag($('#tn').value)">加入</button></div><div id="tsg" class="acts" style="margin-top:0"></div></div>
 <div id="dm" class="media"></div>
 <div class="acts end"><button id="dl" onclick="archiveEntry()">封存</button><button class="pri" onclick="save()">儲存</button><button onclick="cancelEd()">取消</button></div>
 </div>
@@ -1096,12 +1096,12 @@ html.w7 #dmp{border:0;border-radius:0;box-shadow:none}
 <dialog id="dmr"><p id="dmot">匯出中…</p><div class="acts" style="justify-content:center"><button id="dmos" onclick="dmStop=true">停止</button></div></dialog>
 <dialog id="dmbg"><h2>背景</h2><div class="mb"><button class="edit" id="dmbgi" onclick="$('#dmbg').close();DM.bgSrc?dmCrop():$('#dmf').click()">選擇圖片</button><label class="r" id="dmbgcw">純色 <input type="color" id="dmbgc"></label><button class="edit" onclick="dmBgNone();$('#dmbg').close()">不使用背景（主題底色）</button></div><div class="acts end"><button onclick="$('#dmbg').close()">關閉</button></div></dialog>
 <dialog id="dmc"><h2>背景（9:16）</h2><p class="sub">拖曳圖片調整位置</p><div id="dmcf"><img id="dmci" alt=""></div><label for="dmcz">縮放</label><input type="range" id="dmcz" min="1" max="4" step="0.01" value="1"><div class="acts"><button onclick="$('#dmf').click()">換圖片</button><button onclick="dmBgNone()">不使用背景</button></div><div class="acts end"><button class="pri" onclick="dmCropOk()">確定</button><button onclick="$('#dmc').close()">取消</button></div></dialog>
-<dialog id="dmi"><h2>選擇紀錄</h2><div class="qsrow" id="dmisr"><input type="search" id="dmis" placeholder="搜尋文字或標籤" enterkeyhint="search" autocomplete="off"><button id="dmisb" type="button" onclick="dmPickList()">搜尋</button></div><div id="dmil"></div><div class="acts end"><button class="pri" onclick="dmPickOk()">確定</button><button onclick="$('#dmi').close()">取消</button></div></dialog>
-<dialog id="dmx"><h2>文字</h2><textarea id="dmxt" rows="3" placeholder="輸入文字"></textarea><div class="acts dmpx"><label for="dmxf">字體</label><select id="dmxf"><option value="c">Cubic 11</option><option value="s">台灣明體</option><option value="d">預設字體</option></select></div><div class="acts dmpx"><label for="dmxv">樣式</label><select id="dmxv"><option value="plain">文字</option><option value="menu">選單</option><option value="btn">按鈕</option></select></div><div class="acts"><label class="r"><input type="radio" name="dmxm" value="0"> 純色字</label><label class="r"><input type="radio" name="dmxm" value="1" checked> 有外框的字</label></div><div class="acts"><label class="r">文字顏色 <input type="color" id="dmxc" value="#ffffff"></label><label class="r" id="dmxsw">外框顏色 <input type="color" id="dmxs" value="#000000"></label></div><div class="acts end"><button class="pri" onclick="dmTextOk()">確定</button><button onclick="$('#dmx').close()">取消</button></div></dialog>
+<dialog id="dmi"><h2>選擇紀錄</h2><div class="qsrow" id="dmisr"><input type="search" id="dmis" enterkeyhint="search" autocomplete="off"><button id="dmisb" type="button" onclick="dmPickList()">搜尋</button></div><div id="dmil"></div><div class="acts end"><button class="pri" onclick="dmPickOk()">確定</button><button onclick="$('#dmi').close()">取消</button></div></dialog>
+<dialog id="dmx"><h2>文字</h2><textarea id="dmxt" rows="3"></textarea><div class="acts dmpx"><label for="dmxf">字體</label><select id="dmxf"><option value="c">Cubic 11</option><option value="s">台灣明體</option><option value="d">預設字體</option></select></div><div class="acts dmpx"><label for="dmxv">樣式</label><select id="dmxv"><option value="plain">文字</option><option value="menu">選單</option><option value="btn">按鈕</option></select></div><div class="acts"><label class="r"><input type="radio" name="dmxm" value="0"> 純色字</label><label class="r"><input type="radio" name="dmxm" value="1" checked> 有外框的字</label></div><div class="acts"><label class="r">文字顏色 <input type="color" id="dmxc" value="#ffffff"></label><label class="r" id="dmxsw">外框顏色 <input type="color" id="dmxs" value="#000000"></label></div><div class="acts end"><button class="pri" onclick="dmTextOk()">確定</button><button onclick="$('#dmx').close()">取消</button></div></dialog>
 <dialog id="dmwe"><h2>視窗</h2><label for="dmwet">標題列文字</label><input type="text" id="dmwet" maxlength="40"><div class="acts end"><button class="pri" onclick="dmWinOk()">確定</button><button onclick="$('#dmwe').close()">取消</button></div></dialog>
 <dialog id="dmco"><h2>視窗顏色</h2><div id="dmcol"></div><p class="sub" id="dmcos">按「預設」或沒有自訂的顏色會跟著主題色</p><div class="acts end"><button onclick="$('#dmco').close()">關閉</button></div></dialog>
 <dialog id="dmth"><h2>主題色</h2><p class="sub">視窗方塊使用的配色</p><div class="acts" id="dmthl"></div><div class="acts end"><button onclick="$('#dmth').close()">取消</button></div></dialog>
-<dialog id="qd"><h2>選擇要引用的紀錄</h2><div class="qsrow"><input type="search" id="qs2" placeholder="搜尋文字或標籤" enterkeyhint="search" autocomplete="off"><button id="qsb" class="pri" onclick="qdGo(true)">搜尋</button></div><div id="qdc"></div><div class="acts end"><button onclick="$('#qd').close()">取消</button></div></dialog>
+<dialog id="qd"><h2>選擇要引用的紀錄</h2><div class="qsrow"><input type="search" id="qs2" enterkeyhint="search" autocomplete="off"><button id="qsb" class="pri" onclick="qdGo(true)">搜尋</button></div><div id="qdc"></div><div class="acts end"><button onclick="$('#qd').close()">取消</button></div></dialog>
 <dialog id="lb" class="tbd"><h2 id="lbt">圖片</h2><button id="lbx" class="xcl" aria-label="關閉" onclick="$('#lb').close()">關閉</button><div id="lbc"></div></dialog>
 <button id="fab" hidden onclick="fabAdd()">+ 新增</button>
 <div id="toast" role="status" popover="manual"></div>
