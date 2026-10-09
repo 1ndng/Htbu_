@@ -691,7 +691,8 @@ html.jsb #dmvl,html.jsb #dmvl.sbon{padding:0 15px 0 0}
 #dmsb>button{flex:none;padding-left:7px;padding-right:7px;margin:0}
 #dmsb .edit{margin:0}#dmsb .sub{margin:0;text-align:center}
 /* 編輯頁選單：比照首頁的選單列與下拉選單 */
-#dmp{padding-top:env(safe-area-inset-top,0px)}
+/* 標題列（瀏海）：−＝回到週選擇、×＝離開編輯；整個視窗往下讓出手機狀態列，上方空出的地方用主題色② */
+#dmp{top:env(safe-area-inset-top,0px);height:calc(100dvh - env(safe-area-inset-top,0px));max-height:calc(100dvh - env(safe-area-inset-top,0px))}#dmp::backdrop{background:var(--acc,#000080)}html.w7 #dmp::backdrop{background:#B9D1EA}
 #dmpt{margin-left:auto;align-self:center;padding:0 4px 0 12px;font-size:var(--f12);color:var(--mute);white-space:nowrap}
 #dmmb{flex:none;margin:0 -8px;border-top:1px solid var(--bhi);border-bottom:1px solid var(--blo);display:flex;align-items:stretch;padding:0 7px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;background:var(--bg)}#dmmb::-webkit-scrollbar{display:none}
 #dmdd{position:absolute;z-index:3;width:max-content;min-width:150px;max-width:calc(100vw - 8px);overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;background:var(--bg);border:1px solid var(--ink);box-shadow:inset 1px 1px 0 var(--bhi),inset -1px -1px 0 var(--blo),1px 1px 0 var(--ink);padding:3px 0}
@@ -950,7 +951,8 @@ html.w7 .htm::after{border-radius:2px;background:linear-gradient(to right,#F4F4F
 /* 左右滑動換日：平滑移動（Win95 是逐格） */
 html.w7 #app.swl{animation:swl .18s ease-out}html.w7 #app.swr{animation:swr .18s ease-out}
 /* 週dump編輯器（全螢幕）：沒有外框 */
-html.w7 #dmp,html.w7 #wr{border:0;border-radius:0;box-shadow:none;background:var(--bg)}
+html.w7 #wr{border:0;border-radius:0;box-shadow:none;background:var(--bg)}
+html.w7 #dmp{border:0;border-radius:0;box-shadow:none}
 </style>
 </head>
 <body>
@@ -1089,7 +1091,7 @@ html.w7 #dmp,html.w7 #wr{border:0;border-radius:0;box-shadow:none;background:var
 <dialog id="dmv"><h2>週dump・瀏覽</h2><div id="dmvn"></div><div id="dmvp"><div id="dmva"></div><div id="dmvs"><b id="dmvc">0</b><span>篇 dump</span></div></div><div id="dmvf"><div id="dmvl"></div></div><div class="acts end"><button onclick="$('#dmv').close();openDumpHome()">返回</button><button onclick="$('#dmv').close()">退出</button></div></dialog>
 <dialog id="dmvw"><h2 id="dmvwt">dump</h2><div id="dmvwc"></div><p class="sub" id="dmvws"></p><div class="acts dmvwb"><button class="pri" id="dmvi" onclick="dmvImg()">匯出圖片</button><button class="pri" id="dmvv" onclick="dmvVid()">匯出影片</button></div><div class="acts dmvwb"><button onclick="dmvEdit()">編輯</button><button onclick="dmvDel()">刪除</button></div><div class="acts end"><button onclick="$('#dmvw').close();openDumpBrowse()">返回</button><button onclick="$('#dmvw').close()">退出</button></div></dialog>
 <dialog id="dmm"><h2>週dump</h2><p class="sub" id="dmms" style="text-align:center">選擇年月</p><div id="dmml"></div><div class="acts end"><button onclick="dmmBack()">返回</button><button onclick="$('#dmm').close()">退出</button></div></dialog>
-<dialog id="dmp"><nav id="dmmb" aria-label="編輯選單"><button class="mi" data-m="file" onclick="dmMenu('file')">檔案</button><button class="mi" data-m="add" onclick="dmMenu('add')">新增</button><button class="mi" data-m="box" onclick="dmMenu('box')">方塊</button><button class="mi" data-m="ord" onclick="dmMenu('ord')">排列</button><button class="mi" data-m="look" onclick="dmMenu('look')">版面</button><span id="dmpt"></span></nav><div id="dmbk" hidden></div><div id="dmdd" role="menu" hidden></div><div id="dmw"><canvas id="dmcv"></canvas></div><div id="dmsb"></div><input type="file" id="dmf" accept="image/*" hidden><input type="file" id="dmf2" accept="image/*" hidden></dialog>
+<dialog id="dmp"><h2 id="dmph">週dump</h2><nav id="dmmb" aria-label="編輯選單"><button class="mi" data-m="file" onclick="dmMenu('file')">檔案</button><button class="mi" data-m="add" onclick="dmMenu('add')">新增</button><button class="mi" data-m="box" onclick="dmMenu('box')">方塊</button><button class="mi" data-m="ord" onclick="dmMenu('ord')">排列</button><button class="mi" data-m="look" onclick="dmMenu('look')">版面</button><span id="dmpt"></span></nav><div id="dmbk" hidden></div><div id="dmdd" role="menu" hidden></div><div id="dmw"><canvas id="dmcv"></canvas></div><div id="dmsb"></div><input type="file" id="dmf" accept="image/*" hidden><input type="file" id="dmf2" accept="image/*" hidden><div class="acts"><button onclick="$('#dmp').close();openDump()">返回</button><button onclick="$('#dmp').close()">退出</button></div></dialog>
 <dialog id="dmr"><p id="dmot">匯出中…</p><div class="acts" style="justify-content:center"><button id="dmos" onclick="dmStop=true">停止</button></div></dialog>
 <dialog id="dmbg"><h2>背景</h2><div class="mb"><button class="edit" id="dmbgi" onclick="$('#dmbg').close();DM.bgSrc?dmCrop():$('#dmf').click()">選擇圖片</button><label class="r" id="dmbgcw">純色 <input type="color" id="dmbgc"></label><button class="edit" onclick="dmBgNone();$('#dmbg').close()">不使用背景（主題底色）</button></div><div class="acts end"><button onclick="$('#dmbg').close()">關閉</button></div></dialog>
 <dialog id="dmc"><h2>背景（9:16）</h2><p class="sub">拖曳圖片調整位置</p><div id="dmcf"><img id="dmci" alt=""></div><label for="dmcz">縮放</label><input type="range" id="dmcz" min="1" max="4" step="0.01" value="1"><div class="acts"><button onclick="$('#dmf').click()">換圖片</button><button onclick="dmBgNone()">不使用背景</button></div><div class="acts end"><button class="pri" onclick="dmCropOk()">確定</button><button onclick="$('#dmc').close()">取消</button></div></dialog>
@@ -2099,7 +2101,7 @@ async function openDumpEd(ym){const key=dmPk()+'|'+ym,c=pById(cur)?.color;
  if(!dmStore[key]){const rec=await dmGetRec(key);dmStore[key]=rec&&rec.lay?await dmRestore(rec.lay,ym):{ym,ui:UI,bg:null,bgSrc:null,theme:isTh(c)?c.slice(2):null,items:[],sel:null,nid:1,sc:1,r:1}}
  DM=dmStore[key];
  await dmFontsReady();
- $('#dmpt').textContent=dmYm(ym);$('#dmp').showModal();dmFit();dmSelBar()}
+ $('#dmph').textContent=pT('週dump');$('#dmpt').textContent=dmYm(ym);$('#dmp').showModal();dmFit();dmSelBar()}
 $('#dmp').addEventListener('close',()=>{if(DM)DM.sel=null;dmDrag=null;dmSaveLay()});
 function dmFit(){const w=$('#dmw'),cv=$('#dmcv');if(!DM||!$('#dmp').open)return;
  let W=w.clientWidth,H=W*16/9;if(H>w.clientHeight){H=w.clientHeight;W=H*9/16}
@@ -2309,7 +2311,7 @@ function dmUndo(){const H=DM&&DM.hist;if(!H)return;const k=dmKey();while(H.lengt
 let dmMo=null;
 const dmAfter=()=>{dmSelBar();dmDraw()};
 function dmMenuGroups(k){const it=DM&&DM.items.find(x=>x.id===DM.sel),A=(t,f,o)=>({t,f,...o}),I=t=>({t,dis:1}),bm=dmBm();
- if(k==='file')return[[A('儲存',dmSaveBtn),A('儲存並前往瀏覽',async()=>{await dmSaveBtn();$('#dmp').close();openDumpBrowse()})],[A('回到週選擇',()=>{$('#dmp').close();openDump()}),A('離開編輯',()=>$('#dmp').close())]];
+ if(k==='file')return[[A('儲存',dmSaveBtn),A('儲存並前往瀏覽',async()=>{await dmSaveBtn();$('#dmp').close();openDumpBrowse()})]];
  if(k==='add')return[[A('紀錄…',dmPick),A('文字…',()=>dmTextEd()),A('圖片…',()=>$('#dmf2').click())]];
  if(k==='box'||k==='ord'){if(!it)return[[I('選取畫面上的方塊')]];
   if(it.lk)return[[I('這個方塊已鎖定')]];
