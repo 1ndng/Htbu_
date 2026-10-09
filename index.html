@@ -258,7 +258,8 @@ mark.hl{background:rgba(128,128,128,.3);background:color-mix(in srgb,var(--acc) 
 .ol{margin-top:4px}
 .qsrow{display:flex;gap:8px;align-items:center;flex:none}
 #qs2{clip-path:var(--cut);-webkit-appearance:none;appearance:none;flex:1;min-width:0;width:auto;border:var(--bw) solid transparent;background:var(--pxbg);border-radius:0;padding:6px 10px;margin:0}
-#qs2::-webkit-search-decoration{-webkit-appearance:none;display:none}
+/* 搜尋欄：不要瀏覽器內建的放大鏡與清除叉叉（清除改用旁邊的「搜尋／清除」按鈕） */
+input[type=search]::-webkit-search-decoration,input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-results-button,input[type=search]::-webkit-search-results-decoration{-webkit-appearance:none;appearance:none;display:none}
 #qsb{flex:none;padding:6px 14px}
 @media (pointer:coarse){#qd.kb{margin:calc(10px + env(safe-area-inset-top,0px)) auto auto}#qd.kb #qdc{max-height:30vh}}
 .eth{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.eth h2{margin:0}.eth .edit{flex:none}
@@ -1546,7 +1547,7 @@ function renderOther(A,P){
   list=all.filter(e=>matchF(e)&&(!k||hay(e).includes(k))).sort((a,b)=>tsOf(b)-tsOf(a));
  rc(A,
   h('div',{class:'ohead'},h('div',{class:'otl'},'★隨手記★'),bkBtn()),
-  h('p',{class:'sub'},filt?[ftagLabel()+(ftags.length&&qs?'　':'')+(qs?`搜尋「${qs}」`:'')+`：${list.length}則　`,h('button',{class:'edit',style:'margin:0',onclick:clearF},'清除')]:`${P.name}共記錄了${all.length}則。`),
+  h('p',{class:'sub'},filt?[ftagLabel()+(ftags.length&&qs?'　':'')+(qs?`搜尋「${qs}」`:'')+`：${list.length}則`]:`${P.name}共記錄了${all.length}則。`),
   list.length?h('div',{class:'ol'},...list.slice(0,rlim).map(e=>card(e,NODATE,false,true))):null,
   list.length>rlim&&h('button',{class:'more',onclick:()=>{rlim+=50;render()}},'顯示更多'),
   useMem&&h('p',{class:'note'},'此瀏覽器無法長期儲存，關閉頁面後資料會消失。'));
@@ -1571,7 +1572,7 @@ function renderView(){
  if(qs||ftags.length){
   const k=qs.toLowerCase(),hits=Object.values(E).flat().filter(e=>matchF(e)&&(!k||hay(e).includes(k)))
    .sort((a,b)=>a.date===b.date?(b.time||'').localeCompare(a.time||''):a.date<b.date?1:-1);
-  rc(A,h('p',{class:'sub'},ftagLabel()+(ftags.length&&qs?'　':'')+(qs?`搜尋「${qs}」`:'')+`：${hits.length}則　`,h('button',{class:'edit',style:'margin:0',onclick:clearF},'清除')),
+  rc(A,h('p',{class:'sub'},ftagLabel()+(ftags.length&&qs?'　':'')+(qs?`搜尋「${qs}」`:'')+`：${hits.length}則`),
    ...hits.slice(0,rlim).map(e=>{const [y,m,d]=e.date.split('-').map(Number);return h('div',{class:'hit'},h('div',{class:'rd'},`${y}年${m}月${d}日`),card(e,e.date,true,true))}),
    hits.length>rlim&&h('button',{class:'more',onclick:()=>{rlim+=50;render()}},'顯示更多'));
   fitX();return}
