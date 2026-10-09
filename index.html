@@ -782,6 +782,19 @@ input[type=range]:disabled{cursor:default}
 .row.has::after{display:none}
 .hi::before{top:23px;height:4px;background:linear-gradient(to bottom,var(--blo) 0 1px,var(--ink) 1px 2px,var(--btnf) 2px 3px,var(--bhi) 3px 4px)}
 .htm::after{top:17px;width:9px;height:16px;clip-path:none;border-radius:0;background:var(--btnf);box-shadow:inset -1px -1px 0 var(--ink),inset 1px 1px 0 var(--bhi),inset -2px -2px 0 var(--blo)}
+/* Win95 螢光筆方塊（參考圖）：實色銳角方塊、比字矮一點（字的頂部稍微超出）、不加陰影 */
+html:not(.w7){--hlc:var(--card);--hlt:.32em}
+/* 標籤 */
+html:not(.w7) :is(.tg,.dtg,.card .tg):not(.on){clip-path:none;background:linear-gradient(color-mix(in srgb,var(--acc) 16%,var(--card)),color-mix(in srgb,var(--acc) 16%,var(--card))) 0 var(--hlt)/100% calc(100% - var(--hlt)) no-repeat;box-shadow:none}
+html:not(.w7) :is(.tg,.dtg,.card .tg).on{clip-path:none}
+/* 時間軸：年份方塊＝原本的滑塊標記，往左疊在軸線上；沒紀錄的年份用底色方塊遮住軸線 */
+html:not(.w7) .row::before,html:not(.w7) .row::after{display:none}
+html:not(.w7) .rh .yr{margin-left:-34px;padding:0 6px 1px;line-height:1.05;text-shadow:none;background:linear-gradient(var(--bg),var(--bg)) 0 var(--hlt)/100% calc(100% - var(--hlt)) no-repeat}
+html:not(.w7) .row.has .rh .yr{background-image:linear-gradient(var(--hlc),var(--hlc))}
+/* 一天內的時刻：時間字也用方塊當底，不貼在線上（拿掉橫向軌道與滑塊） */
+html:not(.w7) .hi{padding-top:24px}
+html:not(.w7) .hi::before,html:not(.w7) .htm::after{display:none}
+html:not(.w7) .htm{padding:0 5px 1px;line-height:16px;color:var(--ink);background:linear-gradient(var(--hlc),var(--hlc)) 0 4px/100% calc(100% - 4px) no-repeat}
 </style>
 <style id="w7css">
 /* ===================== Windows 7 外觀（設定 › 風格設定）：只換外型，功能與版面配置不變 =====================
