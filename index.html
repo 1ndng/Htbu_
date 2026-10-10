@@ -890,7 +890,7 @@ html.w7 #hdr .hb{background:var(--shine),var(--gl);border-bottom:1px solid var(-
 html.w7 #hdr h1{color:var(--ink);font-size:var(--f15);font-weight:400;text-shadow:0 0 6px #FFFFFF,0 0 10px #FFFFFF}
 /* 主題2～6：瀏海、視窗標題列等玻璃色＝主要按鈕的主題色（主題1 則反過來，按鈕比照瀏海） */
 html.w7:is([data-th=t2],[data-th=t3],[data-th=t4],[data-th=t5],[data-th=t6]){--gl:var(--acc);--gld:color-mix(in srgb,var(--acc) 70%,#000000)}
-html.w7:is([data-th=t2],[data-th=t3],[data-th=t4],[data-th=t5]) :is(#hdr h1,dialog.tbd>h2:is(:first-child,.sbw+h2),dialog.tbd>.eth:is(:first-child,.sbw+.eth) h2,#dtt,.wc>.dth,#lbt){color:#FFFFFF!important;text-shadow:0 0 6px rgba(0,0,0,.45),0 0 2px rgba(0,0,0,.35)}
+html.w7:is([data-th=t2],[data-th=t4],[data-th=t5]) :is(#hdr h1,dialog.tbd>h2:is(:first-child,.sbw+h2),dialog.tbd>.eth:is(:first-child,.sbw+.eth) h2,#dtt,.wc>.dth,#lbt){color:#FFFFFF!important;text-shadow:0 0 6px rgba(0,0,0,.45),0 0 2px rgba(0,0,0,.35)}
 html.w7 :is(#mbar,#dmmb){background:linear-gradient(to bottom,color-mix(in srgb,var(--gl) 12%,#FFFFFF),color-mix(in srgb,var(--gl) 38%,#FFFFFF));border-top:0;border-bottom:1px solid color-mix(in srgb,var(--gld) 35%,#FFFFFF);padding:2px 5px}
 html.w7 .mi{height:24px;line-height:24px;padding:0 8px;border-radius:3px;border:1px solid transparent}
 html.w7 .mi.on,html.w7 .mi:active:not(:disabled){color:var(--ink);background:linear-gradient(to bottom,rgba(255,255,255,.75),rgba(255,255,255,.15)),color-mix(in srgb,var(--acc) 24%,#FFFFFF);border-color:color-mix(in srgb,var(--acc) 55%,#FFFFFF)}
@@ -1536,13 +1536,15 @@ const defAcc=()=>document.documentElement.classList.contains('w7')?'#94B8E2':'#0
    bg＝主題色①（也是按鈕面 btnf）、acc＝主題色②、ink＝功能色（深）、card＝功能色（淺）、del＝功能色（對比，已調深到看得清楚）、press＝主題色②按鈕按下瞬間的顏色
    acx＝②調深後的文字／線條色、mute／line／sep＝由深色與①調出的次要文字／分隔線、on＝②上的文字色 */
 const THEMES={/* 顯示順序＝這裡的順序（代號 t2～t6 是存檔用的，不可改；名稱「主題N」照顯示順序） */
- t3:{n:'主題2',bg:'#B0B3D6',btnf:'#B0B3D6',card:'#E0E4E7',ink:'#520523',mute:'#6A3050',line:'#D2D4E8',sep:'#907899',bhi:'#EDEEF6',blo:'#8D7394',acc:'#41898B',acx:'#254D4E',press:'#B5D4C8',del:'#2D4E41',hotx:'#2D4E41',hotbg:'rgba(45,78,65,.16)',soft:'rgba(65,137,139,.18)',mark:'rgba(45,78,65,.28)',on:'#FFFFFF'},
- t4:{n:'主題3',bg:'#E8D1A7',btnf:'#E8D1A7',card:'#F6EBD6',ink:'#442D1C',mute:'#6D563F',line:'#F2E5CD',sep:'#B09978',bhi:'#FAF4EB',blo:'#AB9474',acc:'#743014',acx:'#743014',press:'#9D9167',del:'#635B40',hotx:'#635B40',hotbg:'rgba(99,91,64,.16)',soft:'rgba(116,48,20,.16)',mark:'rgba(99,91,64,.28)',on:'#FFFFFF'},
- t6:{n:'主題4',bg:'#A3DBCF',btnf:'#A3DBCF',card:'#F8E8CB',ink:'#17393B',mute:'#3A6160',line:'#CBEAE4',sep:'#74A69F',bhi:'#EAF7F4',blo:'#70A29B',acc:'#F0917E',acx:'#A62C13',press:'#36C9D1',del:'#176266',hotx:'#176266',hotbg:'rgba(23,98,102,.16)',soft:'#F4BAA5',mark:'rgba(23,98,102,.28)',on:'#17393B'},
- t5:{n:'主題5',bg:'#C1ECFD',btnf:'#C1ECFD',card:'#FFF6B7',ink:'#283F76',mute:'#4E6A98',line:'#DCF4FE',sep:'#8DB1CF',bhi:'#F1FBFF',blo:'#88ACCB',acc:'#C1121F',acx:'#C1121F',press:'#5591D1',del:'#2D68A7',hotx:'#2D68A7',hotbg:'rgba(45,104,167,.16)',soft:'rgba(193,18,31,.16)',mark:'rgba(45,104,167,.28)',on:'#FFFFFF'},
+ t3:{n:'主題2',bg:'#B0B3D6',btnf:'#B0B3D6',card:'#E0E4E7',ink:'#520523',mute:'#6A3050',line:'#D2D4E8',sep:'#907899',bhi:'#EDEEF6',blo:'#8D7394',acc:'#41898B',a7:'#7AACAE',on7:'#520523',acx:'#254D4E',press:'#B5D4C8',del:'#2D4E41',hotx:'#2D4E41',hotbg:'rgba(45,78,65,.16)',soft:'rgba(65,137,139,.18)',mark:'rgba(45,78,65,.28)',on:'#FFFFFF'},
+ t4:{n:'主題3',bg:'#E8D1A7',btnf:'#E8D1A7',card:'#F6EBD6',ink:'#442D1C',mute:'#6D563F',line:'#F2E5CD',sep:'#B09978',bhi:'#FAF4EB',blo:'#AB9474',acc:'#743014',a7:'#A57866',acx:'#743014',press:'#9D9167',del:'#635B40',hotx:'#635B40',hotbg:'rgba(99,91,64,.16)',soft:'rgba(116,48,20,.16)',mark:'rgba(99,91,64,.28)',on:'#FFFFFF'},
+ t6:{n:'主題4',bg:'#A3DBCF',btnf:'#A3DBCF',card:'#F8E8CB',ink:'#17393B',mute:'#3A6160',line:'#CBEAE4',sep:'#74A69F',bhi:'#EAF7F4',blo:'#70A29B',acc:'#F0917E',a7:'#F4AC9E',acx:'#A62C13',press:'#36C9D1',del:'#176266',hotx:'#176266',hotbg:'rgba(23,98,102,.16)',soft:'#F4BAA5',mark:'rgba(23,98,102,.28)',on:'#17393B'},
+ t5:{n:'主題5',bg:'#C1ECFD',btnf:'#C1ECFD',card:'#FFF6B7',ink:'#283F76',mute:'#4E6A98',line:'#DCF4FE',sep:'#8DB1CF',bhi:'#F1FBFF',blo:'#88ACCB',acc:'#C1121F',a7:'#D45962',acx:'#C1121F',press:'#5591D1',del:'#2D68A7',hotx:'#2D68A7',hotbg:'rgba(45,104,167,.16)',soft:'rgba(193,18,31,.16)',mark:'rgba(45,104,167,.28)',on:'#FFFFFF'},
  t2:{n:'主題6',bg:'#F0EEF3',btnf:'#F0EEF3',card:'#DDEAE8',ink:'#2A2A2A',mute:'#5C5B5C',line:'#F8F6F9',sep:'#AFADB1',bhi:'#FCFCFD',blo:'#B2B0B4',acc:'#CD5782',acx:'#BE3869',press:'#81BFB7',del:'#397069',hotx:'#397069',hotbg:'rgba(57,112,105,.16)',soft:'rgba(205,87,130,.16)',mark:'rgba(57,112,105,.28)',on:'#FFFFFF'}};
+/* Win7 風格下主題2～5 的主題色調淺（a7），按鈕文字色跟著換（on7） */
+const thC=(k,w7=document.documentElement.classList.contains('w7'))=>{const t=THEMES[k];return t&&w7&&t.a7?{...t,acc:t.a7,on:t.on7||t.on}:t};
 const isTh=x=>typeof x==='string'&&x.startsWith('T:')&&!!THEMES[x.slice(2)];
-const tcVal=x=>isTh(x)?THEMES[x.slice(2)].acc:(x||defAcc());
+const tcVal=x=>isTh(x)?thC(x.slice(2)).acc:(x||defAcc());
 const THV=['--card','--ink','--mute','--line','--sep','--del','--btnf','--hotx','--hotbg','--bhi','--blo','--press'];
 /* 日回顧的主題色固定（不能改）：參考線框稿的黑白灰淡色配色 */
 const RVTH={n:'合併對象回顧',bg:'#EEEEEE',btnf:'#EEEEEE',card:'#FFFFFF',ink:'#1C1C1C',mute:'#6E6E6E',line:'#F6F6F6',sep:'#C4C4C4',bhi:'#FFFFFF',blo:'#B8B8B8',acc:'#747474',acx:'#555555',press:'#D6D6D6',del:'#3A3A3A',hotx:'#3A3A3A',hotbg:'rgba(0,0,0,.07)',soft:'rgba(0,0,0,.07)',mark:'rgba(0,0,0,.16)',on:'#FFFFFF'};
@@ -1552,7 +1554,7 @@ function txc(R,G,B){/* 淺色主題色當文字/小圖示用時，壓暗到看�
  if(M!==m){const d=M-m;s=l>.5?d/(2-M-m):d/(M+m);h=M===r?(g-b)/d+(g<b?6:0):M===g?(b-r)/d+2:(r-g)/d+4;h*=60}
  const rgb=L=>{const k=n=>(n+h/30)%12,a=s*Math.min(L,1-L),f=n=>L-a*Math.max(-1,Math.min(k(n)-3,Math.min(9-k(n),1)));return[f(0),f(8),f(4)].map(v=>Math.round(v*255))};
  let c=[R,G,B];while(.58/(rlum(...c)+.05)<4.5&&l>0){l-=.01;c=rgb(l)}return`rgb(${c})`}
-function colInfo(x){if(x===REVCOL)return RVTH;if(isTh(x))return THEMES[x.slice(2)];if(!/^#[0-9a-f]{6}$/i.test(x||''))return null;const n=parseInt(x.slice(1),16);let R=n>>16,G=n>>8&255,B=n&255;
+function colInfo(x){if(x===REVCOL)return RVTH;if(isTh(x))return thC(x.slice(2));if(!/^#[0-9a-f]{6}$/i.test(x||''))return null;const n=parseInt(x.slice(1),16);let R=n>>16,G=n>>8&255,B=n&255;
  const lum=()=>(.299*R+.587*G+.114*B)/255,dark=matchMedia('(prefers-color-scheme: dark)').matches&&document.documentElement.dataset.theme!=='light';
  if(dark&&lum()<.5){const f=.45;R=Math.round(R+(255-R)*f);G=Math.round(G+(255-G)*f);B=Math.round(B+(255-B)*f)}
  const bs=dark?[18,23,28]:[244,246,248],f=dark?.1:.11,mx=(v,i)=>Math.round(bs[i]+(v-bs[i])*f);
@@ -1574,7 +1576,7 @@ function openColorList(){if(!people.length)return;
 /* 回顧範圍：回顧時最多只展開到這一年（空值＝不限制） */
 function setMinY(v){v=+v||null;MINY=v;try{v?localStorage.setItem('nyear-miny',v):localStorage.removeItem('nyear-miny')}catch(e){}render()}
 
-function drawSwt(){$('#swt').replaceChildren(h('button',{class:'sw',style:'background:'+defAcc(),'aria-label':'主題1（預設）',onclick:()=>setTheme(null)}),...Object.keys(THEMES).map(k=>{const t=THEMES[k];return h('button',{class:'sw',style:`background:${t.acc}`,'aria-label':t.n,onclick:()=>setTheme('T:'+k)})}));}
+function drawSwt(){$('#swt').replaceChildren(h('button',{class:'sw',style:'background:'+defAcc(),'aria-label':'主題1（預設）',onclick:()=>setTheme(null)}),...Object.keys(THEMES).map(k=>{const t=thC(k);return h('button',{class:'sw',style:`background:${t.acc}`,'aria-label':t.n,onclick:()=>setTheme('T:'+k)})}));}
 drawSwt();
 $('#tc').oninput=e=>setTheme(e.target.value);
 
@@ -2211,7 +2213,7 @@ const DPAL0={bg:'#C0C0C0',btnf:'#C0C0C0',card:'#FFFFFF',ink:'#000000',acc:'#0000
 const DPAL7={bg:'#BFD4EE',btnf:'#E3E3E3',card:'#FFFFFF',ink:'#000000',acc:'#94B8E2',on:'#000000',bhi:'#FFFFFF',blo:'#A0A0A0',del:'#C42B1C',line:'#F0F0F0',mute:'#6D6D6D'};
 const W7F='"PMingI.U","Segoe UI","Microsoft JhengHei","PingFang TC","Noto Sans TC",serif';
 const dmW7=()=>!!DM&&DM.ui==='w7',dmF=()=>dmW7()?W7F:DFONT;
-const dPal=k=>{const t=k&&THEMES[k];return t?{...DPAL0,...t}:dmW7()?DPAL7:DPAL0};
+const dPal=k=>{const t=k&&thC(k,dmW7());return t?{...DPAL0,...t}:dmW7()?DPAL7:DPAL0};
 /* 畫布用：混色（a→b 的比例 t）、圓角矩形路徑（r 可為 [左上,右上,右下,左下]） */
 const hxRgb=x=>{x=String(x||'#000').replace('#','');if(x.length===3)x=x.replace(/./g,'$&$&');const n=parseInt(x.slice(0,6),16)||0;return[n>>16,n>>8&255,n&255]};
 const cmix=(a,b,t)=>{const A=hxRgb(a),B=hxRgb(b);return'#'+A.map((v,i)=>Math.round(v+(B[i]-v)*t).toString(16).padStart(2,'0')).join('')};
@@ -2639,7 +2641,7 @@ function dmTextOk(){const t=$('#dmxt').value.replace(/\s+$/,'');if(!t.trim()){to
  $('#dmx').close();dmSelBar();dmDraw()}
 /* 主題色：視窗方塊的配色 */
 function dmTheme(){const sw=(k,c,t)=>h('button',{class:'sw'+(DM.theme===k?' on':''),style:'background:'+c,'aria-label':t,onclick:()=>{DM.theme=k;$('#dmth').close();dmDraw()}});
- rc($('#dmthl'),sw(null,dmW7()?DPAL7.acc:DPAL0.acc,'主題1（預設）'),...Object.keys(THEMES).map(k=>sw(k,THEMES[k].acc,THEMES[k].n)));$('#dmth').showModal()}
+ rc($('#dmthl'),sw(null,dmW7()?DPAL7.acc:DPAL0.acc,'主題1（預設）'),...Object.keys(THEMES).map(k=>sw(k,thC(k,dmW7()).acc,THEMES[k].n)));$('#dmth').showModal()}
 /* 匯出：沒有影片／音訊 → 1080×1920 PNG；有的話錄成影片：由上到下依序播放影片，接著由上到下播放音訊，播完為止 */
 let dmStop=false;
 const dmSave=f=>shareOrDl([f]);
