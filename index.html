@@ -431,7 +431,8 @@ html.w7 #qp{background:#F0F0F0;border:1px solid #979797;box-shadow:2px 2px 4px r
 .ap .ic.ipl{--m:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%208%2011'%20shape-rendering='crispEdges'%3E%3Crect%20x='0'%20y='1'%20width='2'%20height='1'/%3E%3Crect%20x='0'%20y='2'%20width='3'%20height='1'/%3E%3Crect%20x='0'%20y='3'%20width='5'%20height='1'/%3E%3Crect%20x='0'%20y='4'%20width='6'%20height='1'/%3E%3Crect%20x='0'%20y='5'%20width='8'%20height='1'/%3E%3Crect%20x='0'%20y='6'%20width='6'%20height='1'/%3E%3Crect%20x='0'%20y='7'%20width='5'%20height='1'/%3E%3Crect%20x='0'%20y='8'%20width='3'%20height='1'/%3E%3Crect%20x='0'%20y='9'%20width='2'%20height='1'/%3E%3C/svg%3E");--iw:8px}.ap .ic.ipa{--m:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2010%2011'%20shape-rendering='crispEdges'%3E%3Crect%20x='0'%20y='0'%20width='4'%20height='11'/%3E%3Crect%20x='6'%20y='0'%20width='4'%20height='11'/%3E%3C/svg%3E");--iw:10px;display:none}.ap .ic.st{--m:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%209%209'%20shape-rendering='crispEdges'%3E%3Crect%20x='0'%20y='0'%20width='9'%20height='9'/%3E%3C/svg%3E");--iw:9px;height:9px}
 .ap.playing .ic.ipl{display:none}.ap.playing .ic.ipa{display:block}
 /* 下排：播放（最左）、暫停、音量拉桿；影片則是三鍵置中＋右側音量開關 */
-.ap .r3 button{flex:0 0 44px}
+/* 按鈕寬度要直接寫 width：iPhone Safari 算群組寬度時不看 flex-basis，只看圖示寬，會讓按鈕疊在一起 */
+.ap .r3 button{flex:0 0 44px;width:44px}
 .ap .r3 .ic.ipa,.ap.playing .r3 .ic.ipl{display:block}
 .ap.playing .r3 .pp{--hi:var(--blo);--lo:var(--bhi)}
 .ap .vol{flex:1;min-width:0;display:flex;align-items:center;gap:6px;padding:0 2px 0 4px}
@@ -984,10 +985,10 @@ html.w7 .ap .sl .trk{background:linear-gradient(to right,var(--acc) calc(var(--f
 html.w7 .ap .sl .thm{top:-5px;bottom:-5px;width:16px;left:calc((100% - 16px)*var(--f));border-radius:50%;background:radial-gradient(circle at 50% 30%,#FFFFFF 0,color-mix(in srgb,var(--acc) 22%,#FFFFFF) 45%,color-mix(in srgb,var(--acc) 70%,#FFFFFF) 100%);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--acc) 75%,#000000),0 1px 2px rgba(0,0,0,.3)}
 html.w7 .ap .sl .arw.lf::after{border-right-color:var(--acc)}html.w7 .ap .sl .arw.rt::after{border-left-color:var(--acc)}
 html.w7 .ap .r3{gap:0;align-items:center;padding:0 10px 0 4px;height:34px;border-radius:17px;border:1px solid color-mix(in srgb,var(--gld) 40%,#FFFFFF);background:linear-gradient(to bottom,#FFFFFF,color-mix(in srgb,var(--gl) 18%,#FFFFFF) 50%,color-mix(in srgb,var(--gl) 30%,#FFFFFF) 51%,color-mix(in srgb,var(--gl) 12%,#FFFFFF));box-shadow:inset 0 1px 0 #FFFFFF}
-html.w7 .ap .r3 button{--pxbg:none;background:none;border:0;border-radius:0;height:26px;position:relative;flex:0 0 40px}
+html.w7 .ap .r3 button{--pxbg:none;background:none;border:0;border-radius:0;height:26px;position:relative;flex:0 0 40px;width:40px}
 html.w7 .ap .r3 .st::after{content:"";position:absolute;right:0;top:5px;bottom:5px;width:1px;background:color-mix(in srgb,var(--gld) 30%,#FFFFFF)}
 html.w7 .ap .r3 button:active:not(:disabled){background:radial-gradient(ellipse at center,color-mix(in srgb,var(--acc) 35%,transparent),transparent 70%)}
-html.w7 .ap .r3 .pp{flex:0 0 40px;height:40px;margin:-4px 4px -4px 0;border-radius:50%;background:radial-gradient(circle at 50% 28%,color-mix(in srgb,var(--acc) 20%,#FFFFFF) 0,color-mix(in srgb,var(--acc) 72%,#FFFFFF) 42%,color-mix(in srgb,var(--acc) 82%,#000000) 100%);box-shadow:inset 0 0 0 2px rgba(255,255,255,.7),0 0 0 1px color-mix(in srgb,var(--acc) 70%,#000000),0 2px 5px rgba(0,0,0,.35);z-index:1}
+html.w7 .ap .r3 .pp{flex:0 0 40px;width:40px;height:40px;margin:-4px 4px -4px 0;border-radius:50%;background:radial-gradient(circle at 50% 28%,color-mix(in srgb,var(--acc) 20%,#FFFFFF) 0,color-mix(in srgb,var(--acc) 72%,#FFFFFF) 42%,color-mix(in srgb,var(--acc) 82%,#000000) 100%);box-shadow:inset 0 0 0 2px rgba(255,255,255,.7),0 0 0 1px color-mix(in srgb,var(--acc) 70%,#000000),0 2px 5px rgba(0,0,0,.35);z-index:1}
 html.w7 .ap.playing .r3 .pp{filter:brightness(.9)}
 html.w7 .ap .r3 .pp .ic{background:var(--onacc)}
 html.w7 .ap .ic{background:linear-gradient(to bottom,color-mix(in srgb,var(--acc) 70%,#FFFFFF),color-mix(in srgb,var(--acc) 85%,#000000))}
