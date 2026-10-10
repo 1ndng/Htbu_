@@ -835,8 +835,9 @@ html.w7[data-th]{--sel1:color-mix(in srgb,var(--acc) 85%,#000000);--sel2:color-m
 html.w7 ::selection{background:var(--selx);color:#FFFFFF}
 /* 按鈕：上半亮、下半深的漸層，圓角 3px；按下＝淡藍 */
 html.w7 button{--w7bd:color-mix(in srgb,var(--fill) 35%,#3B3B3B);--pxbg:linear-gradient(to bottom,color-mix(in srgb,var(--fill) 30%,#FFFFFF) 0,color-mix(in srgb,var(--fill) 58%,#FFFFFF) 49%,var(--fill) 50%,color-mix(in srgb,var(--fill) 90%,#000000) 100%) padding-box,linear-gradient(var(--w7bd),var(--w7bd)) border-box;border-radius:3px;text-indent:0!important}
-html.w7 button:active:not(:disabled):not(.pri):not(#fab):not(.tg):not(.mi):not(.mit){--fill:color-mix(in srgb,var(--acc) 30%,#FFFFFF);--w7bd:color-mix(in srgb,var(--acc) 60%,#1E3A5A)}
-html.w7 :is(.pri,#fab,.dmtg.on):active:not(:disabled){filter:brightness(.9)}
+/* 一般按鈕按下只發光（下一條），不變色；變色只留給沒有發光效果的按鈕 */
+html.w7 button:active:not(:disabled):not(.pri):not(#fab):not(.tg):not(.mi):not(.mit):is(.xcl,.xbk,.arrow,.wrbare,.tg button,.ap .r3 button){--fill:color-mix(in srgb,var(--acc) 30%,#FFFFFF);--w7bd:color-mix(in srgb,var(--acc) 60%,#1E3A5A)}
+html.w7 .dmtg.on:active:not(:disabled){filter:brightness(.9)}
 @media (hover:hover){html.w7 button:hover:not(:disabled):not(.mi):not(.mit){--w7bd:color-mix(in srgb,var(--acc) 70%,#1E3A5A)}}
 html.w7 button:focus-visible:not(:disabled){outline:1px dotted var(--ink);outline-offset:-4px}
 html.w7 button.tapfx{filter:brightness(.94)}
