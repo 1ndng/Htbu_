@@ -1347,8 +1347,6 @@ function toCover(f){return new Promise(res=>{const u=URL.createObjectURL(f),i=ne
 const fileA=(m,L)=>{const pdf=/pdf/i.test(m.b.type||'')||/\.pdf$/i.test(m.n||'');
  return h('a',{class:'fl',href:mu(m,L),...(pdf?{target:'_blank',rel:'noopener'}:{download:m.n||'file'})},'📄 '+(m.n||'檔案'))};
 const fmtT=t=>{if(!isFinite(t)||t<0)return'--:--';t=Math.floor(t);return Math.floor(t/60)+':'+String(t%60).padStart(2,'0')};
-/* 音量：記在這台裝置（0～1）。iPhone 的 Safari 不能直接改音量，第一次需要時改走 Web Audio 的音量節點 */
-let VOL=(()=>{try{const v=parseFloat(localStorage.getItem('nyear-vol'));return isFinite(v)?Math.max(0,Math.min(1,v)):1}catch(e){return 1}})();
 function mkCtl(a,box,info,vid){/* 音訊／影片共用的播放控制：進度軌道＋暫停／播放／停止＋音量開關 */
  const thm=h('div',{class:'thm'}),trk=h('div',{class:'trk'},thm);
  const fin=()=>isFinite(a.duration)&&a.duration>0,
@@ -2427,7 +2425,11 @@ function dmWin7(c,it,P0){if(it.t==='audio')it.h=Math.round((it.w-20)*DAR)+DTB+28
  c.restore()}
 function dmBody(c,it,P,g){const {pl,im,iw,ih}=dmMedia(it),ox=g.vx+(g.cw<g.vw?(g.vw-g.cw)/2:-it.sx),oy=g.vy+(g.ch<g.vh?(g.vh-g.ch)/2:-it.sy);
  if(it.t==='image'||it.t==='video'){if(im)c.drawImage(im,ox,oy,g.cw,g.ch);
-  if(it.t==='video'&&!pl){const r=Math.min(56,Math.min(g.vw,g.vh)/4),mx=g.vx+g.vw/2,my=g.vy+g.vh/2;c.fillStyle='rgba(0,0,0,.55)';c.beginPath();c.arc(mx,my,r,0,7);c.fill();c.fillStyle='#FFFFFF';c.beginPath();c.moveTo(mx-r*.35,my-r*.5);c.lineTo(mx+r*.55,my);c.lineTo(mx-r*.35,my+r*.5);c.closePath();c.fill()}
+  /* 影片的播放符號：比照紀錄裡的影片縮圖——半透明暗色遮罩＋白色三角形、沒有底框（Win95 像素風、Win7 平滑） */
+  if(it.t==='video'&&!pl){const hh=Math.min(66,Math.min(g.vw,g.vh)/3.5),px=hh/11,mx=g.vx+g.vw/2,my=g.vy+g.vh/2,x0=mx-4*px,y0=my-5.5*px;
+   c.fillStyle='rgba(0,0,0,.2)';c.fillRect(g.vx,g.vy,g.vw,g.vh);c.fillStyle='#FFFFFF';
+   if(dmW7()){c.beginPath();c.moveTo(x0+px,y0+px);c.lineTo(x0+7.5*px,my);c.lineTo(x0+px,y0+10*px);c.closePath();c.fill()}
+   else[0,2,3,5,6,8,6,5,3,2,0].forEach((w,i)=>{if(w)c.fillRect(Math.round(x0),Math.round(y0+i*px),Math.round(w*px),Math.ceil(px))})}
   return}
  if(it.t==='card'){const fs=g.fs;c.fillStyle=P.ink;c.font=`${fs}px ${dmF()}`;c.textBaseline='top';let yy=g.vy+fs*.5-it.sy;for(const l of g.L){if(yy>g.vy+g.vh)break;if(yy+fs*1.5>g.vy)c.fillText(l,g.vx+fs/2,yy);yy+=fs*1.44}return}
  if(it.t==='audio'){dmPlayer(c,it,P,g.vx,g.vy,g.vw,g.vh,pl);return}
@@ -2448,19 +2450,34 @@ function dmPlayer(c,it,P,x,y,w,h,pl){const w7=dmW7();if(!w7){c.fillStyle=P.btnf;
  c.fillStyle=P.ink;c.font=`${u(13)}px ${dmF()}`;c.textBaseline='middle';c.textAlign='center';c.fillText(fmtT(t),ox+u(6)+pw/2,yy+rh/2+u(1));c.fillText(fmtT(d),ox+W-u(6)-pw/2,yy+rh/2+u(1));c.textAlign='left';
  c.fillStyle=w7?P.acc:P.card;const bw=u(3),gap=u(2),tot=9*bw+8*gap;let bx=wx+(ww-tot)/2;const ph=pl&&!pl.paused?Math.floor(pl.currentTime*5):-1;
  DMWF.forEach((bh,i)=>{const sc=ph<0?1:DMWK[(ph+i*3)%4],hh=u(bh*.7)*sc;c.fillRect(bx,yy+rh/2-hh/2,bw,hh);bx+=bw+gap});
- yy+=rh+u(6);const sh=u(18),tx=ox+u(6)+sh,tw=W-u(12)-sh*2;
- if(w7){dmRR(c,ox+u(6),yy+sh/2-u(3),W-u(12),u(6),u(3));c.fillStyle='#E7EAEA';c.fill();c.lineWidth=u(1);c.strokeStyle='#B0B0B0';c.stroke()}else{c.fillStyle=mute;c.fillRect(ox+u(5),yy-u(1),W-u(10),sh+u(2));c.fillStyle=line;c.fillRect(tx,yy,tw,sh)}
- btn(ox+u(6),yy,sh,sh);btn(ox+W-u(6)-sh,yy,sh,sh);btn(tx+(tw-sh)*f,yy,sh,sh);
- c.fillStyle=P.ink;const tri=(cx,cy,dir,s)=>{c.beginPath();c.moveTo(cx+dir*s,cy);c.lineTo(cx-dir*s,cy-s);c.lineTo(cx-dir*s,cy+s);c.closePath();c.fill()};
- tri(ox+u(6)+sh/2-u(1),yy+sh/2,-1,u(4));tri(ox+W-u(6)-sh/2+u(1),yy+sh/2,1,u(4));
- yy+=sh+u(6);const bh2=u(28),bw2=u(44);/* 下排：播放、暫停、停止、音量（同 App 的播放器） */
- for(let i=0;i<3;i++){const bx2=ox+u(6)+i*(bw2+u(6)),cx=bx2+bw2/2,cy=yy+bh2/2;btn(bx2,yy,bw2,bh2,i===0&&pl&&!pl.paused);c.fillStyle=P.ink;
-  if(i===0)tri(cx,cy,1,u(5));else if(i===1){c.fillRect(cx-u(5),cy-u(5),u(4),u(10));c.fillRect(cx+u(1),cy-u(5),u(4),u(10))}else c.fillRect(cx-u(4.5),cy-u(4.5),u(9),u(9))}
- const vx=ox+u(6)+3*(bw2+u(6))+u(4),cy2=yy+bh2/2,vol=pl?(pl._g?pl._g.gain.value:pl.volume):VOL;c.fillStyle=P.ink;
- c.fillRect(vx,cy2-u(2.5),u(3),u(5));c.beginPath();c.moveTo(vx+u(3),cy2-u(2.5));c.lineTo(vx+u(6.5),cy2-u(5.5));c.lineTo(vx+u(6.5),cy2+u(5.5));c.lineTo(vx+u(3),cy2+u(2.5));c.closePath();c.fill();
- const tx2=vx+u(12),tw2=ox+W-u(6)-tx2,th2=u(10),kx=tx2+(tw2-th2)*Math.max(0,Math.min(1,vol));
- if(w7){dmRR(c,tx2,cy2-u(2),tw2,u(4),u(2));c.fillStyle='#E7EAEA';c.fill();c.lineWidth=u(1);c.strokeStyle='#B0B0B0';c.stroke();dmBtn7(c,kx,cy2-u(8),th2,u(16),P.btnf,u(2))}
- else{c.fillStyle=P.btnf;c.fillRect(tx2,cy2-u(2),tw2,u(4));dmBev(c,tx2,cy2-u(2),tw2,u(4),P.blo,P.bhi,u(1));c.fillStyle=P.btnf;c.fillRect(kx,cy2-u(8),th2,u(16));dmBev(c,kx,cy2-u(8),th2,u(16),P.bhi,P.ink,u(1));dmBev(c,kx+u(1),cy2-u(7),th2-u(2),u(14),P.btnf,P.blo,u(1))}}
+ /* 進度條：兩側沒有箭頭（同 App）。Win95＝細凹槽＋窄長凸起滑塊；Win7＝圓角軌道＋圓形滑塊 */
+ yy+=rh+u(6);const sh=u(18),cy1=yy+sh/2;
+ if(w7){const gx=ox+u(6),gw=W-u(12),kr=u(8),kx=gx+kr+(gw-2*kr)*f;
+  dmRR(c,gx,cy1-u(3),gw,u(6),u(3));c.fillStyle='#E3E8EE';c.fill();
+  if(f>0){c.save();dmRR(c,gx,cy1-u(3),gw,u(6),u(3));c.clip();c.fillStyle=P.acc;c.fillRect(gx,cy1-u(3),kx-gx,u(6));c.restore()}
+  dmRR(c,gx,cy1-u(3),gw,u(6),u(3));c.lineWidth=u(1);c.strokeStyle=cmix(P.acc,'#FFFFFF',.6);c.stroke();
+  const rg=c.createRadialGradient(kx,cy1-kr*.4,0,kx,cy1,kr);rg.addColorStop(0,'#FFFFFF');rg.addColorStop(.45,cmix(P.acc,'#FFFFFF',.78));rg.addColorStop(1,cmix(P.acc,'#FFFFFF',.3));
+  c.beginPath();c.arc(kx,cy1,kr,0,7);c.fillStyle=rg;c.fill();c.lineWidth=u(1);c.strokeStyle=cmix(P.acc,'#000000',.3);c.stroke()}
+ else{const gx=ox+u(12),gw=W-u(24),tw=u(10),th=u(20),kx=gx+(gw-tw)*f;
+  c.fillStyle=P.bg||P.btnf;c.fillRect(gx,cy1-u(2),gw,u(4));dmBev(c,gx,cy1-u(2),gw,u(4),P.blo,P.bhi,u(1));dmBev(c,gx+u(1),cy1-u(1),gw-u(2),u(2),mute,P.btnf,u(1));
+  c.fillStyle=P.btnf;c.fillRect(kx,cy1-th/2,tw,th);dmBev(c,kx,cy1-th/2,tw,th,P.bhi,mute,u(1));dmBev(c,kx+u(1),cy1-th/2+u(1),tw-u(2),th-u(2),P.btnf,P.blo,u(1))}
+ /* 下排：暫停、播放、停止置中＋音量開關（同 App 的播放器） */
+ yy+=sh+u(6);const bh2=u(28),bw2=u(44),cy=yy+bh2/2,on=pl&&!pl.paused,muted=pl&&pl.muted,ic=w7?cmix(P.acc,'#000000',.45):P.ink;
+ const tri=(cx,cy,s)=>{c.beginPath();c.moveTo(cx+s,cy);c.lineTo(cx-s*.8,cy-s);c.lineTo(cx-s*.8,cy+s);c.closePath();c.fill()},
+  pau=(cx,cy)=>{c.fillRect(cx-u(5),cy-u(5),u(4),u(10));c.fillRect(cx+u(1),cy-u(5),u(4),u(10))},
+  stp=(cx,cy)=>c.fillRect(cx-u(4.5),cy-u(4.5),u(9),u(9)),
+  spk=(cx,cy)=>{const vx=cx-u(5);c.fillRect(vx,cy-u(2.5),u(3),u(5));c.beginPath();c.moveTo(vx+u(3),cy-u(2.5));c.lineTo(vx+u(6.5),cy-u(5.5));c.lineTo(vx+u(6.5),cy+u(5.5));c.lineTo(vx+u(3),cy+u(2.5));c.closePath();c.fill();
+   c.strokeStyle=c.fillStyle;c.lineWidth=u(1.2);c.beginPath();if(muted){c.moveTo(cx+u(3),cy-u(2.5));c.lineTo(cx+u(7),cy+u(2.5));c.moveTo(cx+u(7),cy-u(2.5));c.lineTo(cx+u(3),cy+u(2.5))}else{c.arc(cx+u(2),cy,u(3),-.9,.9);c.moveTo(cx+u(4.6),cy-u(5));c.arc(cx+u(2),cy,u(5.5),-.9,.9)}c.stroke()};
+ if(w7){const px=ox+u(6),pw2=W-u(12),mx=ox+W/2,R=u(17);
+  const pg=c.createLinearGradient(0,yy,0,yy+bh2);pg.addColorStop(0,'#FFFFFF');pg.addColorStop(.5,cmix(P.acc,'#FFFFFF',.88));pg.addColorStop(.51,cmix(P.acc,'#FFFFFF',.8));pg.addColorStop(1,cmix(P.acc,'#FFFFFF',.72));
+  dmRR(c,px,yy,pw2,bh2,bh2/2);c.fillStyle=pg;c.fill();c.lineWidth=u(1);c.strokeStyle=cmix(P.acc,'#FFFFFF',.55);c.stroke();
+  c.fillStyle=ic;pau(mx-u(48),cy);stp(mx+u(48),cy);spk(ox+W-u(26),cy);
+  const og=c.createRadialGradient(mx,cy-R*.45,0,mx,cy,R);og.addColorStop(0,cmix(P.acc,'#FFFFFF',.8));og.addColorStop(.42,cmix(P.acc,'#FFFFFF',.28));og.addColorStop(1,cmix(P.acc,'#000000',.18));
+  c.beginPath();c.arc(mx,cy,R,0,7);c.fillStyle=og;c.fill();c.lineWidth=u(2);c.strokeStyle='rgba(255,255,255,.65)';c.stroke();c.lineWidth=u(1);c.strokeStyle=cmix(P.acc,'#000000',.35);c.beginPath();c.arc(mx,cy,R+u(.5),0,7);c.stroke();
+  if(on)c.globalAlpha=.85;c.fillStyle=P.on||'#FFFFFF';tri(mx+u(1),cy,u(5));c.globalAlpha=1}
+ else{const n=4,g6=u(6),bx0=ox+(W-(n*bw2+(n-1)*g6))/2;
+  for(let i=0;i<n;i++){const bx2=bx0+i*(bw2+g6),cx=bx2+bw2/2;btn(bx2,yy,bw2,bh2,i===1&&on);c.fillStyle=ic;
+   if(i===0)pau(cx,cy);else if(i===1)tri(cx,cy,u(5));else if(i===2)stp(cx,cy);else spk(cx,cy)}}}
 /* 自由文字：字體（Cubic 11／BaDing／預設字體）、樣式（文字／選單／按鈕，比照 App 的選單與按鈕）、外框 */
 const DFF={c:'"Cubic 11",sans-serif',s:'"PMingI.U",serif',d:'sans-serif'};
 const dmTFont=it=>`${it.fs}px ${DFF[it.ff]||DFF.c}`,dmTPad=it=>(it.tv||'plain')==='plain'?0:Math.round(it.fs*.45);
