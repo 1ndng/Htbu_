@@ -430,13 +430,14 @@ html.w7 #qp{background:#F0F0F0;border:1px solid #979797;box-shadow:2px 2px 4px r
 .ap .ic{display:block;width:var(--iw,14px);height:11px;background:var(--ink);-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat;pointer-events:none}
 .ap .ic.ipl{--m:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%208%2011'%20shape-rendering='crispEdges'%3E%3Crect%20x='0'%20y='1'%20width='2'%20height='1'/%3E%3Crect%20x='0'%20y='2'%20width='3'%20height='1'/%3E%3Crect%20x='0'%20y='3'%20width='5'%20height='1'/%3E%3Crect%20x='0'%20y='4'%20width='6'%20height='1'/%3E%3Crect%20x='0'%20y='5'%20width='8'%20height='1'/%3E%3Crect%20x='0'%20y='6'%20width='6'%20height='1'/%3E%3Crect%20x='0'%20y='7'%20width='5'%20height='1'/%3E%3Crect%20x='0'%20y='8'%20width='3'%20height='1'/%3E%3Crect%20x='0'%20y='9'%20width='2'%20height='1'/%3E%3C/svg%3E");--iw:8px}.ap .ic.ipa{--m:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2010%2011'%20shape-rendering='crispEdges'%3E%3Crect%20x='0'%20y='0'%20width='4'%20height='11'/%3E%3Crect%20x='6'%20y='0'%20width='4'%20height='11'/%3E%3C/svg%3E");--iw:10px;display:none}.ap .ic.st{--m:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%209%209'%20shape-rendering='crispEdges'%3E%3Crect%20x='0'%20y='0'%20width='9'%20height='9'/%3E%3C/svg%3E");--iw:9px;height:9px}
 .ap.playing .ic.ipl{display:none}.ap.playing .ic.ipa{display:block}
-/* 下排：播放（最左）、暫停、音量拉桿 */
+/* 下排：播放（最左）、暫停、音量拉桿；影片則是三鍵置中＋右側音量開關 */
 .ap .r3 button{flex:0 0 44px}
 .ap .r3 .ic.ipa,.ap.playing .r3 .ic.ipl{display:block}
 .ap.playing .r3 .pp{--hi:var(--blo);--lo:var(--bhi)}
 .ap .vol{flex:1;min-width:0;display:flex;align-items:center;gap:6px;padding:0 2px 0 4px}
 .ap .vol input[type=range]{flex:1;min-width:0;width:auto;margin:0}
 .ap .ic.vic{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 11' shape-rendering='crispEdges'%3E%3Crect x='0' y='3' width='3' height='5'/%3E%3Crect x='3' y='2' width='1' height='7'/%3E%3Crect x='4' y='1' width='1' height='9'/%3E%3Crect x='5' y='0' width='1' height='11'/%3E%3Crect x='7' y='4' width='1' height='3'/%3E%3Crect x='9' y='2' width='1' height='7'/%3E%3Crect x='8' y='3' width='1' height='1'/%3E%3Crect x='8' y='7' width='1' height='1'/%3E%3C/svg%3E");--iw:12px;flex:none}.ap.mute .ic.vic{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 11' shape-rendering='crispEdges'%3E%3Crect x='0' y='3' width='3' height='5'/%3E%3Crect x='3' y='2' width='1' height='7'/%3E%3Crect x='4' y='1' width='1' height='9'/%3E%3Crect x='5' y='0' width='1' height='11'/%3E%3Crect x='7' y='3' width='1' height='1'/%3E%3Crect x='8' y='4' width='1' height='1'/%3E%3Crect x='9' y='5' width='1' height='1'/%3E%3Crect x='10' y='6' width='1' height='1'/%3E%3Crect x='10' y='4' width='1' height='1'/%3E%3Crect x='8' y='6' width='1' height='1'/%3E%3Crect x='7' y='7' width='1' height='1'/%3E%3Crect x='9' y='3' width='1' height='1'/%3E%3C/svg%3E")}
+.ap .r3v{display:grid;grid-template-columns:1fr auto 1fr;align-items:center}.ap .r3c{display:flex;gap:6px}.ap .r3r{display:flex;justify-content:flex-end}
 .ap.nodur .sl,.ap.nodur .r3 .rw,.ap.nodur .r3 .ff{opacity:.5}
 #dm .rm:has(.ap){padding-top:30px}
 .media .ap,#dtc .ap,.wc .ap{grid-column:1/-1}
@@ -954,9 +955,9 @@ html.w7 .wcs .dtm,html.w7 #dtc .dtm{margin-bottom:4px}
 html.w7 #lbc{border:4px solid #FFFFFF;box-shadow:0 0 0 1px rgba(0,0,0,.2),2px 4px 10px rgba(0,0,0,.35)}
 html.w7 .dmvt2{box-shadow:0 0 0 1px rgba(0,0,0,.15)}
 /* 影片的播放鍵（參考 Media Player）：亮面圓鈕＋白色三角，顏色跟著主題色② */
-html.w7 .th .pl{background:rgba(0,0,0,.12)}
-html.w7 .th .pl::before{content:"";position:absolute;left:50%;top:50%;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;background:radial-gradient(circle at 50% 28%,color-mix(in srgb,var(--acc) 20%,#FFFFFF) 0,color-mix(in srgb,var(--acc) 72%,#FFFFFF) 42%,color-mix(in srgb,var(--acc) 82%,#000000) 100%);box-shadow:inset 0 0 0 2px rgba(255,255,255,.65),0 2px 5px rgba(0,0,0,.45)}
-html.w7 .th .pl .pli{position:relative;width:11px;height:15px;color:#FFFFFF;margin-left:3px}
+/* 影片縮圖：只有播放符號、沒有底框（比照 Win95，但線條平滑） */
+html.w7 .th .pl{background:rgba(0,0,0,.2)}
+html.w7 .th .pl .pli{color:#FFFFFF}
 html.w7 .dtv .pl,html.w7 .dmvt2 .dmvp{border-radius:50%;color:#FFFFFF;background:radial-gradient(circle at 50% 28%,color-mix(in srgb,var(--acc) 20%,#FFFFFF) 0,color-mix(in srgb,var(--acc) 72%,#FFFFFF) 42%,color-mix(in srgb,var(--acc) 82%,#000000) 100%);box-shadow:inset 0 0 0 2px rgba(255,255,255,.65),0 2px 6px rgba(0,0,0,.45)}
 html.w7 .dtv .pl .pli{color:#FFFFFF}
 /* 音訊／影片播放器（參考 Media Player）：玻璃面板、進度與按鈕顏色跟著主題色；下排膠囊列＝大顆圓形播放鈕、暫停、停止、音量 */
@@ -977,6 +978,10 @@ html.w7 .ap .r3 .pp .ic{background:#FFFFFF}
 html.w7 .ap .ic{background:linear-gradient(to bottom,color-mix(in srgb,var(--acc) 70%,#FFFFFF),color-mix(in srgb,var(--acc) 85%,#000000))}
 html.w7 .ap .ic.vic{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 11'%3E%3Cpath d='M1 4h2.5L6.5 1v9L3.5 7H1z'/%3E%3Cpath d='M8 3.5a3 3 0 0 1 0 4M9.5 2a5 5 0 0 1 0 7' fill='none' stroke='black' stroke-width='1.1' stroke-linecap='round'/%3E%3C/svg%3E")}html.w7 .ap.mute .ic.vic{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 11'%3E%3Cpath d='M1 4h2.5L6.5 1v9L3.5 7H1z'/%3E%3Cpath d='M7.8 3.8l2.6 3.4M10.4 3.8l-2.6 3.4' fill='none' stroke='black' stroke-width='1.1' stroke-linecap='round'/%3E%3C/svg%3E")}
 html.w7 .ap .vol{padding-left:8px}
+/* 影片控制列：暫停、播放、停止置中，右側音量開關 */
+html.w7 .ap .r3v{padding:0 6px}
+html.w7 .ap .r3v .st::after{display:none}
+html.w7 .ap .r3v .pp{margin:-4px 2px}
 /* 時間軸＝Win7 拉桿：淺灰細凹槽＋漸層長方形滑塊（有紀錄的年份才有滑塊） */
 html.w7 .tl{background:linear-gradient(to right,#B0B0B0 0 1px,#E7EAEA 1px 3px,#B0B0B0 3px 4px) 0 0/4px 100% no-repeat}
 html.w7 .hi::before{background:linear-gradient(to bottom,#B0B0B0 0 1px,#E7EAEA 1px 3px,#B0B0B0 3px 4px)}
@@ -1346,20 +1351,23 @@ function mkCtl(a,box,info){/* 音訊／影片共用的播放控制：進度軌�
  vr.addEventListener('input',e=>{e.stopPropagation();VOL=+vr.value;try{localStorage.setItem('nyear-vol',VOL)}catch(_){}setVol(a,VOL);box.classList.toggle('mute',VOL===0)});
  ['click','pointerdown'].forEach(t=>vol.addEventListener(t,e=>e.stopPropagation()));box.classList.toggle('mute',VOL===0);a.volume=VOL;
  const btn=(cls,label,ic,f)=>h('button',{class:cls,type:'button','aria-label':label,onclick:e=>{e.stopPropagation();f()}},...ic),
-  arw=(c,d)=>{const x=h('div',{class:'arw '+c});x.addEventListener('pointerdown',e=>{e.preventDefault();go((a.currentTime||0)+d)});return x};
+  arw=(c,d)=>{const x=h('div',{class:'arw '+c});x.addEventListener('pointerdown',e=>{e.preventDefault();go((a.currentTime||0)+d)});return x},
+  pp=btn('pp','播放',[h('i',{class:'ic ipl'})],()=>{if(info&&VOL<1)setVol(a,VOL);if(a._ac)a._ac.resume().catch(()=>{});a.play().catch(()=>{})}),
+  pa=btn('pa','暫停',[h('i',{class:'ic ipa'})],()=>a.pause()),
+  stp=btn('st','停止',[h('i',{class:'ic st'})],()=>{a.pause();if(fin())a.currentTime=0;upd()});
+ if(!info){box.classList.remove('mute');a.volume=1}/* 影片沒有音量拉桿，只用開關靜音 */
  return [h('div',{class:'sl'},arw('lf',-5),trk,arw('rt',5)),
-  h('div',{class:'r3'},
-   btn('pp','播放',[h('i',{class:'ic ipl'})],()=>{if(VOL<1)setVol(a,VOL);if(a._ac)a._ac.resume().catch(()=>{});a.play().catch(()=>{})}),
-   btn('pa','暫停',[h('i',{class:'ic ipa'})],()=>a.pause()),
-   btn('st','停止',[h('i',{class:'ic st'})],()=>{a.pause();if(fin())a.currentTime=0;upd()}),
-   vol)]}
+  ...(info?[h('div',{class:'r3'},pp,pa,stp,vol)]
+  /* 影片：進度條下方「暫停、播放、停止」置中，最右邊一顆音量開關（參考舊版 Windows 媒體播放器） */
+   :[h('div',{class:'r3 r3v'},h('span'),h('div',{class:'r3c'},pa,pp,stp),h('div',{class:'r3r'},
+     btn('mt','音量開關',[h('i',{class:'ic vic'})],()=>{a.muted=!a.muted;box.classList.toggle('mute',a.muted)})))])]}
 function aEl(src){
  const a=h('audio',{src,preload:'metadata'}),pos=h('b',{},'0:00'),len=h('b',{},'--:--'),box=h('div',{class:'ap nodur'});
  box.append(a,h('div',{class:'r1'},h('div',{class:'pn'},pos),h('div',{class:'wf','aria-hidden':'true'},...Array.from({length:9},()=>h('i'))),h('div',{class:'pn'},len)),...mkCtl(a,box,{pos,len}));
  return box}
 function vEl(u){
  const v=h('video',{src:u,playsinline:'',preload:'metadata'}),box=h('div',{class:'ap vc nodur'});
- v.addEventListener('click',()=>{if(v.paused){if(VOL<1)setVol(v,VOL);if(v._ac)v._ac.resume().catch(()=>{});v.play().catch(()=>{})}else v.pause()});
+ v.addEventListener('click',()=>{if(v.paused){if(v._ac)v._ac.resume().catch(()=>{});v.play().catch(()=>{})}else v.pause()});
  box.append(...mkCtl(v,box,null));return h('div',{class:'vp'},v,box)}
 const mEl=(m,en)=>{
  const L=en?urls:durls;
