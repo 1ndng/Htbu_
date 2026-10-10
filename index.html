@@ -1340,10 +1340,7 @@ const fileA=(m,L)=>{const pdf=/pdf/i.test(m.b.type||'')||/\.pdf$/i.test(m.n||'')
 const fmtT=t=>{if(!isFinite(t)||t<0)return'--:--';t=Math.floor(t);return Math.floor(t/60)+':'+String(t%60).padStart(2,'0')};
 /* 音量：記在這台裝置（0～1）。iPhone 的 Safari 不能直接改音量，第一次需要時改走 Web Audio 的音量節點 */
 let VOL=(()=>{try{const v=parseFloat(localStorage.getItem('nyear-vol'));return isFinite(v)?Math.max(0,Math.min(1,v)):1}catch(e){return 1}})();
-function setVol(a,v){a.volume=v;if(Math.abs(a.volume-v)<.01&&!a._g)return;
- if(!a._g){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;try{const c=new AC(),src=c.createMediaElementSource(a),g=c.createGain();src.connect(g);g.connect(c.destination);a._ac=c;a._g=g}catch(e){return}}
- a._g.gain.value=v;a._ac.resume().catch(()=>{})}
-function mkCtl(a,box,info,vid){/* 音訊／影片共用的播放控制：進度軌道＋播放／暫停／停止／音量 */
+function mkCtl(a,box,info,vid){/* 音訊／影片共用的播放控制：進度軌道＋暫停／播放／停止＋音量開關 */
  const thm=h('div',{class:'thm'}),trk=h('div',{class:'trk'},thm);
  const fin=()=>isFinite(a.duration)&&a.duration>0,
   upd=()=>{const t=a.currentTime||0;if(info){info.pos.textContent=fmtT(t);info.len.textContent=fmtT(fin()?a.duration:NaN)}box.classList.toggle('nodur',!fin());
@@ -1355,21 +1352,16 @@ function mkCtl(a,box,info,vid){/* 音訊／影片共用的播放控制：進度�
  a.addEventListener('play',()=>{box.classList.add('playing');document.querySelectorAll('audio,video').forEach(x=>{if(x!==a&&!x.paused)x.pause()})});
  ['pause','ended'].forEach(ev=>a.addEventListener(ev,()=>box.classList.remove('playing')));
  trk.addEventListener('pointerdown',e=>{e.preventDefault();trk.setPointerCapture(e.pointerId);seekX(e.clientX);const mv=ev=>seekX(ev.clientX),up=()=>{trk.removeEventListener('pointermove',mv);trk.removeEventListener('pointerup',up);trk.removeEventListener('pointercancel',up)};trk.addEventListener('pointermove',mv);trk.addEventListener('pointerup',up);trk.addEventListener('pointercancel',up)});
- const vr=h('input',{type:'range',min:'0',max:'1',step:'0.01',value:String(VOL),'aria-label':'音量'}),vol=h('div',{class:'vol'},h('i',{class:'ic vic'}),vr);
- vr.addEventListener('input',e=>{e.stopPropagation();VOL=+vr.value;try{localStorage.setItem('nyear-vol',VOL)}catch(_){}setVol(a,VOL);box.classList.toggle('mute',VOL===0)});
- ['click','pointerdown'].forEach(t=>vol.addEventListener(t,e=>e.stopPropagation()));box.classList.toggle('mute',VOL===0);a.volume=VOL;
  const btn=(cls,label,ic,f)=>h('button',{class:cls,type:'button','aria-label':label,onclick:e=>{e.stopPropagation();f()}},...ic),
-  arw=(c,d)=>{const x=h('div',{class:'arw '+c});x.addEventListener('pointerdown',e=>{e.preventDefault();go((a.currentTime||0)+d)});return x},
-  pp=btn('pp','播放',[h('i',{class:'ic ipl'})],()=>{if(!vid&&VOL<1)setVol(a,VOL);if(a._ac)a._ac.resume().catch(()=>{});a.play().catch(()=>{})}),
+  pp=btn('pp','播放',[h('i',{class:'ic ipl'})],()=>{if(a._ac)a._ac.resume().catch(()=>{});a.play().catch(()=>{})}),
   pa=btn('pa','暫停',[h('i',{class:'ic ipa'})],()=>a.pause()),
   stp=btn('st','停止',[h('i',{class:'ic st'})],()=>{a.pause();if(fin())a.currentTime=0;upd()});
- if(vid){box.classList.remove('mute');a.volume=1}/* 影片沒有音量拉桿，只用開關靜音 */
- /* 影片：進度條兩側不放箭頭，改成和錄音一樣的時間框（左＝目前播放到的時刻、右＝總長度） */
- return [vid?h('div',{class:'sl slv'},h('div',{class:'pn'},info.pos),trk,h('div',{class:'pn'},info.len)):h('div',{class:'sl'},arw('lf',-5),trk,arw('rt',5)),
-  ...(!vid?[h('div',{class:'r3'},pp,pa,stp,vol)]
-  /* 影片：進度條下方「暫停、播放、停止」置中，最右邊一顆音量開關（參考舊版 Windows 媒體播放器） */
-   :[h('div',{class:'r3 r3v'},h('span'),h('div',{class:'r3c'},pa,pp,stp),h('div',{class:'r3r'},
-     btn('mt','音量開關',[h('i',{class:'ic vic'})],()=>{a.muted=!a.muted;box.classList.toggle('mute',a.muted)})))])]}
+ a.volume=1;/* 沒有音量拉桿，只用開關靜音 */
+ /* 進度條兩側不放箭頭；影片在兩側放時間框（左＝目前播放到的時刻、右＝總長度），錄音的時間框在上方那排 */
+ return [vid?h('div',{class:'sl slv'},h('div',{class:'pn'},info.pos),trk,h('div',{class:'pn'},info.len)):h('div',{class:'sl'},trk),
+  /* 下排：「暫停、播放、停止」置中，最右邊一顆音量開關（參考舊版 Windows 媒體播放器） */
+  h('div',{class:'r3 r3v'},h('span'),h('div',{class:'r3c'},pa,pp,stp),h('div',{class:'r3r'},
+   btn('mt','音量開關',[h('i',{class:'ic vic'})],()=>{a.muted=!a.muted;box.classList.toggle('mute',a.muted)})))]}
 function aEl(src){
  const a=h('audio',{src,preload:'metadata'}),pos=h('b',{},'0:00'),len=h('b',{},'--:--'),box=h('div',{class:'ap nodur'});
  box.append(a,h('div',{class:'r1'},h('div',{class:'pn'},pos),h('div',{class:'wf','aria-hidden':'true'},...Array.from({length:9},()=>h('i'))),h('div',{class:'pn'},len)),...mkCtl(a,box,{pos,len}));
