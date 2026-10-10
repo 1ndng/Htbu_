@@ -2,7 +2,7 @@
 # 用法（在專案根目錄）：pip install fonttools && python3 tools/split-fonts.py .
 #   產生 fonts/*.ttf 與 fonts.css；第一份（00）＝英數標點＋App 介面用到的字，接著是 Big5 常用字、次常用字、其他
 #   換字體或改了很多介面文字後重跑一次即可（原始 .ttf 留在專案根目錄）
-import sys,os,re,json
+import sys,os,re,json,hashlib
 from fontTools.ttLib import TTFont
 from fontTools import subset
 OUT=sys.argv[1] if len(sys.argv)>1 else '.';SRC=OUT.rstrip('/')+'/';FLAV=sys.argv[2] if len(sys.argv)>2 else None
@@ -45,9 +45,16 @@ for fam,fn,key in FONTS:
         opt=subset.Options();opt.layout_features=['*'];opt.notdef_outline=True;opt.name_IDs=['*'];opt.glyph_names=False;opt.hinting=True;opt.flavor=FLAV
         opt.drop_tables+=['DSIG']
         ft=TTFont(SRC+fn);s=subset.Subsetter(opt);s.populate(unicodes=g);s.subset(ft);subset.save_font(ft,OUT+'/'+name,opt)
-        css.append(f'@font-face{{font-family:"{fam}";src:url("./{name}") format("{FLAV or "truetype"}");font-weight:400;font-style:normal;font-display:swap;unicode-range:{ranges(g)}}}')
-        files.append((name,len(g),os.path.getsize(OUT+'/'+name)))
+        # 網址後面加內容雜湊：同一個檔名換了內容（換字體、介面文字變動）時，手機上的舊快取不會被誤用而缺字
+        hv=hashlib.md5(open(OUT+'/'+name,'rb').read()).hexdigest()[:8]
+        css.append(f'@font-face{{font-family:"{fam}";src:url("./{name}?v={hv}") format("{FLAV or "truetype"}");font-weight:400;font-style:normal;font-display:swap;unicode-range:{ranges(g)}}}')
+        files.append((name,len(g),os.path.getsize(OUT+'/'+name),hv))
     man[fam]=files
     print(fam,len(files),'chunks, core',files[0][2]//1024,'KB, total',sum(x[2] for x in files)//1024,'KB')
 open(OUT+'/fonts.css','w').write('\n'.join(css)+'\n')
+# sw.js 預先下載的第一份字體也要用同一個網址（含雜湊）
+sw=OUT+'/sw.js'
+if os.path.exists(sw):
+    c0=man['Cubic 11'][0];t=open(sw,encoding='utf-8').read()
+    t=re.sub(r"const FONTS = \[[^\]]*\];",f"const FONTS = ['./{c0[0]}?v={c0[3]}'];",t);open(sw,'w',encoding='utf-8').write(t)
 print('css KB',len('\n'.join(css))//1024)

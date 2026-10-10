@@ -145,7 +145,9 @@ html,body{overscroll-behavior:none}
 .ea{display:flex;flex-wrap:nowrap;align-items:flex-end;gap:0 8px}
 /* 跳回今日與隨手記的間距＝編輯與引用的間距 */
 .dhead .dgR{gap:8px}.ea>.edit{flex:none;white-space:nowrap;padding-left:9px;padding-right:9px}
-.hit{margin-bottom:14px}.hit .rd{font-size:var(--f15)}.rd{font:400 var(--f16) "Cubic 11",serif;letter-spacing:.1em}
+.hit{margin-bottom:14px}
+/* 一筆＝日期＋方塊＋下方按鈕；按鈕列貼在方塊下 6px，所以方塊下方要留按鈕高度＋組與組之間的距離，下一筆才不會黏在按鈕上 */
+.hit .card:not(.empty),.ol>.card:not(.empty){margin-bottom:60px}.hit .rd{font-size:var(--f15)}.rd{font:400 var(--f16) "Cubic 11",serif;letter-spacing:.1em}
 blockquote{margin:4px 0;padding:2px 10px;border-left:3px solid var(--hotx,var(--acx));color:var(--mute)}
 .txt ul{margin:4px 0;padding-left:20px}.hd{font-weight:600;font-size:var(--f15)}
 code{background:var(--soft);border-radius:4px;padding:0 4px;font-size:.92em}
@@ -668,7 +670,7 @@ dialog select{padding-left:7px}
 .wcs{padding-left:9px;padding-right:9px}
 .ardn{font-size:var(--f11);color:var(--mute)}
 /* 封存裡的紀錄：跟引用方塊同樣式（上日期、下內文），內文最多三行，點一下展開 */
-.ari{margin-bottom:12px}.ari>.arq{margin:0 0 6px;cursor:pointer}
+.ari{margin-bottom:22px}.ari>.arq{margin:0 0 6px;cursor:pointer}
 .arq .qtx{white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;text-overflow:clip;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
 .arq.open .qtx{display:block;-webkit-line-clamp:unset;line-clamp:unset;overflow:visible}.arf{display:flex;align-items:flex-end;gap:8px;padding:0 2px}.arf .ardn{line-height:1;padding-bottom:3px;white-space:nowrap}
 /* 時間欄高度＝連結欄；連結清除鈕＝工具列清除鈕 */
