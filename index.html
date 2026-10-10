@@ -852,7 +852,7 @@ html.w7 :is(input:not([type=radio]):not([type=checkbox]):not([type=range]):not([
 @media (hover:hover){html.w7 :is(input:not([type=radio]):not([type=checkbox]):not([type=range]):not([type=color]):not([type=file]),textarea,dialog select):hover:not(:disabled){border-color:var(--selh1) var(--selh2) var(--selh2) var(--selh2)!important}}
 html.w7 :is(input:not([type=radio]):not([type=checkbox]):not([type=range]):not([type=color]):not([type=file]),textarea,dialog select):focus{border-color:var(--sel1) var(--sel2) var(--sel3) var(--sel2)!important}
 /* 按下（點擊）的按鈕：深藍框＋內側淡藍光圈＋外圍柔光 */
-html.w7 button:active:not(:disabled):not(.mi):not(.mit):not(.xcl):not(.xbk):not(.arrow):not(.wrbare):not(.tg button):not(.ap .r3 button){--w7bd:var(--selb);box-shadow:inset 0 0 0 1px rgba(255,255,255,.85),inset 0 0 0 2px var(--selr),0 0 4px var(--selg)}
+html.w7 button:active:not(:disabled):not(.mi):not(.mit):not(.xcl):not(.xbk):not(.arrow):not(.wrbare):not(.tg button):not(.ap .r3 button){--w7bd:var(--selb);box-shadow:inset 0 0 3px var(--selg),0 0 4px var(--selg)}
 html.w7 button:focus-visible:not(:disabled):not(.mi):not(.mit){outline:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.85),inset 0 0 0 2px var(--selr)}
 /* 單選鈕、核取方塊 */
 html.w7 input[type=radio]{width:13px;height:13px;clip-path:none;border-radius:50%;border:1px solid #8E8F8F;background:radial-gradient(circle at 50% 45%,#FFFFFF 0,#F1F1F1 45%,#D2D2D2 100%);vertical-align:-2px}
