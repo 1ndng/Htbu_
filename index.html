@@ -491,7 +491,7 @@ button:active:not(:disabled){text-indent:1px}
 /* 頂端選單列與下拉選單：按下時只變色，文字與按鈕都不位移 */
 #mbar .mi:active,#mdd .mit:active,#mdd .mit:active *{text-indent:0}
 /* 配色主題 2～6：主題色②的按鈕按下瞬間變色（顏色見 THEMES 的 press；預設主題與自訂顏色不變） */
-html[data-th] :is(.pri,#fab,.tg.on):active:not(:disabled){--fill:var(--press,var(--del));color:var(--ink)}
+html:not(.w7)[data-th] :is(.pri,#fab,.tg.on):active:not(:disabled){--fill:var(--press,var(--del));color:var(--ink)}
 /* 痛車主題（t5）：沒展開的紀錄方塊也用功能淺色（鵝黃），不和主題色①混色 */
 html[data-th="t5"] .card:not(.empty){--ca:var(--card)}
 button.tapfx{--hi:var(--blo);--lo:var(--bhi);text-indent:1px}
