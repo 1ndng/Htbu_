@@ -1418,7 +1418,7 @@ function openDt(en){dtStack=[];dtRender(en)}
 function dtBack(){const p=dtStack.pop();if(p)dtRender(p)}
 /* 一則紀錄的完整內容（標題、文字、附件、連結、標籤、引用）：點開的檢視視窗（live：圖片影片可放大、引用可點）與整理共用 */
 function dtNodes(en,L,live){const M=en.media||[],by=t=>M.filter(m=>m.t===t),au=by('audio'),ad=m=>aEl(mu(m,L)),who=live?multi&&FEAT.people:FEAT.people&&people.length>1;
- return [h('div',{class:'dth'},(who?pname(en.pid)+'・':'')+(en.date===NODATE?'隨手記':fmtD(en.date))+(en.time?'　'+en.time:'')),
+ return [h('div',{class:'dth'},(who?pname(en.pid)+'・':'')+(en.date===NODATE?'隨手記':fmtD(en.date))+(en.time&&en.date!==NODATE?'　'+en.time:'')),
   en.text&&h('div',{class:'txt dtt'},...blocks(en.text)),
   live?by('image').map(m=>{const u=mu(m,L);return h('img',{class:'dtm zm',src:u,alt:'',role:'button',tabindex:'0','aria-label':'放大檢視',onclick:()=>zoom('image',u)})})
    :by('image').map(m=>h('img',{class:'dtm',src:mu(m,L),alt:''})),
@@ -1626,7 +1626,7 @@ const qGone=q=>!qFind(q);
 /* 引用可以有多則：舊資料 quote 是單一物件，新資料是陣列；一律用 qList 讀 */
 const qList=v=>!v?[]:(Array.isArray(v)?v:[v]).filter(x=>x&&x.k);
 const qOpen=q=>{const t=qFind(q);if(!t){toast('此紀錄已被刪除');return}if(dtCur)dtStack.push(dtCur);dtRender(t)};
-const qLbl=q=>(q.pid&&q.pid!==cur&&people.length>1?pname(q.pid)+'・':'')+(q.date===NODATE?'隨手記':fmtD(q.date))+(q.time?'　'+q.time:'')+(qGone(q)?'（原紀錄已被刪除）':'');
+const qLbl=q=>(q.pid&&q.pid!==cur&&people.length>1?pname(q.pid)+'・':'')+(q.date===NODATE?'隨手記':fmtD(q.date))+(q.time&&q.date!==NODATE?'　'+q.time:'')+(qGone(q)?'（原紀錄已被刪除）':'');
 const parts=(en,date,jump,showTime)=>{
  /* 引用：顯示原紀錄的內文與照片/影片縮圖（不是「幾張圖」這種計數）；紀錄方塊收合時引用也收合，展開時引用跟著展開 */
  const QS=FEAT.quote?qList(en.quote):[],qm=QS.flatMap(q=>qFind(q)?.media||[]);
@@ -1734,9 +1734,9 @@ function renderSearch(A){
   .sort((a,b)=>dOf(a)!==dOf(b)?(dOf(a)<dOf(b)?1:-1):(a.time||'')!==(b.time||'')?((a.time||'')<(b.time||'')?1:-1):tsOf(b)-tsOf(a));
  const many=sf.pids.size>1;
  rc(A,h('p',{class:'sub'},(qs?`搜尋「${qs}」`:'搜尋結果')+`：${hits.length}則`),
-  ...hits.slice(0,rlim).map((e,i)=>rinH(h('div',{class:'hit'},h('div',{class:'rd'},(many?pname(e.pid)+'・':'')+(e.date===NODATE?'隨手記・'+fmtD(dOf(e)):fmtD(e.date))+(e.time?'　'+e.time:'')),card(e,e.date,e.date!==NODATE,true)),i)),
+  ...hits.slice(0,rlim).map((e,i)=>rinH(h('div',{class:'hit'},h('div',{class:'rd'},(many?pname(e.pid)+'・':'')+(e.date===NODATE?'隨手記・'+fmtD(dOf(e)):fmtD(e.date))+(e.time&&e.date!==NODATE?'　'+e.time:'')),card(e,e.date,e.date!==NODATE,true)),i)),
   hits.length>rlim&&h('div',{class:'moreS moreH','aria-hidden':'true'}));
- fitX();obsH(A)}
+ fitX();chkClip();obsH(A)}/* chkClip：隨手記方塊（不跳日期的）內容太長時顯示「展開」 */
 function renderOther(A,P){
  const k=qs.toLowerCase(),all=Object.values(E).flat(),filt=!!(qs||ftags.length),
   list=all.filter(e=>matchF(e)&&(!k||cHay(e).includes(k))).sort((a,b)=>tsOf(b)-tsOf(a));
@@ -2112,7 +2112,7 @@ async function openAr(){await purgeArchive();
  const d=$('#ar'),all=(await dbAll('entries')).filter(e=>e.archived).sort((a,b)=>b.archived-a.archived);
  const items=all.map(e=>{const left=Math.max(1,Math.ceil((e.archived+ARD-Date.now())/864e5));
   return h('div',{class:'ari'},h('div',{class:'qv arq',onclick:ev=>{ev.currentTarget.classList.toggle('open')}},
-   h('div',{class:'qb'},h('div',{class:'rd'},(FEAT.people&&people.length>1?pname(e.pid)+'・':'')+(e.date===NODATE?'隨手記':fmtD(e.date))+(e.time?'　'+e.time:'')),
+   h('div',{class:'qb'},h('div',{class:'rd'},(FEAT.people&&people.length>1?pname(e.pid)+'・':'')+(e.date===NODATE?'隨手記':fmtD(e.date))+(e.time&&e.date!==NODATE?'　'+e.time:'')),
    h('div',{class:'qtx'},(e.text||'')||cntStr(e)||'（沒有文字）'))),
    h('div',{class:'arf'},h('button',{class:'edit',onclick:()=>arRestore(e)},'還原'),h('button',{class:'edit',onclick:()=>arDel(e)},'刪除'),h('span',{class:'ardn'},`${left}天後自動刪除`)))});
  rc(d,h('h2',{style:'text-align:center'},'封存'),
@@ -2150,7 +2150,7 @@ function openQd(){if(!cur)return;$('#qs2').value='';qsel=new Map(dquote.map(q=>[
 async function drawQd(k){const my=drawQd.n=(drawQd.n||0)+1,all=[];for(const id of qf.pids)all.push(...(await dbByP(id)).filter(e=>e.k!==edK));const kk=k.trim().toLowerCase(),
  list=all.filter(e=>fltHit(e,qf,kk)).sort((a,b)=>dOf(a)!==dOf(b)?(dOf(a)<dOf(b)?1:-1):(b.time||'').localeCompare(a.time||'')||tsOf(b)-tsOf(a)).slice(0,80);
  if(my!==drawQd.n)return;
- rc($('#qdc'),list.length?list.map(e=>h('button',{class:'qhit'+(qsel.has(e.k)?' on':''),onclick:ev=>{if(Date.now()<qdHold)return;qsel.has(e.k)?qsel.delete(e.k):qsel.set(e.k,mkQuoteSnap(e));const b=ev.currentTarget,on=qsel.has(e.k);b.classList.toggle('on',on);b.querySelector('.cbx').classList.toggle('on',on)}},h('i',{class:'cbx'+(qsel.has(e.k)?' on':'')}),h('div',{class:'rd'},(qf.pids.size>1?pname(e.pid)+'・':'')+(e.date===NODATE?'隨手記':fmtD(e.date))+(e.time?'　'+e.time:'')),h('div',{class:'qtx'},qTxt(e)))):h('p',{class:'sub'},'沒有符合的紀錄'))}
+ rc($('#qdc'),list.length?list.map(e=>h('button',{class:'qhit'+(qsel.has(e.k)?' on':''),onclick:ev=>{if(Date.now()<qdHold)return;qsel.has(e.k)?qsel.delete(e.k):qsel.set(e.k,mkQuoteSnap(e));const b=ev.currentTarget,on=qsel.has(e.k);b.classList.toggle('on',on);b.querySelector('.cbx').classList.toggle('on',on)}},h('i',{class:'cbx'+(qsel.has(e.k)?' on':'')}),h('div',{class:'rd'},(qf.pids.size>1?pname(e.pid)+'・':'')+(e.date===NODATE?'隨手記':fmtD(e.date))+(e.time&&e.date!==NODATE?'　'+e.time:'')),h('div',{class:'qtx'},qTxt(e)))):h('p',{class:'sub'},'沒有符合的紀錄'))}
 /* 手機：搜尋欄聚焦／失焦、鍵盤開關時視窗會跳位，同一下觸控可能落到剛移到指尖下的第一筆引用；跳位後短時間內不接受點選 */
 let qdHold=0;const qdWait=()=>{qdHold=Date.now()+500};
 function qdGo(b){clearTimeout(drawQd.t);qdWait();drawQd($('#qs2').value);if(b===true)$('#qs2').blur()}
@@ -2206,7 +2206,7 @@ addEventListener('touchmove',e=>{if(e.touches.length>1&&!$('#lb').open)e.prevent
 async function save(){
  addTag($('#tn').value);
  const text=$('#tx').value.trim(),links=$('#lk').value.split(/\s+/).filter(Boolean).map(l=>/^https?:\/\//i.test(l)?l:'https://'+l);
- const old=edK?E[edDate].find(x=>x.k===edK):null,mode=document.querySelector('input[name=tm]:checked').value,time=!FEAT.time?(old?old.time||null:null):(mode==='none'?null:(normTime($('#tv').value)||null));
+ const old=edK?E[edDate].find(x=>x.k===edK):null,mode=document.querySelector('input[name=tm]:checked').value,time=edDate===NODATE?null:!FEAT.time?(old?old.time||null:null):(mode==='none'?null:(normTime($('#tv').value)||null));
  const empty=!text&&!links.length&&!draft.length&&!dquote.length;
  if(empty&&dtags.length){toast('請輸入紀錄內容');return}
  if(empty&&edK&&!await ask('內容已清空，這則紀錄會被刪除'))return;
@@ -2626,7 +2626,7 @@ async function dmPickOk(){const on=[...dmPickSel],ons=new Set(on);
  const add=[];let n=DM.items.filter(x=>x.t!=='text'&&x.t!=='pic').length;
  /* 視窗自己的 id（w…）與來源（src＝紀錄|card 或 紀錄|m序號）分開，同一則可以加很多次 */
  for(const src of on){const id='w'+(DM.nid++),j=src.lastIndexOf('|'),e=byK[src.slice(0,j)],part=src.slice(j+1);if(!e)continue;
-  const title=fmtD(e.date)+(e.time?' '+e.time:''),pos={x:40+(n%2)*520+(Math.floor(n/8)%4)*30,y:40+(Math.floor(n/2)%4)*460+(Math.floor(n/8)%4)*30};n++;
+  const title=fmtD(e.date)+(e.time&&e.date!==NODATE?' '+e.time:''),pos={x:40+(n%2)*520+(Math.floor(n/8)%4)*30,y:40+(Math.floor(n/2)%4)*460+(Math.floor(n/8)%4)*30};n++;
   if(part==='card'){const it={id,src,t:'card',title,text:e.text||cntStr(e)||'',...pos,w:440,h:340};dmFitCard(it);add.push(it);continue}
   const m=(e.media||[])[+part.slice(1)];if(!m)continue;
   const it={id,src,t:m.t,title:m.t==='image'||m.t==='video'?title:(m.n||title),name:m.n||'',...pos,w:420,h:260};
@@ -2777,7 +2777,7 @@ async function exportMd(){const st=$('#bst3'),sel=$('#bsel').value;
  try{st.textContent='準備中…';
   const ps=(await dbAll('people')).filter(p=>sel==='all'||p.id===sel),out=[`# Htbu_? 日記${sel==='all'?'':'：'+(ps[0]?.name||'')}`,'',`匯出時間：${new Date().toLocaleString('zh-TW')}`,''];
   const one=(e,head)=>{const att=mParts(mCnt(e.media),' ');
-   out.push(head+(e.time?'　'+e.time:''),'');
+   out.push(head+(e.time&&e.date!==NODATE?'　'+e.time:''),'');
    if(e.text)out.push(e.text.trim(),'');
    if((e.links||[]).length)out.push(...e.links.map(l=>'- '+l),'');
    if((e.tags||[]).length)out.push(e.tags.map(t=>'#'+t).join(' '),'');
