@@ -1944,8 +1944,9 @@ function sbPlace(el,ax){
   bar.classList.add('inl');if(el.nextElementSibling!==bar)el.after(bar);
   const on=g.sh>g.ch+1;bar.classList.toggle('on',on);if(on)sbThumb(b,el);return}
  const off=()=>{if(el.tagName!=='DIALOG')el.classList.remove('sbon');bar.classList.remove('on');if(o.wrap&&o.wrap.parentNode)o.wrap.remove()};
- /* 快速整理的卡片：捲軸出現後內容會讓出 35px 變窄、圖片跟著變矮，若因此判定不用捲軸又會變寬再超出，捲軸就會一直閃。已顯示時，內容要明顯變短（85% 以下）才收起 */
- const keep=el.classList.contains('wcs')&&el.classList.contains('sbon')&&g.sh>g.ch*.85;
+ /* 捲軸出現後內容會讓出空間（右側留白）變窄、圖片跟著變矮，若因此判定不用捲軸又會變寬再超出，捲軸就會一直閃
+    （快速整理的卡片、點開紀錄的視窗、熱力圖、封存等都會）。已顯示時，內容要明顯變短（85% 以下）才收起 */
+ const keep=el.classList.contains('sbon')&&g.sh>g.ch*.85;
  if(!el.isConnected||(g.sh<=g.ch+1&&!el.matches('#dmvl')&&!keep)||(el.tagName==='DIALOG'&&sbInner(el))){off();return}/* 瀏覽的內框：捲軸一直顯示 */
  const G=sbGeom(el);if(!G||G.h<30){off();return}
  let par=G.host;
