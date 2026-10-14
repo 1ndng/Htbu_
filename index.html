@@ -1172,6 +1172,8 @@ html #boot,html #boot *{font-family:"Cubic 11",monospace!important;letter-spacin
 <p class="sub" id="blast" style="margin:0 0 12px"></p>
 <label for="bsel">備份對象</label>
 <select id="bsel" style="margin:6px 0 12px"></select>
+<label for="bysel">備份年份</label>
+<select id="bysel" style="margin:6px 0 12px"></select>
 <label>匯出</label>
 <div class="acts"><button onclick="prepBackup()">準備備份檔</button><button id="bsave" class="pri" style="display:none" onclick="saveBackup()">儲存備份檔</button></div>
 <p class="sub" id="bst" style="margin:0 0 16px"></p>
@@ -2723,8 +2725,15 @@ const b64=b=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r
 let bkFile=null,bkFiles=[],bkSel='all';
 function updBlast(){const v=$('#bsel').value,t=v==='all'?(lbMap().all||0):lastB(v);$('#blast').textContent=t?'上次備份：'+new Date(t).toLocaleString('zh-TW'):'尚未備份過'}
 function openBk(){const s=$('#bsel');rc(s,h('option',{value:'all'},'全部對象'),...people.map(p=>h('option',{value:p.id},p.name)));s.value='all';
- s.onchange=()=>{updBlast();$('#bst').textContent='';$('#bsave').style.display='none';bkFile=null};
- updBlast();$('#bst').textContent='';$('#bst2').textContent='';$('#bst3').textContent='';$('#bsave').style.display='none';bkFile=null;$('#bk').showModal()}
+ s.onchange=()=>{updBlast();updYears();$('#bst').textContent='';$('#bsave').style.display='none';bkFile=null};
+ $('#bysel').onchange=()=>{$('#bst').textContent='';$('#bsave').style.display='none';bkFile=null};
+ updBlast();updYears();$('#bst').textContent='';$('#bst2').textContent='';$('#bst3').textContent='';$('#bsave').style.display='none';bkFile=null;$('#bk').showModal()}
+/* 備份年份：列出所選對象有紀錄的年份（隨手記算建立那天的年份） */
+const bkYr=()=>$('#bysel').value||'all',inBkYr=e=>bkYr()==='all'||dOf(e).slice(0,4)===bkYr();
+async function updYears(){const s=$('#bysel'),old=s.value,v=$('#bsel').value,ys=new Set();
+ for(const p of people)if(v==='all'||p.id===v)for(const e of await dbByP(p.id))ys.add(dOf(e).slice(0,4));
+ rc(s,h('option',{value:'all'},'全部年份'),...[...ys].filter(y=>+y>0).sort().reverse().map(y=>h('option',{value:y},y+'年')));
+ s.value=[...s.options].some(o=>o.value===old)?old:'all'}
 const BK_LIM=60*1048576;
 async function b64Parts(blob){/* 分段轉 base64，每段轉成 Blob 放掉字串，避免大檔把記憶體撐爆（iPhone 會閃退） */
  const CH=3*1024*1024,out=[JSON.stringify('data:'+(blob.type||'')+';base64,').slice(0,-1)];
@@ -2737,7 +2746,7 @@ async function prepBackup(){
   const all=await dbAll('people'),ps=bkSel==='all'?all:all.filter(p=>p.id===bkSel),
    at=JSON.stringify(new Date().toISOString()),head='{"app":"nyear-diary","v":1,"at":'+at+',"gtags":'+JSON.stringify(GT)+',"people":'+JSON.stringify(ps)+',"entries":[',PH='@@M'+Date.now()+'@@';
   const groups=[];let cur=[],bytes=0,n=0,gn=0;
-  for(const p of ps)for(const e of await dbByP(p.id)){
+  for(const p of ps)for(const e of (await dbByP(p.id)).filter(inBkYr)){
    const base=JSON.stringify({...e,media:PH}).split('"'+PH+'"'),ep=[(gn?',':'')+base[0]+'['];
    let mi=0;
    for(const m of e.media||[]){
@@ -2751,12 +2760,12 @@ async function prepBackup(){
    await new Promise(r=>setTimeout(r,0));
   }
   if(cur.length||!groups.length)groups.push(cur);
-  const nm=bkSel==='all'?'':'-'+(ps[0]?.name||'').replace(/[\\/:*?"<>|\s]+/g,'_'),day=new Date().toISOString().slice(0,10);
+  const nm=(bkSel==='all'?'':'-'+(ps[0]?.name||'').replace(/[\\/:*?"<>|\s]+/g,'_'))+(bkYr()==='all'?'':'-'+bkYr()),day=new Date().toISOString().slice(0,10);
   groups.forEach((g,i)=>{const parts=[head];g.forEach(ep=>parts.push(...ep));parts.push(']}');
    bkFiles.push(new File(parts,'n-year-diary'+nm+'-'+day+(groups.length>1?`-${i+1}of${groups.length}`:'')+'.json',{type:'application/json'}))});
   bkFile=bkFiles[0];
   const tot=bkFiles.reduce((a,f)=>a+f.size,0);
-  st.textContent=`完成：${ps.length}位對象、${n}則紀錄，約${(tot/1048576).toFixed(1)}MB`+(bkFiles.length>1?`，已分成${bkFiles.length}個檔案（還原時全部選取即可）`:'')+'。請按「儲存備份檔」。';
+  st.textContent=`完成：${ps.length}位對象、${bkYr()==='all'?'':bkYr()+'年的'}${n}則紀錄，約${(tot/1048576).toFixed(1)}MB`+(bkFiles.length>1?`，已分成${bkFiles.length}個檔案（還原時全部選取即可）`:'')+'。請按「儲存備份檔」。';
   $('#bsave').style.display='';
  }catch(e){st.textContent='備份失敗：'+(e.message||e)}
 }
@@ -2769,14 +2778,14 @@ async function saveBackup(){
  try{
   const fs=bkFiles.length?bkFiles:[bkFile];
   if(!await shareOrDl(fs,'Htbu_?備份'))return;
-  markB(bkSel);updBlast();render();
+  if(bkYr()==='all'){markB(bkSel);updBlast();render()}/* 只備份某一年時不算完整備份，不更新「上次備份」 */
   $('#bst').textContent='已匯出。';
  }catch(e){toast('無法儲存：'+(e.message||e))}
 }
 /* 匯出成 Markdown：依對象、日期排列，附件只列出數量 */
 async function exportMd(){const st=$('#bst3'),sel=$('#bsel').value;
  try{st.textContent='準備中…';
-  const ps=(await dbAll('people')).filter(p=>sel==='all'||p.id===sel),out=[`# Htbu_? 日記${sel==='all'?'':'：'+(ps[0]?.name||'')}`,'',`匯出時間：${new Date().toLocaleString('zh-TW')}`,''];
+  const ps=(await dbAll('people')).filter(p=>sel==='all'||p.id===sel),out=[`# Htbu_? 日記${sel==='all'?'':'：'+(ps[0]?.name||'')}${bkYr()==='all'?'':'（'+bkYr()+'年）'}`,'',`匯出時間：${new Date().toLocaleString('zh-TW')}`,''];
   const one=(e,head)=>{const att=mParts(mCnt(e.media),' ');
    out.push(head+(e.time&&e.date!==NODATE?'　'+e.time:''),'');
    if(e.text)out.push(e.text.trim(),'');
@@ -2785,12 +2794,12 @@ async function exportMd(){const st=$('#bst3'),sel=$('#bsel').value;
    if(att.length)out.push(`（附件：${att.join('、')}）`,'');
    qList(e.quote).forEach(q=>out.push(`> 引用 ${qLbl(q)}：${qTxt(q)}`,''))};
   let n=0;
-  for(const p of ps){const L=(await dbByP(p.id)).sort((a,b)=>a.date===b.date?(a.time||'').localeCompare(b.time||'')||tsOf(a)-tsOf(b):(a.date<b.date?-1:1));
+  for(const p of ps){const L=(await dbByP(p.id)).filter(inBkYr).sort((a,b)=>a.date===b.date?(a.time||'').localeCompare(b.time||'')||tsOf(a)-tsOf(b):(a.date<b.date?-1:1));
    if(ps.length>1)out.push(`## ${p.name}`,'');
    const lv=ps.length>1?'###':'##',dated=L.filter(e=>e.date!==NODATE),free=L.filter(e=>e.date===NODATE);
    dated.forEach(e=>{one(e,`${lv} ${fmtD(e.date)}`);n++});
    if(free.length){out.push(`${lv} 隨手記`,'');free.forEach(e=>{one(e,`${lv}# ${new Date(tsOf(e)||0).toLocaleDateString('zh-TW')}`);n++})}}
-  const nm=sel==='all'?'':'-'+(ps[0]?.name||'').replace(/[\\/:*?"<>|\s]+/g,'_'),
+  const nm=(sel==='all'?'':'-'+(ps[0]?.name||'').replace(/[\\/:*?"<>|\s]+/g,'_'))+(bkYr()==='all'?'':'-'+bkYr()),
    f=new File([out.join('\n')],'n-year-diary'+nm+'-'+new Date().toISOString().slice(0,10)+'.md',{type:'text/markdown'});
   if(!await shareOrDl([f],'Htbu_? 日記')){st.textContent='';return}
   st.textContent=`已匯出${n}則紀錄。`}catch(e){st.textContent='匯出失敗：'+(e.message||e)}}
